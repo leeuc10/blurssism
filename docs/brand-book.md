@@ -117,7 +117,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
   각 props는 `dist/index.d.ts`에 있습니다. 앱 루트에 `class="bl-root"`를 둡니다.
 - **React 없이(HTML·Vue·Svelte 등)**: `dist/tokens.css`와 `dist/bundle.css`만 불러와 같은 클래스(`bl-btn bl-btn-primary`, `bl-glass`, `bl-list` …)를 씁니다.
-- **Tailwind**: 색·간격·모서리를 `theme.extend`에 `var(--토큰)`으로 연결하고, 유리는 `.bl-glass` / `.bl-glass-thick` 유틸리티 클래스로 씁니다.
+- **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 유리는 `.bl-glass` / `.bl-glass-thick` 클래스로 씁니다.
 - **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 유리는 플랫폼 기본 재질(iOS `.ultraThinMaterial` / Liquid Glass, Android `RenderEffect` blur)에 `glass-fill`을 겹칩니다.
 - 다크 모드는 `<html data-theme="dark">`로 전환합니다.
 - 실제 조합 예시는 `AppScreen`(모바일 설정 화면)과 `WebLanding`(웹 랜딩) 카드를 참고합니다.
