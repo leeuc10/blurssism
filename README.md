@@ -5,6 +5,12 @@
 <h1 align="center">blurssism</h1>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/@caffeinecatkr/blurssism"><img src="https://img.shields.io/npm/v/@caffeinecatkr/blurssism?color=7a3b69&label=npm" alt="npm version"></a>
+  <a href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/"><img src="https://img.shields.io/jsdelivr/npm/hm/@caffeinecatkr/blurssism?color=3d6650" alt="jsDelivr"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1c1917" alt="MIT license"></a>
+</p>
+
+<p align="center">
   글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템<br>
   <a href="https://leeuc10.github.io/blurssism/">컴포넌트 미리보기</a> ·
   <a href="docs/brand-book.md">브랜드북</a> ·
