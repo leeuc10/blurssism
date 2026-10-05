@@ -6,7 +6,7 @@
 - `warning` 상태색, 레이아웃 토큰(`bp-tablet`, `bp-desktop`, `content-max`, `prose-max`, `touch-min`, `navbar-h`)
 - blurssism 마크와 caffeinecat 표식
 - 예시 화면: AppScreen(모바일), WebLanding(웹)
-- Tailwind 프리셋 `@caffeinecat/blurssism/tailwind`
+- Tailwind 프리셋 `@caffeinecatkr/blurssism/tailwind`
 
 ## 1.0.0 — 2026-10-06
 - 첫 공개: 라이트·다크 토큰, 컴포넌트 14개, 글래스모피즘 + 블러 재질

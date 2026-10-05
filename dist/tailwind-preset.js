@@ -1,5 +1,5 @@
 /* blurssism Tailwind preset · © caffeinecat · MIT
-   tailwind.config.js: presets: [require("@caffeinecat/blurssism/tailwind")]
+   tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
    dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. */
 module.exports = {
   "theme": {

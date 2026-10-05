@@ -8,7 +8,7 @@
   글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템<br>
   <a href="https://leeuc10.github.io/blurssism/">컴포넌트 미리보기</a> ·
   <a href="docs/brand-book.md">브랜드북</a> ·
-  <a href="https://www.npmjs.com/package/@caffeinecat/blurssism">npm</a>
+  <a href="https://www.npmjs.com/package/@caffeinecatkr/blurssism">npm</a>
 </p>
 
 ---
@@ -32,14 +32,14 @@ blurssism은 따뜻한 종이 바탕 위에 맑은 유리와 두꺼운 블러를
 ## 설치
 
 ```bash
-npm install @caffeinecat/blurssism
+npm install @caffeinecatkr/blurssism
 ```
 
 또는 CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecat/blurssism/dist/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecat/blurssism/dist/bundle.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/bundle.css">
 ```
 
 ## 사용
@@ -63,7 +63,7 @@ npm install @caffeinecat/blurssism
 ```html
 <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@caffeinecat/blurssism/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/bundle.js"></script>
 <script>
   const { Button, Sheet, applyGlassPreference } = window.Blurssism;
   applyGlassPreference(); // 저사양 기기에서는 유리를 끕니다
@@ -74,10 +74,10 @@ npm install @caffeinecat/blurssism
 
 ```js
 import React from "react";
-import "@caffeinecat/blurssism/tokens.css";
-import "@caffeinecat/blurssism/bundle.css";
+import "@caffeinecatkr/blurssism/tokens.css";
+import "@caffeinecatkr/blurssism/bundle.css";
 window.React = React;
-await import("@caffeinecat/blurssism");
+await import("@caffeinecatkr/blurssism");
 const { Button, TabBar } = window.Blurssism;
 ```
 
@@ -88,7 +88,7 @@ const { Button, TabBar } = window.Blurssism;
 ```js
 // tailwind.config.js
 module.exports = {
-  presets: [require("@caffeinecat/blurssism/tailwind")],
+  presets: [require("@caffeinecatkr/blurssism/tailwind")],
 };
 ```
 
