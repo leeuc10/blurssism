@@ -1,5 +1,5 @@
 /* blurssism 컴포넌트 타입 · © caffeinecat */
-import type { ReactNode, ButtonHTMLAttributes, InputHTMLAttributes, HTMLAttributes } from "react";
+import type { ReactNode, ReactElement, ButtonHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes } from "react";
 
 export type IconName =
   | "home" | "search" | "heart" | "chat" | "person" | "bell" | "settings" | "plus"
@@ -92,25 +92,25 @@ export interface SheetProps { title: string; description?: string; children?: Re
 /** 화면 아래 잠깐 떠오르는 알림. */
 export interface ToastProps { tone?: "neutral" | "positive" | "danger"; children: ReactNode; actionLabel?: string; onAction?: () => void; className?: string }
 
-export declare function Icon(props: IconProps): JSX.Element;
-export declare function Button(props: ButtonProps): JSX.Element;
-export declare function IconButton(props: IconButtonProps): JSX.Element;
-export declare function Chip(props: ChipProps): JSX.Element;
-export declare function TextField(props: TextFieldProps): JSX.Element;
-export declare function Switch(props: SwitchProps): JSX.Element;
-export declare function Badge(props: BadgeProps): JSX.Element;
-export declare function Card(props: CardProps): JSX.Element;
-export declare function MediaCard(props: MediaCardProps): JSX.Element;
-export declare function ListItem(props: ListItemProps): JSX.Element;
-export declare function NavBar(props: NavBarProps): JSX.Element;
-export declare function TabBar(props: TabBarProps): JSX.Element;
-export declare function Sheet(props: SheetProps): JSX.Element;
-export declare function Toast(props: ToastProps): JSX.Element;
+export declare function Icon(props: IconProps): ReactElement;
+export declare function Button(props: ButtonProps): ReactElement;
+export declare function IconButton(props: IconButtonProps): ReactElement;
+export declare function Chip(props: ChipProps): ReactElement;
+export declare function TextField(props: TextFieldProps): ReactElement;
+export declare function Switch(props: SwitchProps): ReactElement;
+export declare function Badge(props: BadgeProps): ReactElement;
+export declare function Card(props: CardProps): ReactElement;
+export declare function MediaCard(props: MediaCardProps): ReactElement;
+export declare function ListItem(props: ListItemProps): ReactElement;
+export declare function NavBar(props: NavBarProps): ReactElement;
+export declare function TabBar(props: TabBarProps): ReactElement;
+export declare function Sheet(props: SheetProps): ReactElement;
+export declare function Toast(props: ToastProps): ReactElement;
 
 export interface Option { value: string; label: string; disabled?: boolean; description?: string }
 
 /** 네이티브 select를 감싼 드롭다운. 라벨·도움말·오류는 TextField와 같습니다. */
-export interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> { label: string; options: (Option | string)[]; placeholder?: string; help?: string; error?: string }
+export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> { label: string; options: (Option | string)[]; placeholder?: string; help?: string; error?: string }
 /** 체크박스 한 개. 제출이 필요한 폼의 선택용. */
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> { label: ReactNode; description?: string }
 /** 라디오 묶음. 2–5개 중 하나. */
@@ -135,18 +135,18 @@ export interface EmptyStateProps { title: string; body?: string; icon?: IconName
 /** 가운데 모달(모바일에선 아래 시트). 포커스 가두기·Esc·바깥 클릭 닫기 포함. children = 버튼들. */
 export interface DialogProps { open: boolean; onClose?: () => void; title: string; description?: string; alert?: boolean; children?: ReactNode; className?: string }
 
-export declare function Select(props: SelectProps): JSX.Element;
-export declare function Checkbox(props: CheckboxProps): JSX.Element;
-export declare function RadioGroup(props: RadioGroupProps): JSX.Element;
-export declare function SegmentedControl(props: SegmentedControlProps): JSX.Element;
-export declare function Avatar(props: AvatarProps): JSX.Element;
-export declare function Tooltip(props: TooltipProps): JSX.Element;
-export declare function Progress(props: ProgressProps): JSX.Element;
-export declare function Skeleton(props: SkeletonProps): JSX.Element;
-export declare function Table<R>(props: TableProps<R>): JSX.Element;
-export declare function Calendar(props: CalendarProps): JSX.Element;
-export declare function EmptyState(props: EmptyStateProps): JSX.Element;
-export declare function Dialog(props: DialogProps): JSX.Element | null;
+export declare function Select(props: SelectProps): ReactElement;
+export declare function Checkbox(props: CheckboxProps): ReactElement;
+export declare function RadioGroup(props: RadioGroupProps): ReactElement;
+export declare function SegmentedControl(props: SegmentedControlProps): ReactElement;
+export declare function Avatar(props: AvatarProps): ReactElement;
+export declare function Tooltip(props: TooltipProps): ReactElement;
+export declare function Progress(props: ProgressProps): ReactElement;
+export declare function Skeleton(props: SkeletonProps): ReactElement;
+export declare function Table<R>(props: TableProps<R>): ReactElement;
+export declare function Calendar(props: CalendarProps): ReactElement;
+export declare function EmptyState(props: EmptyStateProps): ReactElement;
+export declare function Dialog(props: DialogProps): ReactElement | null;
 
 /** 저사양 기기·절전·투명도 줄이기 설정이면 true */
 export declare function shouldReduceGlass(): boolean;
@@ -154,3 +154,16 @@ export declare function shouldReduceGlass(): boolean;
 export declare function applyGlassPreference(force?: boolean): boolean;
 export declare const version: string;
 export declare const author: "caffeinecat";
+
+/** 다른 React 인스턴스로 컴포넌트를 만듭니다 (보통은 필요 없음). */
+export declare function createBlurssism(react: unknown): typeof import("./index");
+
+declare const Blurssism: typeof import("./index");
+export default Blurssism;
+
+declare global {
+  interface Window {
+    /** <script src=".../dist/bundle.js">로 불러왔을 때 */
+    Blurssism: typeof import("./index");
+  }
+}

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>blurssism — 글래스모피즘과 블러의 조합</title>
-<meta name="description" content="웹과 앱 공용 디자인 시스템. 글래스모피즘과 블러 효과의 조합. made by caffeinecat">
+<meta name="description" content="웹과 앱 공용 디자인 시스템. 글래스모피즘과 블러 효과의 조합. A web &amp; app design system combining glassmorphism and blur. made by caffeinecat">
 <link rel="icon" href="logos/blurssism-mark.svg">
 <link rel="stylesheet" href="dist/tokens.css">
 <link rel="stylesheet" href="dist/bundle.css">
@@ -46,16 +46,22 @@
   </header>
 
   <div class="hero" id="hero"><iframe class="hero-frame" title="blurssism 커버" data-src="examples/components/Cover.html"></iframe></div>
-  <p class="lead body">웹과 앱 어디에나 쓰는 디자인 시스템이에요. 따뜻한 종이 바탕 위에 맑은 유리와 두꺼운 블러를 필요한 곳에만 띄워, 글래스모피즘을 가독성 있게 씁니다. Apple Liquid Glass와 Samsung One UI에서 영감을 받았습니다.</p>
+  <p class="lead body">웹과 앱 어디에나 쓰는 디자인 시스템이에요. 따뜻한 종이 바탕 위에 맑은 유리와 두꺼운 블러를 필요한 곳에만 띄워, 글래스모피즘을 가독성 있게 씁니다. Apple Liquid Glass와 Samsung One UI에서 영감을 받았습니다.<br><span lang="en">A web &amp; app design system that combines glassmorphism with blur — glass floats only where it is needed, on a calm paper background.</span></p>
   <div class="cta">
     <a class="bl-btn bl-btn-accent" href="#start">시작하기</a>
     <a class="bl-btn bl-btn-ghost" href="https://github.com/leeuc10/blurssism/blob/main/docs/brand-book.md">브랜드북 읽기</a>
   </div>
 
   <section id="start">
-    <h2 class="title-2">시작하기</h2>
+    <h2 class="title-2">시작하기 <span lang="en" style="color:var(--ink-muted);font-weight:500">Get started</span></h2>
     <pre><code>npm install @caffeinecatkr/blurssism
 
+// React · Vite · Next.js
+import { Button, Dialog } from "@caffeinecatkr/blurssism";
+import "@caffeinecatkr/blurssism/tokens.css";
+import "@caffeinecatkr/blurssism/bundle.css";
+
+&lt;!-- HTML only --&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/tokens.css"&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/bundle.css"&gt;
 &lt;button class="bl-btn bl-btn-primary"&gt;저장하기&lt;/button&gt;</code></pre>

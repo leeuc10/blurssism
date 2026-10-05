@@ -1,6 +1,8 @@
-/* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
+"use client";
 /* blurssism v1.2.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-(function () {
+"use strict";
+const React = require("react");
+
 function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
@@ -313,9 +315,5 @@ function createBlurssism(React) {
   return api;
 }
 
-  if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React));
-  } else if (typeof console !== "undefined") {
-    console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
-  }
-})();
+const B = createBlurssism(React);
+module.exports = Object.assign({ createBlurssism: createBlurssism, default: B }, B);

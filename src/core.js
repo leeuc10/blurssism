@@ -1,7 +1,7 @@
-/* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.2.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-(function () {
-function createBlurssism(React) {
+/* blurssism 컴포넌트 원본 · © caffeinecat · MIT
+   이 파일 하나가 원본이고, scripts/build.mjs가 dist/index.mjs(ESM), dist/index.cjs(CommonJS),
+   dist/bundle.js(<script>용 window.Blurssism)를 만듭니다. dist는 직접 고치지 마세요. */
+export function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
   function omit(o, keys) { var r = {}; for (var k in o) if (keys.indexOf(k) < 0) r[k] = o[k]; return r; }
@@ -309,13 +309,6 @@ function createBlurssism(React) {
   }
 
   var api = { Button: Button, IconButton: IconButton, Chip: Chip, TextField: TextField, Select: Select, Checkbox: Checkbox, RadioGroup: RadioGroup, Switch: Switch, SegmentedControl: SegmentedControl, Badge: Badge, Avatar: Avatar, Tooltip: Tooltip, Progress: Progress, Skeleton: Skeleton, Card: Card, MediaCard: MediaCard, ListItem: ListItem, Table: Table, Calendar: Calendar, EmptyState: EmptyState, NavBar: NavBar, TabBar: TabBar, Sheet: Sheet, Dialog: Dialog, Toast: Toast, Icon: Icon,
-    shouldReduceGlass: shouldReduceGlass, applyGlassPreference: applyGlassPreference, version: "1.2.0", author: "caffeinecat" };
+    shouldReduceGlass: shouldReduceGlass, applyGlassPreference: applyGlassPreference, version: "__VERSION__", author: "caffeinecat" };
   return api;
 }
-
-  if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React));
-  } else if (typeof console !== "undefined") {
-    console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
-  }
-})();

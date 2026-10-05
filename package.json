@@ -1,7 +1,7 @@
 {
   "name": "@caffeinecatkr/blurssism",
-  "version": "1.1.0",
-  "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 — tokens, CSS, React components",
+  "version": "1.2.0",
+  "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 · A web & app design system combining glassmorphism and blur — tokens, CSS, React components",
   "author": "caffeinecat",
   "license": "MIT",
   "homepage": "https://leeuc10.github.io/blurssism/",
@@ -13,24 +13,36 @@
     "url": "https://github.com/leeuc10/blurssism/issues"
   },
   "keywords": [
-    "design-system",
-    "glassmorphism",
+    "backdrop-filter",
     "blur",
-    "design-tokens",
-    "react",
+    "components",
     "css",
+    "design-system",
+    "design-tokens",
+    "esm",
+    "glassmorphism",
     "korean",
     "liquid-glass",
-    "backdrop-filter"
+    "nextjs",
+    "react",
+    "ssr",
+    "ui"
   ],
-  "main": "dist/bundle.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "unpkg": "dist/bundle.js",
+  "jsdelivr": "dist/bundle.js",
   "style": "dist/bundle.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/bundle.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
     },
+    "./global": "./dist/bundle.js",
+    "./bundle.js": "./dist/bundle.js",
     "./tokens.css": "./dist/tokens.css",
     "./bundle.css": "./dist/bundle.css",
     "./styles.css": "./dist/bundle.css",
@@ -41,6 +53,7 @@
   },
   "files": [
     "dist",
+    "src",
     "logos",
     "docs",
     "LICENSE",
@@ -51,6 +64,10 @@
     "*.css",
     "./dist/bundle.js"
   ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepublishOnly": "node scripts/build.mjs"
+  },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"

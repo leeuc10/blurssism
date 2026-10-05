@@ -1,6 +1,7 @@
-/* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
+"use client";
 /* blurssism v1.2.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-(function () {
+import React from "react";
+
 function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
@@ -313,9 +314,36 @@ function createBlurssism(React) {
   return api;
 }
 
-  if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React));
-  } else if (typeof console !== "undefined") {
-    console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
-  }
-})();
+const B = createBlurssism(React);
+export const Button = B.Button;
+export const IconButton = B.IconButton;
+export const Chip = B.Chip;
+export const TextField = B.TextField;
+export const Select = B.Select;
+export const Checkbox = B.Checkbox;
+export const RadioGroup = B.RadioGroup;
+export const Switch = B.Switch;
+export const SegmentedControl = B.SegmentedControl;
+export const Badge = B.Badge;
+export const Avatar = B.Avatar;
+export const Tooltip = B.Tooltip;
+export const Progress = B.Progress;
+export const Skeleton = B.Skeleton;
+export const Card = B.Card;
+export const MediaCard = B.MediaCard;
+export const ListItem = B.ListItem;
+export const Table = B.Table;
+export const Calendar = B.Calendar;
+export const EmptyState = B.EmptyState;
+export const NavBar = B.NavBar;
+export const TabBar = B.TabBar;
+export const Sheet = B.Sheet;
+export const Dialog = B.Dialog;
+export const Toast = B.Toast;
+export const Icon = B.Icon;
+export const shouldReduceGlass = B.shouldReduceGlass;
+export const applyGlassPreference = B.applyGlassPreference;
+export const version = B.version;
+export const author = B.author;
+export { createBlurssism };
+export default B;
