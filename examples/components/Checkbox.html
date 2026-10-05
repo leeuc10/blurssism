@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Checkbox — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{display:grid;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Demo() {
+    var a = React.useState(true), b = React.useState(false);
+    return h(React.Fragment, null,
+      h(B.Checkbox, { label: "서비스 이용약관 동의 (필수)", checked: a[0], onChange: function (e) { a[1](e.target.checked); } }),
+      h(B.Checkbox, { label: "소식 메일 받기", description: "한 달에 한 번 보내 드려요.", checked: b[0], onChange: function (e) { b[1](e.target.checked); } }),
+      h(B.Checkbox, { label: "비활성 항목", disabled: true }));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

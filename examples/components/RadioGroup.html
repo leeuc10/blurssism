@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>RadioGroup — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} </style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Demo() {
+    var st = React.useState("month");
+    return h(B.RadioGroup, { legend: "결제 주기", value: st[0], onChange: st[1], options: [
+      { value: "month", label: "매달", description: "언제든 해지할 수 있어요." }, { value: "year", label: "매년", description: "두 달 무료예요." }, { value: "once", label: "한 번만", disabled: true }] });
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

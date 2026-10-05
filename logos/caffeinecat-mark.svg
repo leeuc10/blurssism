@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>caffeinecat</title>
+  <path d="M11 28 L13 7 L26 17 Q32 15.5 38 17 L51 7 L53 28 Q57 36 53 45 Q47 57 32 57 Q17 57 11 45 Q7 36 11 28 Z" fill="#1c1917"/>
+  <g transform="rotate(-18 23 36)"><ellipse cx="23" cy="36" rx="5" ry="6.5" fill="#faf7f2"/><path d="M23 29.8 Q20.6 36 23 42.2" fill="none" stroke="#1c1917" stroke-width="1.5" stroke-linecap="round"/></g>
+  <g transform="rotate(18 41 36)"><ellipse cx="41" cy="36" rx="5" ry="6.5" fill="#faf7f2"/><path d="M41 29.8 Q43.4 36 41 42.2" fill="none" stroke="#1c1917" stroke-width="1.5" stroke-linecap="round"/></g>
+  <path d="M29.5 45 L34.5 45 L32 48 Z" fill="#f3c4a4"/>
+</svg>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>TabBar — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{height:108px;border-radius:var(--radius-lg);overflow:hidden;} .bar{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);width:min(340px,calc(100% - 32px));}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Backdrop(kids) {
+    return h("div", { className: "bl-backdrop", style: { height: "100%" } },
+      h("i", { style: { left: "-40px", top: "-30px", width: "180px", height: "180px", background: "var(--apricot)" } }),
+      h("i", { style: { left: "38%", top: "20px", width: "120px", height: "220px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+      h("i", { style: { right: "-30px", bottom: "-40px", width: "200px", height: "120px", background: "var(--positive)" } }),
+      kids);
+  }
+  var items = [{ id: "home", label: "홈", icon: "home" }, { id: "search", label: "검색", icon: "search" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }];
+  function Demo() {
+    var st = React.useState("saved");
+    return Backdrop(h("div", { className: "bar" }, h(B.TabBar, { items: items, value: st[0], onChange: st[1] })));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

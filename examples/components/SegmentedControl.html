@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>SegmentedControl — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{display:grid;gap:16px;max-width:360px;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Demo() {
+    var a = React.useState("week"), b = React.useState("list");
+    return h(React.Fragment, null,
+      h(B.SegmentedControl, { label: "기간", value: a[0], onChange: a[1], items: [{ id: "day", label: "일" }, { id: "week", label: "주" }, { id: "month", label: "월" }, { id: "year", label: "년" }] }),
+      h(B.SegmentedControl, { label: "보기 방식", block: true, value: b[0], onChange: b[1], items: [{ id: "list", label: "목록" }, { id: "grid", label: "격자" }] }));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>blurssism</title>
+  <defs>
+    <clipPath id="p"><rect x="22" y="22" width="36" height="36" rx="10"/></clipPath>
+    <filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <circle cx="26" cy="26" r="20" fill="#e0a6cf"/>
+  <g clip-path="url(#p)">
+    <rect x="22" y="22" width="36" height="36" fill="#171513"/>
+    <circle cx="26" cy="26" r="20" fill="#e0a6cf" filter="url(#b)"/>
+    <rect x="22" y="22" width="36" height="36" fill="rgba(38,34,31,0.55)"/>
+  </g>
+  <rect x="22.5" y="22.5" width="35" height="35" rx="9.5" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="21.5" y="21.5" width="37" height="37" rx="10.5" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1"/>
+</svg>

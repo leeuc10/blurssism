@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Dialog — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;height:360px;} .page{padding:16px;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Demo() {
+    var st = React.useState(true);
+    return h("div", { className: "page" },
+      h(B.Button, { onClick: function () { st[1](true); } }, "다이얼로그 열기"),
+      h("p", { style: { color: "var(--ink-muted)" } }, "뒤 화면은 scrim과 blur-sm으로 눌립니다."),
+      h(B.Dialog, { open: st[0], onClose: function () { st[1](false); }, title: "이 기록을 삭제할까요?", description: "삭제하면 되돌릴 수 없어요. 공유한 사람들도 더 이상 볼 수 없어요.", alert: true },
+        h(B.Button, { variant: "ghost", size: "md", onClick: function () { st[1](false); } }, "취소"),
+        h(B.Button, { variant: "danger", size: "md", onClick: function () { st[1](false); } }, "삭제하기")));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

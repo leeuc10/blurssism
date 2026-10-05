@@ -1,0 +1,69 @@
+{
+  "name": "@caffeinecat/blurssism",
+  "version": "1.1.0",
+  "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 — tokens, CSS, React components",
+  "author": "caffeinecat",
+  "license": "MIT",
+  "homepage": "https://leeuc10.github.io/blurssism/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leeuc10/blurssism.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leeuc10/blurssism/issues"
+  },
+  "keywords": [
+    "design-system",
+    "glassmorphism",
+    "blur",
+    "design-tokens",
+    "react",
+    "css",
+    "korean",
+    "liquid-glass",
+    "backdrop-filter"
+  ],
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/bundle.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/bundle.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./bundle.css": "./dist/bundle.css",
+    "./styles.css": "./dist/bundle.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./tailwind": "./dist/tailwind-preset.js",
+    "./logos/*": "./logos/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "logos",
+    "docs",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "*.css",
+    "./dist/bundle.js"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>WebLanding — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;} .site{width:1120px;transform-origin:0 0;} .nav{position:sticky;top:12px;z-index:3;padding:0 24px;} .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding:64px 24px 48px;} .hero h1{margin:0 0 16px;} .hero p{margin:0 0 32px;color:var(--ink-muted);max-width:480px;} .cta{display:flex;gap:8px;} .art{position:relative;height:340px;border-radius:var(--radius-xl);overflow:hidden;background:var(--paper-sunken);} .art i{position:absolute;display:block;} .float{position:absolute;left:32px;right:32px;bottom:32px;} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 24px 64px;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Site() {
+    return h("div", { className: "site", id: "site" },
+      h("div", { className: "nav" }, h(B.NavBar, { title: "blurssism", links: [{ href: "#", label: "소개", current: true }, { href: "#", label: "컴포넌트" }, { href: "#", label: "토큰" }, { href: "#", label: "블로그" }],
+        actions: h(B.Button, { size: "md" }, "시작하기") })),
+      h("section", { className: "hero" },
+        h("div", null,
+          h("h1", { className: "display" }, "조용한 종이 위에,", h("br"), "떠 있는 것만 유리로."),
+          h("p", { className: "body" }, "글래스모피즘과 블러 효과를 웹과 앱에서 가독성 있게 조합하는 디자인 시스템이에요."),
+          h("div", { className: "cta" }, h(B.Button, { variant: "accent", icon: "spark" }, "컴포넌트 보기"), h(B.Button, { variant: "ghost" }, "토큰 내려받기"))),
+        h("div", { className: "art", "aria-hidden": "true" },
+          h("i", { style: { left: "-40px", top: "-30px", width: "240px", height: "240px", borderRadius: "var(--radius-full)", background: "var(--apricot)" } }),
+          h("i", { style: { left: "45%", top: "30px", width: "140px", height: "260px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+          h("i", { style: { right: "-30px", bottom: "-30px", width: "220px", height: "120px", borderRadius: "var(--radius-full)", background: "var(--positive)" } }),
+          h("div", { className: "float" }, h(B.Toast, { tone: "positive", actionLabel: "열기" }, "토큰 26개를 내보냈어요")))),
+      h("section", { className: "grid" },
+        h(B.Card, { eyebrow: "원칙 1", title: "90 / 10", body: "바탕은 종이와 먹이 90%, 강조색은 10% 이내로 써요." }),
+        h(B.Card, { eyebrow: "원칙 2", title: "떠 있는 것만 유리로", body: "내비게이션·시트·토스트만 유리, 본문 카드는 불투명해요." }),
+        h(B.Card, { eyebrow: "원칙 3", title: "화면당 행동 하나", body: "primary 버튼은 한 화면에 하나만 둬요." })));
+  }
+  mount(h(Site));
+  function fit() { var s = document.getElementById("site"); if (s) { var k = Math.min(1, window.innerWidth / 1120); s.style.transform = "scale(" + k + ")"; document.body.style.height = (s.offsetHeight * k) + "px"; } }
+  setTimeout(fit, 0); window.addEventListener("resize", fit);
+</script>
+</body>
+</html>

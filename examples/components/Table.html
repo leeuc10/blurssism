@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Table — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} </style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var rows = [
+    { id: 1, name: "디자인 리뷰", owner: "caffeinecat", status: "완료", hours: 3.5 },
+    { id: 2, name: "토큰 정리", owner: "이서", status: "진행 중", hours: 12 },
+    { id: 3, name: "접근성 점검", owner: "민준", status: "확인 필요", hours: 1.25 }];
+  var tone = { "완료": "positive", "진행 중": "accent", "확인 필요": "warning" };
+  mount(h(B.Table, { caption: "이번 주 작업", rows: rows, columns: [
+    { key: "name", label: "작업" }, { key: "owner", label: "담당" },
+    { key: "status", label: "상태", render: function (r) { return h(B.Badge, { tone: tone[r.status] }, r.status); } },
+    { key: "hours", label: "시간", numeric: true, render: function (r) { return r.hours.toFixed(1) + "h"; } }] }));
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>AppScreen — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;} .phone{position:relative;width:390px;height:720px;margin:0 auto;overflow:hidden;background:var(--paper);} .scroll{position:absolute;inset:0;overflow:auto;padding:76px 16px 120px;} .top{position:absolute;left:12px;right:12px;top:12px;z-index:2;} .tabs{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;} .hero{margin:0 0 24px;} .sec{margin:24px 0 8px;font-size:14px;line-height:22px;font-weight:600;color:var(--ink-muted);} .prog{margin:16px 0 0;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function App() {
+    var tab = React.useState("me"), al = React.useState(true), dk = React.useState(false), seg = React.useState("week");
+    return h("div", { className: "phone" },
+      h("div", { className: "scroll" },
+        h("h1", { className: "bl-largetitle", style: { marginTop: 0 } }, "내 정보"),
+        h(B.MediaCard, { title: "caffeinecat", meta: "가입 2년째 · 기록 128개", ratio: "16 / 10", badge: "인증됨", badgeIcon: "check",
+          action: h(B.IconButton, { icon: "settings", label: "프로필 편집" }) }),
+        h("div", { className: "prog" }, h(B.Progress, { label: "이번 주 목표", value: 5, max: 7, valueText: "7일 중 5일" })),
+        h("p", { className: "sec" }, "활동"),
+        h(B.SegmentedControl, { label: "기간", block: true, value: seg[0], onChange: seg[1], items: [{ id: "week", label: "이번 주" }, { id: "month", label: "이번 달" }] }),
+        h("p", { className: "sec" }, "설정"),
+        h("ul", { className: "bl-list" },
+          h("li", null, h(B.ListItem, { icon: "bell", title: "알림", trailing: h(B.Switch, { label: "알림", checked: al[0], onChange: al[1] }) })),
+          h("li", null, h(B.ListItem, { icon: "spark", title: "다크 모드", trailing: h(B.Switch, { label: "다크 모드", checked: dk[0], onChange: dk[1] }) })),
+          h("li", null, h(B.ListItem, { icon: "person", title: "계정", subtitle: "cat@example.com", onClick: function () {} })),
+          h("li", null, h(B.ListItem, { icon: "calendar", title: "기록 내보내기", trailing: h(B.Badge, { tone: "accent" }, "새 기능"), onClick: function () {} })))),
+      h("div", { className: "top" }, h(B.NavBar, { title: "", actions: h(B.IconButton, { icon: "bell", label: "알림", plain: true }) })),
+      h("div", { className: "tabs" }, h(B.TabBar, { value: tab[0], onChange: tab[1], items: [{ id: "home", label: "홈", icon: "home" }, { id: "search", label: "검색", icon: "search" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }] })));
+  }
+  mount(h(App));
+</script>
+</body>
+</html>

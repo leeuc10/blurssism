@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Toast — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{height:120px;border-radius:var(--radius-lg);overflow:hidden;} .stack{position:absolute;left:16px;right:16px;bottom:12px;display:grid;gap:8px;max-width:420px;margin:0 auto;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Backdrop(kids) {
+    return h("div", { className: "bl-backdrop", style: { height: "100%" } },
+      h("i", { style: { left: "-40px", top: "-30px", width: "180px", height: "180px", background: "var(--apricot)" } }),
+      h("i", { style: { left: "38%", top: "20px", width: "120px", height: "220px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+      h("i", { style: { right: "-30px", bottom: "-40px", width: "200px", height: "120px", background: "var(--positive)" } }),
+      kids);
+  }
+  mount(Backdrop(h("div", { className: "stack" },
+    h(B.Toast, { tone: "positive", actionLabel: "되돌리기" }, "보관함으로 옮겼어요"),
+    h(B.Toast, { tone: "danger" }, "연결이 끊겼어요. 다시 시도해 주세요."))));
+</script>
+</body>
+</html>

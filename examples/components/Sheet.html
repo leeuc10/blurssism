@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Sheet — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;} #root{height:380px;} .scrim{position:absolute;inset:0;background:var(--scrim);-webkit-backdrop-filter:blur(var(--blur-sm));backdrop-filter:blur(var(--blur-sm));} .wrap{position:absolute;left:0;right:0;bottom:0;max-width:420px;margin:0 auto;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Backdrop(kids) {
+    return h("div", { className: "bl-backdrop", style: { height: "100%" } },
+      h("i", { style: { left: "-40px", top: "-30px", width: "180px", height: "180px", background: "var(--apricot)" } }),
+      h("i", { style: { left: "38%", top: "20px", width: "120px", height: "220px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+      h("i", { style: { right: "-30px", bottom: "-40px", width: "200px", height: "120px", background: "var(--positive)" } }),
+      kids);
+  }
+  mount(Backdrop(h(React.Fragment, null,
+    h("div", { className: "scrim" }),
+    h("div", { className: "wrap" }, h(B.Sheet, { title: "변경 사항을 저장할까요?", description: "저장하지 않으면 이 화면에서 바꾼 내용이 사라져요." },
+      h(B.Button, { block: true }, "저장하기"),
+      h(B.Button, { variant: "ghost", block: true }, "저장 안 함"))))));
+</script>
+</body>
+</html>

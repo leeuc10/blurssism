@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Card — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  mount(h(React.Fragment, null,
+    h(B.Card, { eyebrow: "이번 주", title: "작업 3개가 남았어요", body: "마감이 가까운 순서로 정리했어요. 하나씩 끝내 보세요." },
+      h(B.Button, { size: "md" }, "열어 보기"), h(B.Button, { size: "md", variant: "ghost" }, "나중에")),
+    h(B.Card, { eyebrow: "오늘의 문장", quote: "좋은 도구는 쓰는 사람을 앞세웁니다." })));
+</script>
+</body>
+</html>

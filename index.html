@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blurssism — 글래스모피즘과 블러의 조합</title>
+<meta name="description" content="웹과 앱 공용 디자인 시스템. 글래스모피즘과 블러 효과의 조합. made by caffeinecat">
+<link rel="icon" href="logos/blurssism-mark.svg">
+<link rel="stylesheet" href="dist/tokens.css">
+<link rel="stylesheet" href="dist/bundle.css">
+<style>
+  body { margin:0; background:var(--paper); }
+  .wrap { max-width:var(--content-max); margin:0 auto; padding:0 var(--space-4) var(--space-16); }
+  .top { position:sticky; top:var(--space-3); z-index:5; margin:var(--space-3) 0 var(--space-8); }
+  .brand { display:flex; align-items:center; gap:var(--space-2); font-family:var(--font-serif); font-weight:700; font-size:20px; color:var(--ink); text-decoration:none; }
+  .brand img { width:28px; height:28px; }
+  .hero { position:relative; height:288px; overflow:hidden; }
+  .hero-frame { position:absolute; left:0; top:0; width:960px; height:288px; border:0; display:block; transform-origin:0 0; }
+  @media (max-width:767px) { .bl-navbar-links { display:none; } }
+  .lead { max-width:var(--prose-max); margin:var(--space-6) 0; color:var(--ink-muted); }
+  .cta { display:flex; flex-wrap:wrap; gap:var(--space-2); }
+  pre { margin:var(--space-4) 0 0; padding:var(--space-4); border-radius:var(--radius-md); background:var(--paper-sunken); overflow:auto; font-size:13px; line-height:20px; }
+  section { margin-top:var(--space-12); }
+  .grid { display:grid; gap:var(--space-4); grid-template-columns:1fr; }
+  @media (min-width:768px) { .grid { grid-template-columns:repeat(2, 1fr); } }
+  .card { margin:0; border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--paper); overflow:hidden; }
+  .card figcaption { display:flex; justify-content:space-between; padding:var(--space-3) var(--space-4); border-bottom:1px solid var(--line); font-size:14px; font-weight:600; color:var(--ink); }
+  .card figcaption a { font-weight:500; color:var(--accent-ink); }
+  .card iframe { width:100%; border:0; display:block; }
+  .full iframe { height:760px; }
+  footer { display:flex; align-items:center; gap:var(--space-2); margin-top:var(--space-16); color:var(--ink-muted); font-size:14px; }
+  footer img { width:24px; height:24px; }
+  [data-theme="dark"] .light-only, :root:not([data-theme="dark"]) .dark-only { display:none; }
+</style>
+</head>
+<body class="bl-root">
+<div class="wrap">
+  <header class="top bl-navbar bl-glass">
+    <a class="brand bl-navbar-title" href="#"><img class="light-only" src="logos/blurssism-mark.svg" alt=""><img class="dark-only" src="logos/blurssism-mark-dark.svg" alt="">blurssism</a>
+    <nav class="bl-navbar-links" aria-label="주요 메뉴">
+      <a class="bl-navbar-link" href="#start">시작하기</a>
+      <a class="bl-navbar-link" href="https://github.com/leeuc10/blurssism/blob/main/docs/brand-book.md">브랜드북</a>
+      <a class="bl-navbar-link" href="https://github.com/leeuc10/blurssism">GitHub</a>
+    </nav>
+    <button class="bl-btn bl-btn-ghost bl-btn-md" id="theme" type="button">다크 모드</button>
+  </header>
+
+  <div class="hero" id="hero"><iframe class="hero-frame" title="blurssism 커버" data-src="examples/components/Cover.html"></iframe></div>
+  <p class="lead body">웹과 앱 어디에나 쓰는 디자인 시스템이에요. 따뜻한 종이 바탕 위에 맑은 유리와 두꺼운 블러를 필요한 곳에만 띄워, 글래스모피즘을 가독성 있게 씁니다. Apple Liquid Glass와 Samsung One UI에서 영감을 받았습니다.</p>
+  <div class="cta">
+    <a class="bl-btn bl-btn-accent" href="#start">시작하기</a>
+    <a class="bl-btn bl-btn-ghost" href="https://github.com/leeuc10/blurssism/blob/main/docs/brand-book.md">브랜드북 읽기</a>
+  </div>
+
+  <section id="start">
+    <h2 class="title-2">시작하기</h2>
+    <pre><code>npm install @caffeinecat/blurssism
+
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecat/blurssism/dist/tokens.css"&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecat/blurssism/dist/bundle.css"&gt;
+&lt;button class="bl-btn bl-btn-primary"&gt;저장하기&lt;/button&gt;</code></pre>
+  </section>
+
+  <section><h2 class="title-2">예시 화면</h2><div class="grid">
+    <figure class="card full"><figcaption>모바일 설정 화면<a href="examples/components/AppScreen.html">열기</a></figcaption><iframe loading="lazy" title="앱 예시" data-src="examples/components/AppScreen.html"></iframe></figure>
+    <figure class="card full"><figcaption>웹 랜딩<a href="examples/components/WebLanding.html">열기</a></figcaption><iframe loading="lazy" title="웹 예시" data-src="examples/components/WebLanding.html"></iframe></figure>
+  </div></section>
+  <section><h2 class="title-2">행동</h2><div class="grid"><figure class="card"><figcaption>Button<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Button.md">가이드</a></figcaption><iframe loading="lazy" title="Button 미리보기" data-src="examples/components/Button.html" style="height:200px"></iframe></figure><figure class="card"><figcaption>IconButton<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/IconButton.md">가이드</a></figcaption><iframe loading="lazy" title="IconButton 미리보기" data-src="examples/components/IconButton.html" style="height:120px"></iframe></figure></div></section><section><h2 class="title-2">입력</h2><div class="grid"><figure class="card"><figcaption>Calendar<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Calendar.md">가이드</a></figcaption><iframe loading="lazy" title="Calendar 미리보기" data-src="examples/components/Calendar.html" style="height:400px"></iframe></figure><figure class="card"><figcaption>Checkbox<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Checkbox.md">가이드</a></figcaption><iframe loading="lazy" title="Checkbox 미리보기" data-src="examples/components/Checkbox.html" style="height:150px"></iframe></figure><figure class="card"><figcaption>Chip<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Chip.md">가이드</a></figcaption><iframe loading="lazy" title="Chip 미리보기" data-src="examples/components/Chip.html" style="height:80px"></iframe></figure><figure class="card"><figcaption>RadioGroup<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/RadioGroup.md">가이드</a></figcaption><iframe loading="lazy" title="RadioGroup 미리보기" data-src="examples/components/RadioGroup.html" style="height:200px"></iframe></figure><figure class="card"><figcaption>SegmentedControl<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/SegmentedControl.md">가이드</a></figcaption><iframe loading="lazy" title="SegmentedControl 미리보기" data-src="examples/components/SegmentedControl.html" style="height:120px"></iframe></figure><figure class="card"><figcaption>Select<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Select.md">가이드</a></figcaption><iframe loading="lazy" title="Select 미리보기" data-src="examples/components/Select.html" style="height:200px"></iframe></figure><figure class="card"><figcaption>Switch<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Switch.md">가이드</a></figcaption><iframe loading="lazy" title="Switch 미리보기" data-src="examples/components/Switch.html" style="height:72px"></iframe></figure><figure class="card"><figcaption>TextField<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/TextField.md">가이드</a></figcaption><iframe loading="lazy" title="TextField 미리보기" data-src="examples/components/TextField.html" style="height:260px"></iframe></figure></div></section><section><h2 class="title-2">콘텐츠</h2><div class="grid"><figure class="card"><figcaption>Avatar<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Avatar.md">가이드</a></figcaption><iframe loading="lazy" title="Avatar 미리보기" data-src="examples/components/Avatar.html" style="height:80px"></iframe></figure><figure class="card"><figcaption>Card<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Card.md">가이드</a></figcaption><iframe loading="lazy" title="Card 미리보기" data-src="examples/components/Card.html" style="height:340px"></iframe></figure><figure class="card"><figcaption>ListItem<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/ListItem.md">가이드</a></figcaption><iframe loading="lazy" title="ListItem 미리보기" data-src="examples/components/ListItem.html" style="height:240px"></iframe></figure><figure class="card"><figcaption>MediaCard<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/MediaCard.md">가이드</a></figcaption><iframe loading="lazy" title="MediaCard 미리보기" data-src="examples/components/MediaCard.html" style="height:460px"></iframe></figure><figure class="card"><figcaption>Table<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Table.md">가이드</a></figcaption><iframe loading="lazy" title="Table 미리보기" data-src="examples/components/Table.html" style="height:260px"></iframe></figure></div></section><section><h2 class="title-2">상태</h2><div class="grid"><figure class="card"><figcaption>Badge<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Badge.md">가이드</a></figcaption><iframe loading="lazy" title="Badge 미리보기" data-src="examples/components/Badge.html" style="height:64px"></iframe></figure><figure class="card"><figcaption>EmptyState<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/EmptyState.md">가이드</a></figcaption><iframe loading="lazy" title="EmptyState 미리보기" data-src="examples/components/EmptyState.html" style="height:300px"></iframe></figure><figure class="card"><figcaption>Progress<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Progress.md">가이드</a></figcaption><iframe loading="lazy" title="Progress 미리보기" data-src="examples/components/Progress.html" style="height:120px"></iframe></figure><figure class="card"><figcaption>Skeleton<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Skeleton.md">가이드</a></figcaption><iframe loading="lazy" title="Skeleton 미리보기" data-src="examples/components/Skeleton.html" style="height:130px"></iframe></figure></div></section><section><h2 class="title-2">탐색</h2><div class="grid"><figure class="card"><figcaption>NavBar<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/NavBar.md">가이드</a></figcaption><iframe loading="lazy" title="NavBar 미리보기" data-src="examples/components/NavBar.html" style="height:200px"></iframe></figure><figure class="card"><figcaption>TabBar<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/TabBar.md">가이드</a></figcaption><iframe loading="lazy" title="TabBar 미리보기" data-src="examples/components/TabBar.html" style="height:140px"></iframe></figure></div></section><section><h2 class="title-2">오버레이</h2><div class="grid"><figure class="card"><figcaption>Dialog<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Dialog.md">가이드</a></figcaption><iframe loading="lazy" title="Dialog 미리보기" data-src="examples/components/Dialog.html" style="height:360px"></iframe></figure><figure class="card"><figcaption>Sheet<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Sheet.md">가이드</a></figcaption><iframe loading="lazy" title="Sheet 미리보기" data-src="examples/components/Sheet.html" style="height:380px"></iframe></figure><figure class="card"><figcaption>Toast<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Toast.md">가이드</a></figcaption><iframe loading="lazy" title="Toast 미리보기" data-src="examples/components/Toast.html" style="height:150px"></iframe></figure><figure class="card"><figcaption>Tooltip<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Tooltip.md">가이드</a></figcaption><iframe loading="lazy" title="Tooltip 미리보기" data-src="examples/components/Tooltip.html" style="height:110px"></iframe></figure></div></section><section><h2 class="title-2">기초</h2><div class="grid"><figure class="card"><figcaption>Icon<a href="https://github.com/leeuc10/blurssism/blob/main/docs/components/Icon.md">가이드</a></figcaption><iframe loading="lazy" title="Icon 미리보기" data-src="examples/components/Icon.html" style="height:72px"></iframe></figure></div></section>
+
+  <footer><img class="light-only" src="logos/caffeinecat-mark.svg" alt=""><img class="dark-only" src="logos/caffeinecat-mark-dark.svg" alt="">made by caffeinecat · 코드는 MIT, 로고와 표식은 권리 보유</footer>
+</div>
+<script>
+  var theme = "light";
+  try { theme = localStorage.getItem("bl-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch (e) {}
+  function apply() {
+    document.documentElement.setAttribute("data-theme", theme);
+    document.getElementById("theme").textContent = theme === "dark" ? "라이트 모드" : "다크 모드";
+    document.querySelectorAll("iframe[data-src]").forEach(function (f) { f.src = f.getAttribute("data-src") + "?theme=" + theme; });
+  }
+  document.getElementById("theme").addEventListener("click", function () {
+    theme = theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("bl-theme", theme); } catch (e) {}
+    apply();
+  });
+  apply();
+  function fitHero() {
+    var hero = document.getElementById("hero"), k = Math.min(1, hero.clientWidth / 960);
+    hero.firstElementChild.style.transform = "scale(" + k + ")";
+    hero.style.height = (288 * k) + "px";
+  }
+  fitHero(); window.addEventListener("resize", fitHero);
+</script>
+</body>
+</html>

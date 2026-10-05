@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Button — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} </style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  mount(h("div", { style: { display: "grid", gap: "16px" } },
+    h("div", { className: "row" }, h(B.Button, null, "저장하기"), h(B.Button, { variant: "accent", icon: "plus" }, "새로 만들기"), h(B.Button, { variant: "ghost" }, "취소")),
+    h("div", { className: "row" }, h(B.Button, { size: "md" }, "확인"), h(B.Button, { size: "md", variant: "ghost" }, "더 보기"), h(B.Button, { size: "md", variant: "danger" }, "삭제하기"), h(B.Button, { size: "md", disabled: true }, "비활성"))));
+</script>
+</body>
+</html>
