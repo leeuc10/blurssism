@@ -268,7 +268,7 @@ export function createBlurssism(React) {
       p.onChange && p.onChange(id);
     }
     return h("div", { className: cx("bl-palettes", p.className), role: "radiogroup", "aria-label": p.label || "색 팔레트" },
-      palettes.map(function (pl) {
+      palettes.filter(function (pl) { return !p.group || pl.group === p.group; }).map(function (pl) {
         var on = pl.id === cur;
         return h("button", { key: pl.id, type: "button", role: "radio", "aria-checked": String(on), className: "bl-palette", "aria-label": pl.name,
           "data-palette": pl.id, onClick: function () { pick(pl.id); } },

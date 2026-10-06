@@ -8,13 +8,12 @@
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Palettes — 미리보기</title>
-<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:16px;} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;} .pal{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);} .side{background:var(--paper);color:var(--ink);padding:16px;display:grid;gap:10px;align-content:start;} .name{margin:0;font-weight:700;font-size:16px;line-height:22px;} .desc{margin:0;font-size:12px;line-height:16px;color:var(--ink-muted);} .sw{display:flex;gap:6px;} .sw i{display:block;width:22px;height:22px;border-radius:var(--radius-full);} .sw i:nth-child(1){background:var(--accent);} .sw i:nth-child(2){background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--line);} .sw i:nth-child(3){background:var(--deco);} .side .bl-btn{height:36px;padding:0 14px;}</style></head>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:16px;} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;} .pal{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);} .side{background:var(--paper);color:var(--ink);padding:16px;display:grid;gap:10px;align-content:start;} .name{margin:0;font-weight:700;font-size:16px;line-height:22px;} .desc{margin:0;font-size:12px;line-height:16px;color:var(--ink-muted);} .sw{display:flex;gap:6px;} .sw i{display:block;width:22px;height:22px;border-radius:var(--radius-full);} .sw i:nth-child(1){background:var(--accent);} .sw i:nth-child(2){background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--line);} .sw i:nth-child(3){background:var(--deco);} .side .bl-btn{height:36px;padding:0 14px;}.group{margin:24px 0 12px;font-size:14px;line-height:20px;font-weight:600;color:var(--ink-muted);} section:first-child .group{margin-top:0;}</style></head>
 <body>
 <div id="root" class="bl-root"></div>
 <script>
   var B = window.Blurssism, h = React.createElement;
   function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
-  var cards = [["espresso", "에스프레소", "기본. 볶은 원두의 갈색과 크레마."], ["matcha", "말차", "녹차의 차분한 초록."], ["chai", "차이", "향신료 밀크티의 주황."], ["coldbrew", "콜드브루", "차갑게 우린 커피의 깊은 남색."], ["mocha", "모카", "초콜릿과 장미빛 코코아."], ["classic", "클래식", "1.2까지의 자두색."]];
   function Side(p) {
     return h("div", { className: "side", "data-theme": p.theme, "data-palette": p.id },
       p.theme === "light" ? h(React.Fragment, null, h("p", { className: "name" }, p.name), h("p", { className: "desc" }, p.desc)) : h("p", { className: "desc" }, "다크"),
@@ -22,8 +21,13 @@
       h("div", null, h(B.Button, { variant: "accent", size: "md" }, "시작하기")),
       h("div", null, h(B.Badge, { tone: "accent" }, p.id)));
   }
-  mount(h("div", { className: "grid" }, cards.map(function (c) {
-    return h("div", { key: c[0], className: "pal" }, h(Side, { id: c[0], name: c[1], desc: c[2], theme: "light" }), h(Side, { id: c[0], name: c[1], desc: c[2], theme: "dark" }));
+  var groups = [["caffeine", "카페인 · Caffeine"], ["web", "웹 기본 · Web essentials"]];
+  mount(h(React.Fragment, null, groups.map(function (g) {
+    return h("section", { key: g[0] },
+      h("h2", { className: "group" }, g[1]),
+      h("div", { className: "grid" }, B.palettes.filter(function (pl) { return pl.group === g[0]; }).map(function (pl) {
+        return h("div", { key: pl.id, className: "pal" }, h(Side, { id: pl.id, name: pl.name, desc: pl.description, theme: "light" }), h(Side, { id: pl.id, name: pl.name, desc: pl.description, theme: "dark" }));
+      })));
   })));
 </script>
 </body>

@@ -1,6 +1,6 @@
 /* 생성 파일 */
 import type { PaletteId, Breakpoint } from "./types.js";
-export interface PaletteInfo { id: PaletteId; name: string; description: string; swatch: { light: string; dark: string } }
+export interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }
 /** 팔레트 목록 */
 export declare const palettes: PaletteInfo[];
 /** 브레이크포인트 min-width(px) */

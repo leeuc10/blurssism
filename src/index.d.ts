@@ -148,9 +148,11 @@ export declare function Calendar(props: CalendarProps): ReactElement;
 export declare function EmptyState(props: EmptyStateProps): ReactElement;
 export declare function Dialog(props: DialogProps): ReactElement | null;
 
-export type PaletteId = "espresso" | "matcha" | "chai" | "coldbrew" | "mocha" | "classic";
+export type PaletteId =
+  | "espresso" | "matcha" | "chai" | "coldbrew" | "mocha" | "classic"
+  | "blue" | "indigo" | "violet" | "teal" | "emerald" | "pink" | "graphite";
 export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
-export interface PaletteInfo { id: PaletteId; name: string; description: string; swatch: { light: string; dark: string } }
+export interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }
 type Responsive<T> = T | Partial<Record<Breakpoint, T>>;
 
 /** 색 팔레트 고르기. 기본으로 <html data-palette>를 바꿉니다. */
@@ -162,6 +164,8 @@ export interface PalettePickerProps {
   apply?: boolean;
   /** 팔레트를 적용할 요소 (기본: <html>) */
   target?: HTMLElement;
+  /** 한 묶음만 보이기: "caffeine"(카페인 6종) 또는 "web"(웹 기본 7종). 생략하면 전부 */
+  group?: "caffeine" | "web";
   /** 이름 없이 동그라미만 */
   compact?: boolean;
   label?: string;

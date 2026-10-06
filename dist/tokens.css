@@ -1,4 +1,4 @@
-/* blurssism v1.3.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.3.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha"> */
 @import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 :root, [data-theme="light"] {
@@ -259,6 +259,195 @@
     --accent-ink: #e8b6d9;
     --deco: #c98a63;
     --glass-tint-accent: rgba(224, 166, 207, 0.18);
+  }
+}
+/* blue — 블루: 링크와 버튼에서 가장 익숙한 파랑. */
+[data-palette="blue"] {
+  --accent: #1d5bb8;
+  --accent-soft: #e3ecf9;
+  --on-accent: #ffffff;
+  --accent-ink: #184c9a;
+  --deco: #b9cff0;
+  --glass-tint-accent: rgba(29, 91, 184, 0.14);
+}
+[data-theme="dark"][data-palette="blue"], [data-theme="dark"] [data-palette="blue"] {
+  --accent: #8eb9f5;
+  --accent-soft: #1b2738;
+  --on-accent: #21180f;
+  --accent-ink: #a9cbf8;
+  --deco: #4f74a6;
+  --glass-tint-accent: rgba(142, 185, 245, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="blue"], :root:not([data-theme="light"]) [data-palette="blue"] {
+    --accent: #8eb9f5;
+    --accent-soft: #1b2738;
+    --on-accent: #21180f;
+    --accent-ink: #a9cbf8;
+    --deco: #4f74a6;
+    --glass-tint-accent: rgba(142, 185, 245, 0.18);
+  }
+}
+/* indigo — 인디고: SaaS와 개발 도구에서 흔한 남보라. */
+[data-palette="indigo"] {
+  --accent: #4a3fb5;
+  --accent-soft: #e8e6f8;
+  --on-accent: #ffffff;
+  --accent-ink: #3d3399;
+  --deco: #c7c2ef;
+  --glass-tint-accent: rgba(74, 63, 181, 0.14);
+}
+[data-theme="dark"][data-palette="indigo"], [data-theme="dark"] [data-palette="indigo"] {
+  --accent: #aaa6f4;
+  --accent-soft: #24213d;
+  --on-accent: #21180f;
+  --accent-ink: #bfbcf7;
+  --deco: #6a64ad;
+  --glass-tint-accent: rgba(170, 166, 244, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="indigo"], :root:not([data-theme="light"]) [data-palette="indigo"] {
+    --accent: #aaa6f4;
+    --accent-soft: #24213d;
+    --on-accent: #21180f;
+    --accent-ink: #bfbcf7;
+    --deco: #6a64ad;
+    --glass-tint-accent: rgba(170, 166, 244, 0.18);
+  }
+}
+/* violet — 바이올렛: 창작 도구와 커뮤니티의 보라. */
+[data-palette="violet"] {
+  --accent: #7038a8;
+  --accent-soft: #f0e5f8;
+  --on-accent: #ffffff;
+  --accent-ink: #5f2e90;
+  --deco: #dcc4ef;
+  --glass-tint-accent: rgba(112, 56, 168, 0.14);
+}
+[data-theme="dark"][data-palette="violet"], [data-theme="dark"] [data-palette="violet"] {
+  --accent: #cfa6f2;
+  --accent-soft: #2f2140;
+  --on-accent: #21180f;
+  --accent-ink: #dbbcf5;
+  --deco: #8c67ad;
+  --glass-tint-accent: rgba(207, 166, 242, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="violet"], :root:not([data-theme="light"]) [data-palette="violet"] {
+    --accent: #cfa6f2;
+    --accent-soft: #2f2140;
+    --on-accent: #21180f;
+    --accent-ink: #dbbcf5;
+    --deco: #8c67ad;
+    --glass-tint-accent: rgba(207, 166, 242, 0.18);
+  }
+}
+/* teal — 틸: 헬스케어와 핀테크의 청록. */
+[data-palette="teal"] {
+  --accent: #0e6b66;
+  --accent-soft: #dcefec;
+  --on-accent: #ffffff;
+  --accent-ink: #0b5a56;
+  --deco: #a9d9d2;
+  --glass-tint-accent: rgba(14, 107, 102, 0.14);
+}
+[data-theme="dark"][data-palette="teal"], [data-theme="dark"] [data-palette="teal"] {
+  --accent: #78d0c4;
+  --accent-soft: #16302d;
+  --on-accent: #21180f;
+  --accent-ink: #95dccf;
+  --deco: #3f8a80;
+  --glass-tint-accent: rgba(120, 208, 196, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="teal"], :root:not([data-theme="light"]) [data-palette="teal"] {
+    --accent: #78d0c4;
+    --accent-soft: #16302d;
+    --on-accent: #21180f;
+    --accent-ink: #95dccf;
+    --deco: #3f8a80;
+    --glass-tint-accent: rgba(120, 208, 196, 0.18);
+  }
+}
+/* emerald — 에메랄드: 결제와 성장 서비스의 선명한 초록. */
+[data-palette="emerald"] {
+  --accent: #13704a;
+  --accent-soft: #dcf0e4;
+  --on-accent: #ffffff;
+  --accent-ink: #0f5e3e;
+  --deco: #a7dcbc;
+  --glass-tint-accent: rgba(19, 112, 74, 0.14);
+}
+[data-theme="dark"][data-palette="emerald"], [data-theme="dark"] [data-palette="emerald"] {
+  --accent: #7fd6a5;
+  --accent-soft: #163222;
+  --on-accent: #21180f;
+  --accent-ink: #9ce0b8;
+  --deco: #3f8f63;
+  --glass-tint-accent: rgba(127, 214, 165, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="emerald"], :root:not([data-theme="light"]) [data-palette="emerald"] {
+    --accent: #7fd6a5;
+    --accent-soft: #163222;
+    --on-accent: #21180f;
+    --accent-ink: #9ce0b8;
+    --deco: #3f8f63;
+    --glass-tint-accent: rgba(127, 214, 165, 0.18);
+  }
+}
+/* pink — 핑크: 커머스와 뷰티의 분홍. */
+[data-palette="pink"] {
+  --accent: #b0306a;
+  --accent-soft: #f9e3ec;
+  --on-accent: #ffffff;
+  --accent-ink: #962659;
+  --deco: #f0bcd2;
+  --glass-tint-accent: rgba(176, 48, 106, 0.14);
+}
+[data-theme="dark"][data-palette="pink"], [data-theme="dark"] [data-palette="pink"] {
+  --accent: #f49ac0;
+  --accent-soft: #3b1f2b;
+  --on-accent: #21180f;
+  --accent-ink: #f7b3d0;
+  --deco: #ad5f80;
+  --glass-tint-accent: rgba(244, 154, 192, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="pink"], :root:not([data-theme="light"]) [data-palette="pink"] {
+    --accent: #f49ac0;
+    --accent-soft: #3b1f2b;
+    --on-accent: #21180f;
+    --accent-ink: #f7b3d0;
+    --deco: #ad5f80;
+    --glass-tint-accent: rgba(244, 154, 192, 0.18);
+  }
+}
+/* graphite — 그래파이트: 색 없이 먹색 하나로 쓰는 단색. */
+[data-palette="graphite"] {
+  --accent: #3b3632;
+  --accent-soft: #ebe6e0;
+  --on-accent: #ffffff;
+  --accent-ink: #2e2a26;
+  --deco: #cfc6bc;
+  --glass-tint-accent: rgba(59, 54, 50, 0.14);
+}
+[data-theme="dark"][data-palette="graphite"], [data-theme="dark"] [data-palette="graphite"] {
+  --accent: #e2dbd2;
+  --accent-soft: #2a241f;
+  --on-accent: #21180f;
+  --accent-ink: #ece6de;
+  --deco: #7d7268;
+  --glass-tint-accent: rgba(226, 219, 210, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="graphite"], :root:not([data-theme="light"]) [data-palette="graphite"] {
+    --accent: #e2dbd2;
+    --accent-soft: #2a241f;
+    --on-accent: #21180f;
+    --accent-ink: #ece6de;
+    --deco: #7d7268;
+    --glass-tint-accent: rgba(226, 219, 210, 0.18);
   }
 }
 :root {

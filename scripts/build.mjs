@@ -122,7 +122,7 @@ write("dist/bundle.css", banner + read("src/bundle.css").replace(/^\/\*[\s\S]*?\
 write("dist/index.d.ts", read("src/index.d.ts"));
 
 /* ── 2. 프레임워크 없는 유틸리티 ───────────────────────────── */
-const paletteMeta = palettes.map(({ id, name, description, values }) => ({ id, name, description, swatch: { light: values.light.accent, dark: values.dark.accent } }));
+const paletteMeta = palettes.map(({ id, name, group, description, values }) => ({ id, name, group, description, swatch: { light: values.light.accent, dark: values.dark.accent } }));
 const utilsSrc = read("src/utils.js")
   .replace(/^\/\*[\s\S]*?\*\/\n/, "")
   .replace("/*__PALETTES__*/[]", JSON.stringify(paletteMeta))
@@ -164,6 +164,6 @@ write("src/svelte/icons.js", `${banner}/* 생성 파일: src/core.js의 아이�
 write("src/svelte/icons.d.ts", `export declare const PATHS: Record<string, string>;\n`);
 write("src/svelte/utils.js", banner + "/* 생성 파일: src/utils.js */\n" + utilsSrc);
 const utilTypes = read("src/index.d.ts").match(/\/\*\* 팔레트 목록 \*\/[\s\S]*?export declare function applyGlassPreference[^\n]*\n/)[0];
-write("src/svelte/utils.d.ts", `/* 생성 파일 */\nimport type { PaletteId, Breakpoint } from "./types.js";\nexport interface PaletteInfo { id: PaletteId; name: string; description: string; swatch: { light: string; dark: string } }\n${utilTypes}export declare const version: string;\nexport declare const author: "caffeinecat";\n`);
+write("src/svelte/utils.d.ts", `/* 생성 파일 */\nimport type { PaletteId, Breakpoint } from "./types.js";\nexport interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }\n${utilTypes}export declare const version: string;\nexport declare const author: "caffeinecat";\n`);
 
 console.log(`blurssism ${version}: ${components.length} React components, ${utilNames.length} utils, ${palettes.length} palettes → dist/, src/svelte/{icons,utils}.js`);

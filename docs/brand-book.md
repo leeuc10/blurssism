@@ -35,6 +35,8 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
 강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `glass-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 에스프레소입니다.
 
+**카페인 6종**
+
 | id | 이름 | 느낌 | 라이트 accent | 다크 accent |
 | --- | --- | --- | --- | --- |
 | `espresso` | 에스프레소 (기본) | 볶은 원두의 갈색과 크레마 | `#7a4524` | `#e2ab7a` |
@@ -44,10 +46,25 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 | `mocha` | 모카 | 초콜릿과 장미빛 코코아 | `#7c3a46` | `#e8a5b0` |
 | `classic` | 클래식 | 1.2까지의 자두색 | `#7a3b69` | `#e0a6cf` |
 
-- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 324개 조합을 검사합니다.
+**웹 기본 7종** — 커피와 상관없이 웹에서 자주 쓰는 색을 크림 바탕에 맞게 채도를 낮추고 깊이를 맞췄습니다.
+
+| id | 이름 | 느낌 | 라이트 accent | 다크 accent |
+| --- | --- | --- | --- | --- |
+| `blue` | 블루 | 링크와 버튼에서 가장 익숙한 파랑 | `#1d5bb8` | `#8eb9f5` |
+| `indigo` | 인디고 | SaaS와 개발 도구에서 흔한 남보라 | `#4a3fb5` | `#aaa6f4` |
+| `violet` | 바이올렛 | 창작 도구와 커뮤니티의 보라 | `#7038a8` | `#cfa6f2` |
+| `teal` | 틸 | 헬스케어와 핀테크의 청록 | `#0e6b66` | `#78d0c4` |
+| `emerald` | 에메랄드 | 결제와 성장 서비스의 선명한 초록 | `#13704a` | `#7fd6a5` |
+| `pink` | 핑크 | 커머스와 뷰티의 분홍 | `#b0306a` | `#f49ac0` |
+| `graphite` | 그래파이트 | 색 없이 먹색 하나로 쓰는 단색 | `#3b3632` | `#e2dbd2` |
+
+- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 702개 조합을 검사합니다.
 - 한 화면에는 팔레트 하나. 섹션마다 팔레트를 바꾸지 않습니다. 예외는 팔레트 고르기 화면처럼 팔레트 자체를 보여 줄 때뿐입니다.
 - 사용자에게 고르게 하려면 `PalettePicker`를 쓰고, 선택은 소비자가 저장해 다음 방문 때 `setPalette(id)`로 복원합니다.
-- 상태색(`positive`·`warning`·`danger`)은 팔레트와 상관없이 고정이라, 말차의 초록과 `positive`가 비슷해 보여도 의미는 단어로 구분합니다.
+- 상태색(`positive`·`warning`·`danger`·`info`)은 팔레트와 상관없이 고정이라, 말차·에메랄드의 초록과 `positive`, 블루와 `info`가 비슷해 보여도 의미는 단어와 아이콘으로 구분합니다.
+- 노랑과 빨강은 `warning`·`danger`와 헷갈려서 팔레트로 두지 않습니다. 브랜드색이 노랑이면 `deco`로만 쓰세요.
+- `graphite`는 강조색 없이 먹색으로만 꾸미는 단색 팔레트입니다. 색이 브랜드를 대신하지 않는 도구형 화면에 맞습니다.
+- `PalettePicker group="web"`처럼 한 묶음만 보일 수 있습니다.
 
 ## 유리 재질
 
@@ -179,7 +196,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 - **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 유리는 `.bl-glass` / `.bl-glass-thick` 클래스로 씁니다.
 - **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 유리는 플랫폼 기본 재질(iOS `.ultraThinMaterial` / Liquid Glass, Android `RenderEffect` blur)에 `glass-fill`을 겹칩니다.
 - 다크 모드는 `<html data-theme="dark">`, 팔레트는 `<html data-palette="matcha">`로 전환합니다.
-- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 6종), `Responsive`(반응형 규칙) 카드를 참고합니다.
+- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 13종), `Responsive`(반응형 규칙) 카드를 참고합니다.
 
 ---
 

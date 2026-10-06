@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.1 — 2026-10-06
+**웹 기본 팔레트 · Web essential palettes**
+- 웹에서 자주 쓰는 색 7종 추가: `blue` · `indigo` · `violet` · `teal` · `emerald` · `pink` · `graphite`
+  Seven common web colors, toned down to sit on the cream paper
+- 카페인 팔레트 6종과 기본값(`espresso`)은 그대로 / caffeine palettes and the espresso default are unchanged
+- 팔레트에 `group`(`"caffeine"` · `"web"`) 추가, `PalettePicker`에 `group` prop / palettes now carry a `group`; `PalettePicker` can show one group
+- `npm run check`: 팔레트 13종 × 라이트·다크, 702개 대비 조합 통과 / 702 contrast pairs pass
+
 ## 1.3.0 — 2026-10-06
 **카페인 팔레트 · Caffeine palettes**
 - 기본 색을 카페인 계열로 변경: 우유 거품 크림색 바탕, 에스프레소 글자, 볶은 원두 갈색 강조, 크레마 장식색

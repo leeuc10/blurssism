@@ -7,6 +7,8 @@ type $$ComponentProps = {
     /** 팔레트를 적용할 요소 (기본: <html>) */
     target?: HTMLElement;
     compact?: boolean;
+    /** 한 묶음만 보이기: "caffeine" 또는 "web". 생략하면 전부 */
+    group?: "caffeine" | "web";
     label?: string;
     onchange?: (id: PaletteId) => void;
     class?: string;

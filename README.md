@@ -34,7 +34,7 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 맑은 유리와 두�
 5. **캡슐과 큰 모서리.** 누르는 것은 캡슐, 담는 것은 24px 이상.
 
 **들어 있는 것**
-- 카페인 팔레트 6종(에스프레소·말차·차이·콜드브루·모카·클래식) × 라이트·다크. 324개 대비 조합 모두 WCAG 통과
+- 팔레트 13종 × 라이트·다크. 카페인 6종(에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 702개 대비 조합 모두 WCAG 통과
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
@@ -122,8 +122,15 @@ Next.js App Router에서는 CSS 두 줄을 `app/layout.jsx`에서 불러오고, 
 | `coldbrew` | 콜드브루 | 차갑게 우린 커피의 깊은 남색 |
 | `mocha` | 모카 | 초콜릿과 장미빛 코코아 |
 | `classic` | 클래식 | 1.2까지의 자두색 |
+| `blue` | 블루 | 링크와 버튼에서 가장 익숙한 파랑 |
+| `indigo` | 인디고 | SaaS와 개발 도구에서 흔한 남보라 |
+| `violet` | 바이올렛 | 창작 도구와 커뮤니티의 보라 |
+| `teal` | 틸 | 헬스케어와 핀테크의 청록 |
+| `emerald` | 에메랄드 | 결제와 성장 서비스의 선명한 초록 |
+| `pink` | 핑크 | 커머스와 뷰티의 분홍 |
+| `graphite` | 그래파이트 | 색 없이 먹색 하나로 쓰는 단색 |
 
-코드로는 `setPalette("chai")`, `setTheme("dark" | "light" | "system")`. 테마를 지정하지 않으면 시스템 설정을 따릅니다. 사용자의 선택을 저장하는 것은 앱 몫입니다.
+코드로는 `setPalette("chai")`, `setTheme("dark" | "light" | "system")`. 테마를 지정하지 않으면 시스템 설정을 따릅니다. 사용자의 선택을 저장하는 것은 앱 몫입니다. `<PalettePicker group="web" />`처럼 한 묶음만 보일 수도 있습니다.
 
 ### 반응형
 
@@ -169,7 +176,7 @@ blurssism floats clear glass and thick blur **only where they're needed**, over 
 5. **Capsules and large corners.** Anything you press is a capsule; anything that contains is 24px+.
 
 **What's inside**
-- 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) × light and dark. All 324 contrast pairs pass WCAG.
+- 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 702 contrast pairs pass WCAG.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
@@ -212,7 +219,7 @@ Inputs support `bind:value`, `bind:checked` and `bind:open`. Use snippets (`{#sn
 
 ### Palettes and dark mode
 
-Set `<html data-palette="matcha" data-theme="dark">`, or call `setPalette("chai")` / `setTheme("dark" | "light" | "system")`. Without a theme, the system setting is followed. Persisting the user's choice is up to your app.
+Set `<html data-palette="matcha" data-theme="dark">`, or call `setPalette("chai")` / `setTheme("dark" | "light" | "system")`. Without a theme, the system setting is followed. Persisting the user's choice is up to your app. Use `<PalettePicker group="web" />` to show one group only.
 
 ### Responsive
 
