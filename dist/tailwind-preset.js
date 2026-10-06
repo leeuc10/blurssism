@@ -1,6 +1,6 @@
-/* blurssism Tailwind preset · © caffeinecat · MIT
-   tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
-   dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. */
+/* blurssism v1.3.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* Tailwind 프리셋 — tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
+   dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. 브레이크포인트 sm/md/lg/xl은 blurssism과 같습니다. */
 module.exports = {
   "theme": {
     "extend": {
@@ -21,6 +21,7 @@ module.exports = {
         "positive-soft": "var(--positive-soft)",
         "warning": "var(--warning)",
         "warning-soft": "var(--warning-soft)",
+        "deco": "var(--deco)",
         "apricot": "var(--apricot)",
         "danger": "var(--danger)",
         "danger-soft": "var(--danger-soft)",
@@ -146,8 +147,10 @@ module.exports = {
         ]
       },
       "screens": {
-        "tablet": "768px",
-        "desktop": "1120px"
+        "sm": "600px",
+        "md": "768px",
+        "lg": "1120px",
+        "xl": "1440px"
       },
       "maxWidth": {
         "content": "var(--content-max)",

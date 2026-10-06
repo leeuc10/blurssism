@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
-<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>AppScreen — 미리보기</title>
-<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;} .phone{position:relative;width:390px;height:720px;margin:0 auto;overflow:hidden;background:var(--paper);} .scroll{position:absolute;inset:0;overflow:auto;padding:76px 16px 120px;} .top{position:absolute;left:12px;right:12px;top:12px;z-index:2;} .tabs{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;} .hero{margin:0 0 24px;} .sec{margin:24px 0 8px;font-size:14px;line-height:22px;font-weight:600;color:var(--ink-muted);} .prog{margin:16px 0 0;}</style></head>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;} .phone{position:relative;width:min(390px,100%);height:720px;margin:0 auto;overflow:hidden;background:var(--paper);} .scroll{position:absolute;inset:0;overflow:auto;padding:76px 16px 120px;} .top{position:absolute;left:12px;right:12px;top:12px;z-index:2;} .tabs{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;} .hero{margin:0 0 24px;} .sec{margin:24px 0 8px;font-size:14px;line-height:22px;font-weight:600;color:var(--ink-muted);} .prog{margin:16px 0 0;}</style></head>
 <body>
 <div id="root" class="bl-root"></div>
 <script>

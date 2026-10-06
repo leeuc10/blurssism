@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
-<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script>
@@ -16,7 +17,7 @@
   .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
   .art svg { display:block; width:480px; height:288px; }
   .accent { fill:var(--accent); }
-  .apricot { fill:var(--apricot); }
+  .deco { fill:var(--deco); }
   .positive { fill:var(--positive); }
   .deep { fill:var(--ink); }
   .dot { fill:var(--ink-muted); }
@@ -34,7 +35,7 @@
 <div class="art" aria-hidden="true">
 <svg viewBox="0 0 480 288" width="480" height="288">
 <!--
-  blocks      accent 160×264 slab bled off the top (identity hue, largest) · apricot disc r72 · positive capsule 176×64 · ink 112×200 bled off top and right edge — ≈40% of 960×288
+  blocks      accent (espresso) 160×264 slab bled off the top (identity hue, largest) · deco (crema) disc r72 · positive capsule 176×64 · ink 112×200 bled off top and right edge — ≈40% of 960×288
   arrangement one tall accent slab with satellites, a glass pane laid across slab, disc and capsule
   pattern     the system's own motif: a frosted pane (glass-fill + glass-stroke, rx radius-lg) blurring what lies under it, plus a 5×4 dot grid at space-4 pitch half under the pane so the blur reads — "떠 있는 것만 유리로"
   scales      sides in space-2 multiples; dot pitch space-4; corners radius-lg; capsule rx = half its 64px height (radius-full)
@@ -45,7 +46,7 @@
 </defs>
 <g id="scene">
   <rect class="accent lg" x="24" y="-24" width="160" height="264" rx="24"/>
-  <circle class="apricot" cx="248" cy="104" r="72"/>
+  <circle class="deco" cx="248" cy="104" r="72"/>
   <rect class="positive pill" x="208" y="200" width="176" height="64" rx="32"/>
   <rect class="deep lg" x="392" y="-24" width="112" height="200" rx="24"/>
   <g class="dot">
@@ -65,7 +66,7 @@
 </div>
 <div class="words">
   <p class="name">blurssism</p>
-  <p class="tag">글래스모피즘과 블러의 조합 — made by caffeinecat</p>
+  <p class="tag">글래스모피즘과 블러, 그리고 카페인 — made by caffeinecat</p>
 </div>
 </div>
 </body>

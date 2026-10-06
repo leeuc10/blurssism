@@ -1,6 +1,7 @@
+/* blurssism v1.3.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap");
 
-/* blurssism — 컴포넌트 스타일 · © caffeinecat. 모든 값은 tokens.css 변수에서 옵니다. 접두어 bl- */
+/* blurssism 컴포넌트 스타일 원본 · © caffeinecat · MIT. 모든 값은 tokens.css 변수에서 옵니다. 접두어 bl-. dist/bundle.css는 빌드가 만듭니다. */
 
 .bl-root, .bl-root * { box-sizing: border-box; }
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
@@ -223,7 +224,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-tooltip { position: absolute; left: 50%; bottom: calc(100% + var(--space-2)); transform: translate(-50%, 4px); z-index: 10;
   padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm); white-space: nowrap; pointer-events: none;
   font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ink); opacity: 0; transition: opacity .12s ease, transform .12s ease; }
-.bl-tip:hover .bl-tooltip, .bl-tip:focus-within .bl-tooltip { opacity: 1; transform: translate(-50%, 0); }
+.bl-tip:focus-within .bl-tooltip { opacity: 1; transform: translate(-50%, 0); }
 
 /* ── Avatar ─────────────────────────────── */
 .bl-avatar { position: relative; flex: none; display: inline-grid; place-items: center; overflow: hidden; border-radius: var(--radius-full);
@@ -269,7 +270,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-table th { padding: var(--space-3) var(--space-4); text-align: left; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ink-muted); border-bottom: 1px solid var(--line); white-space: nowrap; }
 .bl-table td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); vertical-align: middle; }
 .bl-table tr:last-child td { border-bottom: 0; }
-.bl-table tbody tr:hover { background: var(--paper); }
+@media (hover: hover) { .bl-table tbody tr:hover { background: var(--paper); } .bl-tip:hover .bl-tooltip { opacity: 1; transform: translate(-50%, 0); } }
 .bl-table .bl-num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ── Calendar ─────────────────────────────── */
@@ -281,7 +282,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-cal-dow { font-size: 12px; line-height: 32px; font-weight: 500; color: var(--ink-muted); }
 .bl-cal-day { aspect-ratio: 1; min-height: 40px; border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
   font-family: var(--font-sans); font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
-.bl-cal-day:hover { background: var(--paper-sunken); }
+@media (hover: hover) { .bl-cal-day:hover { background: var(--paper-sunken); } }
 .bl-cal-day[data-today="true"] { box-shadow: inset 0 0 0 1.5px var(--line-strong); }
 .bl-cal-day[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; box-shadow: none; }
 .bl-cal-day:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
@@ -293,3 +294,138 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-empty-icon svg { width: 28px; height: 28px; }
 .bl-empty-title { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--ink); }
 .bl-empty-body { margin: 0 0 var(--space-3); max-width: 320px; font-size: 15px; line-height: 24px; color: var(--ink-muted); }
+
+/* ── PalettePicker ───────────────────────────────
+   각 버튼에 data-palette가 붙어 있어, 버튼 자신이 그 팔레트의 accent로 칠해집니다. */
+.bl-palettes { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.bl-palette { display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; padding: 0 var(--space-4) 0 var(--space-2);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-full); background: var(--paper-raised); color: var(--ink); cursor: pointer;
+  font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; }
+.bl-palette-dot { width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--accent); box-shadow: inset 0 0 0 4px var(--deco); }
+.bl-palette[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.bl-palette:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.bl-palettes .bl-palette:has(.bl-palette-dot:only-child) { padding: 0 var(--space-2); width: 40px; justify-content: center; }
+
+/* ── 반응형: 컨테이너 ───────────────────────────────
+   단계별 --grid-columns / --grid-gutter / --grid-margin은 tokens.css에 있습니다.
+   xs 0–599 · sm 600–767 · md 768–1119 · lg 1120–1439 · xl 1440+ */
+.bl-container { width: 100%; max-width: calc(var(--content-max) + 2 * var(--grid-margin)); margin-inline: auto; padding-inline: var(--grid-margin); }
+.bl-container-prose { max-width: calc(var(--prose-max) + 2 * var(--grid-margin)); }
+.bl-container-full { max-width: none; }
+
+/* ── 반응형: 12열 그리드 (xs 4열 · sm·md 8열 · lg·xl 12열) ── */
+.bl-grid { display: grid; grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr)); gap: var(--grid-gutter); }
+.bl-span-full { grid-column: 1 / -1; }
+
+/* ── 반응형: 자동 그리드 (Grid 컴포넌트) ── */
+.bl-autogrid { display: grid; gap: var(--bl-grid-gap, var(--grid-gutter)); grid-template-columns: repeat(var(--bl-cols-xs, 1), minmax(0, 1fr)); }
+@media (min-width: 600px) { .bl-autogrid { grid-template-columns: repeat(var(--bl-cols-sm, var(--bl-cols-xs, 1)), minmax(0, 1fr)); } }
+@media (min-width: 768px) { .bl-autogrid { grid-template-columns: repeat(var(--bl-cols-md, var(--bl-cols-sm, 1)), minmax(0, 1fr)); } }
+@media (min-width: 1120px) { .bl-autogrid { grid-template-columns: repeat(var(--bl-cols-lg, var(--bl-cols-md, 1)), minmax(0, 1fr)); } }
+@media (min-width: 1440px) { .bl-autogrid { grid-template-columns: repeat(var(--bl-cols-xl, var(--bl-cols-lg, 1)), minmax(0, 1fr)); } }
+
+/* ── 반응형: 컴포넌트 규칙 ── */
+@media (max-width: 767px) {
+  .bl-navbar-links { display: none; }               /* md 미만: 링크는 메뉴 버튼으로 접습니다 */
+  .bl-table { font-size: 14px; }
+  .bl-table th, .bl-table td { padding: var(--space-2) var(--space-3); }
+}
+@media (min-width: 768px) {
+  .bl-sheet { border-radius: var(--radius-xl); }    /* md 이상: 시트는 가운데 카드처럼 띄웁니다 (위치는 소비자 몫) */
+}
+
+/* ── 터치 기기: 조작 요소 최소 44px ── */
+@media (pointer: coarse) {
+  .bl-btn-md, .bl-navbar .bl-icon-btn, .bl-cal-head .bl-icon-btn { min-height: var(--touch-min); min-width: var(--touch-min); }
+  .bl-chip, .bl-palette { height: 40px; }
+  .bl-seg-item { height: 38px; }
+}
+
+/* ── 접근성: 화면에는 숨기고 스크린리더에는 읽히게 ── */
+.bl-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ── 반응형: 낮은 화면(가로 모드 폰)에서도 시트·다이얼로그가 넘치지 않게 ── */
+.bl-dialog, .bl-sheet { max-height: 90dvh; overflow-y: auto; overscroll-behavior: contain; }
+
+/* ── 생성: 그리드 칸 (xs는 4열이므로 .bl-span-1~4, 단계별은 .bl-span-md-6 처럼) ── */
+.bl-span-1 { grid-column: span 1 / span 1; }
+.bl-span-2 { grid-column: span 2 / span 2; }
+.bl-span-3 { grid-column: span 3 / span 3; }
+.bl-span-4 { grid-column: span 4 / span 4; }
+.bl-span-5 { grid-column: span 5 / span 5; }
+.bl-span-6 { grid-column: span 6 / span 6; }
+.bl-span-7 { grid-column: span 7 / span 7; }
+.bl-span-8 { grid-column: span 8 / span 8; }
+.bl-span-9 { grid-column: span 9 / span 9; }
+.bl-span-10 { grid-column: span 10 / span 10; }
+.bl-span-11 { grid-column: span 11 / span 11; }
+.bl-span-12 { grid-column: span 12 / span 12; }
+@media (min-width: 600px) {
+  .bl-span-sm-1 { grid-column: span 1 / span 1; }
+  .bl-span-sm-2 { grid-column: span 2 / span 2; }
+  .bl-span-sm-3 { grid-column: span 3 / span 3; }
+  .bl-span-sm-4 { grid-column: span 4 / span 4; }
+  .bl-span-sm-5 { grid-column: span 5 / span 5; }
+  .bl-span-sm-6 { grid-column: span 6 / span 6; }
+  .bl-span-sm-7 { grid-column: span 7 / span 7; }
+  .bl-span-sm-8 { grid-column: span 8 / span 8; }
+  .bl-span-sm-9 { grid-column: span 9 / span 9; }
+  .bl-span-sm-10 { grid-column: span 10 / span 10; }
+  .bl-span-sm-11 { grid-column: span 11 / span 11; }
+  .bl-span-sm-12 { grid-column: span 12 / span 12; }
+  .bl-span-sm-full { grid-column: 1 / -1; }
+}
+@media (min-width: 768px) {
+  .bl-span-md-1 { grid-column: span 1 / span 1; }
+  .bl-span-md-2 { grid-column: span 2 / span 2; }
+  .bl-span-md-3 { grid-column: span 3 / span 3; }
+  .bl-span-md-4 { grid-column: span 4 / span 4; }
+  .bl-span-md-5 { grid-column: span 5 / span 5; }
+  .bl-span-md-6 { grid-column: span 6 / span 6; }
+  .bl-span-md-7 { grid-column: span 7 / span 7; }
+  .bl-span-md-8 { grid-column: span 8 / span 8; }
+  .bl-span-md-9 { grid-column: span 9 / span 9; }
+  .bl-span-md-10 { grid-column: span 10 / span 10; }
+  .bl-span-md-11 { grid-column: span 11 / span 11; }
+  .bl-span-md-12 { grid-column: span 12 / span 12; }
+  .bl-span-md-full { grid-column: 1 / -1; }
+}
+@media (min-width: 1120px) {
+  .bl-span-lg-1 { grid-column: span 1 / span 1; }
+  .bl-span-lg-2 { grid-column: span 2 / span 2; }
+  .bl-span-lg-3 { grid-column: span 3 / span 3; }
+  .bl-span-lg-4 { grid-column: span 4 / span 4; }
+  .bl-span-lg-5 { grid-column: span 5 / span 5; }
+  .bl-span-lg-6 { grid-column: span 6 / span 6; }
+  .bl-span-lg-7 { grid-column: span 7 / span 7; }
+  .bl-span-lg-8 { grid-column: span 8 / span 8; }
+  .bl-span-lg-9 { grid-column: span 9 / span 9; }
+  .bl-span-lg-10 { grid-column: span 10 / span 10; }
+  .bl-span-lg-11 { grid-column: span 11 / span 11; }
+  .bl-span-lg-12 { grid-column: span 12 / span 12; }
+  .bl-span-lg-full { grid-column: 1 / -1; }
+}
+@media (min-width: 1440px) {
+  .bl-span-xl-1 { grid-column: span 1 / span 1; }
+  .bl-span-xl-2 { grid-column: span 2 / span 2; }
+  .bl-span-xl-3 { grid-column: span 3 / span 3; }
+  .bl-span-xl-4 { grid-column: span 4 / span 4; }
+  .bl-span-xl-5 { grid-column: span 5 / span 5; }
+  .bl-span-xl-6 { grid-column: span 6 / span 6; }
+  .bl-span-xl-7 { grid-column: span 7 / span 7; }
+  .bl-span-xl-8 { grid-column: span 8 / span 8; }
+  .bl-span-xl-9 { grid-column: span 9 / span 9; }
+  .bl-span-xl-10 { grid-column: span 10 / span 10; }
+  .bl-span-xl-11 { grid-column: span 11 / span 11; }
+  .bl-span-xl-12 { grid-column: span 12 / span 12; }
+  .bl-span-xl-full { grid-column: 1 / -1; }
+}
+/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */
+@media (min-width: 600px) { .bl-hide-from-sm { display: none !important; } }
+@media (max-width: 599px) { .bl-hide-below-sm { display: none !important; } }
+@media (min-width: 768px) { .bl-hide-from-md { display: none !important; } }
+@media (max-width: 767px) { .bl-hide-below-md { display: none !important; } }
+@media (min-width: 1120px) { .bl-hide-from-lg { display: none !important; } }
+@media (max-width: 1119px) { .bl-hide-below-lg { display: none !important; } }
+@media (min-width: 1440px) { .bl-hide-from-xl { display: none !important; } }
+@media (max-width: 1439px) { .bl-hide-below-xl { display: none !important; } }

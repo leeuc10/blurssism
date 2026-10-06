@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
-<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>WebLanding — 미리보기</title>
@@ -23,7 +24,7 @@
           h("p", { className: "body" }, "글래스모피즘과 블러 효과를 웹과 앱에서 가독성 있게 조합하는 디자인 시스템이에요."),
           h("div", { className: "cta" }, h(B.Button, { variant: "accent", icon: "spark" }, "컴포넌트 보기"), h(B.Button, { variant: "ghost" }, "토큰 내려받기"))),
         h("div", { className: "art", "aria-hidden": "true" },
-          h("i", { style: { left: "-40px", top: "-30px", width: "240px", height: "240px", borderRadius: "var(--radius-full)", background: "var(--apricot)" } }),
+          h("i", { style: { left: "-40px", top: "-30px", width: "240px", height: "240px", borderRadius: "var(--radius-full)", background: "var(--deco)" } }),
           h("i", { style: { left: "45%", top: "30px", width: "140px", height: "260px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
           h("i", { style: { right: "-30px", bottom: "-30px", width: "220px", height: "120px", borderRadius: "var(--radius-full)", background: "var(--positive)" } }),
           h("div", { className: "float" }, h(B.Toast, { tone: "positive", actionLabel: "열기" }, "토큰 26개를 내보냈어요")))),

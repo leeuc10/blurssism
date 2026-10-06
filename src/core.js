@@ -88,7 +88,7 @@ export function createBlurssism(React) {
 
   function MediaCard(p) {
     var ph = h("div", { className: "bl-media-ph", "aria-hidden": "true" },
-      h("i", { style: { left: "-12%", top: "8%", width: "70%", height: "56%", borderRadius: "var(--radius-full)", background: "var(--apricot)" } }),
+      h("i", { style: { left: "-12%", top: "8%", width: "70%", height: "56%", borderRadius: "var(--radius-full)", background: "var(--deco)" } }),
       h("i", { style: { right: "-10%", top: "28%", width: "52%", height: "64%", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
       h("i", { style: { left: "18%", bottom: "-6%", width: "46%", height: "30%", borderRadius: "var(--radius-full)", background: "var(--positive)" } }));
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
@@ -255,21 +255,47 @@ export function createBlurssism(React) {
         p.children ? h("div", { className: "bl-dialog-actions" }, p.children) : null));
   }
 
-  /* 성능: 저사양 기기·절전·투명도 줄이기 설정이면 유리를 끕니다 */
-  function shouldReduceGlass() {
-    if (typeof window === "undefined") return false;
-    var n = window.navigator || {}, mq = window.matchMedia;
-    if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
-    if (n.connection && n.connection.saveData) return true;
-    if (n.deviceMemory && n.deviceMemory <= 4) return true;
-    if (n.hardwareConcurrency && n.hardwareConcurrency <= 4) return true;
-    return false;
+
+  /* ── 팔레트·반응형 ─────────────────────────────
+     palettes, setPalette, getPalette, getBreakpoint, onBreakpointChange는 utils(src/utils.js)에서 옵니다. */
+
+  function PalettePicker(p) {
+    var st = React.useState(p.value || "espresso"), cur = p.value || st[0];
+    React.useEffect(function () { if (!p.value) st[1](getPalette(p.target)); }, []);
+    function pick(id) {
+      if (!p.value) st[1](id);
+      if (p.apply !== false) setPalette(id, p.target);
+      p.onChange && p.onChange(id);
+    }
+    return h("div", { className: cx("bl-palettes", p.className), role: "radiogroup", "aria-label": p.label || "색 팔레트" },
+      palettes.map(function (pl) {
+        var on = pl.id === cur;
+        return h("button", { key: pl.id, type: "button", role: "radio", "aria-checked": String(on), className: "bl-palette", "aria-label": pl.name,
+          "data-palette": pl.id, onClick: function () { pick(pl.id); } },
+          h("span", { className: "bl-palette-dot", "aria-hidden": "true" }),
+          h("span", { className: p.compact ? "bl-sr-only" : "bl-palette-name" }, pl.name));
+      }));
   }
-  function applyGlassPreference(force) {
-    if (typeof document === "undefined") return true;
-    var off = force === undefined ? shouldReduceGlass() : !force;
-    document.documentElement.setAttribute("data-glass", off ? "off" : "on");
-    return !off;
+
+  /* 화면 단계("xs"…"xl"). 서버와 첫 렌더에서는 null이라 하이드레이션이 어긋나지 않습니다. */
+  function useBreakpoint() {
+    return React.useSyncExternalStore(onBreakpointChange, function () { return getBreakpoint(); }, function () { return null; });
+  }
+
+  function Container(p) {
+    var tag = p.as || "div";
+    return h(tag, Object.assign({}, omit(p, ["as", "size", "className", "children"]), {
+      className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
+  }
+
+  /* columns: 숫자 또는 { xs, sm, md, lg, xl } — 단계별 열 수. 생략한 단계는 아래 단계 값을 이어받습니다. */
+  function Grid(p) {
+    var c = typeof p.columns === "number" ? { xs: p.columns } : (p.columns || { xs: 1, sm: 2, lg: 3 });
+    var style = {}, last = 1;
+    ["xs", "sm", "md", "lg", "xl"].forEach(function (bp) { if (c[bp] != null) last = c[bp]; style["--bl-cols-" + bp] = last; });
+    if (p.gap) style["--bl-grid-gap"] = "var(--" + p.gap + ")";
+    return h(p.as || "div", Object.assign({}, omit(p, ["as", "columns", "gap", "className", "children", "style"]), {
+      className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
   }
 
   function NavBar(p) {
@@ -283,7 +309,7 @@ export function createBlurssism(React) {
   }
 
   function TabBar(p) {
-    return h("nav", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
+    return h("div", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h("button", { key: it.id, type: "button", role: "tab", className: "bl-tab", "aria-selected": String(on),
@@ -292,7 +318,7 @@ export function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("section", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -308,7 +334,7 @@ export function createBlurssism(React) {
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);
   }
 
-  var api = { Button: Button, IconButton: IconButton, Chip: Chip, TextField: TextField, Select: Select, Checkbox: Checkbox, RadioGroup: RadioGroup, Switch: Switch, SegmentedControl: SegmentedControl, Badge: Badge, Avatar: Avatar, Tooltip: Tooltip, Progress: Progress, Skeleton: Skeleton, Card: Card, MediaCard: MediaCard, ListItem: ListItem, Table: Table, Calendar: Calendar, EmptyState: EmptyState, NavBar: NavBar, TabBar: TabBar, Sheet: Sheet, Dialog: Dialog, Toast: Toast, Icon: Icon,
-    shouldReduceGlass: shouldReduceGlass, applyGlassPreference: applyGlassPreference, version: "__VERSION__", author: "caffeinecat" };
+  var api = { Button: Button, IconButton: IconButton, Chip: Chip, TextField: TextField, Select: Select, Checkbox: Checkbox, RadioGroup: RadioGroup, Switch: Switch, SegmentedControl: SegmentedControl, PalettePicker: PalettePicker, Badge: Badge, Avatar: Avatar, Tooltip: Tooltip, Progress: Progress, Skeleton: Skeleton, Card: Card, MediaCard: MediaCard, ListItem: ListItem, Table: Table, Calendar: Calendar, EmptyState: EmptyState, Container: Container, Grid: Grid, NavBar: NavBar, TabBar: TabBar, Sheet: Sheet, Dialog: Dialog, Toast: Toast, Icon: Icon,
+    useBreakpoint: useBreakpoint };
   return api;
 }

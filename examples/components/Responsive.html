@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Responsive — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:20px;} h3{margin:0 0 4px;font-size:18px;line-height:26px;} .lead{margin:0 0 16px;font-size:14px;line-height:22px;color:var(--ink-muted);} .bar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:18px;} .bar div{padding:12px;border-radius:var(--radius-md);background:var(--paper-raised);border:1px solid var(--line);font-size:12px;line-height:18px;color:var(--ink-muted);} .bar b{display:block;font-size:16px;line-height:22px;color:var(--ink);} .bar .cols{display:grid;gap:2px;margin-top:8px;} .bar .cols i{display:block;height:18px;border-radius:3px;background:var(--accent-soft);} table{width:100%;border-collapse:collapse;font-size:13px;line-height:20px;} th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top;} th{color:var(--ink-muted);font-weight:600;font-size:12px;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var steps = [["xs","0–599","폰",4,16,16],["sm","600–767","큰 폰·폴더블",8,16,24],["md","768–1119","태블릿",8,24,32],["lg","1120–1439","노트북·데스크톱",12,24,40],["xl","1440+","넓은 모니터",12,32,48]];
+  var rules = [["내비게이션","하단 TabBar + 위 NavBar(제목만)","TabBar + NavBar 링크(md부터)","NavBar 링크, TabBar 없음"],
+    ["다이얼로그·시트","아래에서 올라오는 시트","가운데 Dialog","가운데 Dialog"],
+    ["제목 크기","display 32 · title-1 26","display 40 · title-1 30","같음"],
+    ["카드 열","1열","2열","3–4열"],
+    ["표","가로 스크롤 · 14px","15px","15px"],
+    ["주 행동 위치","엄지 영역(화면 아래)","콘텐츠 흐름 안","콘텐츠 흐름 안"]];
+  mount(h(React.Fragment, null,
+    h("h3", null, "반응형 단계"), h("p", { className: "lead" }, "min-width 기준 5단계. 단계마다 그리드 열·거터·여백이 바뀝니다."),
+    h("div", { className: "bar" }, steps.map(function (s) {
+      return h("div", { key: s[0] }, h("b", null, s[0]), s[1] + "px · " + s[2], h("br"), s[3] + "열 · 거터 " + s[4] + " · 여백 " + s[5],
+        h("span", { className: "cols", style: { gridTemplateColumns: "repeat(" + s[3] + ",1fr)" } }, Array.from({ length: s[3] }, function (_, i) { return h("i", { key: i }); })));
+    })),
+    h("table", null, h("thead", null, h("tr", null, ["항목", "xs · sm", "md", "lg · xl"].map(function (t) { return h("th", { key: t }, t); }))),
+      h("tbody", null, rules.map(function (r) { return h("tr", { key: r[0] }, r.map(function (c, i) { return h(i ? "td" : "th", { key: i }, c); })); })))));
+</script>
+</body>
+</html>

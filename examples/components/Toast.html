@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
-<script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Toast — 미리보기</title>
@@ -15,7 +16,7 @@
   function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
   function Backdrop(kids) {
     return h("div", { className: "bl-backdrop", style: { height: "100%" } },
-      h("i", { style: { left: "-40px", top: "-30px", width: "180px", height: "180px", background: "var(--apricot)" } }),
+      h("i", { style: { left: "-40px", top: "-30px", width: "180px", height: "180px", background: "var(--deco)" } }),
       h("i", { style: { left: "38%", top: "20px", width: "120px", height: "220px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
       h("i", { style: { right: "-30px", bottom: "-40px", width: "200px", height: "120px", background: "var(--positive)" } }),
       kids);

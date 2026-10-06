@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Grid — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} .cell{background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;font-size:14px;line-height:22px;color:var(--ink-muted);} .cell b{color:var(--ink);} .note{margin:0 0 12px;font-size:12px;line-height:16px;color:var(--ink-muted);} .spans{margin-top:20px;} .spans .cell{padding:8px 12px;text-align:center;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Demo() {
+    var bp = B.useBreakpoint();
+    return h(React.Fragment, null,
+      h("p", { className: "note" }, "지금 단계: ", h("b", null, bp || "…"), " · columns={{ xs: 1, sm: 2, lg: 3 }}"),
+      h(B.Grid, { columns: { xs: 1, sm: 2, lg: 3 } }, ["하나", "둘", "셋"].map(function (t) { return h("div", { key: t, className: "cell" }, h("b", null, t), " 번째 칸"); })),
+      h("div", { className: "bl-grid spans" },
+        h("div", { className: "cell bl-span-4 bl-span-md-8 bl-span-lg-8" }, "bl-span-lg-8"),
+        h("div", { className: "cell bl-span-4 bl-span-md-8 bl-span-lg-4" }, "bl-span-lg-4")));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

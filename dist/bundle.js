@@ -1,6 +1,98 @@
-/* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.2.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"PalettePicker"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"Container"},{"name":"Grid"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
+/* blurssism v1.3.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
+
+/** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
+const palettes = [{"id":"espresso","name":"에스프레소","description":"기본. 볶은 원두의 갈색과 크레마.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}}];
+
+/** 브레이크포인트(min-width, px). xs는 0부터 sm 전까지입니다. */
+const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
+const ORDER = ["xs", "sm", "md", "lg", "xl"];
+
+const version = "1.3.0";
+const author = "caffeinecat";
+
+function rootEl(el) {
+  if (el) return el;
+  return typeof document !== "undefined" ? document.documentElement : null;
+}
+
+/** 팔레트를 바꿉니다. el을 주면 그 요소 아래만 바뀝니다. 알 수 없는 id면 false. */
+function setPalette(id, el) {
+  const target = rootEl(el);
+  if (!target || !palettes.some((p) => p.id === id)) return false;
+  target.setAttribute("data-palette", id);
+  return true;
+}
+
+/** 현재 팔레트 id. 지정이 없으면 "espresso". */
+function getPalette(el) {
+  const target = rootEl(el);
+  return (target && target.getAttribute("data-palette")) || "espresso";
+}
+
+/** 테마를 바꿉니다: "light" | "dark" | "system"(시스템 설정 따르기). */
+function setTheme(theme, el) {
+  const target = rootEl(el);
+  if (!target) return;
+  if (theme === "system") target.removeAttribute("data-theme");
+  else target.setAttribute("data-theme", theme === "dark" ? "dark" : "light");
+}
+
+/** 지금 보이는 테마: "light" | "dark". 서버에서는 "light". */
+function getTheme(el) {
+  const target = rootEl(el);
+  const set = target && target.getAttribute("data-theme");
+  if (set === "light" || set === "dark") return set;
+  if (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+  return "light";
+}
+
+/** 너비에 해당하는 단계: "xs" | "sm" | "md" | "lg" | "xl". 너비를 안 주면 창 너비, 서버에서는 "xs". */
+function getBreakpoint(width) {
+  const w = width != null ? width : typeof window !== "undefined" ? window.innerWidth : 0;
+  if (w >= breakpoints.xl) return "xl";
+  if (w >= breakpoints.lg) return "lg";
+  if (w >= breakpoints.md) return "md";
+  if (w >= breakpoints.sm) return "sm";
+  return "xs";
+}
+
+/** 지금 단계가 bp 이상인지. 예: isAtLeast("md") */
+function isAtLeast(bp, width) {
+  return ORDER.indexOf(getBreakpoint(width)) >= ORDER.indexOf(bp);
+}
+
+/** 단계가 바뀔 때마다 cb(단계)를 부릅니다. 해제 함수를 돌려줍니다. */
+function onBreakpointChange(cb) {
+  if (typeof window === "undefined" || !window.matchMedia) return function () {};
+  const queries = Object.values(breakpoints).map((px) => window.matchMedia(`(min-width: ${px}px)`));
+  const fire = () => cb(getBreakpoint());
+  queries.forEach((q) => (q.addEventListener ? q.addEventListener("change", fire) : q.addListener(fire)));
+  return function () {
+    queries.forEach((q) => (q.removeEventListener ? q.removeEventListener("change", fire) : q.removeListener(fire)));
+  };
+}
+
+/** 저사양 기기·절전·투명도 줄이기 설정이면 true */
+function shouldReduceGlass() {
+  if (typeof window === "undefined") return false;
+  const n = window.navigator || {}, mq = window.matchMedia;
+  if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
+  if (n.connection && n.connection.saveData) return true;
+  if (n.deviceMemory && n.deviceMemory <= 4) return true;
+  if (n.hardwareConcurrency && n.hardwareConcurrency <= 4) return true;
+  return false;
+}
+
+/** <html data-glass="on|off">를 설정합니다. force를 주면 그 값으로. 유리가 켜졌으면 true. */
+function applyGlassPreference(force) {
+  if (typeof document === "undefined") return true;
+  const off = force === undefined ? shouldReduceGlass() : !force;
+  document.documentElement.setAttribute("data-glass", off ? "off" : "on");
+  return !off;
+}
+
 function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
@@ -88,7 +180,7 @@ function createBlurssism(React) {
 
   function MediaCard(p) {
     var ph = h("div", { className: "bl-media-ph", "aria-hidden": "true" },
-      h("i", { style: { left: "-12%", top: "8%", width: "70%", height: "56%", borderRadius: "var(--radius-full)", background: "var(--apricot)" } }),
+      h("i", { style: { left: "-12%", top: "8%", width: "70%", height: "56%", borderRadius: "var(--radius-full)", background: "var(--deco)" } }),
       h("i", { style: { right: "-10%", top: "28%", width: "52%", height: "64%", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
       h("i", { style: { left: "18%", bottom: "-6%", width: "46%", height: "30%", borderRadius: "var(--radius-full)", background: "var(--positive)" } }));
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
@@ -255,21 +347,47 @@ function createBlurssism(React) {
         p.children ? h("div", { className: "bl-dialog-actions" }, p.children) : null));
   }
 
-  /* 성능: 저사양 기기·절전·투명도 줄이기 설정이면 유리를 끕니다 */
-  function shouldReduceGlass() {
-    if (typeof window === "undefined") return false;
-    var n = window.navigator || {}, mq = window.matchMedia;
-    if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
-    if (n.connection && n.connection.saveData) return true;
-    if (n.deviceMemory && n.deviceMemory <= 4) return true;
-    if (n.hardwareConcurrency && n.hardwareConcurrency <= 4) return true;
-    return false;
+
+  /* ── 팔레트·반응형 ─────────────────────────────
+     palettes, setPalette, getPalette, getBreakpoint, onBreakpointChange는 utils(src/utils.js)에서 옵니다. */
+
+  function PalettePicker(p) {
+    var st = React.useState(p.value || "espresso"), cur = p.value || st[0];
+    React.useEffect(function () { if (!p.value) st[1](getPalette(p.target)); }, []);
+    function pick(id) {
+      if (!p.value) st[1](id);
+      if (p.apply !== false) setPalette(id, p.target);
+      p.onChange && p.onChange(id);
+    }
+    return h("div", { className: cx("bl-palettes", p.className), role: "radiogroup", "aria-label": p.label || "색 팔레트" },
+      palettes.map(function (pl) {
+        var on = pl.id === cur;
+        return h("button", { key: pl.id, type: "button", role: "radio", "aria-checked": String(on), className: "bl-palette", "aria-label": pl.name,
+          "data-palette": pl.id, onClick: function () { pick(pl.id); } },
+          h("span", { className: "bl-palette-dot", "aria-hidden": "true" }),
+          h("span", { className: p.compact ? "bl-sr-only" : "bl-palette-name" }, pl.name));
+      }));
   }
-  function applyGlassPreference(force) {
-    if (typeof document === "undefined") return true;
-    var off = force === undefined ? shouldReduceGlass() : !force;
-    document.documentElement.setAttribute("data-glass", off ? "off" : "on");
-    return !off;
+
+  /* 화면 단계("xs"…"xl"). 서버와 첫 렌더에서는 null이라 하이드레이션이 어긋나지 않습니다. */
+  function useBreakpoint() {
+    return React.useSyncExternalStore(onBreakpointChange, function () { return getBreakpoint(); }, function () { return null; });
+  }
+
+  function Container(p) {
+    var tag = p.as || "div";
+    return h(tag, Object.assign({}, omit(p, ["as", "size", "className", "children"]), {
+      className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
+  }
+
+  /* columns: 숫자 또는 { xs, sm, md, lg, xl } — 단계별 열 수. 생략한 단계는 아래 단계 값을 이어받습니다. */
+  function Grid(p) {
+    var c = typeof p.columns === "number" ? { xs: p.columns } : (p.columns || { xs: 1, sm: 2, lg: 3 });
+    var style = {}, last = 1;
+    ["xs", "sm", "md", "lg", "xl"].forEach(function (bp) { if (c[bp] != null) last = c[bp]; style["--bl-cols-" + bp] = last; });
+    if (p.gap) style["--bl-grid-gap"] = "var(--" + p.gap + ")";
+    return h(p.as || "div", Object.assign({}, omit(p, ["as", "columns", "gap", "className", "children", "style"]), {
+      className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
   }
 
   function NavBar(p) {
@@ -283,7 +401,7 @@ function createBlurssism(React) {
   }
 
   function TabBar(p) {
-    return h("nav", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
+    return h("div", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h("button", { key: it.id, type: "button", role: "tab", className: "bl-tab", "aria-selected": String(on),
@@ -292,7 +410,7 @@ function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("section", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -308,13 +426,13 @@ function createBlurssism(React) {
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);
   }
 
-  var api = { Button: Button, IconButton: IconButton, Chip: Chip, TextField: TextField, Select: Select, Checkbox: Checkbox, RadioGroup: RadioGroup, Switch: Switch, SegmentedControl: SegmentedControl, Badge: Badge, Avatar: Avatar, Tooltip: Tooltip, Progress: Progress, Skeleton: Skeleton, Card: Card, MediaCard: MediaCard, ListItem: ListItem, Table: Table, Calendar: Calendar, EmptyState: EmptyState, NavBar: NavBar, TabBar: TabBar, Sheet: Sheet, Dialog: Dialog, Toast: Toast, Icon: Icon,
-    shouldReduceGlass: shouldReduceGlass, applyGlassPreference: applyGlassPreference, version: "1.2.0", author: "caffeinecat" };
+  var api = { Button: Button, IconButton: IconButton, Chip: Chip, TextField: TextField, Select: Select, Checkbox: Checkbox, RadioGroup: RadioGroup, Switch: Switch, SegmentedControl: SegmentedControl, PalettePicker: PalettePicker, Badge: Badge, Avatar: Avatar, Tooltip: Tooltip, Progress: Progress, Skeleton: Skeleton, Card: Card, MediaCard: MediaCard, ListItem: ListItem, Table: Table, Calendar: Calendar, EmptyState: EmptyState, Container: Container, Grid: Grid, NavBar: NavBar, TabBar: TabBar, Sheet: Sheet, Dialog: Dialog, Toast: Toast, Icon: Icon,
+    useBreakpoint: useBreakpoint };
   return api;
 }
 
   if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React));
+    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, applyGlassPreference });
   } else if (typeof console !== "undefined") {
     console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
   }

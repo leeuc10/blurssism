@@ -3,3 +3,4 @@ node_modules/
 *.tgz
 .next/
 examples/*/dist/
+.svelte-kit/

@@ -1,0 +1,94 @@
+/* blurssism 유틸리티 원본 · © caffeinecat · MIT
+   React·Svelte·바닐라 JS 어디서나 쓰는 함수. 서버에서 불러도 안전합니다(window·document를 확인).
+   scripts/build.mjs가 dist/utils.mjs로 내보내고 React 빌드에도 넣습니다. */
+
+/** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
+export const palettes = /*__PALETTES__*/[];
+
+/** 브레이크포인트(min-width, px). xs는 0부터 sm 전까지입니다. */
+export const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
+const ORDER = ["xs", "sm", "md", "lg", "xl"];
+
+export const version = "__VERSION__";
+export const author = "caffeinecat";
+
+function rootEl(el) {
+  if (el) return el;
+  return typeof document !== "undefined" ? document.documentElement : null;
+}
+
+/** 팔레트를 바꿉니다. el을 주면 그 요소 아래만 바뀝니다. 알 수 없는 id면 false. */
+export function setPalette(id, el) {
+  const target = rootEl(el);
+  if (!target || !palettes.some((p) => p.id === id)) return false;
+  target.setAttribute("data-palette", id);
+  return true;
+}
+
+/** 현재 팔레트 id. 지정이 없으면 "espresso". */
+export function getPalette(el) {
+  const target = rootEl(el);
+  return (target && target.getAttribute("data-palette")) || "espresso";
+}
+
+/** 테마를 바꿉니다: "light" | "dark" | "system"(시스템 설정 따르기). */
+export function setTheme(theme, el) {
+  const target = rootEl(el);
+  if (!target) return;
+  if (theme === "system") target.removeAttribute("data-theme");
+  else target.setAttribute("data-theme", theme === "dark" ? "dark" : "light");
+}
+
+/** 지금 보이는 테마: "light" | "dark". 서버에서는 "light". */
+export function getTheme(el) {
+  const target = rootEl(el);
+  const set = target && target.getAttribute("data-theme");
+  if (set === "light" || set === "dark") return set;
+  if (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+  return "light";
+}
+
+/** 너비에 해당하는 단계: "xs" | "sm" | "md" | "lg" | "xl". 너비를 안 주면 창 너비, 서버에서는 "xs". */
+export function getBreakpoint(width) {
+  const w = width != null ? width : typeof window !== "undefined" ? window.innerWidth : 0;
+  if (w >= breakpoints.xl) return "xl";
+  if (w >= breakpoints.lg) return "lg";
+  if (w >= breakpoints.md) return "md";
+  if (w >= breakpoints.sm) return "sm";
+  return "xs";
+}
+
+/** 지금 단계가 bp 이상인지. 예: isAtLeast("md") */
+export function isAtLeast(bp, width) {
+  return ORDER.indexOf(getBreakpoint(width)) >= ORDER.indexOf(bp);
+}
+
+/** 단계가 바뀔 때마다 cb(단계)를 부릅니다. 해제 함수를 돌려줍니다. */
+export function onBreakpointChange(cb) {
+  if (typeof window === "undefined" || !window.matchMedia) return function () {};
+  const queries = Object.values(breakpoints).map((px) => window.matchMedia(`(min-width: ${px}px)`));
+  const fire = () => cb(getBreakpoint());
+  queries.forEach((q) => (q.addEventListener ? q.addEventListener("change", fire) : q.addListener(fire)));
+  return function () {
+    queries.forEach((q) => (q.removeEventListener ? q.removeEventListener("change", fire) : q.removeListener(fire)));
+  };
+}
+
+/** 저사양 기기·절전·투명도 줄이기 설정이면 true */
+export function shouldReduceGlass() {
+  if (typeof window === "undefined") return false;
+  const n = window.navigator || {}, mq = window.matchMedia;
+  if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
+  if (n.connection && n.connection.saveData) return true;
+  if (n.deviceMemory && n.deviceMemory <= 4) return true;
+  if (n.hardwareConcurrency && n.hardwareConcurrency <= 4) return true;
+  return false;
+}
+
+/** <html data-glass="on|off">를 설정합니다. force를 주면 그 값으로. 유리가 켜졌으면 true. */
+export function applyGlassPreference(force) {
+  if (typeof document === "undefined") return true;
+  const off = force === undefined ? shouldReduceGlass() : !force;
+  document.documentElement.setAttribute("data-glass", off ? "off" : "on");
+  return !off;
+}
