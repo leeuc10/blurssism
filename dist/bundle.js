@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"PalettePicker"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"Container"},{"name":"Grid"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.4.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -9,7 +9,7 @@ const palettes = [{"id":"espresso","name":"에스프레소","group":"caffeine","
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "1.4.0";
+const version = "1.4.1";
 const author = "caffeinecat";
 
 function rootEl(el) {

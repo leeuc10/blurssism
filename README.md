@@ -12,7 +12,7 @@
 
 <p align="center">
   글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템 — 블러레마와 카페인 팔레트<br>
-  A web &amp; app design system that combines glassmorphism with blur — Blurema glass and caffeine palettes<br>
+  A web &amp; app design system that combines glassmorphism with blur — Blurema crema and caffeine palettes<br>
   <a href="https://leeuc10.github.io/blurssism/">미리보기 Preview</a> ·
   <a href="docs/brand-book.md">브랜드북 Brand book</a> ·
   <a href="https://www.npmjs.com/package/@caffeinecatkr/blurssism">npm</a>
@@ -201,18 +201,18 @@ applyGlassPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 
 ## English
 
-blurssism floats **Blurema** — a frosted, milk-tinted glass topped with a thin crema layer — **only where it's needed**, over a calm milk-foam cream background. The glass is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and the system is designed with Korean typography as the default.
+blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped with a caramel crema band — **only where it's needed**, over a calm milk-foam cream background. The look is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and the system is designed with Korean typography as the default.
 
 **Principles**
 1. **90 / 10.** At least 90% of a screen is paper (`paper`) and ink (`ink`). Accent colors stay under 10%.
-2. **Only floating things are glass.** Navigation bars, tab bars, sheets and toasts are glass. Cards, inputs and lists stay opaque.
+2. **Only floating things are crema.** Navigation bars, tab bars, sheets and toasts are crema. Cards, inputs and lists stay opaque.
 3. **One action per screen.** Only one primary button per screen.
 4. **Human words in serif.** Quotes and large names use Gowun Batang; the rest of the UI uses Pretendard.
 5. **Capsules and large corners.** Anything you press is a capsule; anything that contains is 24px+.
 
 **What's inside**
-- **Blurema glass**: blur topped with a milk tint, a fine foam grain, and a crema layer that follows the palette.
-- **Three glass modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
+- **Blurema crema**: blur topped with a milk tint, a fine foam grain, and a caramel crema band that follows the palette.
+- **Three crema modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
 - **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
 - 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 7,884 contrast pairs, brand-color palettes included, pass WCAG.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
@@ -222,8 +222,8 @@ blurssism floats **Blurema** — a frosted, milk-tinted glass topped with a thin
 
 ### What makes it different
 
-- **Its own glass.** Instead of clear glass with white highlights, Blurema is a cream, frosted glass with a foam grain and a crema layer that follows the palette.
-- **Glass on a budget.** The number of glass surfaces per screen is a rule, and the glass switches between off, on and desktop modes to match the device.
+- **Its own material.** Instead of clear glass with white highlights, Blurema is a cream, frosted crema with a foam grain and a caramel band that follows the palette.
+- **Crema on a budget.** The number of crema surfaces per screen is a rule, and the crema switches between off, on and desktop modes to match the device.
 - **Brand colors that don't break the look.** Only the accents change, 90% of the screen stays paper and ink, and contrast is checked automatically.
 - **Korean-first.** Fonts, copy tone (해요체) and line breaking are all specified.
 
@@ -298,9 +298,9 @@ const palette = applyBrandColor("#ff5a1f");   // sets <html data-palette="brand"
 
 Pass one color and blurssism builds the accent set for light and dark, tuned to pass WCAG contrast, while the paper and ink stay the same. Colors too bright for white text are darkened just enough, and the original is kept as the decoration color. You get warnings for colors that look like status colors. For SSR, use `paletteToCss(createPalette(color))`; from a terminal, `npx @caffeinecatkr/blurssism palette "#ff5a1f"`.
 
-### Glass modes and blur budget
+### Crema modes and blur budget
 
-`applyGlassPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 blurred surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a warm light that follows the pointer). Turn desktop mode off with `applyGlassPreference({ rich: false })`, force it with `{ rich: true }`, or use `setGlassMode("off" | "on" | "rich" | "auto")`. Use `.bl-glass-lite` inside repeated lists and never animate the blur radius.
+`applyGlassPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyGlassPreference({ rich: false })`, force it with `{ rich: true }`, or use `setGlassMode("off" | "on" | "rich" | "auto")`. Use `.bl-glass-lite` inside repeated lists and never animate the blur radius. In the docs a floating Blurema surface is called *crema*; code names keep `glass` (`bl-glass`, `data-glass`, `applyGlassPreference`) for compatibility.
 
 The full rules are in the [brand book](docs/brand-book.md) (Korean).
 

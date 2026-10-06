@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1 — 2026-10-06
+문서만 바뀌었습니다. 코드와 화면은 1.4.0과 같습니다. / Docs only; code and visuals are the same as 1.4.0.
+- 용어 정리: 떠 있는 블러레마 면을 한국어 "유리" → "크레마", 영어 "glass" → "crema"로 / floating Blurema surfaces are now called *crema*
+- 위쪽 캐러멜빛 층은 "크레마 띠"(crema band)로 구분 / the top caramel layer is the *crema band*
+- 코드 이름 `bl-glass` · `data-glass` · `applyGlassPreference`는 호환을 위해 그대로 / code names keep `glass`
+
 ## 1.4.0 — 2026-10-06
 > 업데이트 후 `applyGlassPreference()`를 부르는 앱은 데스크톱(1120px 이상·마우스·넉넉한 기기)에서 데스크톱 모드가 자동으로 켜집니다. 이전처럼 쓰려면 `applyGlassPreference({ rich: false })`.
 > Apps that call `applyGlassPreference()` now get desktop mode automatically on capable desktops. Use `applyGlassPreference({ rich: false })` to keep the 1.3 behavior.

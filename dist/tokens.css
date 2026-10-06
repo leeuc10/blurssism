@@ -1,4 +1,4 @@
-/* blurssism v1.4.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha"> */
 @import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 :root, [data-theme="light"] {

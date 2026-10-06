@@ -1,5 +1,5 @@
 "use client";
-/* blurssism v1.4.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 import React from "react";
 import { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, isDesktopCapable, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor } from "./utils.mjs";
 

@@ -1,4 +1,4 @@
-/* blurssism v1.4.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* 생성 파일: src/utils.js */
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -8,7 +8,7 @@ export const palettes = [{"id":"espresso","name":"에스프레소","group":"caff
 export const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-export const version = "1.4.0";
+export const version = "1.4.1";
 export const author = "caffeinecat";
 
 function rootEl(el) {
