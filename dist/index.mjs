@@ -1,7 +1,7 @@
 "use client";
-/* blurssism v1.3.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.4.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 import React from "react";
-import { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, applyGlassPreference } from "./utils.mjs";
+import { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, isDesktopCapable, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor } from "./utils.mjs";
 
 function createBlurssism(React) {
   var h = React.createElement;
@@ -341,7 +341,7 @@ function createBlurssism(React) {
   return api;
 }
 
-const B = Object.assign(createBlurssism(React), { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, applyGlassPreference });
+const B = Object.assign(createBlurssism(React), { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, isDesktopCapable, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor });
 export const Button = B.Button;
 export const IconButton = B.IconButton;
 export const Chip = B.Chip;
@@ -372,6 +372,6 @@ export const Dialog = B.Dialog;
 export const Toast = B.Toast;
 export const Icon = B.Icon;
 export const useBreakpoint = B.useBreakpoint;
-export { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, applyGlassPreference };
+export { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, isDesktopCapable, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor };
 export { createBlurssism };
 export default B;

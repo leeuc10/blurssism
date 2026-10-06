@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Blurema — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .layers{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;} .stage{position:relative;height:200px;border-radius:var(--radius-lg);overflow:hidden;} .pane{position:absolute;inset:28px 20px;border-radius:var(--radius-lg);display:grid;place-items:end start;padding:14px 16px;font-size:14px;line-height:20px;font-weight:600;color:var(--ink);} .pane small{display:block;font-weight:400;color:var(--ink-muted);font-size:12px;line-height:16px;} .demo{position:relative;height:300px;border-radius:var(--radius-lg);overflow:hidden;margin-top:16px;} .demo .bar{position:absolute;left:16px;right:16px;top:16px;} .demo .float{position:absolute;left:16px;bottom:16px;display:flex;gap:8px;} .tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px;} .tools p{margin:0;font-size:13px;line-height:18px;color:var(--ink-muted);}</style>
+</head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function Blobs() {
+    return [
+      h("i", { key: 1, style: { left: "-30px", top: "-30px", width: "150px", height: "150px", background: "var(--deco)" } }),
+      h("i", { key: 2, style: { left: "40%", top: "10px", width: "90px", height: "190px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+      h("i", { key: 3, style: { right: "-20px", bottom: "-30px", width: "160px", height: "100px", background: "var(--positive)" } })];
+  }
+  var blur = "blur(var(--blur-md)) saturate(var(--glass-saturate))";
+  var steps = [
+    ["1. 블러", "뒤가 번지기만 한 상태", { backdropFilter: blur, WebkitBackdropFilter: blur }],
+    ["2. 우유 거품 색", "흰 유리 대신 크림색 젖빛", { backdropFilter: blur, WebkitBackdropFilter: blur, background: "var(--glass-fill)" }],
+    ["3. 거품 결", "아주 옅은 정지 노이즈", { backdropFilter: blur, WebkitBackdropFilter: blur, backgroundColor: "var(--glass-fill)", backgroundImage: "var(--glass-grain)" }],
+    ["4. 크레마", "윗부분 장식색 층과 따뜻한 가장자리", null]];
+  function Demo() {
+    var st = React.useState(B.getGlassMode());
+    function pick(m) { B.setGlassMode(m); st[1](B.getGlassMode()); }
+    return h(React.Fragment, null,
+      h("div", { className: "layers" }, steps.map(function (s) {
+        return h("div", { key: s[0], className: "stage bl-backdrop" }, Blobs(),
+          h("div", { className: "pane" + (s[2] ? "" : " bl-glass"), style: s[2] ? Object.assign({ border: "1px solid var(--glass-stroke)" }, s[2]) : null },
+            h("span", null, s[0], h("small", null, s[1]))));
+      })),
+      h("div", { className: "tools" },
+        h(B.SegmentedControl, { label: "유리 모드", value: st[0], onChange: pick, items: [{ id: "off", label: "끄기" }, { id: "on", label: "기본" }, { id: "rich", label: "데스크톱" }] }),
+        h("p", null, st[0] === "rich" ? "데스크톱 모드: 블러가 깊어지고 포인터 주변에 따뜻한 빛이 번져요. 아래 화면 위로 마우스를 움직여 보세요." : st[0] === "off" ? "끄기: 블러 없이 불투명한 면. 저사양 기기와 절전 모드용이에요." : "기본: 모바일과 일반 기기에서 쓰는 블러레마 유리예요.")),
+      h("div", { className: "demo bl-backdrop" }, Blobs(),
+        h("div", { className: "bar" }, h(B.NavBar, { title: "블러레마", actions: h(B.IconButton, { icon: "search", label: "검색" }) })),
+        h("div", { className: "float" }, h(B.Button, { variant: "glass" }, "유리 버튼"), h(B.IconButton, { icon: "heart", label: "좋아요" }))));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

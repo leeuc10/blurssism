@@ -5,23 +5,59 @@
 .bl-root, .bl-root * { box-sizing: border-box; }
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
 
-/* ── 유리 재질 ─────────────────────────────── */
+/* ── 유리 재질: 블러레마(Blurema) ─────────────────────────────
+   blur + crema. 맑은 유리 대신 우유 거품 색 젖빛 유리입니다.
+   블러 → 우유 거품 색(glass-fill) → 거품 결(glass-grain) → 크레마 층(glass-crema) → 크레마 가장자리(glass-edge) */
+.bl-glass, .bl-glass-thick, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain) {
+  background-image: var(--glass-crema), var(--glass-grain);
+}
 .bl-glass {
-  background: var(--glass-fill);
+  background-color: var(--glass-fill);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
   backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-stroke);
   box-shadow: var(--shadow-glass);
 }
 .bl-glass-thick {
-  background: var(--glass-fill-strong);
+  background-color: var(--glass-fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
   backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-stroke);
   box-shadow: var(--shadow-sheet);
 }
+/* 크레마가 팔레트의 장식색(deco)을 따라가게 합니다. color-mix가 없는 브라우저는 tokens.css의 고정값을 씁니다. */
+@supports (color: color-mix(in srgb, red, blue)) {
+  :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
+    --glass-edge: color-mix(in srgb, var(--deco) 40%, var(--glass-stroke));
+    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--deco) 22%, transparent), transparent 55%);
+    --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --glass-edge: color-mix(in srgb, var(--deco) 40%, var(--glass-stroke));
+      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--deco) 22%, transparent), transparent 55%);
+      --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
+    }
+  }
+}
 @media (prefers-reduced-transparency: reduce) {
   .bl-glass, .bl-glass-thick, .bl-btn-glass, .bl-icon-btn { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* ── 데스크톱 모드: <html data-glass="rich"> ─────────────────────────────
+   applyGlassPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyGlassPreference({ rich: false }).
+   블러가 깊어지고, 그림자가 한 겹 늘고, 포인터 주변에 따뜻한 빛(glass-light)이 번집니다. 블러 예산은 화면당 6개. */
+html[data-glass="rich"], [data-glass="rich"] { --blur-md: 32px; --blur-lg: 56px; --glass-saturate: 135%; }
+[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-glass-thick, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+  background-image: radial-gradient(280px circle at var(--bl-light-x, -100vmax) var(--bl-light-y, -100vmax), var(--glass-light), transparent 70%), var(--glass-crema), var(--glass-grain);
+  background-attachment: fixed, scroll, scroll;
+}
+[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass { box-shadow: var(--shadow-glass), 0 2px 6px rgba(33, 24, 15, 0.06), 0 24px 60px rgba(33, 24, 15, 0.08); }
+[data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), 0 2px 8px rgba(33, 24, 15, 0.08); }
+@media (hover: hover) {
+  [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
+  [data-glass="rich"] .bl-btn-glass:hover, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover { transform: translateY(-1px); }
+  [data-glass="rich"] .bl-btn-glass:active, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
 }
 
 /* ── Button ─────────────────────────────── */
@@ -39,7 +75,7 @@
 .bl-btn-block { display: flex; width: 100%; }
 .bl-btn-primary { background: var(--ink); color: var(--paper); }
 .bl-btn-accent { background: var(--accent); color: var(--on-accent); }
-.bl-btn-glass { background: var(--glass-fill); color: var(--ink); border-color: var(--glass-stroke); box-shadow: var(--shadow-glass);
+.bl-btn-glass { background-color: var(--glass-fill); color: var(--ink); border-color: var(--glass-stroke); box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate)); backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate)); }
 .bl-btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
 .bl-btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
@@ -48,7 +84,7 @@
 .bl-icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
-  background: var(--glass-fill); border: 1px solid var(--glass-stroke); box-shadow: var(--shadow-glass);
+  background-color: var(--glass-fill); border: 1px solid var(--glass-stroke); box-shadow: var(--shadow-glass);
   -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
 }
 .bl-icon-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
@@ -184,6 +220,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 [data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick, [data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn, [data-glass="off"] .bl-scrim {
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
+[data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-image: none; }
 [data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick { background: var(--paper-raised); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .bl-glass, .bl-glass-thick { background: var(--paper-raised); }

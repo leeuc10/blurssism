@@ -1,4 +1,4 @@
-blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다. **글래스모피즘과 블러 효과의 조합**이 핵심으로, 따뜻한 종이와 먹으로 된 차분한 바탕 위에 맑은 유리와 두꺼운 블러를 필요한 곳에만 띄웁니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았고, 색은 **카페인**에서 가져왔습니다. 우유 거품 같은 크림색 바탕, 에스프레소 같은 글자, 볶은 원두와 크레마의 강조색이 기본이고, 말차·차이·콜드브루·모카 팔레트로 바꿀 수 있습니다. 원칙은 세 가지입니다. **바탕은 조용하게, 떠 있는 것만 유리로, 강조는 한 번만.**
+blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다. **글래스모피즘과 블러 효과의 조합**이 핵심으로, 따뜻한 종이와 먹으로 된 차분한 바탕 위에 우유 거품 색 젖빛 유리 **블러레마(Blurema)**를 필요한 곳에만 띄웁니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았지만, 맑고 반짝이는 유리 대신 크레마가 얹힌 젖빛 유리로 바꿨고, 색은 **카페인**에서 가져왔습니다. 우유 거품 같은 크림색 바탕, 에스프레소 같은 글자, 볶은 원두와 크레마의 강조색이 기본이고, 팔레트 13종이나 브랜드색 하나로 만든 팔레트로 바꿀 수 있습니다. 원칙은 세 가지입니다. **바탕은 조용하게, 떠 있는 것만 유리로, 강조는 한 번만.**
 
 ## 원칙
 
@@ -27,7 +27,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 | 강조 | `accent`, `accent-soft`, `on-accent`, `accent-ink` | 기본은 에스프레소(볶은 원두 갈색). 팔레트에 따라 바뀝니다. 선택·활성·브랜드 순간에만. 채움 위 글자는 반드시 `on-accent` (다크에서는 어두운 글자로 바뀝니다). |
 | 상태 | `positive`, `warning`, `danger`, `info` (+ `-soft`) | 색만으로 알리지 않습니다. 항상 단어, 필요하면 아이콘. `info`는 파랑이라 `danger`와 색각에 상관없이 구분됩니다. |
 | 장식 | `deco` | 크레마색. 일러스트·자리표시 도형 전용, 글자를 올리지 않습니다. 팔레트에 따라 바뀝니다. (`apricot`은 1.2 호환용 별칭) |
-| 유리 | `glass-fill`, `glass-fill-strong`, `glass-stroke`, `glass-tint-accent`, `scrim` | 아래 "유리 재질" 참고. |
+| 유리 | `glass-fill`, `glass-fill-strong`, `glass-stroke`, `glass-tint-accent`, `scrim`, 재질 `glass-edge`·`glass-crema`·`glass-grain`·`glass-light` | 아래 "유리 재질 — 블러레마" 참고. |
 
 다크 테마는 같은 이름의 토큰이 값만 바뀝니다. 코드에서는 hex를 직접 쓰지 말고 항상 `var(--토큰)`을 씁니다.
 
@@ -58,7 +58,20 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 | `pink` | 핑크 | 커머스와 뷰티의 분홍 | `#b0306a` | `#f49ac0` |
 | `graphite` | 그래파이트 | 색 없이 먹색 하나로 쓰는 단색 | `#3b3632` | `#e2dbd2` |
 
-- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 702개 조합을 검사합니다.
+**브랜드색으로 만들기** — 쓸 색 하나를 넣으면 그 색에 맞춰 강조색 묶음(`accent`·`accent-soft`·`on-accent`·`accent-ink`·`deco`·`glass-tint-accent`)을 라이트·다크 모두 만듭니다. 바탕과 글자, 상태색은 그대로라 90/10 원칙이 유지됩니다.
+
+```js
+import { applyBrandColor } from "@caffeinecatkr/blurssism/utils";
+const p = applyBrandColor("#ff5a1f");      // <style>을 넣고 <html data-palette="brand">로 바꿉니다
+p.warnings.forEach((w) => console.warn(w.message));
+```
+
+- 흰 글자가 4.5:1을 못 넘는 밝은 색은 라이트 테마에서 필요한 만큼만 어둡게 맞추고, 원래 색은 장식색(`deco`)으로 남깁니다. 다크 테마에서는 밝고 조금 차분하게 맞춥니다.
+- 빨강·노랑·초록처럼 상태색과 헷갈리는 색, 채도가 거의 없는 색이면 `warnings`로 알려 줍니다.
+- 서버 렌더링: `createPalette(색)`과 `paletteToCss(팔레트)`로 CSS 문자열을 만들어 `<style>`에 넣습니다. 터미널에서는 `npx @caffeinecatkr/blurssism palette "#ff5a1f"`로 CSS를 출력합니다.
+- id를 주면 여러 개를 둘 수 있습니다: `applyBrandColor("#03c75a", { id: "green" })`. 만든 id는 `setPalette`로도 고를 수 있습니다.
+
+- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 팔레트 13종과 브랜드색 133개로 만든 팔레트, 7,884개 조합을 검사합니다.
 - 한 화면에는 팔레트 하나. 섹션마다 팔레트를 바꾸지 않습니다. 예외는 팔레트 고르기 화면처럼 팔레트 자체를 보여 줄 때뿐입니다.
 - 사용자에게 고르게 하려면 `PalettePicker`를 쓰고, 선택은 소비자가 저장해 다음 방문 때 `setPalette(id)`로 복원합니다.
 - 상태색(`positive`·`warning`·`danger`·`info`)은 팔레트와 상관없이 고정이라, 말차·에메랄드의 초록과 `positive`, 블루와 `info`가 비슷해 보여도 의미는 단어와 아이콘으로 구분합니다.
@@ -66,18 +79,41 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 - `graphite`는 강조색 없이 먹색으로만 꾸미는 단색 팔레트입니다. 색이 브랜드를 대신하지 않는 도구형 화면에 맞습니다.
 - `PalettePicker group="web"`처럼 한 묶음만 보일 수 있습니다.
 
-## 유리 재질
+## 유리 재질 — 블러레마(Blurema)
 
-두 가지 두께만 있습니다.
+블러레마는 **blur + crema**, blurssism의 유리입니다. 맑게 비치고 반짝이는 유리 대신, 에스프레소 위 크레마처럼 따뜻하고 부드러운 젖빛 유리입니다. 다섯 층을 겹칩니다.
 
-- **얇은 유리 — 글래스모피즘** (`.bl-glass`): `glass-fill` + `backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate))` + 1px `glass-stroke` + `shadow-glass`. 뒤의 색이 맑게 비칩니다. 탭바, 내비게이션 바, 이미지 위 캡션, 떠 있는 아이콘 버튼. **짧은 라벨만** 올립니다.
-- **두꺼운 유리 — 블러 패널** (`.bl-glass-thick`): `glass-fill-strong` + `blur-lg` + `shadow-sheet`. 뒤 내용이 형태 없이 색만 남습니다. 바텀시트, 토스트, 고정 헤더처럼 **글이 길어지는 패널**. 배경이 무엇이든 `ink` 글자가 4.5:1 이상 유지됩니다.
+| 층 | 토큰 | 하는 일 |
+| --- | --- | --- |
+| 1. 블러 | `blur-md`·`blur-lg`, `glass-saturate` 125% | 뒤를 번지게 합니다. 채도는 조금만 올려 쨍하지 않게 둡니다. |
+| 2. 우유 거품 색 | `glass-fill`, `glass-fill-strong` | 흰색이 아니라 `paper`(크림색)가 비치는 면입니다. |
+| 3. 거품 결 | `glass-grain` | 아주 옅은 정지 노이즈. 유리를 액체가 아니라 거품처럼 보이게 합니다. 성능 부담이 거의 없습니다. |
+| 4. 크레마 층 | `glass-crema` | 유리 윗부분에만 팔레트의 장식색(`deco`)이 옅게 고입니다. |
+| 5. 크레마 가장자리 | `glass-edge` (`shadow-glass`의 안쪽 선) | 흰 반사광 대신 `deco`가 섞인 따뜻한 1px 선입니다. |
+
+크레마 층과 가장자리는 팔레트를 따라 색이 바뀝니다(말차면 연둣빛, 블루면 하늘빛). `color-mix`를 지원하지 않는 브라우저에서는 에스프레소 기본값으로 보입니다.
+
+두께는 두 가지입니다.
+
+- **얇은 유리** (`.bl-glass`): `glass-fill` + `blur-md` + `shadow-glass`. 탭바, 내비게이션 바, 이미지 위 캡션, 떠 있는 아이콘 버튼. **짧은 라벨만** 올립니다.
+- **두꺼운 유리** (`.bl-glass-thick`): `glass-fill-strong` + `blur-lg` + `shadow-sheet`. 바텀시트, 토스트, 다이얼로그처럼 **글이 길어지는 패널**. 배경이 무엇이든 `ink` 글자가 4.5:1 이상 유지됩니다.
 
 규칙:
-- 유리 뒤에는 반드시 비쳐 보일 무언가(스크롤되는 콘텐츠, 이미지, 색 면)가 있어야 합니다. 단색 바탕 위의 유리는 그냥 회색 상자입니다.
-- 가장자리 하이라이트(`glass-stroke`와 `shadow-glass`의 inset)가 유리의 반사광입니다. 그라디언트로 반사를 흉내 내지 않습니다.
+- 유리 뒤에는 반드시 비쳐 보일 무언가(스크롤되는 콘텐츠, 이미지, 색 면)가 있어야 합니다. 단색 바탕 위의 유리는 그냥 크림색 상자입니다.
+- 반사광을 흰 그라디언트나 굴절 효과로 흉내 내지 않습니다. 빛은 크레마 가장자리 한 줄과, 데스크톱 모드의 따뜻한 빛뿐입니다.
 - `backdrop-filter`를 지원하지 않거나 사용자가 `prefers-reduced-transparency: reduce`를 켜면 `paper-raised`로 대체합니다(bundle.css에 들어 있습니다).
 - 시트·모달 뒤에는 `scrim` + `blur-sm`.
+
+## 다른 디자인 시스템과 다른 점
+
+| | blurssism | 흔한 방식 |
+| --- | --- | --- |
+| 유리 | 블러레마: 크림색 젖빛 + 거품 결 + 팔레트를 따라가는 크레마 | 맑은 유리와 흰 반사광(Apple Liquid Glass), 중립 회색 아크릴(Fluent), 유리 없이 색 높이로 층 구분(Material) |
+| 유리 사용량 | 규칙으로 정한 예산(화면당 3개, 데스크톱 6개)과 기기별 자동 3단계(끄기·기본·데스크톱) | 유리를 어디에 몇 개 쓸지는 앱이 판단 |
+| 브랜드색 | 색 하나를 넣으면 강조색 묶음만 만들고 바탕 90%는 그대로. 라이트·다크 모두 WCAG 대비를 맞추고, 상태색과 헷갈리는 색은 경고 | 색 하나로 화면 전체 톤을 바꾸는 방식(Material의 다이내믹 컬러), 또는 직접 조합 |
+| 검증 | `npm run check`가 팔레트 13종과 브랜드색 133개, 7,884개 대비 조합을 매번 검사 | 문서로 기준만 안내 |
+| 언어 | 한국어 화면 기준: Pretendard·Gowun Batang, 해요체, `keep-all` 줄바꿈 | 영어 기준, 한국어는 따로 조정 |
+| 쓰는 곳 | 하나의 원본에서 React·Svelte 5·CSS만 | 프레임워크 하나에 묶임 |
 
 ## 성능 — 블러 예산
 
@@ -87,7 +123,21 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 - **반복되는 목록 안에는 블러를 넣지 않습니다.** 피드·갤러리의 MediaCard는 `lite`(블러 없는 `.bl-glass-lite`)로, 블러는 상세 화면의 한 장에만 씁니다.
 - **블러 반경을 애니메이션하지 않습니다.** 유리는 `opacity`와 `transform`으로만 나타나고 사라집니다.
 - **화면 전체를 덮는 블러는 잠깐만.** `blur-lg`는 시트·다이얼로그처럼 떠 있다 사라지는 요소에, 상시 노출되는 넓은 면에는 `blur-md` 이하.
-- **저사양 기기에서는 유리를 끕니다.** 앱 시작 시 `Blurssism.applyGlassPreference()`를 한 번 부르면, 메모리 4GB 이하·코어 4개 이하·데이터 절약·투명도 줄이기 설정에서 `<html data-glass="off">`가 되어 모든 유리가 불투명으로 바뀝니다. 사용자 설정 토글로 `applyGlassPreference(true|false)`를 제공해도 좋습니다.
+- **기기에 맞춰 세 단계로 바꿉니다.** 앱 시작 시 `applyGlassPreference()`를 한 번 부르면 `<html data-glass>`가 정해집니다.
+
+| 모드 | 언제 | 무엇이 달라지나 | 블러 예산 |
+| --- | --- | --- | --- |
+| `off` | 메모리 4GB 이하, 코어 4개 이하, 데이터 절약, 투명도 줄이기 | 모든 유리가 불투명 | 0 |
+| `on` (기본) | 그 밖의 기기, 모바일 | 블러레마 기본 | 화면당 3개 |
+| `rich` (데스크톱 모드) | lg(1120px) 이상 화면 + 마우스 + 코어 6개·메모리 8GB 이상 | 블러 32/56px, 그림자 한 겹 추가, 포인터 주변에 따뜻한 빛(`glass-light`), 유리 버튼 호버 | 화면당 6개 |
+
+- **데스크톱 모드는 개발자가 켜고 끕니다.** 기본은 `"auto"`(조건이 맞으면 켬, 창 크기가 바뀌면 다시 판단)입니다.
+  - 끄기: `applyGlassPreference({ rich: false })`
+  - 항상 켜기: `applyGlassPreference({ rich: true })`
+  - 빛만 끄기: `applyGlassPreference({ pointerLight: false })`
+  - 바로 정하기: `setGlassMode("off" | "on" | "rich" | "auto")`, 지금 모드는 `getGlassMode()`
+  - CSS만 쓸 때는 `<html data-glass="rich">`를 직접 넣어도 됩니다(포인터 빛은 JS가 필요합니다).
+  - 동작 줄이기 설정이면 포인터 빛은 자동으로 꺼집니다. 사용자 설정 화면에 "유리 효과" 토글로 `setGlassMode`를 연결해도 좋습니다.
 - `backdrop-filter`를 지원하지 않는 브라우저는 자동으로 `paper-raised`로 대체됩니다.
 
 ## 타이포그래피
@@ -150,7 +200,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
 - `radius-sm` 10 · `radius-md` 16 · `radius-lg` 24 · `radius-xl` 32 · `radius-full` 캡슐.
 - 버튼·칩·스위치·탭바·내비게이션 바 = `radius-full`. 입력창·썸네일 = `radius-md`. 카드·패널·모달 = `radius-lg`. 바텀시트 위쪽 = `radius-xl`.
-- 그림자는 세 개뿐입니다. 불투명 카드 `shadow-card`(거의 평면), 떠 있는 유리 `shadow-glass`, 시트 `shadow-sheet`. 그 밖의 그림자는 만들지 않습니다.
+- 그림자는 세 개뿐입니다. 불투명 카드 `shadow-card`(거의 평면), 떠 있는 유리 `shadow-glass`, 시트 `shadow-sheet`. 그 밖의 그림자는 만들지 않습니다(데스크톱 모드가 유리에 한 겹 더하는 그림자는 bundle.css에 들어 있습니다).
 
 ## 움직임
 
@@ -189,15 +239,19 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
   - 콘텐츠: `Card`, `MediaCard`, `ListItem`, `Table`, `Avatar`, `Icon`
   - 상태: `Badge`, `Progress`, `Skeleton`, `EmptyState`
   - 탐색·오버레이: `NavBar`, `TabBar`, `Sheet`, `Dialog`, `Toast`, `Tooltip`
-  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyGlassPreference()`, `shouldReduceGlass()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
+  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyGlassPreference()`, `setGlassMode()`, `getGlassMode()`, `isDesktopCapable()`, `shouldReduceGlass()`, `createPalette()`, `applyBrandColor()`, `paletteToCss()`, `contrastRatio()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
 
   각 props는 `dist/index.d.ts`에 있습니다. 앱 루트에 `class="bl-root"`를 둡니다.
 - **CSS만(HTML·Vue 등)**: `dist/tokens.css`와 `dist/bundle.css`만 불러와 같은 클래스(`bl-btn bl-btn-primary`, `bl-glass`, `bl-list` …)를 씁니다.
 - **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 유리는 `.bl-glass` / `.bl-glass-thick` 클래스로 씁니다.
-- **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 유리는 플랫폼 기본 재질(iOS `.ultraThinMaterial` / Liquid Glass, Android `RenderEffect` blur)에 `glass-fill`을 겹칩니다.
+- **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 유리는 플랫폼 블러(iOS `.ultraThinMaterial`, Android `RenderEffect` blur) 위에 `glass-fill`과 위쪽 크레마 그라디언트를 겹쳐 블러레마에 가깝게 맞춥니다.
 - 다크 모드는 `<html data-theme="dark">`, 팔레트는 `<html data-palette="matcha">`로 전환합니다.
-- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 13종), `Responsive`(반응형 규칙) 카드를 참고합니다.
+- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 13종), `Blurema`(유리 층과 모드), `BrandColor`(브랜드색 팔레트), `Responsive`(반응형 규칙) 카드를 참고합니다.
 
 ---
 
 blurssism · made by **caffeinecat**
+
+## 문의
+
+질문, 제안, 협업 문의는 **leeunchan10@gmail.com**(caffeinecat)으로 보내 주세요. 버그는 [GitHub 이슈](https://github.com/leeuc10/blurssism/issues)에 남겨 주시면 가장 빨리 볼 수 있어요.

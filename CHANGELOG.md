@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.4.0 — 2026-10-06
+> 업데이트 후 `applyGlassPreference()`를 부르는 앱은 데스크톱(1120px 이상·마우스·넉넉한 기기)에서 데스크톱 모드가 자동으로 켜집니다. 이전처럼 쓰려면 `applyGlassPreference({ rich: false })`.
+> Apps that call `applyGlassPreference()` now get desktop mode automatically on capable desktops. Use `applyGlassPreference({ rich: false })` to keep the 1.3 behavior.
+
+**블러레마 유리 · Blurema glass**
+- 유리 재질 이름을 블러레마(blur + crema)로 정하고 질감을 바꿈: 흰 유리 → 크림색 젖빛, 채도 180% → 125%, 흰 반사광 → 팔레트를 따라가는 크레마 가장자리
+  New glass material: cream frosted fill, lower saturation, a crema edge instead of a white highlight
+- 새 토큰 `glass-edge` · `glass-crema` · `glass-grain` · `glass-light` / new material tokens
+- `blur-md` 20px → 24px
+
+**데스크톱 모드 · Desktop mode**
+- `<html data-glass="rich">`: 블러 32/56px, 그림자 추가, 포인터 주변 따뜻한 빛, 블러 예산 화면당 6개
+- `applyGlassPreference({ rich, pointerLight })`, `setGlassMode()`, `getGlassMode()`, `isDesktopCapable()`
+- 기존 `applyGlassPreference(true | false)`는 그대로 동작 / the boolean form still works
+
+**브랜드색 팔레트 · Brand-color palettes**
+- `createPalette(color)`, `applyBrandColor(color)`, `paletteToCss()`, `contrastRatio()` — 색 하나로 라이트·다크 강조색을 WCAG 대비에 맞춰 생성, 상태색과 헷갈리는 색 경고
+- CLI: `npx @caffeinecatkr/blurssism palette "#ff5a1f"`
+- `npm run check`가 브랜드색 133개까지 7,884개 조합 검사 / checks 7,884 contrast pairs
+
+**기타 · Other**
+- 문서에 문의 메일(leeunchan10@gmail.com)과 다른 디자인 시스템과의 비교 추가 / contact email and a comparison with other design systems
+- 미리보기 `Blurema`, `BrandColor` 추가 / new previews
+
 ## 1.3.1 — 2026-10-06
 **웹 기본 팔레트 · Web essential palettes**
 - 웹에서 자주 쓰는 색 7종 추가: `blue` · `indigo` · `violet` · `teal` · `emerald` · `pink` · `graphite`

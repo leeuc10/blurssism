@@ -22,7 +22,7 @@ const colorTokens = tokens.color.tokens;
 const val = (v, theme) => (typeof v === "string" ? v : v[theme] ?? v.light);
 const cssVal = (v) => v.replace(/^\{(.+)\}$/, "var(--$1)");
 const decl = (list, theme, indent = "  ") => list.map((t) => `${indent}--${t.name}: ${cssVal(val(t.value, theme))};`).join("\n");
-const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens];
+const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens, ...tokens.material.tokens];
 const plain = ["spacing", "radius", "blur", "backdrop", "layout"].flatMap((f) => tokens[f].tokens);
 const families = Object.entries(tokens.type.families)
   .map(([k, v]) => `  --font-${k}: ${k === "sans" ? v.replace("Pretendard,", '"Pretendard Variable", Pretendard,') : v};`).join("\n");
@@ -95,6 +95,7 @@ const tw = {
       borderRadius: Object.fromEntries(tokens.radius.tokens.map((t) => [t.name.replace("radius-", ""), `var(--${t.name})`])),
       boxShadow: Object.fromEntries(tokens.shadow.tokens.map((t) => [t.name.replace("shadow-", ""), `var(--${t.name})`])),
       backdropBlur: Object.fromEntries(tokens.blur.tokens.map((t) => [t.name.replace("blur-", ""), `var(--${t.name})`])),
+      backgroundImage: { "glass-crema": "var(--glass-crema)", "glass-grain": "var(--glass-grain)" },
       fontFamily: { sans: ["var(--font-sans)"], serif: ["var(--font-serif)"] },
       fontSize: Object.fromEntries(styles.map((s) => [s.name, [s.fontSize, { lineHeight: s.lineHeight, fontWeight: String(s.fontWeight), ...(s.letterSpacing ? { letterSpacing: s.letterSpacing } : {}) }]])),
       screens: { sm: "600px", md: "768px", lg: "1120px", xl: "1440px" },
@@ -126,6 +127,11 @@ const paletteMeta = palettes.map(({ id, name, group, description, values }) => (
 const utilsSrc = read("src/utils.js")
   .replace(/^\/\*[\s\S]*?\*\/\n/, "")
   .replace("/*__PALETTES__*/[]", JSON.stringify(paletteMeta))
+  .replace("/*__BASE__*/{}", JSON.stringify(Object.fromEntries(["light", "dark"].map((th) => [th, {
+    paper: val(colorTokens.find((t) => t.name === "paper").value, th),
+    "paper-raised": val(colorTokens.find((t) => t.name === "paper-raised").value, th),
+    "on-accent": palettes[0].values[th]["on-accent"],
+  }]))))
   .replace('"__VERSION__"', JSON.stringify(version));
 write("dist/utils.mjs", banner + utilsSrc);
 const utilsInline = utilsSrc.replace(/^export /gm, "");
@@ -163,7 +169,7 @@ const paths = core.match(/var PATHS = (\{[\s\S]*?\n  \});/)[1];
 write("src/svelte/icons.js", `${banner}/* 생성 파일: src/core.js의 아이콘 경로 */\nexport const PATHS = ${paths.replace(/\n  /g, "\n")};\n`);
 write("src/svelte/icons.d.ts", `export declare const PATHS: Record<string, string>;\n`);
 write("src/svelte/utils.js", banner + "/* 생성 파일: src/utils.js */\n" + utilsSrc);
-const utilTypes = read("src/index.d.ts").match(/\/\*\* 팔레트 목록 \*\/[\s\S]*?export declare function applyGlassPreference[^\n]*\n/)[0];
+const utilTypes = read("src/index.d.ts").match(/\/\*\* 팔레트 목록 \*\/[\s\S]*?(?=export declare const version)/)[0];
 write("src/svelte/utils.d.ts", `/* 생성 파일 */\nimport type { PaletteId, Breakpoint } from "./types.js";\nexport interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }\n${utilTypes}export declare const version: string;\nexport declare const author: "caffeinecat";\n`);
 
 console.log(`blurssism ${version}: ${components.length} React components, ${utilNames.length} utils, ${palettes.length} palettes → dist/, src/svelte/{icons,utils}.js`);

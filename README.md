@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템 — 카페인 팔레트와 함께<br>
-  A web &amp; app design system that combines glassmorphism with blur — served with caffeine palettes<br>
+  글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템 — 블러레마 유리와 카페인 팔레트<br>
+  A web &amp; app design system that combines glassmorphism with blur — Blurema glass and caffeine palettes<br>
   <a href="https://leeuc10.github.io/blurssism/">미리보기 Preview</a> ·
   <a href="docs/brand-book.md">브랜드북 Brand book</a> ·
   <a href="https://www.npmjs.com/package/@caffeinecatkr/blurssism">npm</a>
@@ -24,7 +24,7 @@
 
 ## 한국어
 
-blurssism은 우유 거품 같은 크림색 바탕 위에 맑은 유리와 두꺼운 블러를 **필요한 곳에만** 띄우는 디자인 시스템입니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았고, 색은 카페인에서 가져왔으며, 한국어 화면을 기준으로 만들었습니다.
+blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 유리 **블러레마(Blurema)**를 **필요한 곳에만** 띄우는 디자인 시스템입니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았고, 색은 카페인에서 가져왔으며, 한국어 화면을 기준으로 만들었습니다.
 
 **원칙**
 1. **90 / 10.** 화면의 90% 이상은 종이(`paper`)와 먹(`ink`). 강조색은 10% 이내.
@@ -34,11 +34,23 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 맑은 유리와 두�
 5. **캡슐과 큰 모서리.** 누르는 것은 캡슐, 담는 것은 24px 이상.
 
 **들어 있는 것**
-- 팔레트 13종 × 라이트·다크. 카페인 6종(에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 702개 대비 조합 모두 WCAG 통과
+- **블러레마 유리**: 블러 위에 우유 거품 색, 거품 결, 팔레트를 따라가는 크레마를 겹친 젖빛 유리
+- **유리 모드 3단계**: 저사양 `off` · 기본 `on` · 데스크톱 `rich`(더 깊은 블러와 포인터 빛). 데스크톱 모드는 개발자가 켜고 끌 수 있음
+- **브랜드색 팔레트**: 색 하나를 넣으면 라이트·다크 강조색을 WCAG 대비에 맞춰 자동 생성
+- 팔레트 13종 × 라이트·다크. 카페인 6종(에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 7,884개 대비 조합 모두 WCAG 통과
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
 - 블러 성능 예산과 저사양 기기 자동 대응, 포커스 링·다이얼로그 포커스 가두기·동작 줄이기 대응
+
+### 다른 디자인 시스템과 다른 점
+
+- **유리가 다릅니다.** 맑은 유리와 흰 반사광 대신, 크림색 젖빛에 거품 결과 크레마가 얹힌 블러레마를 씁니다. 크레마는 팔레트 색을 따라갑니다.
+- **유리를 아껴 씁니다.** 화면당 유리 개수를 규칙으로 정하고, 기기 성능에 맞춰 끄기·기본·데스크톱 세 단계로 자동으로 바뀝니다.
+- **브랜드색을 넣어도 무너지지 않습니다.** 강조색만 바꾸고 바탕 90%는 그대로 두며, 대비는 자동 검사로 보장합니다.
+- **한국어 화면이 기준입니다.** 글꼴, 해요체 문구, 줄바꿈 규칙까지 정해 두었습니다.
+
+자세한 비교는 [브랜드북](docs/brand-book.md#다른-디자인-시스템과-다른-점)에 있어요.
 
 ### 설치
 
@@ -158,15 +170,38 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 `bg-paper`, `text-accent`, `rounded-full`, `backdrop-blur-md`, 그리고 같은 브레이크포인트(`sm:` `md:` `lg:` `xl:`)를 씁니다.
 
-### 블러 예산
+### 브랜드색 팔레트
 
-한 화면에 블러 유리는 3개까지, 반복 목록 안에서는 `.bl-glass-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다. `applyGlassPreference()`를 부르면 저사양 기기·데이터 절약·투명도 줄이기 설정에서 유리를 끕니다.
+```js
+import { applyBrandColor } from "@caffeinecatkr/blurssism"; // Svelte는 ".../svelte", 바닐라는 ".../utils"
+const palette = applyBrandColor("#ff5a1f");   // <html data-palette="brand">
+palette.warnings.forEach((w) => console.warn(w.message));
+```
+
+바탕과 글자는 그대로 두고 강조색 묶음만 만듭니다. 흰 글자가 안 읽히는 밝은 색은 필요한 만큼만 어둡게 맞추고 원래 색은 장식색으로 남기며, 상태색과 헷갈리는 색은 경고합니다. 서버 렌더링에서는 `paletteToCss(createPalette("#ff5a1f"))`를 `<style>`에 넣고, 터미널에서는 `npx @caffeinecatkr/blurssism palette "#ff5a1f"`로 CSS를 받습니다.
+
+### 유리 모드 · 블러 예산
+
+```js
+import { applyGlassPreference } from "@caffeinecatkr/blurssism";
+applyGlassPreference();                    // 기기에 맞춰 off · on · rich 자동
+applyGlassPreference({ rich: false });     // 데스크톱 모드 끄기
+applyGlassPreference({ rich: true });      // 데스크톱 모드 항상 켜기
+```
+
+| 모드 | 언제 | 블러 예산 |
+| --- | --- | --- |
+| `off` | 저사양·데이터 절약·투명도 줄이기 | 0 (불투명) |
+| `on` | 기본, 모바일 | 화면당 3개 |
+| `rich` | 1120px 이상 + 마우스 + 넉넉한 기기 | 화면당 6개, 블러 32/56px, 포인터 주변 따뜻한 빛 |
+
+반복 목록 안에서는 `.bl-glass-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다.
 
 ---
 
 ## English
 
-blurssism floats clear glass and thick blur **only where they're needed**, over a calm milk-foam cream background. The glass is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and the system is designed with Korean typography as the default.
+blurssism floats **Blurema** — a frosted, milk-tinted glass topped with a thin crema layer — **only where it's needed**, over a calm milk-foam cream background. The glass is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and the system is designed with Korean typography as the default.
 
 **Principles**
 1. **90 / 10.** At least 90% of a screen is paper (`paper`) and ink (`ink`). Accent colors stay under 10%.
@@ -176,11 +211,21 @@ blurssism floats clear glass and thick blur **only where they're needed**, over 
 5. **Capsules and large corners.** Anything you press is a capsule; anything that contains is 24px+.
 
 **What's inside**
-- 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 702 contrast pairs pass WCAG.
+- **Blurema glass**: blur topped with a milk tint, a fine foam grain, and a crema layer that follows the palette.
+- **Three glass modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
+- **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
+- 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 7,884 contrast pairs, brand-color palettes included, pass WCAG.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
 - A blur performance budget with automatic fallback on low-end devices, visible focus rings, focus-trapped dialogs, and reduced-motion support.
+
+### What makes it different
+
+- **Its own glass.** Instead of clear glass with white highlights, Blurema is a cream, frosted glass with a foam grain and a crema layer that follows the palette.
+- **Glass on a budget.** The number of glass surfaces per screen is a rule, and the glass switches between off, on and desktop modes to match the device.
+- **Brand colors that don't break the look.** Only the accents change, 90% of the screen stays paper and ink, and contrast is checked automatically.
+- **Korean-first.** Fonts, copy tone (해요체) and line breaking are all specified.
 
 ### Install
 
@@ -244,13 +289,27 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 Also load `tokens.css`. The `sm:` / `md:` / `lg:` / `xl:` breakpoints match blurssism.
 
-### Blur budget
+### Brand-color palettes
 
-At most 3 blurred glass surfaces per screen, `.bl-glass-lite` inside repeated lists, and never animate the blur radius. `applyGlassPreference()` turns glass off on low-end devices, in data-saver mode, and when the user prefers reduced transparency.
+```js
+import { applyBrandColor } from "@caffeinecatkr/blurssism";
+const palette = applyBrandColor("#ff5a1f");   // sets <html data-palette="brand">
+```
+
+Pass one color and blurssism builds the accent set for light and dark, tuned to pass WCAG contrast, while the paper and ink stay the same. Colors too bright for white text are darkened just enough, and the original is kept as the decoration color. You get warnings for colors that look like status colors. For SSR, use `paletteToCss(createPalette(color))`; from a terminal, `npx @caffeinecatkr/blurssism palette "#ff5a1f"`.
+
+### Glass modes and blur budget
+
+`applyGlassPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 blurred surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a warm light that follows the pointer). Turn desktop mode off with `applyGlassPreference({ rich: false })`, force it with `{ rich: true }`, or use `setGlassMode("off" | "on" | "rich" | "auto")`. Use `.bl-glass-lite` inside repeated lists and never animate the blur radius.
 
 The full rules are in the [brand book](docs/brand-book.md) (Korean).
 
 ---
+
+## 문의 · Contact
+
+질문, 제안, 협업 문의는 **leeunchan10@gmail.com**(caffeinecat)으로 보내 주세요. 버그는 [GitHub 이슈](https://github.com/leeuc10/blurssism/issues)에 남겨 주시면 가장 빨리 볼 수 있어요.<br>
+Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Please report bugs on [GitHub Issues](https://github.com/leeuc10/blurssism/issues).
 
 ## 라이선스 · License
 

@@ -43,5 +43,24 @@ for (const p of tokens.palettes.list) {
     console.log(`✓ ${p.id.padEnd(9)} ${theme.padEnd(5)} on-accent ${ratio(c["on-accent"], c.accent).toFixed(1)}:1 · accent-ink ${ratio(c["accent-ink"], c["accent-soft"]).toFixed(1)}:1 · 최저 여유 ${Math.min(...worst).toFixed(2)}×`);
   }
 }
+// 브랜드색 팔레트: 색상환 전체와 극단값(흰색·검정·회색·형광)으로 만들어도 같은 기준을 넘는지
+const { createPalette } = await import("../dist/utils.mjs");
+const samples = ["#ffffff", "#000000", "#808080", "#ffff00", "#00ff00", "#00ffff", "#ff0000", "#ff5a1f", "#fee500", "#03c75a", "#1877f2", "#e1306c", "#7a4524"];
+for (let hue = 0; hue < 360; hue += 15) for (const [sat, lig] of [[90, 50], [60, 30], [40, 75], [100, 85], [20, 15]]) {
+  const f = (n) => { const k = (n + hue / 30) % 12, a = (sat / 100) * Math.min(lig / 100, 1 - lig / 100); return Math.round(255 * (lig / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); };
+  samples.push("#" + [f(0), f(8), f(4)].map((v) => v.toString(16).padStart(2, "0")).join(""));
+}
+let brandFails = 0;
+for (const color of samples) {
+  const p = createPalette(color);
+  for (const theme of ["light", "dark"]) {
+    const c = { ...base(theme), ...p.values[theme] };
+    for (const [fg, bg, min] of PAIRS) {
+      checks++;
+      if (ratio(c[fg], c[bg]) < min) { fails++; brandFails++; console.log(`✗ brand ${color}/${theme}: ${fg} on ${bg} = ${ratio(c[fg], c[bg]).toFixed(2)} (< ${min})`); }
+    }
+  }
+}
+console.log(`✓ 브랜드색 ${samples.length}개로 만든 팔레트${brandFails ? ` — ${brandFails}개 미달` : " 모두 통과"}`);
 console.log(fails ? `\n${fails}/${checks} 미달` : `\n${checks}개 조합 모두 통과`);
 process.exit(fails ? 1 : 0);

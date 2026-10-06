@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>BrandColor — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .top{display:flex;flex-wrap:wrap;gap:12px;align-items:end;} .swatch{width:52px;height:52px;border-radius:var(--radius-full);border:1px solid var(--line-strong);padding:0;cursor:pointer;background:none;} .swatch::-webkit-color-swatch-wrapper{padding:4px;} .swatch::-webkit-color-swatch{border:none;border-radius:var(--radius-full);} .presets{display:flex;flex-wrap:wrap;gap:8px;} .pair{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);margin-top:16px;} .side{background:var(--paper);color:var(--ink);padding:16px;display:grid;gap:12px;align-content:start;} .side p{margin:0;font-size:12px;line-height:16px;color:var(--ink-muted);} .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;} .chips{display:flex;gap:6px;} .chips i{width:28px;height:28px;border-radius:var(--radius-full);display:block;border:1px solid var(--line);} .notes{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px;line-height:20px;color:var(--ink-muted);} @media (max-width:599px){.pair{grid-template-columns:1fr;}}</style>
+</head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var presets = ["#ff5a1f", "#1877f2", "#03c75a", "#fee500", "#e1306c", "#6d28d9", "#0f172a"];
+  function Side(p) {
+    var v = p.pal.values[p.theme];
+    return h("div", { className: "side", "data-theme": p.theme, "data-palette": "preview" },
+      h("p", null, p.theme === "light" ? "라이트" : "다크", " · 강조 ", v.accent, " · 글자 대비 ", B.contrastRatio(v["on-accent"], v.accent).toFixed(1), ":1"),
+      h("div", { className: "chips", "aria-hidden": "true" }, ["accent", "accent-soft", "accent-ink", "deco"].map(function (k) { return h("i", { key: k, style: { background: "var(--" + k + ")" } }); })),
+      h("div", { className: "row" }, h(B.Button, { variant: "accent", size: "md" }, "시작하기"), h(B.Badge, { tone: "accent" }, "새 기능"), h(B.Chip, { selected: true }, "선택됨")),
+      h(B.Switch, { label: "알림 받기", checked: true, onChange: function () {} }));
+  }
+  function Demo() {
+    var st = React.useState("#ff5a1f"), color = st[0];
+    var pal = null, err = null;
+    try { pal = B.applyBrandColor(color, { id: "preview", apply: false }); } catch (e) { err = e.message; }
+    return h(React.Fragment, null,
+      h("div", { className: "top" },
+        h("input", { type: "color", className: "swatch", "aria-label": "브랜드색 고르기", value: /^#[0-9a-f]{6}$/i.test(color) ? color : "#000000", onChange: function (e) { st[1](e.target.value); } }),
+        h(B.TextField, { label: "브랜드색 (hex)", value: color, onChange: function (e) { st[1](e.target.value); }, error: err || undefined, style: { width: "160px" } }),
+        h("div", { className: "presets" }, presets.map(function (c) { return h(B.Chip, { key: c, selected: c === color, onClick: function () { st[1](c); } }, c); }))),
+      pal ? h("div", { className: "pair" }, h(Side, { pal: pal, theme: "light" }), h(Side, { pal: pal, theme: "dark" })) : null,
+      pal ? h("ul", { className: "notes" }, (pal.warnings.length ? pal.warnings : [{ code: "ok", message: "그대로 써도 대비 기준을 모두 넘어요." }]).map(function (w) { return h("li", { key: w.code }, "· ", w.message); })) : null);
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>
