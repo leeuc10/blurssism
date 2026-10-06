@@ -21,12 +21,20 @@
       h("i", { key: 2, style: { left: "40%", top: "10px", width: "90px", height: "190px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
       h("i", { key: 3, style: { right: "-20px", bottom: "-30px", width: "160px", height: "100px", background: "var(--positive)" } })];
   }
+  // 단계 비교용: 위쪽은 밝게 비워 크레마 띠가 보이고, 아래쪽 도형으로 블러·결 차이가 보이게
+  function LayerBlobs() {
+    return [
+      h("p", { key: 0, "aria-hidden": "true", style: { position: "absolute", left: "34px", top: "36px", margin: 0, fontFamily: "var(--font-serif)", fontWeight: 700, fontSize: "26px", lineHeight: "30px", color: "var(--ink)" } }, "크레마"),
+      h("i", { key: 1, style: { left: "-20px", top: "96px", width: "120px", height: "120px", background: "var(--deco)" } }),
+      h("i", { key: 2, style: { left: "45%", top: "84px", width: "70px", height: "140px", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
+      h("i", { key: 3, style: { right: "-20px", bottom: "-30px", width: "140px", height: "90px", background: "var(--positive)" } })];
+  }
   var blur = "blur(var(--blur-md)) saturate(var(--glass-saturate))";
   var steps = [
     ["1. 블러", "뒤가 번지기만 한 상태", { backdropFilter: blur, WebkitBackdropFilter: blur }],
     ["2. 우유 거품 색", "흰 유리 대신 크림색 젖빛", { backdropFilter: blur, WebkitBackdropFilter: blur, background: "var(--glass-fill)" }],
     ["3. 거품 결", "고운 거품 결 노이즈", { backdropFilter: blur, WebkitBackdropFilter: blur, backgroundColor: "var(--glass-fill)", backgroundImage: "var(--glass-grain)" }],
-    ["4. 크레마", "윗부분 캐러멜빛 크레마와 따뜻한 가장자리", null]];
+    ["4. 크레마", "위쪽 가장자리의 캐러멜빛 크레마 띠", null]];
   var modes = [
     ["off", "끄기", "블러 없이 불투명. 저사양·절전·투명도 줄이기"],
     ["on", "기본", "블러 24px + 블러레마. 모바일과 일반 기기"],
@@ -51,7 +59,7 @@
   function Demo() {
     return h(React.Fragment, null,
       h("div", { className: "layers" }, steps.map(function (s) {
-        return h("div", { key: s[0], className: "stage bl-backdrop" }, Blobs(),
+        return h("div", { key: s[0], className: "stage bl-backdrop" }, LayerBlobs(),
           h("div", { className: "pane" + (s[2] ? "" : " bl-glass"), style: s[2] ? Object.assign({ border: "1px solid var(--glass-stroke)" }, s[2]) : null },
             h("span", null, s[0], h("small", null, s[1]))));
       })),

@@ -33,7 +33,7 @@
   --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
   --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
   --glass-edge: rgba(244, 222, 198, 0.95);
-  --glass-crema: linear-gradient(180deg, rgba(192, 145, 103, 0.50), rgba(192, 145, 103, 0.16) 40%, rgba(192, 145, 103, 0) 72%);
+  --glass-crema: linear-gradient(180deg, rgba(192, 145, 103, 0.88), rgba(192, 145, 103, 0.60) 8px, rgba(192, 145, 103, 0.22) 38%, rgba(192, 145, 103, 0) 75%);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --glass-light: rgba(192, 145, 103, 0.50);
 }
@@ -69,7 +69,7 @@
   --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
   --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
   --glass-edge: rgba(226, 171, 122, 0.22);
-  --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.40), rgba(188, 140, 98, 0.12) 40%, rgba(188, 140, 98, 0) 72%);
+  --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --glass-light: rgba(188, 140, 98, 0.42);
 }
@@ -106,7 +106,7 @@
     --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
     --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
     --glass-edge: rgba(226, 171, 122, 0.22);
-    --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.40), rgba(188, 140, 98, 0.12) 40%, rgba(188, 140, 98, 0) 72%);
+    --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --glass-light: rgba(188, 140, 98, 0.42);
   }

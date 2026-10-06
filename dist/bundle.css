@@ -31,14 +31,14 @@
   :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
     --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
     --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
-    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
+    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 88%, transparent), color-mix(in srgb, var(--crema) 60%, transparent) 8px, color-mix(in srgb, var(--crema) 22%, transparent) 38%, transparent 75%);
     --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
     --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
-      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
+      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 88%, transparent), color-mix(in srgb, var(--crema) 60%, transparent) 8px, color-mix(in srgb, var(--crema) 22%, transparent) 38%, transparent 75%);
       --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
     }
   }
