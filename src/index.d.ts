@@ -10,7 +10,7 @@ export interface IconProps { name: IconName; filled?: boolean; className?: strin
 
 /** 캡슐형 버튼. primary는 화면당 하나. href를 주면 <a>로 렌더링됩니다. */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary: ink 채움 · accent: 강조색 채움 · glass: 유리 · ghost: 테두리 · danger: 삭제·신고 */
+  /** primary: ink 채움 · accent: 강조색 채움 · glass: 크레마 · ghost: 테두리 · danger: 삭제·신고 */
   variant?: "primary" | "accent" | "glass" | "ghost" | "danger";
   /** lg = 52px(기본), md = 40px */
   size?: "lg" | "md";
@@ -20,13 +20,13 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-/** 48px 원형 유리 아이콘 버튼. label은 스크린리더용으로 필수. */
+/** 48px 원형 크레마 아이콘 버튼. label은 스크린리더용으로 필수. */
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: IconName;
   label: string;
   /** 토글 상태 (눌림 → accent 채움) */
   pressed?: boolean;
-  /** 유리 없이 투명 (NavBar 안에서) */
+  /** 크레마 없이 투명 (NavBar 안에서) */
   plain?: boolean;
 }
 
@@ -50,7 +50,7 @@ export interface BadgeProps { tone?: "neutral" | "accent" | "positive" | "warnin
 /** 불투명 콘텐츠 카드. children = 하단 버튼들. */
 export interface CardProps { eyebrow?: string; title?: string; quote?: string; body?: string; children?: ReactNode; className?: string }
 
-/** 이미지 위에 유리 캡션 띠가 떠 있는 카드. */
+/** 이미지 위에 크레마 캡션 띠가 떠 있는 카드. */
 export interface MediaCardProps {
   title: string;
   meta?: string;
@@ -63,7 +63,7 @@ export interface MediaCardProps {
   badgeIcon?: IconName;
   /** 캡션 오른쪽 요소 (보통 IconButton) */
   action?: ReactNode;
-  /** 긴 목록에서 반복될 때: 블러 없는 가벼운 유리 (성능) */
+  /** 긴 목록에서 반복될 때: 블러 없는 가벼운 크레마 (성능) */
   lite?: boolean;
   className?: string;
 }
@@ -79,11 +79,11 @@ export interface ListItemProps extends HTMLAttributes<HTMLElement> {
 }
 
 export interface NavLink { href: string; label: string; current?: boolean }
-/** 상단에 떠 있는 캡슐형 유리 내비게이션 바. 앱: 뒤로+제목+액션, 웹: 로고+links. */
+/** 상단에 떠 있는 캡슐형 크레마 내비게이션 바. 앱: 뒤로+제목+액션, 웹: 로고+links. */
 export interface NavBarProps { title: ReactNode; onBack?: () => void; links?: NavLink[]; actions?: ReactNode; className?: string }
 
 export interface TabItem { id: string; label: string; icon: IconName }
-/** 하단에 떠 있는 캡슐형 유리 탭바 (3–5개, 모바일 전용). */
+/** 하단에 떠 있는 캡슐형 크레마 탭바 (3–5개, 모바일 전용). */
 export interface TabBarProps { items: TabItem[]; value: string; onChange?: (id: string) => void; label?: string; className?: string }
 
 /** 두꺼운 블러 바텀시트. children = 버튼들. */
@@ -216,15 +216,15 @@ export interface GlassOptions {
   rich?: boolean | "auto";
   /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
   pointerLight?: boolean;
-  /** true면 기기 판단 없이 유리를 켜고, false면 끕니다. */
+  /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
 }
 /**
- * <html data-glass="off|on|rich">를 정합니다. 유리가 켜졌으면 true.
+ * <html data-glass="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
  * applyGlassPreference() · applyGlassPreference({ rich: false }) · applyGlassPreference(false)
  */
 export declare function applyGlassPreference(options?: boolean | GlassOptions): boolean;
-/** 유리 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
+/** 크레마 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
 export declare function setGlassMode(mode: GlassMode | "auto"): boolean;
 export declare function getGlassMode(): GlassMode;
 

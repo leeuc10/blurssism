@@ -38,7 +38,7 @@
   var modes = [
     ["off", "끄기", "블러 없이 불투명. 저사양·절전·투명도 줄이기"],
     ["on", "기본", "블러 24px + 블러레마. 모바일과 일반 기기"],
-    ["rich", "데스크톱", "블러 40px, 더 비치는 유리, 두 겹 그림자, 포인터를 따라오는 캐러멜빛"]];
+    ["rich", "데스크톱", "블러 40px, 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛"]];
   // 미리보기용: 포인터 빛 위치를 직접 넘깁니다 (실제 앱에서는 applyGlassPreference()가 합니다)
   var raf = 0;
   window.addEventListener("pointermove", function (e) {
@@ -50,10 +50,10 @@
     return h("div", { className: "mode" },
       h("h3", null, m[1], " ", h("code", { style: { fontWeight: 400, color: "var(--ink-subtle)" } }, 'data-glass="' + m[0] + '"')),
       h("div", { className: "scene", "data-glass": m[0] },
-        h("p", { className: "txt", "aria-hidden": "true" }, "우유 거품 위에 크레마를 얹은 블러레마 유리"),
+        h("p", { className: "txt", "aria-hidden": "true" }, "우유 거품 위에 크레마를 얹은 블러레마"),
         h("div", { className: "stripes", "aria-hidden": "true" }),
         h("div", { className: "bar" }, h(B.NavBar, { title: "블러레마", actions: h(B.IconButton, { icon: "search", label: "검색" }) })),
-        h("div", { className: "float" }, h(B.Button, { variant: "glass" }, "유리 버튼"), h(B.IconButton, { icon: "heart", label: "좋아요" }))),
+        h("div", { className: "float" }, h(B.Button, { variant: "glass" }, "크레마 버튼"), h(B.IconButton, { icon: "heart", label: "좋아요" }))),
       h("p", null, m[2]));
   }
   function Demo() {

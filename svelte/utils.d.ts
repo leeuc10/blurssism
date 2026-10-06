@@ -26,15 +26,15 @@ export interface GlassOptions {
   rich?: boolean | "auto";
   /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
   pointerLight?: boolean;
-  /** true면 기기 판단 없이 유리를 켜고, false면 끕니다. */
+  /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
 }
 /**
- * <html data-glass="off|on|rich">를 정합니다. 유리가 켜졌으면 true.
+ * <html data-glass="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
  * applyGlassPreference() · applyGlassPreference({ rich: false }) · applyGlassPreference(false)
  */
 export declare function applyGlassPreference(options?: boolean | GlassOptions): boolean;
-/** 유리 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
+/** 크레마 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
 export declare function setGlassMode(mode: GlassMode | "auto"): boolean;
 export declare function getGlassMode(): GlassMode;
 

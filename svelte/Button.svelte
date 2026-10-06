@@ -4,7 +4,7 @@
   import type { IconName } from "./types.js";
   import Icon from "./Icon.svelte";
   type Props = HTMLButtonAttributes & {
-    /** primary: ink 채움 · accent: 강조색 채움 · glass: 유리 · ghost: 테두리 · danger: 삭제·신고 */
+    /** primary: ink 채움 · accent: 강조색 채움 · glass: 크레마 · ghost: 테두리 · danger: 삭제·신고 */
     variant?: "primary" | "accent" | "glass" | "ghost" | "danger";
     size?: "lg" | "md";
     block?: boolean;

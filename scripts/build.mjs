@@ -1,7 +1,7 @@
 // blurssism 빌드 · © caffeinecat · MIT
 // 원본(src/)에서 dist/와 svelte/의 생성 파일을 만듭니다. 의존성 없이 `node scripts/build.mjs`로 실행합니다.
 //   src/tokens.json → dist/tokens.json, dist/tokens.css, dist/tailwind-preset.js
-//   src/utils.js    → dist/utils.mjs (프레임워크 없이 쓰는 함수: 팔레트·테마·브레이크포인트·유리 설정)
+//   src/utils.js    → dist/utils.mjs (프레임워크 없이 쓰는 함수: 팔레트·테마·브레이크포인트·크레마 설정)
 //   src/core.js     → dist/index.mjs (ESM), dist/index.cjs (CommonJS), dist/bundle.js (<script>용 window.Blurssism)
 //   아이콘 경로     → svelte/icons.js
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";

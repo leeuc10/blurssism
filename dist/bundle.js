@@ -125,9 +125,9 @@ function pointerLight(on) {
 }
 
 /**
- * <html data-glass>를 정합니다. 유리가 켜졌으면 true.
+ * <html data-glass>를 정합니다. 크레마가 켜졌으면 true.
  *   "off"  : 블러 없음(저사양·절전·투명도 줄이기)
- *   "on"   : 기본 블러레마 유리
+ *   "on"   : 기본 블러레마
  *   "rich" : 데스크톱 모드. 블러가 더 깊고, 포인터 주변에 따뜻한 빛이 번집니다.
  * 옵션: applyGlassPreference({ rich: "auto" | true | false, pointerLight: true | false })
  *   rich 기본값 "auto"는 데스크톱(isDesktopCapable)일 때만 켜고, 창 크기가 바뀌면 다시 판단합니다.
@@ -157,7 +157,7 @@ function applyGlassPreference(options) {
   return !reduce;
 }
 
-/** 유리 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
+/** 크레마 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
 function setGlassMode(mode) {
   if (mode === "off") return applyGlassPreference({ force: false });
   if (mode === "on") return applyGlassPreference({ force: true, rich: false });
@@ -165,7 +165,7 @@ function setGlassMode(mode) {
   return applyGlassPreference();
 }
 
-/** 지금 유리 모드: "off" | "on" | "rich". 설정 전이나 서버에서는 "on". */
+/** 지금 크레마 모드: "off" | "on" | "rich". 설정 전이나 서버에서는 "on". */
 function getGlassMode() {
   const root = rootEl();
   const m = root && root.getAttribute("data-glass");

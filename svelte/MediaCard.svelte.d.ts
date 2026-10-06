@@ -9,7 +9,7 @@ type $$ComponentProps = {
     badge?: string;
     badgeTone?: "neutral" | "accent" | "positive" | "warning" | "danger";
     badgeIcon?: IconName;
-    /** 긴 목록에서 반복될 때: 블러 없는 가벼운 유리 (성능) */ lite?: boolean;
+    /** 긴 목록에서 반복될 때: 블러 없는 가벼운 크레마 (성능) */ lite?: boolean;
     /** 캡션 오른쪽 (보통 IconButton) */ action?: Snippet;
     class?: string;
 };

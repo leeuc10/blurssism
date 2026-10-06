@@ -2,7 +2,7 @@
 
 ## 언제 쓰나
 - 되돌릴 수 없는 행동의 확인, 짧은 입력 한두 개. 정보 전달만이면 Toast, 여러 선택지면 Sheet.
-- 두꺼운 유리(`glass-fill-strong` + `blur-lg`) 위에 `radius-xl`. 뒤에는 `scrim` + `blur-sm`.
+- 두꺼운 크레마(`glass-fill-strong` + `blur-lg`) 위에 `radius-xl`. 뒤에는 `scrim` + `blur-sm`.
 - 열리면 첫 버튼으로 포커스가 가고, Tab은 안에서만 돌며, Esc·바깥 클릭으로 닫히고, 닫히면 원래 자리로 포커스가 돌아갑니다.
 
 ## 소비자가 넣는 것
