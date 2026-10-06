@@ -32,14 +32,14 @@
     --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
     --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
     --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
-    --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
+    --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
     --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
       --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
-      --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
+      --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
     }
   }
 }
@@ -49,17 +49,29 @@
 
 /* ── 데스크톱 모드: <html data-glass="rich"> ─────────────────────────────
    applyGlassPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyGlassPreference({ rich: false }).
-   블러가 깊어지고, 그림자가 한 겹 늘고, 포인터 주변에 따뜻한 빛(glass-light)이 번집니다. 블러 예산은 화면당 6개. */
-html[data-glass="rich"], [data-glass="rich"] { --blur-md: 32px; --blur-lg: 56px; --glass-saturate: 135%; }
+   기본보다 블러가 훨씬 깊고(40/64px), 유리가 더 비치고, 그림자가 두 겹 늘고,
+   포인터 주변에 캐러멜빛(glass-light)이 크게 번집니다. 포인터가 없으면 왼쪽 위에서 빛이 듭니다. 블러 예산은 화면당 6개. */
+html[data-glass="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px; --glass-saturate: 145%; }
 [data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-glass-thick, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
-  background-image: radial-gradient(280px circle at var(--bl-light-x, -100vmax) var(--bl-light-y, -100vmax), var(--glass-light), transparent 70%), var(--glass-crema), var(--glass-grain);
-  background-attachment: fixed, scroll, scroll;
+  background-image:
+    radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--glass-light), transparent 70%),
+    radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--glass-light), transparent 70%),
+    var(--glass-crema), var(--glass-grain);
+  background-attachment: fixed, fixed, scroll, scroll;
 }
-[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass { box-shadow: var(--shadow-glass), 0 2px 6px rgba(33, 24, 15, 0.06), 0 24px 60px rgba(33, 24, 15, 0.08); }
-[data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), 0 2px 8px rgba(33, 24, 15, 0.08); }
+[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+  box-shadow: var(--shadow-glass), inset 0 -1px 0 var(--glass-stroke), 0 4px 12px rgba(33, 24, 15, 0.10), 0 32px 80px rgba(33, 24, 15, 0.20);
+}
+[data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), 0 4px 12px rgba(33, 24, 15, 0.12), 0 40px 100px rgba(33, 24, 15, 0.22); }
+@supports (color: color-mix(in srgb, red, blue)) {
+  [data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--glass-fill) 80%, transparent); }
+}
 @media (hover: hover) {
   [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
-  [data-glass="rich"] .bl-btn-glass:hover, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover { transform: translateY(-1px); }
+  [data-glass="rich"] .bl-btn-glass:hover, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glass), inset 0 -1px 0 var(--glass-stroke), 0 8px 20px rgba(33, 24, 15, 0.14), 0 40px 90px rgba(33, 24, 15, 0.24);
+  }
   [data-glass="rich"] .bl-btn-glass:active, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
 }
 
@@ -223,7 +235,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 [data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick, [data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn, [data-glass="off"] .bl-scrim {
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-[data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-image: none; }
+[data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
 [data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick { background: var(--paper-raised); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .bl-glass, .bl-glass-thick { background: var(--paper-raised); }

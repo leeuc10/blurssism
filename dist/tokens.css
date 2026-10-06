@@ -35,7 +35,7 @@
   --glass-edge: rgba(244, 222, 198, 0.95);
   --glass-crema: linear-gradient(180deg, rgba(192, 145, 103, 0.50), rgba(192, 145, 103, 0.16) 40%, rgba(192, 145, 103, 0) 72%);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --glass-light: rgba(230, 194, 155, 0.40);
+  --glass-light: rgba(192, 145, 103, 0.50);
 }
 [data-theme="dark"] {
   --paper: #16110d;
@@ -71,7 +71,7 @@
   --glass-edge: rgba(226, 171, 122, 0.22);
   --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.40), rgba(188, 140, 98, 0.12) 40%, rgba(188, 140, 98, 0) 72%);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --glass-light: rgba(226, 171, 122, 0.16);
+  --glass-light: rgba(188, 140, 98, 0.42);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -108,7 +108,7 @@
     --glass-edge: rgba(226, 171, 122, 0.22);
     --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.40), rgba(188, 140, 98, 0.12) 40%, rgba(188, 140, 98, 0) 72%);
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    --glass-light: rgba(226, 171, 122, 0.16);
+    --glass-light: rgba(188, 140, 98, 0.42);
   }
 }
 /* espresso — 에스프레소: 기본. 볶은 원두의 갈색과 크레마. */

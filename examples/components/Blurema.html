@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Blurema — 미리보기</title>
-<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .layers{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;} .stage{position:relative;height:200px;border-radius:var(--radius-lg);overflow:hidden;} .pane{position:absolute;inset:28px 20px;border-radius:var(--radius-lg);display:grid;place-items:end start;padding:14px 16px;font-size:14px;line-height:20px;font-weight:600;color:var(--ink);} .pane small{display:block;font-weight:400;color:var(--ink-muted);font-size:12px;line-height:16px;} .demo{position:relative;height:300px;border-radius:var(--radius-lg);overflow:hidden;margin-top:16px;} .demo .bar{position:absolute;left:16px;right:16px;top:16px;} .demo .float{position:absolute;left:16px;bottom:16px;display:flex;gap:8px;} .tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px;} .tools p{margin:0;font-size:13px;line-height:18px;color:var(--ink-muted);}</style>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .layers{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;} .stage{position:relative;height:200px;border-radius:var(--radius-lg);overflow:hidden;} .pane{position:absolute;inset:28px 20px;border-radius:var(--radius-lg);display:grid;place-items:end start;padding:14px 16px;font-size:14px;line-height:20px;font-weight:600;color:var(--ink);} .pane small{display:block;font-weight:400;color:var(--ink-muted);font-size:12px;line-height:16px;} .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:20px;} .mode{display:grid;gap:8px;} .mode h3{margin:0;font-size:14px;line-height:20px;font-weight:600;color:var(--ink);} .mode p{margin:0;font-size:12px;line-height:17px;color:var(--ink-muted);} .scene{position:relative;height:250px;border-radius:var(--radius-lg);overflow:hidden;background:var(--paper);} .scene .txt{position:absolute;left:14px;right:14px;top:6px;margin:0;font-family:var(--font-serif);font-weight:700;font-size:30px;line-height:36px;color:var(--ink);opacity:.85;word-break:keep-all;} .scene .stripes{position:absolute;left:0;right:0;bottom:0;height:120px;background:repeating-linear-gradient(90deg,var(--accent) 0 10px,var(--deco) 10px 20px,var(--positive) 20px 30px,var(--paper) 30px 40px);} .scene .bar{position:absolute;left:12px;right:12px;top:22px;} .scene .float{position:absolute;left:12px;bottom:14px;display:flex;gap:8px;} .hint{margin:14px 0 0;font-size:13px;line-height:18px;color:var(--ink-muted);}</style>
 </head>
 <body>
 <div id="root" class="bl-root"></div>
@@ -27,21 +27,36 @@
     ["2. 우유 거품 색", "흰 유리 대신 크림색 젖빛", { backdropFilter: blur, WebkitBackdropFilter: blur, background: "var(--glass-fill)" }],
     ["3. 거품 결", "고운 거품 결 노이즈", { backdropFilter: blur, WebkitBackdropFilter: blur, backgroundColor: "var(--glass-fill)", backgroundImage: "var(--glass-grain)" }],
     ["4. 크레마", "윗부분 캐러멜빛 크레마와 따뜻한 가장자리", null]];
+  var modes = [
+    ["off", "끄기", "블러 없이 불투명. 저사양·절전·투명도 줄이기"],
+    ["on", "기본", "블러 24px + 블러레마. 모바일과 일반 기기"],
+    ["rich", "데스크톱", "블러 40px, 더 비치는 유리, 두 겹 그림자, 포인터를 따라오는 캐러멜빛"]];
+  // 미리보기용: 포인터 빛 위치를 직접 넘깁니다 (실제 앱에서는 applyGlassPreference()가 합니다)
+  var raf = 0;
+  window.addEventListener("pointermove", function (e) {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; document.documentElement.style.setProperty("--bl-light-x", e.clientX + "px"); document.documentElement.style.setProperty("--bl-light-y", e.clientY + "px"); });
+  }, { passive: true });
+  function Scene(p) {
+    var m = p.m;
+    return h("div", { className: "mode" },
+      h("h3", null, m[1], " ", h("code", { style: { fontWeight: 400, color: "var(--ink-subtle)" } }, 'data-glass="' + m[0] + '"')),
+      h("div", { className: "scene", "data-glass": m[0] },
+        h("p", { className: "txt", "aria-hidden": "true" }, "우유 거품 위에 크레마를 얹은 블러레마 유리"),
+        h("div", { className: "stripes", "aria-hidden": "true" }),
+        h("div", { className: "bar" }, h(B.NavBar, { title: "블러레마", actions: h(B.IconButton, { icon: "search", label: "검색" }) })),
+        h("div", { className: "float" }, h(B.Button, { variant: "glass" }, "유리 버튼"), h(B.IconButton, { icon: "heart", label: "좋아요" }))),
+      h("p", null, m[2]));
+  }
   function Demo() {
-    var st = React.useState(B.getGlassMode());
-    function pick(m) { B.setGlassMode(m); st[1](B.getGlassMode()); }
     return h(React.Fragment, null,
       h("div", { className: "layers" }, steps.map(function (s) {
         return h("div", { key: s[0], className: "stage bl-backdrop" }, Blobs(),
           h("div", { className: "pane" + (s[2] ? "" : " bl-glass"), style: s[2] ? Object.assign({ border: "1px solid var(--glass-stroke)" }, s[2]) : null },
             h("span", null, s[0], h("small", null, s[1]))));
       })),
-      h("div", { className: "tools" },
-        h(B.SegmentedControl, { label: "유리 모드", value: st[0], onChange: pick, items: [{ id: "off", label: "끄기" }, { id: "on", label: "기본" }, { id: "rich", label: "데스크톱" }] }),
-        h("p", null, st[0] === "rich" ? "데스크톱 모드: 블러가 깊어지고 포인터 주변에 따뜻한 빛이 번져요. 아래 화면 위로 마우스를 움직여 보세요." : st[0] === "off" ? "끄기: 블러 없이 불투명한 면. 저사양 기기와 절전 모드용이에요." : "기본: 모바일과 일반 기기에서 쓰는 블러레마 유리예요.")),
-      h("div", { className: "demo bl-backdrop" }, Blobs(),
-        h("div", { className: "bar" }, h(B.NavBar, { title: "블러레마", actions: h(B.IconButton, { icon: "search", label: "검색" }) })),
-        h("div", { className: "float" }, h(B.Button, { variant: "glass" }, "유리 버튼"), h(B.IconButton, { icon: "heart", label: "좋아요" }))));
+      h("div", { className: "modes" }, modes.map(function (m) { return h(Scene, { key: m[0], m: m }); })),
+      h("p", { className: "hint" }, "데스크톱 칸 위로 마우스를 움직여 보세요. 실제 앱에서는 applyGlassPreference()가 기기에 맞춰 셋 중 하나를 고릅니다."));
   }
   mount(h(Demo));
 </script>

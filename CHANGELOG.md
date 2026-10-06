@@ -11,7 +11,7 @@
 - `blur-md` 20px → 24px
 
 **데스크톱 모드 · Desktop mode**
-- `<html data-glass="rich">`: 블러 32/56px, 그림자 추가, 포인터 주변 따뜻한 빛, 블러 예산 화면당 6개
+- `<html data-glass="rich">`: 블러 40/64px, 더 비치는 유리, 두 겹 그림자, 포인터를 따라오는 캐러멜빛, 블러 예산 화면당 6개
 - `applyGlassPreference({ rich, pointerLight })`, `setGlassMode()`, `getGlassMode()`, `isDesktopCapable()`
 - 기존 `applyGlassPreference(true | false)`는 그대로 동작 / the boolean form still works
 
@@ -22,7 +22,8 @@
 
 **기타 · Other**
 - 문서에 문의 메일(leeunchan10@gmail.com)과 다른 디자인 시스템과의 비교 추가 / contact email and a comparison with other design systems
-- 미리보기 `Blurema`, `BrandColor` 추가 / new previews
+- 미리보기 `Blurema`(층과 세 모드 나란히 비교), `BrandColor` 추가 / new previews
+- 끄기 모드에서 유리 버튼도 불투명하게 / glass buttons are opaque in off mode
 
 ## 1.3.1 — 2026-10-06
 **웹 기본 팔레트 · Web essential palettes**
