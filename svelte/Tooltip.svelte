@@ -5,4 +5,4 @@
   const id = $props.id();
 </script>
 
-<span class="bl-tip">{@render children?.(id)}<span {id} role="tooltip" class="bl-tooltip bl-glass-thick">{label}</span></span>
+<span class="bl-tip">{@render children?.(id)}<span {id} role="tooltip" class="bl-tooltip bl-crema-thick bl-glass-thick">{label}</span></span>

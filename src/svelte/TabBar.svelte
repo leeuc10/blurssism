@@ -5,7 +5,7 @@
     { items: { id: string; label: string; icon: IconName }[]; value?: string; label?: string; onchange?: (id: string) => void; class?: string } = $props();
 </script>
 
-<div class={["bl-tabbar bl-glass", className]} role="tablist" aria-label={label}>
+<div class={["bl-tabbar bl-crema bl-glass", className]} role="tablist" aria-label={label}>
   {#each items as it (it.id)}
     <button type="button" role="tab" class="bl-tab" aria-selected={it.id === value}
       onclick={() => { value = it.id; onchange?.(it.id); }}><Icon name={it.icon} filled={it.id === value} />{it.label}</button>

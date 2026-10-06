@@ -1,4 +1,4 @@
-/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha"> */
 @import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 :root, [data-theme="light"] {
@@ -24,17 +24,26 @@
   --danger-soft: #fbe9e7;
   --info: #1d5a8c;
   --focus-ring: #1d5a8c;
+  --crema-fill: rgba(250, 246, 240, 0.66);
   --glass-fill: rgba(250, 246, 240, 0.66);
+  --crema-fill-strong: rgba(250, 246, 240, 0.86);
   --glass-fill-strong: rgba(250, 246, 240, 0.86);
+  --crema-stroke: rgba(255, 255, 255, 0.55);
   --glass-stroke: rgba(255, 255, 255, 0.55);
+  --crema-tint-accent: rgba(122, 69, 36, 0.14);
   --glass-tint-accent: rgba(122, 69, 36, 0.14);
   --scrim: rgba(23, 21, 19, 0.40);
   --shadow-card: 0 1px 2px rgba(28, 25, 23, 0.06), 0 4px 16px rgba(28, 25, 23, 0.05);
-  --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
-  --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
+  --shadow-crema: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
+  --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
+  --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
+  --crema-edge: rgba(244, 222, 198, 0.95);
   --glass-edge: rgba(244, 222, 198, 0.95);
+  --crema-band: linear-gradient(180deg, rgba(192, 145, 103, 0.88), rgba(192, 145, 103, 0.60) 8px, rgba(192, 145, 103, 0.22) 38%, rgba(192, 145, 103, 0) 75%);
   --glass-crema: linear-gradient(180deg, rgba(192, 145, 103, 0.88), rgba(192, 145, 103, 0.60) 8px, rgba(192, 145, 103, 0.22) 38%, rgba(192, 145, 103, 0) 75%);
+  --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-light: rgba(192, 145, 103, 0.50);
   --glass-light: rgba(192, 145, 103, 0.50);
 }
 [data-theme="dark"] {
@@ -60,17 +69,26 @@
   --danger-soft: #3b1b17;
   --info: #8cc0ec;
   --focus-ring: #8cc0ec;
+  --crema-fill: rgba(30, 23, 18, 0.62);
   --glass-fill: rgba(30, 23, 18, 0.62);
+  --crema-fill-strong: rgba(28, 21, 16, 0.84);
   --glass-fill-strong: rgba(28, 21, 16, 0.84);
+  --crema-stroke: rgba(255, 240, 225, 0.10);
   --glass-stroke: rgba(255, 240, 225, 0.10);
+  --crema-tint-accent: rgba(226, 171, 122, 0.18);
   --glass-tint-accent: rgba(226, 171, 122, 0.18);
   --scrim: rgba(0, 0, 0, 0.56);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
-  --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-crema: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+  --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+  --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+  --crema-edge: rgba(226, 171, 122, 0.22);
   --glass-edge: rgba(226, 171, 122, 0.22);
+  --crema-band: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
   --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
+  --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-light: rgba(188, 140, 98, 0.42);
   --glass-light: rgba(188, 140, 98, 0.42);
 }
 @media (prefers-color-scheme: dark) {
@@ -97,17 +115,26 @@
     --danger-soft: #3b1b17;
     --info: #8cc0ec;
     --focus-ring: #8cc0ec;
+    --crema-fill: rgba(30, 23, 18, 0.62);
     --glass-fill: rgba(30, 23, 18, 0.62);
+    --crema-fill-strong: rgba(28, 21, 16, 0.84);
     --glass-fill-strong: rgba(28, 21, 16, 0.84);
+    --crema-stroke: rgba(255, 240, 225, 0.10);
     --glass-stroke: rgba(255, 240, 225, 0.10);
+    --crema-tint-accent: rgba(226, 171, 122, 0.18);
     --glass-tint-accent: rgba(226, 171, 122, 0.18);
     --scrim: rgba(0, 0, 0, 0.56);
     --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-glass: inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
-    --shadow-sheet: inset 0 1px 0 var(--glass-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+    --shadow-crema: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+    --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+    --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+    --crema-edge: rgba(226, 171, 122, 0.22);
     --glass-edge: rgba(226, 171, 122, 0.22);
+    --crema-band: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
     --glass-crema: linear-gradient(180deg, rgba(188, 140, 98, 0.78), rgba(188, 140, 98, 0.50) 8px, rgba(188, 140, 98, 0.16) 38%, rgba(188, 140, 98, 0) 75%);
+    --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-light: rgba(188, 140, 98, 0.42);
     --glass-light: rgba(188, 140, 98, 0.42);
   }
 }
@@ -118,6 +145,7 @@
   --on-accent: #ffffff;
   --accent-ink: #653819;
   --deco: #e6c29b;
+  --crema-tint-accent: rgba(122, 69, 36, 0.14);
   --glass-tint-accent: rgba(122, 69, 36, 0.14);
 }
 [data-theme="dark"][data-palette="espresso"], [data-theme="dark"] [data-palette="espresso"] {
@@ -126,6 +154,7 @@
   --on-accent: #21180f;
   --accent-ink: #ecbf96;
   --deco: #a8784f;
+  --crema-tint-accent: rgba(226, 171, 122, 0.18);
   --glass-tint-accent: rgba(226, 171, 122, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -135,6 +164,7 @@
     --on-accent: #21180f;
     --accent-ink: #ecbf96;
     --deco: #a8784f;
+    --crema-tint-accent: rgba(226, 171, 122, 0.18);
     --glass-tint-accent: rgba(226, 171, 122, 0.18);
   }
 }
@@ -145,6 +175,7 @@
   --on-accent: #ffffff;
   --accent-ink: #335a2c;
   --deco: #c6dbb0;
+  --crema-tint-accent: rgba(62, 107, 53, 0.14);
   --glass-tint-accent: rgba(62, 107, 53, 0.14);
 }
 [data-theme="dark"][data-palette="matcha"], [data-theme="dark"] [data-palette="matcha"] {
@@ -153,6 +184,7 @@
   --on-accent: #21180f;
   --accent-ink: #b5dea4;
   --deco: #6c8c5b;
+  --crema-tint-accent: rgba(163, 212, 143, 0.18);
   --glass-tint-accent: rgba(163, 212, 143, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -162,6 +194,7 @@
     --on-accent: #21180f;
     --accent-ink: #b5dea4;
     --deco: #6c8c5b;
+    --crema-tint-accent: rgba(163, 212, 143, 0.18);
     --glass-tint-accent: rgba(163, 212, 143, 0.18);
   }
 }
@@ -172,6 +205,7 @@
   --on-accent: #ffffff;
   --accent-ink: #843a0e;
   --deco: #f0bf8c;
+  --crema-tint-accent: rgba(154, 69, 18, 0.14);
   --glass-tint-accent: rgba(154, 69, 18, 0.14);
 }
 [data-theme="dark"][data-palette="chai"], [data-theme="dark"] [data-palette="chai"] {
@@ -180,6 +214,7 @@
   --on-accent: #21180f;
   --accent-ink: #f6bb8b;
   --deco: #b5773f;
+  --crema-tint-accent: rgba(242, 166, 106, 0.18);
   --glass-tint-accent: rgba(242, 166, 106, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -189,6 +224,7 @@
     --on-accent: #21180f;
     --accent-ink: #f6bb8b;
     --deco: #b5773f;
+    --crema-tint-accent: rgba(242, 166, 106, 0.18);
     --glass-tint-accent: rgba(242, 166, 106, 0.18);
   }
 }
@@ -199,6 +235,7 @@
   --on-accent: #ffffff;
   --accent-ink: #233f61;
   --deco: #b8cce3;
+  --crema-tint-accent: rgba(43, 76, 116, 0.14);
   --glass-tint-accent: rgba(43, 76, 116, 0.14);
 }
 [data-theme="dark"][data-palette="coldbrew"], [data-theme="dark"] [data-palette="coldbrew"] {
@@ -207,6 +244,7 @@
   --on-accent: #21180f;
   --accent-ink: #b2cff0;
   --deco: #5a7799;
+  --crema-tint-accent: rgba(156, 193, 234, 0.18);
   --glass-tint-accent: rgba(156, 193, 234, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -216,6 +254,7 @@
     --on-accent: #21180f;
     --accent-ink: #b2cff0;
     --deco: #5a7799;
+    --crema-tint-accent: rgba(156, 193, 234, 0.18);
     --glass-tint-accent: rgba(156, 193, 234, 0.18);
   }
 }
@@ -226,6 +265,7 @@
   --on-accent: #ffffff;
   --accent-ink: #6a303b;
   --deco: #e5bdb6;
+  --crema-tint-accent: rgba(124, 58, 70, 0.14);
   --glass-tint-accent: rgba(124, 58, 70, 0.14);
 }
 [data-theme="dark"][data-palette="mocha"], [data-theme="dark"] [data-palette="mocha"] {
@@ -234,6 +274,7 @@
   --on-accent: #21180f;
   --accent-ink: #efbac2;
   --deco: #a36b6a;
+  --crema-tint-accent: rgba(232, 165, 176, 0.18);
   --glass-tint-accent: rgba(232, 165, 176, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -243,6 +284,7 @@
     --on-accent: #21180f;
     --accent-ink: #efbac2;
     --deco: #a36b6a;
+    --crema-tint-accent: rgba(232, 165, 176, 0.18);
     --glass-tint-accent: rgba(232, 165, 176, 0.18);
   }
 }
@@ -253,6 +295,7 @@
   --on-accent: #ffffff;
   --accent-ink: #6a2f5b;
   --deco: #f3c4a4;
+  --crema-tint-accent: rgba(122, 59, 105, 0.14);
   --glass-tint-accent: rgba(122, 59, 105, 0.14);
 }
 [data-theme="dark"][data-palette="classic"], [data-theme="dark"] [data-palette="classic"] {
@@ -261,6 +304,7 @@
   --on-accent: #1c1917;
   --accent-ink: #e8b6d9;
   --deco: #c98a63;
+  --crema-tint-accent: rgba(224, 166, 207, 0.18);
   --glass-tint-accent: rgba(224, 166, 207, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -270,6 +314,7 @@
     --on-accent: #1c1917;
     --accent-ink: #e8b6d9;
     --deco: #c98a63;
+    --crema-tint-accent: rgba(224, 166, 207, 0.18);
     --glass-tint-accent: rgba(224, 166, 207, 0.18);
   }
 }
@@ -280,6 +325,7 @@
   --on-accent: #ffffff;
   --accent-ink: #184c9a;
   --deco: #b9cff0;
+  --crema-tint-accent: rgba(29, 91, 184, 0.14);
   --glass-tint-accent: rgba(29, 91, 184, 0.14);
 }
 [data-theme="dark"][data-palette="blue"], [data-theme="dark"] [data-palette="blue"] {
@@ -288,6 +334,7 @@
   --on-accent: #21180f;
   --accent-ink: #a9cbf8;
   --deco: #4f74a6;
+  --crema-tint-accent: rgba(142, 185, 245, 0.18);
   --glass-tint-accent: rgba(142, 185, 245, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -297,6 +344,7 @@
     --on-accent: #21180f;
     --accent-ink: #a9cbf8;
     --deco: #4f74a6;
+    --crema-tint-accent: rgba(142, 185, 245, 0.18);
     --glass-tint-accent: rgba(142, 185, 245, 0.18);
   }
 }
@@ -307,6 +355,7 @@
   --on-accent: #ffffff;
   --accent-ink: #3d3399;
   --deco: #c7c2ef;
+  --crema-tint-accent: rgba(74, 63, 181, 0.14);
   --glass-tint-accent: rgba(74, 63, 181, 0.14);
 }
 [data-theme="dark"][data-palette="indigo"], [data-theme="dark"] [data-palette="indigo"] {
@@ -315,6 +364,7 @@
   --on-accent: #21180f;
   --accent-ink: #bfbcf7;
   --deco: #6a64ad;
+  --crema-tint-accent: rgba(170, 166, 244, 0.18);
   --glass-tint-accent: rgba(170, 166, 244, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -324,6 +374,7 @@
     --on-accent: #21180f;
     --accent-ink: #bfbcf7;
     --deco: #6a64ad;
+    --crema-tint-accent: rgba(170, 166, 244, 0.18);
     --glass-tint-accent: rgba(170, 166, 244, 0.18);
   }
 }
@@ -334,6 +385,7 @@
   --on-accent: #ffffff;
   --accent-ink: #5f2e90;
   --deco: #dcc4ef;
+  --crema-tint-accent: rgba(112, 56, 168, 0.14);
   --glass-tint-accent: rgba(112, 56, 168, 0.14);
 }
 [data-theme="dark"][data-palette="violet"], [data-theme="dark"] [data-palette="violet"] {
@@ -342,6 +394,7 @@
   --on-accent: #21180f;
   --accent-ink: #dbbcf5;
   --deco: #8c67ad;
+  --crema-tint-accent: rgba(207, 166, 242, 0.18);
   --glass-tint-accent: rgba(207, 166, 242, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -351,6 +404,7 @@
     --on-accent: #21180f;
     --accent-ink: #dbbcf5;
     --deco: #8c67ad;
+    --crema-tint-accent: rgba(207, 166, 242, 0.18);
     --glass-tint-accent: rgba(207, 166, 242, 0.18);
   }
 }
@@ -361,6 +415,7 @@
   --on-accent: #ffffff;
   --accent-ink: #0b5a56;
   --deco: #a9d9d2;
+  --crema-tint-accent: rgba(14, 107, 102, 0.14);
   --glass-tint-accent: rgba(14, 107, 102, 0.14);
 }
 [data-theme="dark"][data-palette="teal"], [data-theme="dark"] [data-palette="teal"] {
@@ -369,6 +424,7 @@
   --on-accent: #21180f;
   --accent-ink: #95dccf;
   --deco: #3f8a80;
+  --crema-tint-accent: rgba(120, 208, 196, 0.18);
   --glass-tint-accent: rgba(120, 208, 196, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -378,6 +434,7 @@
     --on-accent: #21180f;
     --accent-ink: #95dccf;
     --deco: #3f8a80;
+    --crema-tint-accent: rgba(120, 208, 196, 0.18);
     --glass-tint-accent: rgba(120, 208, 196, 0.18);
   }
 }
@@ -388,6 +445,7 @@
   --on-accent: #ffffff;
   --accent-ink: #0f5e3e;
   --deco: #a7dcbc;
+  --crema-tint-accent: rgba(19, 112, 74, 0.14);
   --glass-tint-accent: rgba(19, 112, 74, 0.14);
 }
 [data-theme="dark"][data-palette="emerald"], [data-theme="dark"] [data-palette="emerald"] {
@@ -396,6 +454,7 @@
   --on-accent: #21180f;
   --accent-ink: #9ce0b8;
   --deco: #3f8f63;
+  --crema-tint-accent: rgba(127, 214, 165, 0.18);
   --glass-tint-accent: rgba(127, 214, 165, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -405,6 +464,7 @@
     --on-accent: #21180f;
     --accent-ink: #9ce0b8;
     --deco: #3f8f63;
+    --crema-tint-accent: rgba(127, 214, 165, 0.18);
     --glass-tint-accent: rgba(127, 214, 165, 0.18);
   }
 }
@@ -415,6 +475,7 @@
   --on-accent: #ffffff;
   --accent-ink: #962659;
   --deco: #f0bcd2;
+  --crema-tint-accent: rgba(176, 48, 106, 0.14);
   --glass-tint-accent: rgba(176, 48, 106, 0.14);
 }
 [data-theme="dark"][data-palette="pink"], [data-theme="dark"] [data-palette="pink"] {
@@ -423,6 +484,7 @@
   --on-accent: #21180f;
   --accent-ink: #f7b3d0;
   --deco: #ad5f80;
+  --crema-tint-accent: rgba(244, 154, 192, 0.18);
   --glass-tint-accent: rgba(244, 154, 192, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -432,6 +494,7 @@
     --on-accent: #21180f;
     --accent-ink: #f7b3d0;
     --deco: #ad5f80;
+    --crema-tint-accent: rgba(244, 154, 192, 0.18);
     --glass-tint-accent: rgba(244, 154, 192, 0.18);
   }
 }
@@ -442,6 +505,7 @@
   --on-accent: #ffffff;
   --accent-ink: #2e2a26;
   --deco: #cfc6bc;
+  --crema-tint-accent: rgba(59, 54, 50, 0.14);
   --glass-tint-accent: rgba(59, 54, 50, 0.14);
 }
 [data-theme="dark"][data-palette="graphite"], [data-theme="dark"] [data-palette="graphite"] {
@@ -450,6 +514,7 @@
   --on-accent: #21180f;
   --accent-ink: #ece6de;
   --deco: #7d7268;
+  --crema-tint-accent: rgba(226, 219, 210, 0.18);
   --glass-tint-accent: rgba(226, 219, 210, 0.18);
 }
 @media (prefers-color-scheme: dark) {
@@ -459,6 +524,7 @@
     --on-accent: #21180f;
     --accent-ink: #ece6de;
     --deco: #7d7268;
+    --crema-tint-accent: rgba(226, 219, 210, 0.18);
     --glass-tint-accent: rgba(226, 219, 210, 0.18);
   }
 }
@@ -481,6 +547,7 @@
   --blur-sm: 8px;
   --blur-md: 24px;
   --blur-lg: 40px;
+  --crema-saturate: 125%;
   --glass-saturate: 125%;
   --bp-sm: 600px;
   --bp-md: 768px;

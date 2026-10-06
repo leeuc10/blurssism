@@ -21,7 +21,10 @@ write("dist/tokens.json", JSON.stringify(tokens, null, 2) + "\n");
 const colorTokens = tokens.color.tokens;
 const val = (v, theme) => (typeof v === "string" ? v : v[theme] ?? v.light);
 const cssVal = (v) => v.replace(/^\{(.+)\}$/, "var(--$1)");
-const decl = (list, theme, indent = "  ") => list.map((t) => `${indent}--${t.name}: ${cssVal(val(t.value, theme))};`).join("\n");
+// 1.5: glass → crema 이름 변경. 옛 이름(별칭)도 같은 값으로 함께 냅니다(2.0에서 제거).
+const ALIAS = tokens.aliases.map;
+const withAlias = (name, value, indent) => `${indent}--${name}: ${value};` + (ALIAS[name] ? `\n${indent}--${ALIAS[name]}: ${value};` : "");
+const decl = (list, theme, indent = "  ") => list.map((t) => withAlias(t.name, cssVal(val(t.value, theme)), indent)).join("\n");
 const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens, ...tokens.material.tokens];
 const plain = ["spacing", "radius", "blur", "backdrop", "layout"].flatMap((f) => tokens[f].tokens);
 const families = Object.entries(tokens.type.families)
@@ -31,7 +34,7 @@ const typeCss = styles.map((s) =>
   `.${s.name} { font-family: var(--font-${s.family}); font-size: ${s.fontSize}; line-height: ${s.lineHeight}; font-weight: ${s.fontWeight};${s.letterSpacing ? ` letter-spacing: ${s.letterSpacing};` : ""} }`).join("\n");
 
 const palettes = tokens.palettes.list;
-const palDecl = (p, theme, indent) => Object.entries(p.values[theme]).map(([k, v]) => `${indent}--${k}: ${v};`).join("\n");
+const palDecl = (p, theme, indent) => Object.entries(p.values[theme]).map(([k, v]) => withAlias(k, v, indent)).join("\n");
 const paletteCss = palettes.map((p) => `/* ${p.id} — ${p.name}: ${p.description} */
 [data-palette="${p.id}"] {
 ${palDecl(p, "light", "  ")}
@@ -79,7 +82,7 @@ ${decl(colorsAndShadows, "dark", "    ")}
 }
 ${paletteCss}
 :root {
-${plain.map((t) => `  --${t.name}: ${t.value};`).join("\n")}
+${plain.map((t) => withAlias(t.name, t.value, "  ")).join("\n")}
 ${families}
 }
 ${gridCss}
@@ -90,12 +93,12 @@ ${fluidType}
 const tw = {
   theme: {
     extend: {
-      colors: Object.fromEntries(colorTokens.map((t) => [t.name, `var(--${t.name})`])),
+      colors: Object.fromEntries(colorTokens.flatMap((t) => [[t.name, `var(--${t.name})`], ...(ALIAS[t.name] ? [[ALIAS[t.name], `var(--${t.name})`]] : [])])),
       spacing: Object.fromEntries(tokens.spacing.tokens.map((t) => [t.name.replace("space-", ""), `var(--${t.name})`])),
       borderRadius: Object.fromEntries(tokens.radius.tokens.map((t) => [t.name.replace("radius-", ""), `var(--${t.name})`])),
-      boxShadow: Object.fromEntries(tokens.shadow.tokens.map((t) => [t.name.replace("shadow-", ""), `var(--${t.name})`])),
+      boxShadow: Object.fromEntries(tokens.shadow.tokens.flatMap((t) => [[t.name.replace("shadow-", ""), `var(--${t.name})`], ...(ALIAS[t.name] ? [[ALIAS[t.name].replace("shadow-", ""), `var(--${t.name})`]] : [])])),
       backdropBlur: Object.fromEntries(tokens.blur.tokens.map((t) => [t.name.replace("blur-", ""), `var(--${t.name})`])),
-      backgroundImage: { "glass-crema": "var(--glass-crema)", "glass-grain": "var(--glass-grain)" },
+      backgroundImage: { "crema-band": "var(--crema-band)", "crema-grain": "var(--crema-grain)", "glass-crema": "var(--crema-band)", "glass-grain": "var(--crema-grain)" },
       fontFamily: { sans: ["var(--font-sans)"], serif: ["var(--font-serif)"] },
       fontSize: Object.fromEntries(styles.map((s) => [s.name, [s.fontSize, { lineHeight: s.lineHeight, fontWeight: String(s.fontWeight), ...(s.letterSpacing ? { letterSpacing: s.letterSpacing } : {}) }]])),
       screens: { sm: "600px", md: "768px", lg: "1120px", xl: "1440px" },
@@ -116,7 +119,22 @@ const bpSpans = Object.entries(bps).map(([bp, px]) =>
   `@media (min-width: ${px}px) {\n${range(12).map((n) => `  .bl-span-${bp}-${n} { grid-column: span ${n} / span ${n}; }`).join("\n")}\n  .bl-span-${bp}-full { grid-column: 1 / -1; }\n}`).join("\n");
 const vis = Object.entries(bps).map(([bp, px]) =>
   `@media (min-width: ${px}px) { .bl-hide-from-${bp} { display: none !important; } }\n@media (max-width: ${px - 1}px) { .bl-hide-below-${bp} { display: none !important; } }`).join("\n");
-write("dist/bundle.css", banner + read("src/bundle.css").replace(/^\/\*[\s\S]*?\*\/\n/m, (m) => m) +
+// 1.5: .bl-crema* · .bl-btn-crema · [data-crema] 규칙마다 옛 이름(.bl-glass* · .bl-btn-glass · [data-glass])도 같은 규칙에 붙입니다.
+// 속성과 클래스를 따로 바꾼 조합까지 모두 만들어, 옛 이름과 새 이름을 섞어 써도 맞습니다. 옛 커스텀 속성(--glass-*)도 함께 냅니다.
+const swapAttr = (sel) => sel.replace(/\[data-crema/g, "[data-glass");
+const swapClass = (sel) => sel.replace(/\.bl-crema/g, ".bl-glass").replace(/\.bl-btn-crema/g, ".bl-btn-glass");
+const aliasCss = (css) => css
+  .replace(/([^{};]+)\{/g, (m, raw) => {
+    const cut = raw.lastIndexOf("*/") + 2;           // 앞에 붙은 주석은 건드리지 않습니다
+    const head = cut > 1 ? raw.slice(0, cut) : "", prelude = cut > 1 ? raw.slice(cut) : raw;
+    if (/^\s*@/.test(prelude) || !/crema/.test(prelude)) return m;
+    const lead = head + prelude.match(/^\s*/)[0];
+    const out = [];
+    for (const sel of prelude.trim().split(/\s*,\s*/)) for (const v of [sel, swapAttr(sel), swapClass(sel), swapAttr(swapClass(sel))]) if (!out.includes(v)) out.push(v);
+    return `${lead}${out.join(", ")} {`;
+  })
+  .replace(/(?<![\w(-])--(crema-[\w-]+):([^;]*);/g, (m, name, v) => ALIAS[name] ? `${m} --${ALIAS[name]}:${v};` : m);
+write("dist/bundle.css", banner + aliasCss(read("src/bundle.css")) +
   `\n/* ── 생성: 그리드 칸 (xs는 4열이므로 .bl-span-1~4, 단계별은 .bl-span-md-6 처럼) ── */\n${spans}\n${bpSpans}\n` +
   `/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */\n${vis}\n`);
 

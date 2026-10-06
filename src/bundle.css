@@ -6,72 +6,73 @@
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
 
 /* ── 크레마 재질: 블러레마(Blurema) ─────────────────────────────
+   1.5부터 클래스·속성·변수 이름이 crema입니다. 옛 이름(.bl-glass*, [data-glass], --glass-*)은 빌드가 같은 규칙에 함께 붙입니다(2.0에서 제거).
    blur + crema. 맑은 유리 대신 우유 거품 색 젖빛 크레마입니다.
-   블러 → 우유 거품 색(glass-fill) → 거품 결(glass-grain) → 크레마 층(glass-crema) → 크레마 가장자리(glass-edge) */
-.bl-glass, .bl-glass-thick, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain) {
-  background-image: var(--glass-crema), var(--glass-grain);
+   블러 → 우유 거품 색(crema-fill) → 거품 결(crema-grain) → 크레마 띠(crema-band) → 크레마 가장자리(crema-edge) */
+.bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) {
+  background-image: var(--crema-band), var(--crema-grain);
 }
-.bl-glass {
-  background-color: var(--glass-fill);
-  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
-  backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
-  border: 1px solid var(--glass-stroke);
-  box-shadow: var(--shadow-glass);
+.bl-crema {
+  background-color: var(--crema-fill);
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
+  backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
+  border: 1px solid var(--crema-stroke);
+  box-shadow: var(--shadow-crema);
 }
-.bl-glass-thick {
-  background-color: var(--glass-fill-strong);
-  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
-  backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
-  border: 1px solid var(--glass-stroke);
+.bl-crema-thick {
+  background-color: var(--crema-fill-strong);
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
+  backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
+  border: 1px solid var(--crema-stroke);
   box-shadow: var(--shadow-sheet);
 }
 /* 크레마가 팔레트의 장식색(deco)을 따라가게 합니다. color-mix가 없는 브라우저는 tokens.css의 고정값을 씁니다. */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
-    --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
-    --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
-    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 88%, transparent), color-mix(in srgb, var(--crema) 60%, transparent) 8px, color-mix(in srgb, var(--crema) 22%, transparent) 38%, transparent 75%);
-    --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
+    --crema-tint: color-mix(in srgb, var(--deco) 65%, var(--accent));
+    --crema-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke));
+    --crema-band: linear-gradient(180deg, color-mix(in srgb, var(--crema-tint) 88%, transparent), color-mix(in srgb, var(--crema-tint) 60%, transparent) 8px, color-mix(in srgb, var(--crema-tint) 22%, transparent) 38%, transparent 75%);
+    --crema-light: color-mix(in srgb, var(--crema-tint) 55%, transparent);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
-    --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
-      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 88%, transparent), color-mix(in srgb, var(--crema) 60%, transparent) 8px, color-mix(in srgb, var(--crema) 22%, transparent) 38%, transparent 75%);
-      --glass-light: color-mix(in srgb, var(--crema) 55%, transparent);
+      --crema-tint: color-mix(in srgb, var(--deco) 65%, var(--accent));
+    --crema-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke));
+      --crema-band: linear-gradient(180deg, color-mix(in srgb, var(--crema-tint) 88%, transparent), color-mix(in srgb, var(--crema-tint) 60%, transparent) 8px, color-mix(in srgb, var(--crema-tint) 22%, transparent) 38%, transparent 75%);
+      --crema-light: color-mix(in srgb, var(--crema-tint) 55%, transparent);
     }
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .bl-glass, .bl-glass-thick, .bl-btn-glass, .bl-icon-btn { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 
-/* ── 데스크톱 모드: <html data-glass="rich"> ─────────────────────────────
-   applyGlassPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyGlassPreference({ rich: false }).
+/* ── 데스크톱 모드: <html data-crema="rich"> ─────────────────────────────
+   applyCremaPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyCremaPreference({ rich: false }).
    기본보다 블러가 훨씬 깊고(40/64px), 크레마가 더 비치고, 그림자가 두 겹 늘고,
-   포인터 주변에 캐러멜빛(glass-light)이 크게 번집니다. 포인터가 없으면 왼쪽 위에서 빛이 듭니다. 블러 예산은 화면당 6개. */
-html[data-glass="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px; --glass-saturate: 145%; }
-[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-glass-thick, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+   포인터 주변에 캐러멜빛(crema-light)이 크게 번집니다. 포인터가 없으면 왼쪽 위에서 빛이 듭니다. 블러 예산은 화면당 6개. */
+html[data-crema="rich"], [data-crema="rich"] { --blur-md: 40px; --blur-lg: 64px; --crema-saturate: 145%; }
+[data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-crema-thick, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
   background-image:
-    radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--glass-light), transparent 70%),
-    radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--glass-light), transparent 70%),
-    var(--glass-crema), var(--glass-grain);
+    radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
+    radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
+    var(--crema-band), var(--crema-grain);
   background-attachment: fixed, fixed, scroll, scroll;
 }
-[data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
-  box-shadow: var(--shadow-glass), inset 0 -1px 0 var(--glass-stroke), 0 4px 12px rgba(33, 24, 15, 0.10), 0 32px 80px rgba(33, 24, 15, 0.20);
+[data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+  box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), 0 4px 12px rgba(33, 24, 15, 0.10), 0 32px 80px rgba(33, 24, 15, 0.20);
 }
-[data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), 0 4px 12px rgba(33, 24, 15, 0.12), 0 40px 100px rgba(33, 24, 15, 0.22); }
+[data-crema="rich"] .bl-crema-thick { box-shadow: var(--shadow-sheet), 0 4px 12px rgba(33, 24, 15, 0.12), 0 40px 100px rgba(33, 24, 15, 0.22); }
 @supports (color: color-mix(in srgb, red, blue)) {
-  [data-glass="rich"] .bl-glass, [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--glass-fill) 80%, transparent); }
+  [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--crema-fill) 80%, transparent); }
 }
 @media (hover: hover) {
-  [data-glass="rich"] .bl-btn-glass, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
-  [data-glass="rich"] .bl-btn-glass:hover, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover {
+  [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
+  [data-crema="rich"] .bl-btn-crema:hover, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-glass), inset 0 -1px 0 var(--glass-stroke), 0 8px 20px rgba(33, 24, 15, 0.14), 0 40px 90px rgba(33, 24, 15, 0.24);
+    box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), 0 8px 20px rgba(33, 24, 15, 0.14), 0 40px 90px rgba(33, 24, 15, 0.24);
   }
-  [data-glass="rich"] .bl-btn-glass:active, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
+  [data-crema="rich"] .bl-btn-crema:active, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
 }
 
 /* ── Button ─────────────────────────────── */
@@ -89,8 +90,8 @@ html[data-glass="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px;
 .bl-btn-block { display: flex; width: 100%; }
 .bl-btn-primary { background: var(--ink); color: var(--paper); }
 .bl-btn-accent { background: var(--accent); color: var(--on-accent); }
-.bl-btn-glass { background-color: var(--glass-fill); color: var(--ink); border-color: var(--glass-stroke); box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate)); backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate)); }
+.bl-btn-crema { background-color: var(--crema-fill); color: var(--ink); border-color: var(--crema-stroke); box-shadow: var(--shadow-crema);
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); }
 .bl-btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
 .bl-btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
 .bl-btn svg { width: 20px; height: 20px; flex: none; }
@@ -98,8 +99,8 @@ html[data-glass="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px;
 .bl-icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
-  background-color: var(--glass-fill); border: 1px solid var(--glass-stroke); box-shadow: var(--shadow-glass);
-  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  background-color: var(--crema-fill); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-crema);
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate));
 }
 .bl-icon-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-icon-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: transparent; }
@@ -135,7 +136,7 @@ html[data-glass="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px;
 .bl-switch { position: relative; flex: none; width: 52px; height: 32px; padding: 0; border-radius: var(--radius-full); cursor: pointer;
   background: var(--paper-sunken); border: 1px solid var(--line-strong); transition: background-color .15s ease; }
 .bl-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: var(--radius-full);
-  background: var(--paper-raised); box-shadow: var(--shadow-glass); transition: transform .18s cubic-bezier(.3,1.4,.5,1); }
+  background: var(--paper-raised); box-shadow: var(--shadow-crema); transition: transform .18s cubic-bezier(.3,1.4,.5,1); }
 .bl-switch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
 .bl-switch[aria-checked="true"]::after { transform: translateX(20px); }
 .bl-switch:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
@@ -193,7 +194,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-navbar-links { display: flex; gap: var(--space-1); }
 .bl-navbar-link { height: 40px; display: inline-flex; align-items: center; padding: 0 var(--space-3); border-radius: var(--radius-full);
   color: var(--ink-muted); font-size: 15px; line-height: 20px; font-weight: 600; text-decoration: none; }
-.bl-navbar-link[aria-current="page"] { background: var(--glass-tint-accent); color: var(--accent-ink); }
+.bl-navbar-link[aria-current="page"] { background: var(--crema-tint-accent); color: var(--accent-ink); }
 .bl-navbar-link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-navbar .bl-icon-btn { width: 40px; height: 40px; }
 .bl-largetitle { margin: var(--space-6) 0 var(--space-4); font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
@@ -204,7 +205,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
   height: 56px; min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
   color: var(--ink-muted); font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 600; }
 .bl-tab svg { width: 24px; height: 24px; }
-.bl-tab[aria-selected="true"] { background: var(--glass-tint-accent); color: var(--accent-ink); }
+.bl-tab[aria-selected="true"] { background: var(--crema-tint-accent); color: var(--accent-ink); }
 .bl-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
 
 /* ── Sheet ─────────────────────────────── */
@@ -228,16 +229,16 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-backdrop > i { position: absolute; display: block; border-radius: var(--radius-full); }
 
 /* ── 성능: 크레마 끄기·가벼운 크레마 ─────────────────────────────
-   <html data-glass="off">  → 모든 크레마가 불투명(blur 0)으로. 저사양 기기·절전 모드용 (Blurssism.applyGlassPreference())
-   .bl-glass-lite           → 블러 없이 두꺼운 반투명만. 긴 목록 안에서 반복되는 크레마용 */
-.bl-glass-lite { background: var(--glass-fill-strong); border: 1px solid var(--glass-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
-[data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick, [data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn, [data-glass="off"] .bl-scrim {
+   <html data-crema="off">  → 모든 크레마가 불투명(blur 0)으로. 저사양 기기·절전 모드용 (Blurssism.applyCremaPreference())
+   .bl-crema-lite           → 블러 없이 두꺼운 반투명만. 긴 목록 안에서 반복되는 크레마용 */
+.bl-crema-lite { background: var(--crema-fill-strong); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+[data-crema="off"] .bl-crema, [data-crema="off"] .bl-crema-thick, [data-crema="off"] .bl-btn-crema, [data-crema="off"] .bl-icon-btn, [data-crema="off"] .bl-scrim {
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-[data-glass="off"] .bl-btn-glass, [data-glass="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
-[data-glass="off"] .bl-glass, [data-glass="off"] .bl-glass-thick { background: var(--paper-raised); }
+[data-crema="off"] .bl-btn-crema, [data-crema="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
+[data-crema="off"] .bl-crema, [data-crema="off"] .bl-crema-thick { background: var(--paper-raised); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .bl-glass, .bl-glass-thick { background: var(--paper-raised); }
+  .bl-crema, .bl-crema-thick { background: var(--paper-raised); }
 }
 
 /* ── Checkbox · Radio ─────────────────────────────── */
@@ -293,7 +294,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 
 /* ── Skeleton ─────────────────────────────── */
 .bl-skel { display: block; border-radius: var(--radius-sm); background: var(--paper-sunken); position: relative; overflow: hidden; }
-.bl-skel::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, var(--glass-fill), transparent); animation: bl-shimmer 1.4s ease infinite; }
+.bl-skel::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, var(--crema-fill), transparent); animation: bl-shimmer 1.4s ease infinite; }
 @keyframes bl-shimmer { to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .bl-skel::after { animation: none; display: none; } }
 

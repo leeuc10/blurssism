@@ -1,10 +1,10 @@
 <script>
   import "@caffeinecatkr/blurssism/tokens.css";
   import "@caffeinecatkr/blurssism/bundle.css";
-  import { applyGlassPreference } from "@caffeinecatkr/blurssism/svelte";
+  import { applyCremaPreference } from "@caffeinecatkr/blurssism/svelte";
   import { onMount } from "svelte";
   let { children } = $props();
-  onMount(() => applyGlassPreference());
+  onMount(() => applyCremaPreference());
 </script>
 
 {@render children()}

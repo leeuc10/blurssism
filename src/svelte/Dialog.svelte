@@ -28,7 +28,7 @@
 {#if open}
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div class="bl-scrim" onmousedown={(e) => { if (e.target === e.currentTarget) close(); }}>
-    <div bind:this={box} class={["bl-dialog bl-glass-thick", className]} role={alert ? "alertdialog" : "dialog"} aria-modal="true" aria-labelledby={id} tabindex="-1">
+    <div bind:this={box} class={["bl-dialog bl-crema-thick bl-glass-thick", className]} role={alert ? "alertdialog" : "dialog"} aria-modal="true" aria-labelledby={id} tabindex="-1">
       <h2 {id} class="bl-dialog-title">{title}</h2>
       {#if description}<p class="bl-dialog-body">{description}</p>{/if}
       {#if children}<div class="bl-dialog-actions">{@render children()}</div>{/if}

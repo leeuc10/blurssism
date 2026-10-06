@@ -113,7 +113,7 @@ Next.js App Router에서는 CSS 두 줄을 `app/layout.jsx`에서 불러오고, 
 
 <body class="bl-root">
   <div class="bl-container">
-    <header class="bl-navbar bl-glass"><p class="bl-navbar-title">설정</p></header>
+    <header class="bl-navbar bl-crema"><p class="bl-navbar-title">설정</p></header>
     <div class="bl-grid"><div class="bl-span-4 bl-span-lg-8">본문</div><div class="bl-span-4">옆</div></div>
     <button class="bl-btn bl-btn-primary">저장하기</button>
   </div>
@@ -170,6 +170,21 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 `bg-paper`, `text-accent`, `rounded-full`, `backdrop-blur-md`, 그리고 같은 브레이크포인트(`sm:` `md:` `lg:` `xl:`)를 씁니다.
 
+### 1.4에서 올릴 때 (이름 바꾸기)
+
+1.5부터 코드 이름이 glass → crema로 바뀌었어요. 옛 이름은 2.0까지 그대로 동작하니 천천히 바꾸면 돼요. 옛 함수를 쓰면 개발 중에 콘솔에 한 번만 새 이름을 알려 줘요.
+
+| 1.4까지 (2.0에서 제거) | 1.5부터 |
+| --- | --- |
+| `.bl-glass` · `.bl-glass-thick` · `.bl-glass-lite` | `.bl-crema` · `.bl-crema-thick` · `.bl-crema-lite` |
+| `.bl-btn-glass`, `variant="glass"` | `.bl-btn-crema`, `variant="crema"` |
+| `<html data-glass="off\|on\|rich">` | `<html data-crema="off\|on\|rich">` |
+| `applyGlassPreference()` · `setGlassMode()` · `getGlassMode()` · `shouldReduceGlass()` | `applyCremaPreference()` · `setCremaMode()` · `getCremaMode()` · `shouldReduceCrema()` |
+| `GlassMode` · `GlassOptions` (타입) | `CremaMode` · `CremaOptions` |
+| `--glass-fill` · `--glass-fill-strong` · `--glass-stroke` · `--glass-tint-accent` | `--crema-fill` · `--crema-fill-strong` · `--crema-stroke` · `--crema-tint-accent` |
+| `--glass-edge` · `--glass-crema` · `--glass-grain` · `--glass-light` | `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` |
+| `--shadow-glass` · `--glass-saturate` | `--shadow-crema` · `--crema-saturate` |
+
 ### 브랜드색 팔레트
 
 ```js
@@ -183,10 +198,10 @@ palette.warnings.forEach((w) => console.warn(w.message));
 ### 크레마 모드 · 블러 예산
 
 ```js
-import { applyGlassPreference } from "@caffeinecatkr/blurssism";
-applyGlassPreference();                    // 기기에 맞춰 off · on · rich 자동
-applyGlassPreference({ rich: false });     // 데스크톱 모드 끄기
-applyGlassPreference({ rich: true });      // 데스크톱 모드 항상 켜기
+import { applyCremaPreference } from "@caffeinecatkr/blurssism";
+applyCremaPreference();                    // 기기에 맞춰 off · on · rich 자동
+applyCremaPreference({ rich: false });     // 데스크톱 모드 끄기
+applyCremaPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 ```
 
 | 모드 | 언제 | 블러 예산 |
@@ -195,7 +210,7 @@ applyGlassPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 | `on` | 기본, 모바일 | 화면당 3개 |
 | `rich` | 1120px 이상 + 마우스 + 넉넉한 기기 | 화면당 6개, 블러 40/64px, 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛 |
 
-반복 목록 안에서는 `.bl-glass-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다.
+반복 목록 안에서는 `.bl-crema-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다.
 
 ---
 
@@ -289,6 +304,10 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 Also load `tokens.css`. The `sm:` / `md:` / `lg:` / `xl:` breakpoints match blurssism.
 
+### Upgrading from 1.4 (renamed to crema)
+
+Since 1.5 the code names moved from glass to crema: `.bl-glass*` → `.bl-crema*`, `variant="glass"` → `"crema"`, `data-glass` → `data-crema`, `applyGlassPreference` / `setGlassMode` / `getGlassMode` / `shouldReduceGlass` → `applyCremaPreference` / `setCremaMode` / `getCremaMode` / `shouldReduceCrema`, and `--glass-*` → `--crema-*` (`--glass-crema` → `--crema-band`, `--shadow-glass` → `--shadow-crema`). The old names keep working until 2.0, and the old functions log a one-time hint during development.
+
 ### Brand-color palettes
 
 ```js
@@ -300,7 +319,7 @@ Pass one color and blurssism builds the accent set for light and dark, tuned to 
 
 ### Crema modes and blur budget
 
-`applyGlassPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyGlassPreference({ rich: false })`, force it with `{ rich: true }`, or use `setGlassMode("off" | "on" | "rich" | "auto")`. Use `.bl-glass-lite` inside repeated lists and never animate the blur radius. In the docs a floating Blurema surface is called *crema*; code names keep `glass` (`bl-glass`, `data-glass`, `applyGlassPreference`) for compatibility.
+`applyCremaPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyCremaPreference({ rich: false })`, force it with `{ rich: true }`, or use `setCremaMode("off" | "on" | "rich" | "auto")`. Use `.bl-crema-lite` inside repeated lists and never animate the blur radius. Since 1.5 the code names are crema too (`bl-crema`, `data-crema`, `applyCremaPreference`); the 1.4 glass names keep working as aliases until 2.0.
 
 The full rules are in the [brand book](docs/brand-book.md) (Korean).
 

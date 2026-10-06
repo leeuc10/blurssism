@@ -22,7 +22,7 @@
     </div>
   {/if}
   {#if badge}<Badge tone={badgeTone} icon={badgeIcon}>{badge}</Badge>{/if}
-  <div class={["bl-media-bar", lite ? "bl-glass-lite" : "bl-glass"]}>
+  <div class={["bl-media-bar", lite ? "bl-crema-lite bl-glass-lite" : "bl-crema bl-glass"]}>
     <div class="bl-media-text">
       <p class="bl-media-title">{title}</p>
       {#if meta}<p class="bl-media-meta">{meta}</p>{/if}

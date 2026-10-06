@@ -1,4 +1,4 @@
-/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* 생성 파일: src/core.js의 아이콘 경로 */
 export const PATHS = {
   home: "M4.5 10.5L12 4l7.5 6.5V19a1 1 0 0 1-1 1H15v-5.5H9V20H5.5a1 1 0 0 1-1-1z",

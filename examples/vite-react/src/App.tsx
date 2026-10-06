@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button, Dialog, TextField, Select, Table, TabBar, MediaCard, IconButton, applyGlassPreference, type ButtonProps } from "@caffeinecatkr/blurssism";
+import { Button, Dialog, TextField, Select, Table, TabBar, MediaCard, IconButton, applyCremaPreference, type ButtonProps } from "@caffeinecatkr/blurssism";
 import "@caffeinecatkr/blurssism/tokens.css";
 import "@caffeinecatkr/blurssism/bundle.css";
 
-applyGlassPreference();
+applyCremaPreference();
 
 const primary: ButtonProps["variant"] = "primary";
 

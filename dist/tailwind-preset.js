@@ -1,4 +1,4 @@
-/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* Tailwind 프리셋 — tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
    dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. 브레이크포인트 sm/md/lg/xl은 blurssism과 같습니다. */
 module.exports = {
@@ -27,10 +27,14 @@ module.exports = {
         "danger-soft": "var(--danger-soft)",
         "info": "var(--info)",
         "focus-ring": "var(--focus-ring)",
-        "glass-fill": "var(--glass-fill)",
-        "glass-fill-strong": "var(--glass-fill-strong)",
-        "glass-stroke": "var(--glass-stroke)",
-        "glass-tint-accent": "var(--glass-tint-accent)",
+        "crema-fill": "var(--crema-fill)",
+        "glass-fill": "var(--crema-fill)",
+        "crema-fill-strong": "var(--crema-fill-strong)",
+        "glass-fill-strong": "var(--crema-fill-strong)",
+        "crema-stroke": "var(--crema-stroke)",
+        "glass-stroke": "var(--crema-stroke)",
+        "crema-tint-accent": "var(--crema-tint-accent)",
+        "glass-tint-accent": "var(--crema-tint-accent)",
         "scrim": "var(--scrim)"
       },
       "spacing": {
@@ -54,7 +58,8 @@ module.exports = {
       },
       "boxShadow": {
         "card": "var(--shadow-card)",
-        "glass": "var(--shadow-glass)",
+        "crema": "var(--shadow-crema)",
+        "glass": "var(--shadow-crema)",
         "sheet": "var(--shadow-sheet)"
       },
       "backdropBlur": {
@@ -63,8 +68,10 @@ module.exports = {
         "lg": "var(--blur-lg)"
       },
       "backgroundImage": {
-        "glass-crema": "var(--glass-crema)",
-        "glass-grain": "var(--glass-grain)"
+        "crema-band": "var(--crema-band)",
+        "crema-grain": "var(--crema-grain)",
+        "glass-crema": "var(--crema-band)",
+        "glass-grain": "var(--crema-grain)"
       },
       "fontFamily": {
         "sans": [

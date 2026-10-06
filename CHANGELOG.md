@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.5.0 — 2026-10-06
+**코드 이름 glass → crema · Renamed to crema**
+- 클래스 `.bl-crema` · `.bl-crema-thick` · `.bl-crema-lite` · `.bl-btn-crema`, 버튼 `variant="crema"`
+- 속성 `<html data-crema>`, 함수 `applyCremaPreference()` · `setCremaMode()` · `getCremaMode()` · `shouldReduceCrema()`, 타입 `CremaMode` · `CremaOptions`
+- 토큰 `--crema-fill` · `--crema-fill-strong` · `--crema-stroke` · `--crema-tint-accent` · `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` · `--shadow-crema` · `--crema-saturate` (Tailwind 키 포함)
+- 옛 glass 이름은 2.0까지 별칭으로 그대로 동작 / the glass names stay as aliases until 2.0
+  - CSS: 옛 클래스·속성·변수를 같은 규칙에 함께 생성 / old selectors and variables are generated alongside
+  - 컴포넌트: 새 클래스와 옛 클래스를 함께 붙임 (`bl-crema bl-glass`) / components emit both classes
+  - 함수: 개발 중 콘솔에 한 번 새 이름 안내 / old functions log a one-time hint in development
+- 브랜드 팔레트 값에 `crema-tint-accent` 추가 (`glass-tint-accent`도 유지)
+- 1.4.1의 문서 용어 정리 포함 / includes the 1.4.1 docs changes
+
 ## 1.4.1 — 2026-10-06
 문서만 바뀌었습니다. 코드와 화면은 1.4.0과 같습니다. / Docs only; code and visuals are the same as 1.4.0.
 - 용어 정리: 떠 있는 블러레마 면을 한국어 "유리" → "크레마", 영어 "glass" → "crema"로 / floating Blurema surfaces are now called *crema*

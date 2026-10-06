@@ -27,13 +27,13 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 | 강조 | `accent`, `accent-soft`, `on-accent`, `accent-ink` | 기본은 에스프레소(볶은 원두 갈색). 팔레트에 따라 바뀝니다. 선택·활성·브랜드 순간에만. 채움 위 글자는 반드시 `on-accent` (다크에서는 어두운 글자로 바뀝니다). |
 | 상태 | `positive`, `warning`, `danger`, `info` (+ `-soft`) | 색만으로 알리지 않습니다. 항상 단어, 필요하면 아이콘. `info`는 파랑이라 `danger`와 색각에 상관없이 구분됩니다. |
 | 장식 | `deco` | 크레마색. 일러스트·자리표시 도형 전용, 글자를 올리지 않습니다. 팔레트에 따라 바뀝니다. (`apricot`은 1.2 호환용 별칭) |
-| 크레마 | `glass-fill`, `glass-fill-strong`, `glass-stroke`, `glass-tint-accent`, `scrim`, 재질 `glass-edge`·`glass-crema`·`glass-grain`·`glass-light` | 아래 "크레마 재질 — 블러레마" 참고. |
+| 크레마 | `crema-fill`, `crema-fill-strong`, `crema-stroke`, `crema-tint-accent`, `scrim`, 재질 `crema-edge`·`crema-band`·`crema-grain`·`crema-light` | 아래 "크레마 재질 — 블러레마" 참고. |
 
 다크 테마는 같은 이름의 토큰이 값만 바뀝니다. 코드에서는 hex를 직접 쓰지 말고 항상 `var(--토큰)`을 씁니다.
 
 ## 팔레트
 
-강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `glass-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 에스프레소입니다.
+강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `crema-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 에스프레소입니다.
 
 **카페인 6종**
 
@@ -58,7 +58,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 | `pink` | 핑크 | 커머스와 뷰티의 분홍 | `#b0306a` | `#f49ac0` |
 | `graphite` | 그래파이트 | 색 없이 먹색 하나로 쓰는 단색 | `#3b3632` | `#e2dbd2` |
 
-**브랜드색으로 만들기** — 쓸 색 하나를 넣으면 그 색에 맞춰 강조색 묶음(`accent`·`accent-soft`·`on-accent`·`accent-ink`·`deco`·`glass-tint-accent`)을 라이트·다크 모두 만듭니다. 바탕과 글자, 상태색은 그대로라 90/10 원칙이 유지됩니다.
+**브랜드색으로 만들기** — 쓸 색 하나를 넣으면 그 색에 맞춰 강조색 묶음(`accent`·`accent-soft`·`on-accent`·`accent-ink`·`deco`·`crema-tint-accent`)을 라이트·다크 모두 만듭니다. 바탕과 글자, 상태색은 그대로라 90/10 원칙이 유지됩니다.
 
 ```js
 import { applyBrandColor } from "@caffeinecatkr/blurssism/utils";
@@ -81,28 +81,48 @@ p.warnings.forEach((w) => console.warn(w.message));
 
 ## 크레마 재질 — 블러레마(Blurema)
 
-블러레마는 **blur + crema**, blurssism의 떠 있는 면을 만드는 재질입니다. 맑게 비치고 반짝이는 유리 대신, 에스프레소 위 크레마처럼 따뜻하고 부드러운 젖빛 면입니다. 문서에서는 이 재질로 만든 면을 줄여서 **크레마**라고 부릅니다(얇은 크레마, 크레마 모드 등). 코드 이름은 호환을 위해 `glass`(`.bl-glass`, `data-glass`, `applyGlassPreference`)를 그대로 씁니다. 다섯 층을 겹칩니다.
+블러레마는 **blur + crema**, blurssism의 떠 있는 면을 만드는 재질입니다. 맑게 비치고 반짝이는 유리 대신, 에스프레소 위 크레마처럼 따뜻하고 부드러운 젖빛 면입니다. 이 재질로 만든 면을 **크레마**라고 부릅니다(얇은 크레마, 크레마 모드 등). 1.5부터 코드 이름도 crema입니다(`.bl-crema`, `data-crema`, `applyCremaPreference`). 1.4까지의 glass 이름은 2.0까지 별칭으로 그대로 동작합니다(아래 "이름 바꾸기"). 다섯 층을 겹칩니다.
 
 | 층 | 토큰 | 하는 일 |
 | --- | --- | --- |
-| 1. 블러 | `blur-md`·`blur-lg`, `glass-saturate` 125% | 뒤를 번지게 합니다. 채도는 조금만 올려 쨍하지 않게 둡니다. |
-| 2. 우유 거품 색 | `glass-fill`, `glass-fill-strong` | 흰색이 아니라 `paper`(크림색)가 비치는 면입니다. |
-| 3. 거품 결 | `glass-grain` | 눈에 보이는 고운 정지 노이즈. 크레마를 액체가 아니라 거품처럼 보이게 합니다. 정지 이미지라 성능 부담이 거의 없습니다. |
-| 4. 크레마 띠 | `glass-crema` | 에스프레소 잔을 옆에서 본 크레마처럼, 면 위쪽 가장자리에 8px 캐러멜빛 띠가 고였다가 아래로 사라집니다. 팔레트의 `deco`와 `accent`를 섞은 색(`--crema`)입니다. 블러레마를 다른 크레마와 구별하는 가장 큰 표시입니다. |
-| 5. 크레마 가장자리 | `glass-edge` (`shadow-glass`의 안쪽 선) | 흰 반사광 대신 `deco`가 섞인 따뜻한 1px 선입니다. |
+| 1. 블러 | `blur-md`·`blur-lg`, `crema-saturate` 125% | 뒤를 번지게 합니다. 채도는 조금만 올려 쨍하지 않게 둡니다. |
+| 2. 우유 거품 색 | `crema-fill`, `crema-fill-strong` | 흰색이 아니라 `paper`(크림색)가 비치는 면입니다. |
+| 3. 거품 결 | `crema-grain` | 눈에 보이는 고운 정지 노이즈. 크레마를 액체가 아니라 거품처럼 보이게 합니다. 정지 이미지라 성능 부담이 거의 없습니다. |
+| 4. 크레마 띠 | `crema-band` | 에스프레소 잔을 옆에서 본 크레마처럼, 면 위쪽 가장자리에 8px 캐러멜빛 띠가 고였다가 아래로 사라집니다. 팔레트의 `deco`와 `accent`를 섞은 색(`--crema`)입니다. 블러레마를 다른 크레마와 구별하는 가장 큰 표시입니다. |
+| 5. 크레마 가장자리 | `crema-edge` (`shadow-crema`의 안쪽 선) | 흰 반사광 대신 `deco`가 섞인 따뜻한 1px 선입니다. |
 
 크레마 띠와 가장자리는 팔레트를 따라 색이 바뀝니다(말차면 녹차 거품빛, 블루면 하늘빛). `color-mix`를 지원하지 않는 브라우저에서는 에스프레소 기본값으로 보입니다.
 
 두께는 두 가지입니다.
 
-- **얇은 크레마** (`.bl-glass`): `glass-fill` + `blur-md` + `shadow-glass`. 탭바, 내비게이션 바, 이미지 위 캡션, 떠 있는 아이콘 버튼. **짧은 라벨만** 올립니다.
-- **두꺼운 크레마** (`.bl-glass-thick`): `glass-fill-strong` + `blur-lg` + `shadow-sheet`. 바텀시트, 토스트, 다이얼로그처럼 **글이 길어지는 패널**. 배경이 무엇이든 `ink` 글자가 4.5:1 이상 유지됩니다.
+- **얇은 크레마** (`.bl-crema`): `crema-fill` + `blur-md` + `shadow-crema`. 탭바, 내비게이션 바, 이미지 위 캡션, 떠 있는 아이콘 버튼. **짧은 라벨만** 올립니다.
+- **두꺼운 크레마** (`.bl-crema-thick`): `crema-fill-strong` + `blur-lg` + `shadow-sheet`. 바텀시트, 토스트, 다이얼로그처럼 **글이 길어지는 패널**. 배경이 무엇이든 `ink` 글자가 4.5:1 이상 유지됩니다.
 
 규칙:
 - 크레마 뒤에는 반드시 비쳐 보일 무언가(스크롤되는 콘텐츠, 이미지, 색 면)가 있어야 합니다. 단색 바탕 위의 크레마는 그냥 크림색 상자입니다.
 - 반사광을 흰 그라디언트나 굴절 효과로 흉내 내지 않습니다. 빛은 크레마 가장자리 한 줄과, 데스크톱 모드의 따뜻한 빛뿐입니다.
 - `backdrop-filter`를 지원하지 않거나 사용자가 `prefers-reduced-transparency: reduce`를 켜면 `paper-raised`로 대체합니다(bundle.css에 들어 있습니다).
 - 시트·모달 뒤에는 `scrim` + `blur-sm`.
+
+## 이름 바꾸기 (1.5)
+
+1.5부터 코드 이름이 glass에서 crema로 바뀌었습니다. 옛 이름은 **2.0까지 그대로 동작**합니다.
+- 옛 클래스·속성·변수는 같은 규칙에 함께 붙어 있습니다.
+- 컴포넌트는 새 클래스와 옛 클래스를 함께 붙여서, `.bl-glass`에 걸어 둔 CSS 덮어쓰기도 계속 맞습니다.
+- 옛 함수는 개발 중에 콘솔에 한 번만 새 이름을 알려 줍니다.
+
+새 코드는 오른쪽 이름으로 씁니다.
+
+| 1.4까지 (2.0에서 제거) | 1.5부터 |
+| --- | --- |
+| `.bl-glass` · `.bl-glass-thick` · `.bl-glass-lite` | `.bl-crema` · `.bl-crema-thick` · `.bl-crema-lite` |
+| `.bl-btn-glass`, `variant="glass"` | `.bl-btn-crema`, `variant="crema"` |
+| `<html data-glass="off\|on\|rich">` | `<html data-crema="off\|on\|rich">` |
+| `applyGlassPreference()` · `setGlassMode()` · `getGlassMode()` · `shouldReduceGlass()` | `applyCremaPreference()` · `setCremaMode()` · `getCremaMode()` · `shouldReduceCrema()` |
+| `GlassMode` · `GlassOptions` (타입) | `CremaMode` · `CremaOptions` |
+| `--glass-fill` · `--glass-fill-strong` · `--glass-stroke` · `--glass-tint-accent` | `--crema-fill` · `--crema-fill-strong` · `--crema-stroke` · `--crema-tint-accent` |
+| `--glass-edge` · `--glass-crema` · `--glass-grain` · `--glass-light` | `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` |
+| `--shadow-glass` · `--glass-saturate` | `--shadow-crema` · `--crema-saturate` |
 
 ## 다른 디자인 시스템과 다른 점
 
@@ -120,24 +140,24 @@ p.warnings.forEach((w) => console.warn(w.message));
 블러(`backdrop-filter`)는 GPU를 많이 씁니다. 다음 예산을 지킵니다.
 
 - **한 화면(뷰포트)에 크레마는 3개까지.** 보통 NavBar + TabBar + (Sheet·Dialog·Toast 중 하나).
-- **반복되는 목록 안에는 블러를 넣지 않습니다.** 피드·갤러리의 MediaCard는 `lite`(블러 없는 `.bl-glass-lite`)로, 블러는 상세 화면의 한 장에만 씁니다.
+- **반복되는 목록 안에는 블러를 넣지 않습니다.** 피드·갤러리의 MediaCard는 `lite`(블러 없는 `.bl-crema-lite`)로, 블러는 상세 화면의 한 장에만 씁니다.
 - **블러 반경을 애니메이션하지 않습니다.** 크레마는 `opacity`와 `transform`으로만 나타나고 사라집니다.
 - **화면 전체를 덮는 블러는 잠깐만.** `blur-lg`는 시트·다이얼로그처럼 떠 있다 사라지는 요소에, 상시 노출되는 넓은 면에는 `blur-md` 이하.
-- **기기에 맞춰 세 단계로 바꿉니다.** 앱 시작 시 `applyGlassPreference()`를 한 번 부르면 `<html data-glass>`가 정해집니다.
+- **기기에 맞춰 세 단계로 바꿉니다.** 앱 시작 시 `applyCremaPreference()`를 한 번 부르면 `<html data-crema>`가 정해집니다.
 
 | 모드 | 언제 | 무엇이 달라지나 | 블러 예산 |
 | --- | --- | --- | --- |
 | `off` | 메모리 4GB 이하, 코어 4개 이하, 데이터 절약, 투명도 줄이기 | 모든 크레마가 불투명 | 0 |
 | `on` (기본) | 그 밖의 기기, 모바일 | 블러레마 기본 | 화면당 3개 |
-| `rich` (데스크톱 모드) | lg(1120px) 이상 화면 + 마우스 + 코어 6개·메모리 8GB 이상 | 블러 40/64px(기본의 약 1.7배), 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛(`glass-light`, 포인터가 없으면 왼쪽 위에서 빛), 크레마 버튼 호버 시 떠오름 | 화면당 6개 |
+| `rich` (데스크톱 모드) | lg(1120px) 이상 화면 + 마우스 + 코어 6개·메모리 8GB 이상 | 블러 40/64px(기본의 약 1.7배), 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛(`crema-light`, 포인터가 없으면 왼쪽 위에서 빛), 크레마 버튼 호버 시 떠오름 | 화면당 6개 |
 
 - **데스크톱 모드는 개발자가 켜고 끕니다.** 기본은 `"auto"`(조건이 맞으면 켬, 창 크기가 바뀌면 다시 판단)입니다.
-  - 끄기: `applyGlassPreference({ rich: false })`
-  - 항상 켜기: `applyGlassPreference({ rich: true })`
-  - 빛만 끄기: `applyGlassPreference({ pointerLight: false })`
-  - 바로 정하기: `setGlassMode("off" | "on" | "rich" | "auto")`, 지금 모드는 `getGlassMode()`
-  - CSS만 쓸 때는 `<html data-glass="rich">`를 직접 넣어도 됩니다(포인터 빛은 JS가 필요합니다).
-  - 동작 줄이기 설정이면 포인터 빛은 자동으로 꺼집니다. 사용자 설정 화면에 "크레마 효과" 토글로 `setGlassMode`를 연결해도 좋습니다.
+  - 끄기: `applyCremaPreference({ rich: false })`
+  - 항상 켜기: `applyCremaPreference({ rich: true })`
+  - 빛만 끄기: `applyCremaPreference({ pointerLight: false })`
+  - 바로 정하기: `setCremaMode("off" | "on" | "rich" | "auto")`, 지금 모드는 `getCremaMode()`
+  - CSS만 쓸 때는 `<html data-crema="rich">`를 직접 넣어도 됩니다(포인터 빛은 JS가 필요합니다).
+  - 동작 줄이기 설정이면 포인터 빛은 자동으로 꺼집니다. 사용자 설정 화면에 "크레마 효과" 토글로 `setCremaMode`를 연결해도 좋습니다.
 - `backdrop-filter`를 지원하지 않는 브라우저는 자동으로 `paper-raised`로 대체됩니다.
 
 ## 타이포그래피
@@ -200,7 +220,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 
 - `radius-sm` 10 · `radius-md` 16 · `radius-lg` 24 · `radius-xl` 32 · `radius-full` 캡슐.
 - 버튼·칩·스위치·탭바·내비게이션 바 = `radius-full`. 입력창·썸네일 = `radius-md`. 카드·패널·모달 = `radius-lg`. 바텀시트 위쪽 = `radius-xl`.
-- 그림자는 세 개뿐입니다. 불투명 카드 `shadow-card`(거의 평면), 떠 있는 크레마 `shadow-glass`, 시트 `shadow-sheet`. 그 밖의 그림자는 만들지 않습니다(데스크톱 모드가 크레마에 한 겹 더하는 그림자는 bundle.css에 들어 있습니다).
+- 그림자는 세 개뿐입니다. 불투명 카드 `shadow-card`(거의 평면), 떠 있는 크레마 `shadow-crema`, 시트 `shadow-sheet`. 그 밖의 그림자는 만들지 않습니다(데스크톱 모드가 크레마에 한 겹 더하는 그림자는 bundle.css에 들어 있습니다).
 
 ## 움직임
 
@@ -212,7 +232,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 
 - 포커스: `focus-ring` 2px 실선, 2px 간격. 모든 바탕과 크레마 위에서 3:1 이상입니다. `outline: none`만 남기지 않습니다.
 - 비활성: `paper-sunken` 바탕 + `ink-subtle` 글자.
-- 선택: `accent-soft` / `glass-tint-accent` 바탕 + `accent-ink` 글자 + 체크 또는 채워진 아이콘 (색만으로 구분하지 않음).
+- 선택: `accent-soft` / `crema-tint-accent` 바탕 + `accent-ink` 글자 + 체크 또는 채워진 아이콘 (색만으로 구분하지 않음).
 - 오류: `danger` 테두리 + "오류:"로 시작하는 문구.
 - 아이콘만 있는 버튼에는 반드시 `aria-label`.
 
@@ -239,12 +259,12 @@ p.warnings.forEach((w) => console.warn(w.message));
   - 콘텐츠: `Card`, `MediaCard`, `ListItem`, `Table`, `Avatar`, `Icon`
   - 상태: `Badge`, `Progress`, `Skeleton`, `EmptyState`
   - 탐색·오버레이: `NavBar`, `TabBar`, `Sheet`, `Dialog`, `Toast`, `Tooltip`
-  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyGlassPreference()`, `setGlassMode()`, `getGlassMode()`, `isDesktopCapable()`, `shouldReduceGlass()`, `createPalette()`, `applyBrandColor()`, `paletteToCss()`, `contrastRatio()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
+  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyCremaPreference()`, `setCremaMode()`, `getCremaMode()`, `isDesktopCapable()`, `shouldReduceCrema()`, `createPalette()`, `applyBrandColor()`, `paletteToCss()`, `contrastRatio()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
 
   각 props는 `dist/index.d.ts`에 있습니다. 앱 루트에 `class="bl-root"`를 둡니다.
-- **CSS만(HTML·Vue 등)**: `dist/tokens.css`와 `dist/bundle.css`만 불러와 같은 클래스(`bl-btn bl-btn-primary`, `bl-glass`, `bl-list` …)를 씁니다.
-- **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 크레마는 `.bl-glass` / `.bl-glass-thick` 클래스로 씁니다.
-- **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 크레마는 플랫폼 블러(iOS `.ultraThinMaterial`, Android `RenderEffect` blur) 위에 `glass-fill`과 위쪽 크레마 그라디언트를 겹쳐 블러레마에 가깝게 맞춥니다.
+- **CSS만(HTML·Vue 등)**: `dist/tokens.css`와 `dist/bundle.css`만 불러와 같은 클래스(`bl-btn bl-btn-primary`, `bl-crema`, `bl-list` …)를 씁니다.
+- **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 크레마는 `.bl-crema` / `.bl-crema-thick` 클래스로 씁니다.
+- **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 크레마는 플랫폼 블러(iOS `.ultraThinMaterial`, Android `RenderEffect` blur) 위에 `crema-fill`과 위쪽 크레마 그라디언트를 겹쳐 블러레마에 가깝게 맞춥니다.
 - 다크 모드는 `<html data-theme="dark">`, 팔레트는 `<html data-palette="matcha">`로 전환합니다.
 - 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 13종), `Blurema`(크레마 층과 모드), `BrandColor`(브랜드색 팔레트), `Responsive`(반응형 규칙) 카드를 참고합니다.
 

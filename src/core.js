@@ -34,7 +34,8 @@ export function createBlurssism(React) {
   function Button(p) {
     var variant = p.variant || "primary", tag = p.href ? "a" : "button";
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
-      className: cx("bl-btn", "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
+      // "glass"는 1.4 이름(2.0에서 제거). 옛 CSS 덮어쓰기가 계속 맞도록 두 클래스를 함께 붙입니다.
+      className: cx("bl-btn", variant === "crema" || variant === "glass" ? "bl-btn-crema bl-btn-glass" : "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
     }), p.icon ? h(Icon, { name: p.icon }) : null, p.children);
   }
 
@@ -94,7 +95,7 @@ export function createBlurssism(React) {
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
       p.image ? h("img", { className: "bl-media-img", src: p.image, alt: p.imageAlt || "" }) : ph,
       p.badge ? h(Badge, { tone: p.badgeTone || "positive", icon: p.badgeIcon }, p.badge) : null,
-      h("div", { className: "bl-media-bar " + (p.lite ? "bl-glass-lite" : "bl-glass") },
+      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite bl-glass-lite" : "bl-crema bl-glass") },
         h("div", { className: "bl-media-text" },
           h("p", { className: "bl-media-title" }, p.title),
           p.meta ? h("p", { className: "bl-media-meta" }, p.meta) : null),
@@ -169,7 +170,7 @@ export function createBlurssism(React) {
   function Tooltip(p) {
     var id = useId();
     var child = React.isValidElement(p.children) ? React.cloneElement(p.children, { "aria-describedby": id }) : p.children;
-    return h("span", { className: "bl-tip" }, child, h("span", { id: id, role: "tooltip", className: "bl-tooltip bl-glass-thick" }, p.label));
+    return h("span", { className: "bl-tip" }, child, h("span", { id: id, role: "tooltip", className: "bl-tooltip bl-crema-thick bl-glass-thick" }, p.label));
   }
 
   function Progress(p) {
@@ -249,7 +250,7 @@ export function createBlurssism(React) {
     }, [p.open]);
     if (!p.open) return null;
     return h("div", { className: "bl-scrim", onMouseDown: function (e) { if (e.target === e.currentTarget && p.onClose) p.onClose(); } },
-      h("div", { ref: ref, className: cx("bl-dialog bl-glass-thick", p.className), role: p.alert ? "alertdialog" : "dialog", "aria-modal": "true", "aria-labelledby": id, tabIndex: -1 },
+      h("div", { ref: ref, className: cx("bl-dialog bl-crema-thick bl-glass-thick", p.className), role: p.alert ? "alertdialog" : "dialog", "aria-modal": "true", "aria-labelledby": id, tabIndex: -1 },
         h("h2", { id: id, className: "bl-dialog-title" }, p.title),
         p.description ? h("p", { className: "bl-dialog-body" }, p.description) : null,
         p.children ? h("div", { className: "bl-dialog-actions" }, p.children) : null));
@@ -299,7 +300,7 @@ export function createBlurssism(React) {
   }
 
   function NavBar(p) {
-    return h("header", { className: cx("bl-navbar bl-glass", p.className) },
+    return h("header", { className: cx("bl-navbar bl-crema bl-glass", p.className) },
       p.onBack ? h(IconButton, { icon: "chevron-left", label: "뒤로", plain: true, onClick: p.onBack }) : null,
       h("p", { className: "bl-navbar-title" }, p.title),
       p.links ? h("nav", { className: "bl-navbar-links", "aria-label": "주요 메뉴" }, p.links.map(function (l) {
@@ -309,7 +310,7 @@ export function createBlurssism(React) {
   }
 
   function TabBar(p) {
-    return h("div", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
+    return h("div", { className: cx("bl-tabbar bl-crema bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h("button", { key: it.id, type: "button", role: "tab", className: "bl-tab", "aria-selected": String(on),
@@ -318,7 +319,7 @@ export function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("div", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-crema-thick bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -328,7 +329,7 @@ export function createBlurssism(React) {
   function Toast(p) {
     var tone = p.tone || "neutral";
     var icon = tone === "positive" ? "check" : tone === "danger" ? "alert" : null;
-    return h("div", { className: cx("bl-toast bl-glass-thick", p.className), role: "status", "data-tone": tone },
+    return h("div", { className: cx("bl-toast bl-crema-thick bl-glass-thick", p.className), role: "status", "data-tone": tone },
       icon ? h(Icon, { name: icon }) : null,
       h("span", { className: "bl-toast-msg" }, p.children),
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);

@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"PalettePicker"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"Container"},{"name":"Grid"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.4.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -9,7 +9,7 @@ const palettes = [{"id":"espresso","name":"에스프레소","group":"caffeine","
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "1.4.1";
+const version = "1.5.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -75,7 +75,7 @@ function onBreakpointChange(cb) {
 }
 
 /** 저사양 기기·절전·투명도 줄이기 설정이면 true */
-function shouldReduceGlass() {
+function shouldReduceCrema() {
   if (typeof window === "undefined") return false;
   const n = window.navigator || {}, mq = window.matchMedia;
   if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
@@ -98,79 +98,97 @@ function isDesktopCapable() {
   return true;
 }
 
-const glassState = { mq: null, onMq: null, onMove: null, raf: 0 };
+const cremaState = { mq: null, onMq: null, onMove: null, raf: 0 };
 
 function pointerLight(on) {
   const root = rootEl();
   if (!root || typeof window === "undefined") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) on = false;
-  if (on && !glassState.onMove) {
+  if (on && !cremaState.onMove) {
     let x = 0, y = 0;
-    glassState.onMove = function (e) {
+    cremaState.onMove = function (e) {
       x = e.clientX; y = e.clientY;
-      if (glassState.raf) return;
-      glassState.raf = requestAnimationFrame(function () {
-        glassState.raf = 0;
+      if (cremaState.raf) return;
+      cremaState.raf = requestAnimationFrame(function () {
+        cremaState.raf = 0;
         root.style.setProperty("--bl-light-x", x + "px");
         root.style.setProperty("--bl-light-y", y + "px");
       });
     };
-    window.addEventListener("pointermove", glassState.onMove, { passive: true });
-  } else if (!on && glassState.onMove) {
-    window.removeEventListener("pointermove", glassState.onMove);
-    glassState.onMove = null;
+    window.addEventListener("pointermove", cremaState.onMove, { passive: true });
+  } else if (!on && cremaState.onMove) {
+    window.removeEventListener("pointermove", cremaState.onMove);
+    cremaState.onMove = null;
     root.style.removeProperty("--bl-light-x");
     root.style.removeProperty("--bl-light-y");
   }
 }
 
 /**
- * <html data-glass>를 정합니다. 크레마가 켜졌으면 true.
+ * <html data-crema>(와 호환용 data-glass)를 정합니다. 크레마가 켜졌으면 true.
  *   "off"  : 블러 없음(저사양·절전·투명도 줄이기)
  *   "on"   : 기본 블러레마
  *   "rich" : 데스크톱 모드. 블러가 더 깊고, 포인터 주변에 따뜻한 빛이 번집니다.
- * 옵션: applyGlassPreference({ rich: "auto" | true | false, pointerLight: true | false })
+ * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: true | false })
  *   rich 기본값 "auto"는 데스크톱(isDesktopCapable)일 때만 켜고, 창 크기가 바뀌면 다시 판단합니다.
- *   rich: false로 데스크톱 모드를 끕니다. 예전처럼 applyGlassPreference(true | false)도 됩니다.
+ *   rich: false로 데스크톱 모드를 끕니다. applyCremaPreference(true | false)로 강제로 켜고 끌 수도 있습니다.
  */
-function applyGlassPreference(options) {
+function applyCremaPreference(options) {
   if (typeof document === "undefined") return true;
   const o = typeof options === "boolean" ? { force: options } : options || {};
   const root = document.documentElement;
-  const reduce = o.force === undefined ? shouldReduceGlass() : !o.force;
+  const reduce = o.force === undefined ? shouldReduceCrema() : !o.force;
   const rich = o.rich === undefined ? "auto" : o.rich;
-  if (glassState.mq) {
-    glassState.mq.removeEventListener ? glassState.mq.removeEventListener("change", glassState.onMq) : glassState.mq.removeListener(glassState.onMq);
-    glassState.mq = glassState.onMq = null;
+  if (cremaState.mq) {
+    cremaState.mq.removeEventListener ? cremaState.mq.removeEventListener("change", cremaState.onMq) : cremaState.mq.removeListener(cremaState.onMq);
+    cremaState.mq = cremaState.onMq = null;
   }
   function update() {
     const mode = reduce ? "off" : rich === true || (rich === "auto" && isDesktopCapable()) ? "rich" : "on";
-    root.setAttribute("data-glass", mode);
+    root.setAttribute("data-crema", mode);
+    root.setAttribute("data-glass", mode); // 1.x 호환 (2.0에서 제거)
     pointerLight(mode === "rich" && o.pointerLight !== false);
   }
   update();
   if (!reduce && rich === "auto" && window.matchMedia) {
-    glassState.mq = window.matchMedia(DESKTOP_QUERY);
-    glassState.onMq = update;
-    glassState.mq.addEventListener ? glassState.mq.addEventListener("change", update) : glassState.mq.addListener(update);
+    cremaState.mq = window.matchMedia(DESKTOP_QUERY);
+    cremaState.onMq = update;
+    cremaState.mq.addEventListener ? cremaState.mq.addEventListener("change", update) : cremaState.mq.addListener(update);
   }
   return !reduce;
 }
 
-/** 크레마 모드를 바로 정합니다. "auto"는 applyGlassPreference()와 같습니다. */
-function setGlassMode(mode) {
-  if (mode === "off") return applyGlassPreference({ force: false });
-  if (mode === "on") return applyGlassPreference({ force: true, rich: false });
-  if (mode === "rich") return applyGlassPreference({ force: true, rich: true });
-  return applyGlassPreference();
+/** 크레마 모드를 바로 정합니다. "auto"는 applyCremaPreference()와 같습니다. */
+function setCremaMode(mode) {
+  if (mode === "off") return applyCremaPreference({ force: false });
+  if (mode === "on") return applyCremaPreference({ force: true, rich: false });
+  if (mode === "rich") return applyCremaPreference({ force: true, rich: true });
+  return applyCremaPreference();
 }
 
 /** 지금 크레마 모드: "off" | "on" | "rich". 설정 전이나 서버에서는 "on". */
-function getGlassMode() {
+function getCremaMode() {
   const root = rootEl();
-  const m = root && root.getAttribute("data-glass");
+  const m = root && (root.getAttribute("data-crema") || root.getAttribute("data-glass"));
   return m === "off" || m === "rich" ? m : "on";
 }
+
+/* ── 1.4 이름(glass) 별칭: 그대로 동작하고, 개발 중에 한 번만 안내합니다. 2.0에서 제거됩니다. ── */
+const warned = {};
+function deprecated(oldName, newName) {
+  if (warned[oldName]) return;
+  warned[oldName] = true;
+  const prod = typeof process !== "undefined" && process.env && process.env.NODE_ENV === "production";
+  if (!prod && typeof console !== "undefined") console.warn(`blurssism: ${oldName}()는 2.0에서 사라져요. ${newName}()를 써 주세요.`);
+}
+/** @deprecated 1.5부터 shouldReduceCrema() */
+function shouldReduceGlass() { deprecated("shouldReduceGlass", "shouldReduceCrema"); return shouldReduceCrema(); }
+/** @deprecated 1.5부터 applyCremaPreference() */
+function applyGlassPreference(options) { deprecated("applyGlassPreference", "applyCremaPreference"); return applyCremaPreference(options); }
+/** @deprecated 1.5부터 setCremaMode() */
+function setGlassMode(mode) { deprecated("setGlassMode", "setCremaMode"); return setCremaMode(mode); }
+/** @deprecated 1.5부터 getCremaMode() */
+function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); return getCremaMode(); }
 
 /* ── 브랜드색 팔레트 ─────────────────────────────
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
@@ -262,8 +280,8 @@ function createPalette(color, options) {
     source: src,
     adjusted: accentL !== src,
     values: {
-      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "glass-tint-accent": tint(accentL, 0.14) },
-      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "glass-tint-accent": tint(accentD, 0.18) },
+      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "crema-tint-accent": tint(accentL, 0.14), "glass-tint-accent": tint(accentL, 0.14) },
+      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "crema-tint-accent": tint(accentD, 0.18), "glass-tint-accent": tint(accentD, 0.18) },
     },
     warnings,
   };
@@ -328,7 +346,8 @@ function createBlurssism(React) {
   function Button(p) {
     var variant = p.variant || "primary", tag = p.href ? "a" : "button";
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
-      className: cx("bl-btn", "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
+      // "glass"는 1.4 이름(2.0에서 제거). 옛 CSS 덮어쓰기가 계속 맞도록 두 클래스를 함께 붙입니다.
+      className: cx("bl-btn", variant === "crema" || variant === "glass" ? "bl-btn-crema bl-btn-glass" : "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
     }), p.icon ? h(Icon, { name: p.icon }) : null, p.children);
   }
 
@@ -388,7 +407,7 @@ function createBlurssism(React) {
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
       p.image ? h("img", { className: "bl-media-img", src: p.image, alt: p.imageAlt || "" }) : ph,
       p.badge ? h(Badge, { tone: p.badgeTone || "positive", icon: p.badgeIcon }, p.badge) : null,
-      h("div", { className: "bl-media-bar " + (p.lite ? "bl-glass-lite" : "bl-glass") },
+      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite bl-glass-lite" : "bl-crema bl-glass") },
         h("div", { className: "bl-media-text" },
           h("p", { className: "bl-media-title" }, p.title),
           p.meta ? h("p", { className: "bl-media-meta" }, p.meta) : null),
@@ -463,7 +482,7 @@ function createBlurssism(React) {
   function Tooltip(p) {
     var id = useId();
     var child = React.isValidElement(p.children) ? React.cloneElement(p.children, { "aria-describedby": id }) : p.children;
-    return h("span", { className: "bl-tip" }, child, h("span", { id: id, role: "tooltip", className: "bl-tooltip bl-glass-thick" }, p.label));
+    return h("span", { className: "bl-tip" }, child, h("span", { id: id, role: "tooltip", className: "bl-tooltip bl-crema-thick bl-glass-thick" }, p.label));
   }
 
   function Progress(p) {
@@ -543,7 +562,7 @@ function createBlurssism(React) {
     }, [p.open]);
     if (!p.open) return null;
     return h("div", { className: "bl-scrim", onMouseDown: function (e) { if (e.target === e.currentTarget && p.onClose) p.onClose(); } },
-      h("div", { ref: ref, className: cx("bl-dialog bl-glass-thick", p.className), role: p.alert ? "alertdialog" : "dialog", "aria-modal": "true", "aria-labelledby": id, tabIndex: -1 },
+      h("div", { ref: ref, className: cx("bl-dialog bl-crema-thick bl-glass-thick", p.className), role: p.alert ? "alertdialog" : "dialog", "aria-modal": "true", "aria-labelledby": id, tabIndex: -1 },
         h("h2", { id: id, className: "bl-dialog-title" }, p.title),
         p.description ? h("p", { className: "bl-dialog-body" }, p.description) : null,
         p.children ? h("div", { className: "bl-dialog-actions" }, p.children) : null));
@@ -593,7 +612,7 @@ function createBlurssism(React) {
   }
 
   function NavBar(p) {
-    return h("header", { className: cx("bl-navbar bl-glass", p.className) },
+    return h("header", { className: cx("bl-navbar bl-crema bl-glass", p.className) },
       p.onBack ? h(IconButton, { icon: "chevron-left", label: "뒤로", plain: true, onClick: p.onBack }) : null,
       h("p", { className: "bl-navbar-title" }, p.title),
       p.links ? h("nav", { className: "bl-navbar-links", "aria-label": "주요 메뉴" }, p.links.map(function (l) {
@@ -603,7 +622,7 @@ function createBlurssism(React) {
   }
 
   function TabBar(p) {
-    return h("div", { className: cx("bl-tabbar bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
+    return h("div", { className: cx("bl-tabbar bl-crema bl-glass", p.className), role: "tablist", "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h("button", { key: it.id, type: "button", role: "tab", className: "bl-tab", "aria-selected": String(on),
@@ -612,7 +631,7 @@ function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("div", { className: cx("bl-sheet bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-crema-thick bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -622,7 +641,7 @@ function createBlurssism(React) {
   function Toast(p) {
     var tone = p.tone || "neutral";
     var icon = tone === "positive" ? "check" : tone === "danger" ? "alert" : null;
-    return h("div", { className: cx("bl-toast bl-glass-thick", p.className), role: "status", "data-tone": tone },
+    return h("div", { className: cx("bl-toast bl-crema-thick bl-glass-thick", p.className), role: "status", "data-tone": tone },
       icon ? h(Icon, { name: icon }) : null,
       h("span", { className: "bl-toast-msg" }, p.children),
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);
@@ -634,7 +653,7 @@ function createBlurssism(React) {
 }
 
   if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceGlass, isDesktopCapable, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor });
+    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, breakpoints, version, author, setPalette, getPalette, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, contrastRatio, createPalette, paletteToCss, applyBrandColor });
   } else if (typeof console !== "undefined") {
     console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
   }

@@ -4,7 +4,7 @@
   let { title, description, children, class: className }: { title: string; description?: string; children?: Snippet; class?: string } = $props();
 </script>
 
-<div class={["bl-sheet bl-glass-thick", className]} role="dialog" aria-label={title}>
+<div class={["bl-sheet bl-crema-thick bl-glass-thick", className]} role="dialog" aria-label={title}>
   <div class="bl-sheet-grip" aria-hidden="true"></div>
   <h2 class="bl-sheet-title">{title}</h2>
   {#if description}<p class="bl-sheet-body">{description}</p>{/if}
