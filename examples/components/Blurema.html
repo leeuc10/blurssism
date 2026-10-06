@@ -25,8 +25,8 @@
   var steps = [
     ["1. 블러", "뒤가 번지기만 한 상태", { backdropFilter: blur, WebkitBackdropFilter: blur }],
     ["2. 우유 거품 색", "흰 유리 대신 크림색 젖빛", { backdropFilter: blur, WebkitBackdropFilter: blur, background: "var(--glass-fill)" }],
-    ["3. 거품 결", "아주 옅은 정지 노이즈", { backdropFilter: blur, WebkitBackdropFilter: blur, backgroundColor: "var(--glass-fill)", backgroundImage: "var(--glass-grain)" }],
-    ["4. 크레마", "윗부분 장식색 층과 따뜻한 가장자리", null]];
+    ["3. 거품 결", "고운 거품 결 노이즈", { backdropFilter: blur, WebkitBackdropFilter: blur, backgroundColor: "var(--glass-fill)", backgroundImage: "var(--glass-grain)" }],
+    ["4. 크레마", "윗부분 캐러멜빛 크레마와 따뜻한 가장자리", null]];
   function Demo() {
     var st = React.useState(B.getGlassMode());
     function pick(m) { B.setGlassMode(m); st[1](B.getGlassMode()); }

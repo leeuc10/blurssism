@@ -29,14 +29,16 @@
 /* 크레마가 팔레트의 장식색(deco)을 따라가게 합니다. color-mix가 없는 브라우저는 tokens.css의 고정값을 씁니다. */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
-    --glass-edge: color-mix(in srgb, var(--deco) 40%, var(--glass-stroke));
-    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--deco) 22%, transparent), transparent 55%);
+    --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
+    --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
+    --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
     --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --glass-edge: color-mix(in srgb, var(--deco) 40%, var(--glass-stroke));
-      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--deco) 22%, transparent), transparent 55%);
+      --crema: color-mix(in srgb, var(--deco) 65%, var(--accent));
+    --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--glass-stroke));
+      --glass-crema: linear-gradient(180deg, color-mix(in srgb, var(--crema) 50%, transparent), color-mix(in srgb, var(--crema) 16%, transparent) 40%, transparent 72%);
       --glass-light: color-mix(in srgb, var(--deco) 42%, transparent);
     }
   }
