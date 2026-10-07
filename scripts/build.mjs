@@ -3,7 +3,7 @@
 //   src/tokens.json → dist/tokens.json, dist/tokens.css, dist/tailwind-preset.js
 //   src/utils.js    → dist/utils.mjs · dist/utils.cjs (프레임워크 없이 쓰는 함수: 팔레트·테마·브레이크포인트·크레마 설정)
 //   src/core.js     → dist/index.mjs (ESM), dist/index.cjs (CommonJS), dist/bundle.js (<script>용 window.Blurssism)
-//   글꼴            → dist/fonts.css (Pretendard·Gowun Batang. tokens.css와 bundle.css는 글꼴을 불러오지 않습니다)
+//   글꼴            → dist/fonts.css (CDN), dist/fonts.local.css (패키지에 든 dist/fonts/ 파일. tokens.css와 bundle.css는 글꼴을 불러오지 않습니다)
 //   아이콘 경로     → src/svelte/icons.js
 // `node scripts/build.mjs --post`는 svelte-package 뒤에 svelte/utils.js가 dist/utils.mjs를 가리키게 고칩니다.
 //   React·Svelte·바닐라가 같은 utils 모듈 하나를 써서 팔레트 등록·크레마 모드 상태가 한 곳에만 있습니다.
@@ -87,11 +87,17 @@ const fluidType = `@media (max-width: 767px) {
 }`;
 
 write("dist/fonts.css", `${banner}/* fonts.css — Pretendard(UI)와 Gowun Batang(명조). 둘 다 SIL OFL, CDN에서 불러옵니다.
-   직접 호스팅하거나 CSP·사내망 때문에 CDN을 못 쓰면 이 파일 대신 같은 이름의 글꼴을 @font-face로 등록하세요.
-   레퍼런스: https://github.com/leeuc10/blurssism/blob/main/examples/fonts/fonts.self-hosted.css */
+   CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. 패키지에 든 글꼴 파일을 씁니다. */
 @import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
 `);
+
+// fonts.local.css: 패키지에 든 글꼴 파일(dist/fonts/, scripts/vendor-fonts.mjs가 받아 둠)을 쓰는 @font-face.
+// 번들러(Vite·Next.js·SvelteKit)는 import하면 글꼴 파일을 함께 내보내고, 번들러가 없으면 이 파일과 fonts/ 폴더를 같이 올리면 됩니다.
+write("dist/fonts.local.css", `${banner}/* fonts.local.css — CDN 없이 패키지에 든 글꼴 파일을 씁니다. fonts.css 대신 불러오세요.
+   Pretendard는 화면에 나온 글자의 조각만 받습니다(unicode-range). 라이선스: fonts/pretendard/LICENSE.txt, fonts/gowun-batang/LICENSE.txt (SIL OFL 1.1) */
+${read("src/fonts/pretendard.css")}
+${read("src/fonts/gowun-batang.css")}`);
 
 write("dist/tokens.css", `${banner}/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">
    글꼴은 fonts.css에 따로 있습니다. */

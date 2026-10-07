@@ -108,7 +108,11 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
 
-**글꼴**: `fonts.css`는 Pretendard와 Gowun Batang을 CDN에서 불러옵니다. CSP·사내망·오프라인 때문에 직접 호스팅하려면 `fonts.css` 대신 [`examples/fonts/fonts.self-hosted.css`](examples/fonts/fonts.self-hosted.css)를 복사해 쓰세요(파일 받는 곳, `@font-face`, npm으로 받는 방법이 들어 있어요). 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
+**글꼴**: `fonts.css`는 Pretendard와 Gowun Batang을 CDN에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
+
+```js
+import "@caffeinecatkr/blurssism/fonts.local.css";   // fonts.css 대신
+```
 
 React와 Svelte는 같은 CSS와 같은 함수 모듈(`/utils`)을 써서, 어느 쪽에서 `applyBrandColor()`나 `applyCremaPreference()`를 불러도 상태가 하나입니다. 이름이 다른 곳은 프레임워크 관례를 따른 것입니다.
 
@@ -304,7 +308,7 @@ In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be
 <TextField label="Email" bind:value={email} />
 ```
 
-**Fonts**: `fonts.css` loads Pretendard and Gowun Batang from a CDN. To self-host (CSP, intranet, offline), copy [`examples/fonts/fonts.self-hosted.css`](examples/fonts/fonts.self-hosted.css) instead; it lists where to get the files, the `@font-face` rules and an npm alternative. To use other fonts, override `--font-sans` and `--font-serif`.
+**Fonts**: `fonts.css` loads Pretendard and Gowun Batang from a CDN. To skip the CDN (CSP, intranet, offline), import `fonts.local.css` in its place and you're done: it uses the font files shipped in the package (`dist/fonts/`, SIL OFL), and Vite, Next.js and SvelteKit emit them for you. Without a bundler, serve `dist/fonts.local.css` next to the `dist/fonts/` folder. To use other fonts, override `--font-sans` and `--font-serif`.
 
 Inputs support `bind:value`, `bind:checked` and `bind:open`. Use snippets (`{#snippet actions()}…{/snippet}`) instead of slots. Requires Svelte 5.20+. See [`examples/sveltekit`](examples/sveltekit).
 
@@ -365,7 +369,7 @@ Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Plea
 
 - 코드, 토큰, 문서 / Code, tokens, docs: [MIT](LICENSE) © caffeinecat
 - 로고와 표식 / Logos and marks (`logos/`): 권리 보유 / all rights reserved — [logos/LICENSE.md](logos/LICENSE.md)
-- 글꼴은 포함하지 않습니다 / Fonts are not bundled. Pretendard and Gowun Batang (both SIL OFL) load from a CDN through `fonts.css`.
+- 글꼴 / Fonts: Pretendard와 Gowun Batang(둘 다 SIL OFL 1.1). `fonts.css`는 CDN에서 불러오고, `fonts.local.css`용 woff2 파일은 `dist/fonts/`에 라이선스와 함께 들어 있습니다 / `fonts.css` loads them from a CDN; the woff2 files for `fonts.local.css` ship in `dist/fonts/` with their licenses.
 
 ## 기여 · Contributing
 

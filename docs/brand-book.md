@@ -168,7 +168,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 
 - `sans`: Pretendard → IBM Plex Sans KR(설치돼 있으면) → 시스템 산세리프.
 - `serif`: Gowun Batang.
-- 글꼴은 `fonts.css`가 불러옵니다(Pretendard는 jsDelivr, Gowun Batang은 Google Fonts). 1.6부터 `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 같은 이름으로 직접 호스팅합니다. 직접 호스팅 레퍼런스는 `examples/fonts/fonts.self-hosted.css`에 있습니다(파일 받는 곳, `@font-face`, npm으로 받는 방법).
+- 글꼴은 `fonts.css`가 불러옵니다(Pretendard는 jsDelivr, Gowun Batang은 Google Fonts). 1.6부터 `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
 - 스타일: `display` 40/48 · `title-1` 30/38 · `quote` 22/32 (명조) / `title-2` 22/30 · `title-3` 18/26 · `body` 16/26 · `body-strong` 16/26 · `body-sm` 14/22 · `label` 15/20 · `caption` 12/16 (산세리프).
 - 한글 본문의 행간은 1.6(16/26)입니다. 제목은 자간을 −0.01 ~ −0.02em 좁힙니다.
 - 긴 글 본문은 `prose-max`(640px)를 넘지 않게 합니다.

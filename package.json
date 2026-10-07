@@ -63,6 +63,8 @@
     "./bundle.css": "./dist/bundle.css",
     "./styles.css": "./dist/bundle.css",
     "./fonts.css": "./dist/fonts.css",
+    "./fonts.local.css": "./dist/fonts.local.css",
+    "./fonts/*": "./dist/fonts/*",
     "./tokens.json": "./dist/tokens.json",
     "./tailwind": "./dist/tailwind-preset.js",
     "./logos/*": "./logos/*",
