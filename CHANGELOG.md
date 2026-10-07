@@ -3,7 +3,7 @@
 ## 1.6.0 — 2026-10-07
 
 > **올리기 전에 확인할 것 / Before upgrading**
-> - 글꼴을 `tokens.css`·`bundle.css`가 더 이상 불러오지 않아요. `import "@caffeinecatkr/blurssism/fonts.css"`(또는 `<link>`)를 한 줄 더하거나 직접 호스팅하세요. / Fonts moved to `fonts.css`; add it or self-host.
+> - 글꼴을 `tokens.css`·`bundle.css`가 더 이상 불러오지 않아요. `import "@caffeinecatkr/blurssism/fonts.css"`(또는 `<link>`)를 한 줄 더하거나, `examples/fonts/fonts.self-hosted.css`를 참고해 직접 호스팅하세요. / Fonts moved to `fonts.css`; add it or self-host (see `examples/fonts/fonts.self-hosted.css`).
 > - `TabBar`가 lg(1120px)부터 스스로 숨고, `NavBar` 링크는 lg부터 보여요(전에는 md부터). 계속 보이려면 `hideFrom={false}`. / TabBar hides from lg by default; NavBar links show from lg.
 > - `Dialog`가 네이티브 `<dialog>`로 바뀌었어요. `className`은 이제 `<dialog class="bl-dialog">`에 붙어요. / Dialog renders a native `<dialog>`.
 > - `TabBar`는 `role="tablist"` 대신 `<nav>` + `aria-current="page"`예요. `[aria-selected]`에 건 CSS는 `[aria-current="page"]`로 바꾸세요. / TabBar uses `<nav>` + `aria-current`.

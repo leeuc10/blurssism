@@ -108,6 +108,8 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
 
+**글꼴**: `fonts.css`는 Pretendard와 Gowun Batang을 CDN에서 불러옵니다. CSP·사내망·오프라인 때문에 직접 호스팅하려면 `fonts.css` 대신 [`examples/fonts/fonts.self-hosted.css`](examples/fonts/fonts.self-hosted.css)를 복사해 쓰세요(파일 받는 곳, `@font-face`, npm으로 받는 방법이 들어 있어요). 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
+
 React와 Svelte는 같은 CSS와 같은 함수 모듈(`/utils`)을 써서, 어느 쪽에서 `applyBrandColor()`나 `applyCremaPreference()`를 불러도 상태가 하나입니다. 이름이 다른 곳은 프레임워크 관례를 따른 것입니다.
 
 | | React | Svelte |
@@ -301,6 +303,8 @@ In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be
 <PalettePicker />
 <TextField label="Email" bind:value={email} />
 ```
+
+**Fonts**: `fonts.css` loads Pretendard and Gowun Batang from a CDN. To self-host (CSP, intranet, offline), copy [`examples/fonts/fonts.self-hosted.css`](examples/fonts/fonts.self-hosted.css) instead; it lists where to get the files, the `@font-face` rules and an npm alternative. To use other fonts, override `--font-sans` and `--font-serif`.
 
 Inputs support `bind:value`, `bind:checked` and `bind:open`. Use snippets (`{#snippet actions()}…{/snippet}`) instead of slots. Requires Svelte 5.20+. See [`examples/sveltekit`](examples/sveltekit).
 

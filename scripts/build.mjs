@@ -87,7 +87,8 @@ const fluidType = `@media (max-width: 767px) {
 }`;
 
 write("dist/fonts.css", `${banner}/* fonts.css — Pretendard(UI)와 Gowun Batang(명조). 둘 다 SIL OFL, CDN에서 불러옵니다.
-   직접 호스팅하거나 CSP·사내망 때문에 CDN을 못 쓰면 이 파일 대신 같은 이름의 글꼴을 @font-face로 등록하세요. */
+   직접 호스팅하거나 CSP·사내망 때문에 CDN을 못 쓰면 이 파일 대신 같은 이름의 글꼴을 @font-face로 등록하세요.
+   레퍼런스: https://github.com/leeuc10/blurssism/blob/main/examples/fonts/fonts.self-hosted.css */
 @import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
 `);
