@@ -1,3 +1,4 @@
+import "@caffeinecatkr/blurssism/fonts.css";
 import "@caffeinecatkr/blurssism/tokens.css";
 import "@caffeinecatkr/blurssism/bundle.css";
 export default function RootLayout({ children }) {

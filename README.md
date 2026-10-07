@@ -37,11 +37,12 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 - **블러레마 크레마**: 블러 위에 우유 거품 색, 거품 결, 팔레트를 따라가는 캐러멜빛 띠를 겹친 젖빛 면
 - **크레마 모드 3단계**: 저사양 `off` · 기본 `on` · 데스크톱 `rich`(더 깊은 블러와 포인터 빛). 데스크톱 모드는 개발자가 켜고 끌 수 있음
 - **브랜드색 팔레트**: 색 하나를 넣으면 라이트·다크 강조색을 WCAG 대비에 맞춰 자동 생성
-- 팔레트 13종 × 라이트·다크. 카페인 6종(에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 7,884개 대비 조합 모두 WCAG 통과
+- 팔레트 13종 × 라이트·다크. 카페인 6종(에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 16,644개 대비 조합 모두 WCAG 통과(불투명한 바탕 7,884개 + 크레마 위 글자 8,760개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
-- 블러 성능 예산과 저사양 기기 자동 대응, 포커스 링·다이얼로그 포커스 가두기·동작 줄이기 대응
+- 블러 성능 예산과 저사양 기기 자동 대응, 개발 중 예산 검사(`auditCrema()`)
+- 접근성: 포커스 링, 네이티브 모달 다이얼로그, 방향키로 고르는 라디오 묶음·달력, 동작 줄이기·투명도 줄이기·고대비 모드 대응, 터치 영역 44px
 
 ### 다른 디자인 시스템과 다른 점
 
@@ -64,6 +65,7 @@ npm install @caffeinecatkr/blurssism
 
 ```jsx
 import { Button, PalettePicker, Container, Grid, Card } from "@caffeinecatkr/blurssism";
+import "@caffeinecatkr/blurssism/fonts.css";   // 글꼴(CDN). 직접 호스팅하면 빼도 됩니다
 import "@caffeinecatkr/blurssism/tokens.css";
 import "@caffeinecatkr/blurssism/bundle.css";
 
@@ -80,13 +82,14 @@ export default function App() {
 }
 ```
 
-Next.js App Router에서는 CSS 두 줄을 `app/layout.jsx`에서 불러오고, 컴포넌트는 서버 컴포넌트에서도 바로 import합니다. → [`examples/nextjs`](examples/nextjs) · [`examples/vite-react`](examples/vite-react)
+Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴포넌트는 서버 컴포넌트 파일에서 import해 그릴 수 있지만(패키지에 `"use client"`가 들어 있음), 함수 props(`onClick`, `Table`의 `render`·`format` 등)는 서버 컴포넌트에서 넘길 수 없으니 그런 부분은 `"use client"` 파일 안에서 씁니다. → [`examples/nextjs`](examples/nextjs) · [`examples/vite-react`](examples/vite-react)
 
 ### Svelte 5 (SvelteKit, Vite)
 
 ```svelte
 <script>
   import { Button, PalettePicker, TextField, Dialog, breakpoint } from "@caffeinecatkr/blurssism/svelte";
+  import "@caffeinecatkr/blurssism/fonts.css";
   import "@caffeinecatkr/blurssism/tokens.css";
   import "@caffeinecatkr/blurssism/bundle.css";
   let email = $state("");
@@ -105,9 +108,20 @@ Next.js App Router에서는 CSS 두 줄을 `app/layout.jsx`에서 불러오고, 
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
 
+React와 Svelte는 같은 CSS와 같은 함수 모듈(`/utils`)을 써서, 어느 쪽에서 `applyBrandColor()`나 `applyCremaPreference()`를 불러도 상태가 하나입니다. 이름이 다른 곳은 프레임워크 관례를 따른 것입니다.
+
+| | React | Svelte |
+| --- | --- | --- |
+| 이벤트 | `onChange`, `onClick`, `onClose` | `onchange`, `onclick`, `onclose` |
+| 양방향 값 | `value` + `onChange` (Chip은 `defaultSelected`로 스스로) | `bind:value`, `bind:checked`, `bind:selected`, `bind:open` |
+| Table 칸 | `format(행)` 글자, `render(행)` 노드 | `format(행)` 글자, `cell` 스니펫 |
+| Tooltip | 자식에 `aria-describedby` 자동 연결 | 스니펫이 받은 id를 직접 붙임 |
+| Checkbox `label` | 글자 또는 노드 | 글자 또는 스니펫 |
+
 ### HTML · Vue (CSS만)
 
 ```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/fonts.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/tokens.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/bundle.css">
 
@@ -155,9 +169,10 @@ Next.js App Router에서는 CSS 두 줄을 `app/layout.jsx`에서 불러오고, 
 | `xl` | 1440+ | 12열 | 32 · 48 |
 
 - `Container`/`.bl-container`로 폭을 맞추고, `Grid columns={{ xs: 1, md: 2, lg: 3 }}` 또는 `.bl-grid` + `.bl-span-md-6`으로 배치합니다.
-- md 미만: 하단 `TabBar`, `Dialog`는 아래 시트 모양, 제목이 자동으로 작아짐. lg 이상: `NavBar` 링크, `TabBar` 숨김.
+- lg 미만: 하단 `TabBar`. md 미만에서는 `Dialog`가 아래 시트 모양이 되고 제목이 자동으로 작아짐.
+- lg 이상: `NavBar` 링크가 나타나고 `TabBar`는 스스로 숨음(`hideFrom={false}`로 계속 보이기).
 - 코드에서는 React `useBreakpoint()`, Svelte `breakpoint()`, 공통 `getBreakpoint()`·`isAtLeast("md")`.
-- 터치 기기에서는 조작 요소가 자동으로 44px 이상, 호버 효과는 마우스 기기에서만.
+- 터치 기기에서는 누르는 영역이 44px 이상(보이는 크기는 그대로, 달력은 폭 348px 이상일 때), 호버 효과는 마우스 기기에서만.
 
 전체 규칙은 [브랜드북의 반응형 절](docs/brand-book.md#반응형)에 있습니다.
 
@@ -172,7 +187,9 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 ### 1.4에서 올릴 때 (이름 바꾸기)
 
-1.5부터 코드 이름이 glass → crema로 바뀌었어요. 옛 이름은 2.0까지 그대로 동작하니 천천히 바꾸면 돼요. 옛 함수를 쓰면 개발 중에 콘솔에 한 번만 새 이름을 알려 줘요.
+1.5부터 코드 이름이 glass → crema로 바뀌었어요. 옛 이름은 2.0까지 그대로 동작하니 천천히 바꾸면 돼요. 옛 함수나 `variant="glass"`를 쓰면 개발 중에 콘솔에 한 번만 새 이름을 알려 주고, 화면에 남은 `.bl-glass`·`data-glass`는 `auditCrema()`가 찾아 줘요.
+
+CSS 변수는 옛 이름(`--glass-*`)에 값이 있고 새 이름(`--crema-*`)이 그 값을 읽어요. 그래서 1.4처럼 `--glass-fill`을 덮어써도, 새로 `--crema-fill`을 덮어써도 반영돼요(1.5.0에서는 옛 변수를 덮어써도 반영되지 않았는데 1.6에서 고쳤어요). 1.4의 `--crema`(띠 색)는 `--crema-tint`가 읽어요.
 
 | 1.4까지 (2.0에서 제거) | 1.5부터 |
 | --- | --- |
@@ -210,7 +227,14 @@ applyCremaPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 | `on` | 기본, 모바일 | 화면당 3개 |
 | `rich` | 1120px 이상 + 마우스 + 넉넉한 기기 | 화면당 6개, 블러 40/64px, 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛 |
 
-반복 목록 안에서는 `.bl-crema-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다.
+반복 목록 안에서는 `.bl-crema-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다. 크레마 안의 아이콘 버튼과 다이얼로그 뒤 scrim은 블러를 걸지 않습니다.
+
+```js
+import { auditCrema } from "@caffeinecatkr/blurssism";
+if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 옛 glass 이름을 콘솔로 알려 줌
+```
+
+저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있어요(기본: 메모리 4GB 미만이면 `off`).
 
 ---
 
@@ -229,11 +253,12 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 - **Blurema crema**: blur topped with a milk tint, a fine foam grain, and a caramel crema band that follows the palette.
 - **Three crema modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
 - **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
-- 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 7,884 contrast pairs, brand-color palettes included, pass WCAG.
+- 13 palettes × light and dark: 6 caffeine palettes (espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 16,644 contrast pairs pass WCAG, brand-color palettes included: 7,884 on opaque surfaces and 8,760 for text on crema over a pure black or white backdrop.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
-- A blur performance budget with automatic fallback on low-end devices, visible focus rings, focus-trapped dialogs, and reduced-motion support.
+- A blur performance budget with automatic fallback on low-end devices, plus a dev-time budget check (`auditCrema()`).
+- Accessibility: focus rings, native modal dialogs, arrow-key radio groups and calendar, reduced motion, reduced transparency and forced-colors support, 44px touch targets.
 
 ### What makes it different
 
@@ -254,17 +279,19 @@ Responsive behavior requires a viewport meta tag on every page: `<meta name="vie
 
 ```jsx
 import { Button, PalettePicker, Container, Grid, Card } from "@caffeinecatkr/blurssism";
+import "@caffeinecatkr/blurssism/fonts.css";   // web fonts from a CDN; drop it if you self-host
 import "@caffeinecatkr/blurssism/tokens.css";
 import "@caffeinecatkr/blurssism/bundle.css";
 ```
 
-In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be imported straight from server components. See [`examples/nextjs`](examples/nextjs) and [`examples/vite-react`](examples/vite-react).
+In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be rendered from server component files (the package ships `"use client"`), but function props such as `onClick` or a Table column's `render`/`format` can't cross the server boundary, so use those inside a `"use client"` file. See [`examples/nextjs`](examples/nextjs) and [`examples/vite-react`](examples/vite-react).
 
 ### Svelte 5
 
 ```svelte
 <script>
   import { Button, PalettePicker, TextField, breakpoint } from "@caffeinecatkr/blurssism/svelte";
+  import "@caffeinecatkr/blurssism/fonts.css";
   import "@caffeinecatkr/blurssism/tokens.css";
   import "@caffeinecatkr/blurssism/bundle.css";
   let email = $state("");
@@ -292,9 +319,9 @@ Set `<html data-palette="matcha" data-theme="dark">`, or call `setPalette("chai"
 | `xl` | 1440+ | 12 col | 32 · 48 |
 
 - Use `Container` / `.bl-container` for width, and `Grid columns={{ xs: 1, md: 2, lg: 3 }}` or `.bl-grid` with `.bl-span-md-6` for layout.
-- Below md, use a bottom `TabBar`. `Dialog` turns into a bottom sheet there, and headings shrink automatically. From lg up, use `NavBar` links and hide the `TabBar`.
+- Below lg, use a bottom `TabBar`. Below md, `Dialog` turns into a bottom sheet and headings shrink automatically. From lg up, `NavBar` links appear and the `TabBar` hides itself (pass `hideFrom={false}` to keep it).
 - In code, use `useBreakpoint()` (React), `breakpoint()` (Svelte), or `getBreakpoint()` / `isAtLeast("md")`.
-- Touch devices get 44px+ targets automatically. Hover effects only apply on devices with a mouse.
+- Touch devices get 44px+ hit areas (the visible size stays the same). Hover effects only apply on devices with a mouse.
 
 ### Tailwind
 
@@ -306,7 +333,7 @@ Also load `tokens.css`. The `sm:` / `md:` / `lg:` / `xl:` breakpoints match blur
 
 ### Upgrading from 1.4 (renamed to crema)
 
-Since 1.5 the code names moved from glass to crema: `.bl-glass*` → `.bl-crema*`, `variant="glass"` → `"crema"`, `data-glass` → `data-crema`, `applyGlassPreference` / `setGlassMode` / `getGlassMode` / `shouldReduceGlass` → `applyCremaPreference` / `setCremaMode` / `getCremaMode` / `shouldReduceCrema`, and `--glass-*` → `--crema-*` (`--glass-crema` → `--crema-band`, `--shadow-glass` → `--shadow-crema`). The old names keep working until 2.0, and the old functions log a one-time hint during development.
+Since 1.5 the code names moved from glass to crema: `.bl-glass*` → `.bl-crema*`, `variant="glass"` → `"crema"`, `data-glass` → `data-crema`, `applyGlassPreference` / `setGlassMode` / `getGlassMode` / `shouldReduceGlass` → `applyCremaPreference` / `setCremaMode` / `getCremaMode` / `shouldReduceCrema`, and `--glass-*` → `--crema-*` (`--glass-crema` → `--crema-band`, `--shadow-glass` → `--shadow-crema`). The old names keep working until 2.0: overriding either `--glass-fill` or `--crema-fill` takes effect (fixed in 1.6; in 1.5.0 overriding the old variable did nothing). The old functions and `variant="glass"` log a one-time hint during development, and `auditCrema()` finds leftover `.bl-glass` / `data-glass` on the page.
 
 ### Brand-color palettes
 
@@ -319,7 +346,7 @@ Pass one color and blurssism builds the accent set for light and dark, tuned to 
 
 ### Crema modes and blur budget
 
-`applyCremaPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyCremaPreference({ rich: false })`, force it with `{ rich: true }`, or use `setCremaMode("off" | "on" | "rich" | "auto")`. Use `.bl-crema-lite` inside repeated lists and never animate the blur radius. Since 1.5 the code names are crema too (`bl-crema`, `data-crema`, `applyCremaPreference`); the 1.4 glass names keep working as aliases until 2.0.
+`applyCremaPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyCremaPreference({ rich: false })`, force it with `{ rich: true }`, or use `setCremaMode("off" | "on" | "rich" | "auto")`. Use `.bl-crema-lite` inside repeated lists and never animate the blur radius. During development, `auditCrema()` warns when a screen goes over the blur budget or shows more than one primary button. Since 1.5 the code names are crema too (`bl-crema`, `data-crema`, `applyCremaPreference`); the 1.4 glass names keep working as aliases until 2.0.
 
 The full rules are in the [brand book](docs/brand-book.md) (Korean).
 
@@ -334,12 +361,12 @@ Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Plea
 
 - 코드, 토큰, 문서 / Code, tokens, docs: [MIT](LICENSE) © caffeinecat
 - 로고와 표식 / Logos and marks (`logos/`): 권리 보유 / all rights reserved — [logos/LICENSE.md](logos/LICENSE.md)
-- 글꼴은 포함하지 않습니다 / Fonts are not bundled. Pretendard and Gowun Batang (both SIL OFL) load from a CDN.
+- 글꼴은 포함하지 않습니다 / Fonts are not bundled. Pretendard and Gowun Batang (both SIL OFL) load from a CDN through `fonts.css`.
 
 ## 기여 · Contributing
 
 원본은 `src/`에 있습니다: 토큰 `src/tokens.json`, 스타일 `src/bundle.css`, React `src/core.js`, Svelte `src/svelte/`, 공통 함수 `src/utils.js`.
-`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비와 Svelte 타입을 검사합니다.
-Sources live in `src/`. After `npm install`, run `npm run build` to generate `dist/` and `svelte/`, and `npm run check` to verify contrast and Svelte types.
+`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비(크레마 위 포함), Svelte·React 타입, 서버 렌더링을 검사합니다. 같은 검사가 GitHub Actions에서도 돕니다.
+Sources live in `src/`. After `npm install`, run `npm run build` to generate `dist/` and `svelte/`, and `npm run check` to verify contrast (including text on crema), Svelte and React types, and server rendering. CI runs the same checks.
 
 <p align="center"><img src="logos/caffeinecat-mark.svg" width="28" alt=""><br><sub>made by caffeinecat</sub></p>

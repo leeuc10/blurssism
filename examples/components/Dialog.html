@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
 <script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
@@ -18,7 +19,7 @@
     var st = React.useState(true);
     return h("div", { className: "page" },
       h(B.Button, { onClick: function () { st[1](true); } }, "다이얼로그 열기"),
-      h("p", { style: { color: "var(--ink-muted)" } }, "뒤 화면은 scrim과 blur-sm으로 눌립니다."),
+      h("p", { style: { color: "var(--ink-muted)" } }, "뒤 화면은 scrim으로 어두워지고 조작할 수 없게 됩니다."),
       h(B.Dialog, { open: st[0], onClose: function () { st[1](false); }, title: "이 기록을 삭제할까요?", description: "삭제하면 되돌릴 수 없어요. 공유한 사람들도 더 이상 볼 수 없어요.", alert: true },
         h(B.Button, { variant: "ghost", size: "md", onClick: function () { st[1](false); } }, "취소"),
         h(B.Button, { variant: "danger", size: "md", onClick: function () { st[1](false); } }, "삭제하기")));

@@ -1,5 +1,48 @@
 # Changelog
 
+## 1.6.0 — 2026-10-07
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - 글꼴을 `tokens.css`·`bundle.css`가 더 이상 불러오지 않아요. `import "@caffeinecatkr/blurssism/fonts.css"`(또는 `<link>`)를 한 줄 더하거나 직접 호스팅하세요. / Fonts moved to `fonts.css`; add it or self-host.
+> - `TabBar`가 lg(1120px)부터 스스로 숨고, `NavBar` 링크는 lg부터 보여요(전에는 md부터). 계속 보이려면 `hideFrom={false}`. / TabBar hides from lg by default; NavBar links show from lg.
+> - `Dialog`가 네이티브 `<dialog>`로 바뀌었어요. `className`은 이제 `<dialog class="bl-dialog">`에 붙어요. / Dialog renders a native `<dialog>`.
+> - `TabBar`는 `role="tablist"` 대신 `<nav>` + `aria-current="page"`예요. `[aria-selected]`에 건 CSS는 `[aria-current="page"]`로 바꾸세요. / TabBar uses `<nav>` + `aria-current`.
+
+**크레마 / Crema**
+- 크레마 띠가 위쪽에만 몰리지 않고 면 전체에 옅게 남아요(`crema-band-top`·`lip`·`mid`·`low` 토큰으로 세기 조절). / The crema band now spreads across the whole surface instead of pooling at the top.
+- 크레마 위 글자 대비를 뒤가 완전한 검정·흰색인 경우까지 검사해요(`npm run check`, 8,760개 조합 추가, 전체 16,644개). 이에 맞춰 채움 불투명도와 다크 띠 세기를 조정하고, 두꺼운 크레마용 보조 글자색 `crema-ink-muted`를 추가했어요. 얇은 크레마 위 글자(MediaCard 메타, 탭·내비게이션 링크)는 `ink`예요. / Text-on-crema contrast is now checked over worst-case backdrops; fills and the dark band were tuned and `crema-ink-muted` was added.
+- 선택된 탭과 내비게이션 링크는 불투명한 `accent-soft` + 굵기 + 밑줄, 고른 팔레트는 체크 표시로 보여요(색만으로 알리지 않기). / Selected states no longer rely on color alone.
+- 크레마 안의 아이콘 버튼, 다이얼로그 뒤 scrim, 숨어 있는 툴팁은 블러를 쓰지 않아요(블러 예산). / Nested icon buttons, the dialog scrim and hidden tooltips no longer use blur.
+- 데스크톱 모드의 포인터 빛이 문서 전체가 아니라 크레마 요소에만 좌표를 써서, 스타일 재계산과 스크롤 때 다시 그리기가 줄었어요. 그림자는 새 토큰 `shadow-crema-rich`·`shadow-crema-rich-hover`·`shadow-sheet-rich`(다크는 검정 기반)를 써요. / Pointer light no longer restyles the whole document; rich-mode shadows are tokens now.
+- 저사양 판정: 메모리 4GB 미만(전에는 4GB 이하)일 때 `off`, 코어 수는 메모리를 알려 주는 브라우저에서만 봐요. `applyCremaPreference({ minMemory, minCores })`로 바꿀 수 있어요. / Less aggressive low-end detection, now configurable.
+- 새 함수 `auditCrema()`·`checkCrema()`: 개발 중 블러 예산 초과, primary 버튼 2개 이상, 남은 glass 이름을 알려 줘요. / New dev-time audit.
+
+**고친 것 / Fixes**
+- 1.4 변수(`--glass-fill` 등)를 덮어써도 반영되지 않던 문제(1.5.0). 이제 옛 변수에 값이 있고 새 변수가 그 값을 읽어요. 1.4의 `--crema`도 `--crema-tint`가 읽어요. / Overriding 1.4 `--glass-*` variables works again.
+- Svelte 진입점·CommonJS·`/utils`가 utils 사본을 따로 들고 있어 브랜드 팔레트 등록과 크레마 모드 상태가 어긋나던 문제. 이제 모듈 하나(`dist/utils.mjs`, CJS는 `dist/utils.cjs`)를 같이 써요. / One shared utils module.
+- `<html data-palette>` 안에 `<section data-theme="dark">`처럼 테마만 따로 걸면 팔레트가 에스프레소로 돌아가던 문제. 팔레트 영역 안의 크레마 그림자 가장자리 색도 팔레트를 따라가요. / Nested theme regions keep the palette.
+- 투명도 줄이기 설정에서 크레마 버튼·아이콘 버튼의 블러가 남던 문제, `backdrop-filter` 미지원 브라우저의 버튼 대체. / Reduced transparency now covers buttons.
+- `Dialog`: 크레마 안에서 열면 그 안에 갇히던 문제(네이티브 `showModal()`로 최상위 층), 뒤 화면 inert·스크롤 잠금, Esc가 처음 `onClose`를 부르던 문제, `alert`인데 바깥 클릭으로 닫히던 문제, 설명의 `aria-describedby`.
+- `SegmentedControl`·`PalettePicker`: 방향키로 고를 때 포커스가 따라가고, 고른 것이 없으면 첫 항목으로 들어와요. `Calendar`: 날짜 하나만 Tab에 들고 방향키·PageUp·PageDown으로 이동해요.
+- `Calendar`: `min`·`max`를 날짜로 비교(`min={new Date()}`가 오늘을 막던 문제), 오늘 표시를 마운트 뒤에 정해 하이드레이션 어긋남 방지, 바깥에서 `value`가 다른 달로 바뀌면 따라감.
+- React `Select`: placeholder가 있으면 빈 값에서 시작(Svelte와 같게).
+- `Tooltip`: 자식의 `aria-describedby`를 덮어쓰지 않고 이어 붙임, Esc로 닫기, 최상위 층(popover)에 떠서 `overflow: hidden`인 부모에 잘리지 않음.
+- 터치 기기에서 누르는 영역 44px(칩·팔레트·세그먼트·스위치·내비게이션 링크·아이콘 버튼, 달력 칸). README의 "44px" 설명을 실제와 맞췄어요.
+- 고대비(강제 색상) 모드에서 선택·켜짐 상태가 사라지던 문제, `prefers-contrast: more` 대응, 동작 줄이기 범위 확대.
+- `paletteToCss`·`createPalette`·CLI `--id`가 선택자를 깨는 id를 막아요(영문으로 시작, 영문·숫자·하이픈).
+- 노랑·연두 같은 밝은 브랜드색의 다크 장식색을 어둡게 맞춰 크레마 위 대비를 지켜요.
+- `Table`: caption이 없으면 스크롤 영역에 role·tabindex를 붙이지 않아요.
+
+**API**
+- React `Button`이 `href`일 때 `target`·`rel` 같은 링크 속성을 타입에서도 받아요. `variant="glass"`는 개발 중 한 번 안내해요.
+- React `Chip`: `defaultSelected`·`onChange`로 스스로 바뀌는 모드. React `Table`: `format`(Svelte와 같음). Svelte `ListItem`: 나머지 속성 전달. Svelte `Checkbox`: `label`에 스니펫.
+- `TabBar`: 항목 `href`, `hideFrom`. `PalettePicker`: 브랜드 팔레트 표시(`custom`), `group="custom"`, `value`에 브랜드 id. 새 함수 `getCustomPalettes()`·`onCustomPalettesChange()`.
+- 패키지: `./fonts.css`, `./utils`의 `require` 조건(`dist/utils.cjs`). 쓰이지 않던 `src/` 파일을 패키지에서 뺐어요.
+
+**개발 / Tooling**
+- `npm run check`가 대비(크레마 위 포함), Svelte 타입, React 타입(`tsc`), 서버 렌더링 스모크 테스트를 함께 돌려요. GitHub Actions에서 빌드 재현성과 함께 검사해요.
+- 예제(`examples/*`)가 npm 배포본 대신 저장소의 패키지(`file:../..`)를 써요.
+
 ## 1.5.0 — 2026-10-06
 **코드 이름 glass → crema · Renamed to crema**
 - 클래스 `.bl-crema` · `.bl-crema-thick` · `.bl-crema-lite` · `.bl-btn-crema`, 버튼 `variant="crema"`

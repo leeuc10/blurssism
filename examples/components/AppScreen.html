@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
 <script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
@@ -31,7 +32,7 @@
           h("li", null, h(B.ListItem, { icon: "person", title: "계정", subtitle: "cat@example.com", onClick: function () {} })),
           h("li", null, h(B.ListItem, { icon: "calendar", title: "기록 내보내기", trailing: h(B.Badge, { tone: "accent" }, "새 기능"), onClick: function () {} })))),
       h("div", { className: "top" }, h(B.NavBar, { title: "", actions: h(B.IconButton, { icon: "bell", label: "알림", plain: true }) })),
-      h("div", { className: "tabs" }, h(B.TabBar, { value: tab[0], onChange: tab[1], items: [{ id: "home", label: "홈", icon: "home" }, { id: "search", label: "검색", icon: "search" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }] })));
+      h("div", { className: "tabs" }, h(B.TabBar, { hideFrom: false, value: tab[0], onChange: tab[1], items: [{ id: "home", label: "홈", icon: "home" }, { id: "search", label: "검색", icon: "search" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }] })));
   }
   mount(h(App));
 </script>

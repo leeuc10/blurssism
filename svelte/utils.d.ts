@@ -16,12 +16,18 @@ export declare function isAtLeast(bp: Breakpoint, width?: number): boolean;
 /** 단계가 바뀔 때마다 호출. 해제 함수를 돌려줍니다. */
 export declare function onBreakpointChange(cb: (bp: Breakpoint) => void): () => void;
 
+export interface LowEndOptions {
+  /** 메모리(GB)가 이보다 작으면 저사양. 기본 4 (메모리를 알려 주는 Chromium에서만) */
+  minMemory?: number;
+  /** 코어가 이보다 적으면 저사양. 기본 4 (메모리를 알려 주는 브라우저에서만 봅니다) */
+  minCores?: number;
+}
 /** 저사양 기기·절전·투명도 줄이기 설정이면 true */
-export declare function shouldReduceCrema(): boolean;
+export declare function shouldReduceCrema(options?: LowEndOptions): boolean;
 /** 데스크톱 모드를 켤 만한 기기인지 (lg 이상, 마우스, 코어 6개·메모리 8GB 이상) */
 export declare function isDesktopCapable(): boolean;
 export type CremaMode = "off" | "on" | "rich";
-export interface CremaOptions {
+export interface CremaOptions extends LowEndOptions {
   /** 데스크톱 모드. "auto"(기본)는 데스크톱일 때만 켭니다. false면 끕니다. */
   rich?: boolean | "auto";
   /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
@@ -37,13 +43,29 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 /** 크레마 모드를 바로 정합니다. "auto"는 applyCremaPreference()와 같습니다. */
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
+export interface CremaIssue {
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 1.4 이름(glass)을 쓰는 요소 */
+  code: "blur-budget" | "primary" | "legacy-glass";
+  message: string;
+  elements: Element[];
+}
+export interface CremaAuditOptions {
+  /** 블러 예산. 기본: 모드에 따라 off 0 · on 3 · rich 6 */
+  budget?: number;
+  /** true면 bl- 클래스가 아닌 요소의 backdrop-filter까지 셉니다(느림) */
+  all?: boolean;
+}
+/** 지금 화면을 한 번 검사합니다(화면에 보이는 것만). 서버에서는 []. */
+export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
+/** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */
+export declare function auditCrema(options?: CremaAuditOptions & { onReport?: (issues: CremaIssue[]) => void; force?: boolean }): () => void;
 
 /** @deprecated 1.5부터 CremaMode. 2.0에서 제거 */
 export type GlassMode = CremaMode;
 /** @deprecated 1.5부터 CremaOptions. 2.0에서 제거 */
 export type GlassOptions = CremaOptions;
 /** @deprecated 1.5부터 shouldReduceCrema(). 2.0에서 제거 */
-export declare function shouldReduceGlass(): boolean;
+export declare function shouldReduceGlass(options?: LowEndOptions): boolean;
 /** @deprecated 1.5부터 applyCremaPreference(). 2.0에서 제거 */
 export declare function applyGlassPreference(options?: boolean | CremaOptions): boolean;
 /** @deprecated 1.5부터 setCremaMode(). 2.0에서 제거 */
@@ -77,7 +99,11 @@ export interface BrandColorOptions {
   /** false면 <style>만 넣고 data-palette는 바꾸지 않습니다 */
   apply?: boolean;
 }
-/** 브랜드색 하나로 라이트·다크 강조색 묶음을 WCAG 대비에 맞춰 만듭니다. 서버에서도 됩니다. */
+/** applyBrandColor()로 등록한 팔레트 목록 */
+export declare function getCustomPalettes(): { id: string; name: string; group: "custom" }[];
+/** 브랜드 팔레트가 새로 등록될 때마다 호출. 해제 함수를 돌려줍니다. */
+export declare function onCustomPalettesChange(cb: () => void): () => void;
+/** 브랜드색 하나로 라이트·다크 강조색 묶음을 WCAG 대비에 맞춰 만듭니다. 서버에서도 됩니다. id는 영문으로 시작하고 영문·숫자·하이픈만. */
 export declare function createPalette(color: string, options?: { id?: string; name?: string }): CustomPalette;
 /** createPalette 결과를 CSS로 */
 export declare function paletteToCss(palette: CustomPalette): string;

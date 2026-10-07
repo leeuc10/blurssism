@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Dialog, TextField, Select, Table, TabBar, MediaCard, IconButton, applyCremaPreference, type ButtonProps } from "@caffeinecatkr/blurssism";
+import "@caffeinecatkr/blurssism/fonts.css";
 import "@caffeinecatkr/blurssism/tokens.css";
 import "@caffeinecatkr/blurssism/bundle.css";
 

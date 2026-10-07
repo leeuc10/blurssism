@@ -1,4 +1,4 @@
-/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* Tailwind 프리셋 — tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
    dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. 브레이크포인트 sm/md/lg/xl은 blurssism과 같습니다. */
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
         "glass-fill": "var(--crema-fill)",
         "crema-fill-strong": "var(--crema-fill-strong)",
         "glass-fill-strong": "var(--crema-fill-strong)",
+        "crema-ink-muted": "var(--crema-ink-muted)",
         "crema-stroke": "var(--crema-stroke)",
         "glass-stroke": "var(--crema-stroke)",
         "crema-tint-accent": "var(--crema-tint-accent)",
@@ -60,7 +61,10 @@ module.exports = {
         "card": "var(--shadow-card)",
         "crema": "var(--shadow-crema)",
         "glass": "var(--shadow-crema)",
-        "sheet": "var(--shadow-sheet)"
+        "sheet": "var(--shadow-sheet)",
+        "crema-rich": "var(--shadow-crema-rich)",
+        "crema-rich-hover": "var(--shadow-crema-rich-hover)",
+        "sheet-rich": "var(--shadow-sheet-rich)"
       },
       "backdropBlur": {
         "sm": "var(--blur-sm)",

@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
 <script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
@@ -24,7 +25,7 @@
   var items = [{ id: "home", label: "홈", icon: "home" }, { id: "search", label: "검색", icon: "search" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }];
   function Demo() {
     var st = React.useState("saved");
-    return Backdrop(h("div", { className: "bar" }, h(B.TabBar, { items: items, value: st[0], onChange: st[1] })));
+    return Backdrop(h("div", { className: "bar" }, h(B.TabBar, { items: items, value: st[0], onChange: st[1], hideFrom: false })));
   }
   mount(h(Demo));
 </script>

@@ -2,7 +2,7 @@
 
 ## 언제 쓰나
 - 확인, 짧은 선택지, 공유 메뉴. 긴 폼은 별도 화면으로. 데스크톱에서는 같은 내용을 가운데 모달(`radius-xl` 네 모서리)로 띄웁니다.
-- 바탕은 `crema-fill-strong` + `blur-lg`, 뒤 화면에는 `scrim` + `blur-sm`.
+- 바탕은 `crema-fill-strong` + `blur-lg`, 뒤 화면에는 `scrim`(블러 없이 어둡게만).
 
 ## 소비자가 넣는 것
 - `title`, `description`, `children`(block 버튼, 위에서부터 중요한 순서).

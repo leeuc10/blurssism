@@ -1,0 +1,25 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: 빌드 결과가 커밋된 dist·svelte와 같은지
+        run: |
+          npm run build
+          git diff --exit-code -- dist svelte src/svelte
+      - name: 대비·타입·서버 렌더링 검사
+        run: npm run check
+      - name: 패키지 내용
+        run: npm pack --dry-run

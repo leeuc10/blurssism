@@ -1,5 +1,5 @@
 /* blurssism 컴포넌트 타입 · © caffeinecat */
-import type { ReactNode, ReactElement, ButtonHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes } from "react";
+import type { ReactNode, ReactElement, ButtonHTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes } from "react";
 
 export type IconName =
   | "home" | "search" | "heart" | "chat" | "person" | "bell" | "settings" | "plus"
@@ -8,17 +8,20 @@ export type IconName =
 /** 단순 라인 아이콘 (24×24, 1.75 stroke, currentColor). heart만 filled를 지원합니다. */
 export interface IconProps { name: IconName; filled?: boolean; className?: string }
 
-/** 캡슐형 버튼. primary는 화면당 하나. href를 주면 <a>로 렌더링됩니다. */
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary: ink 채움 · accent: 강조색 채움 · crema: 크레마 · ghost: 테두리 · danger: 삭제·신고. "glass"는 1.4 이름(2.0에서 제거) */
+interface ButtonOwnProps {
+  /** primary(기본): ink 채움 · accent: 강조색 채움 · crema: 크레마 · ghost: 테두리 · danger: 삭제·신고. "glass"는 1.4 이름(2.0에서 제거)
+   *  primary는 화면당 하나입니다. 개발 중에는 auditCrema()가 개수를 세어 알려 줍니다. */
   variant?: "primary" | "accent" | "crema" | "glass" | "ghost" | "danger";
   /** lg = 52px(기본), md = 40px */
   size?: "lg" | "md";
   block?: boolean;
   icon?: IconName;
-  href?: string;
   children: ReactNode;
 }
+/** 캡슐형 버튼. primary는 화면당 하나. href를 주면 <a>로 렌더링되고 target·rel 같은 링크 속성을 받습니다. */
+export type ButtonProps =
+  | (ButtonOwnProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & { href?: undefined; target?: never; rel?: never; download?: never })
+  | (ButtonOwnProps & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "children"> & { href: string });
 
 /** 48px 원형 크레마 아이콘 버튼. label은 스크린리더용으로 필수. */
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -30,8 +33,15 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   plain?: boolean;
 }
 
-/** 필터·태그 선택용 토글 칩. */
-export interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> { selected?: boolean; children: ReactNode }
+/** 필터·태그 선택용 토글 칩. selected를 주면 제어 모드, 안 주면 누를 때마다 스스로 바뀝니다. */
+export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+  selected?: boolean;
+  /** 제어하지 않을 때 처음 값 */
+  defaultSelected?: boolean;
+  /** 누를 때 다음 값으로 */
+  onChange?: (selected: boolean) => void;
+  children: ReactNode;
+}
 
 /** 라벨·도움말·오류를 갖춘 한 줄 입력창. */
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -82,9 +92,13 @@ export interface NavLink { href: string; label: string; current?: boolean }
 /** 상단에 떠 있는 캡슐형 크레마 내비게이션 바. 앱: 뒤로+제목+액션, 웹: 로고+links. */
 export interface NavBarProps { title: ReactNode; onBack?: () => void; links?: NavLink[]; actions?: ReactNode; className?: string }
 
-export interface TabItem { id: string; label: string; icon: IconName }
-/** 하단에 떠 있는 캡슐형 크레마 탭바 (3–5개, 모바일 전용). */
-export interface TabBarProps { items: TabItem[]; value: string; onChange?: (id: string) => void; label?: string; className?: string }
+export interface TabItem { id: string; label: string; icon: IconName; /** 주면 링크(<a>)로 */ href?: string }
+/** 하단에 떠 있는 캡슐형 크레마 탭바 (3–5개). <nav> + aria-current="page". 기본으로 lg부터 숨습니다. */
+export interface TabBarProps {
+  items: TabItem[]; value: string; onChange?: (id: string) => void; label?: string; className?: string;
+  /** 이 단계부터 숨깁니다. 기본 "lg"(그때는 NavBar 링크). false면 항상 보입니다. */
+  hideFrom?: "sm" | "md" | "lg" | "xl" | false;
+}
 
 /** 두꺼운 블러 바텀시트. children = 버튼들. */
 export interface SheetProps { title: string; description?: string; children?: ReactNode; className?: string }
@@ -119,20 +133,26 @@ export interface RadioGroupProps { legend?: string; options: (Option | string)[]
 export interface SegmentedControlProps { items: { id: string; label: string }[]; value: string; onChange?: (id: string) => void; label: string; block?: boolean; className?: string }
 /** 이니셜 또는 사진 원형 아바타. */
 export interface AvatarProps { name: string; image?: string; size?: "sm" | "md" | "lg"; className?: string }
-/** 호버·포커스 때 뜨는 짧은 설명. children은 포커스 가능한 요소 하나. */
+/** 호버·포커스 때 뜨는 짧은 설명. children은 포커스 가능한 요소 하나. 최상위 층에 떠서 잘리지 않고, Esc로 닫힙니다. */
 export interface TooltipProps { label: string; children: ReactNode }
 /** 진행 막대. */
 export interface ProgressProps { value: number; max?: number; label?: string; valueText?: string; className?: string }
 /** 불러오는 중 자리표시. */
 export interface SkeletonProps { width?: number | string; height?: number | string; circle?: boolean; className?: string }
-export interface Column<R> { key: string; label: string; numeric?: boolean; render?: (row: R) => ReactNode }
-/** 데이터 표. 좁은 화면에서는 가로 스크롤. */
+export interface Column<R> {
+  key: string; label: string; numeric?: boolean;
+  /** 칸을 직접 그립니다(노드) */
+  render?: (row: R) => ReactNode;
+  /** 칸을 글자로 바꿉니다(Svelte와 같은 이름). render가 있으면 render가 먼저입니다. */
+  format?: (row: R) => string;
+}
+/** 데이터 표. 좁은 화면에서는 가로 스크롤. caption이 있으면 스크롤 영역에 이름과 키보드 포커스가 붙습니다. */
 export interface TableProps<R = Record<string, ReactNode>> { columns: Column<R>[]; rows: R[]; caption?: string; className?: string }
-/** 한 달 달력 날짜 선택. */
+/** 한 달 달력 날짜 선택. 방향키로 날짜, PageUp·PageDown으로 달을 옮깁니다. min·max는 날짜 단위로 비교합니다. */
 export interface CalendarProps { value?: Date; onChange?: (date: Date) => void; min?: Date; max?: Date; today?: Date; className?: string }
 /** 빈 화면 안내. children = 행동 버튼 하나. */
 export interface EmptyStateProps { title: string; body?: string; icon?: IconName; children?: ReactNode; className?: string }
-/** 가운데 모달(모바일에선 아래 시트). 포커스 가두기·Esc·바깥 클릭 닫기 포함. children = 버튼들. */
+/** 가운데 모달(모바일에선 아래 시트). 네이티브 <dialog>(최상위 층, 뒤 화면 inert), Esc·바깥 클릭 닫기(alert는 바깥 클릭 제외). children = 버튼들. */
 export interface DialogProps { open: boolean; onClose?: () => void; title: string; description?: string; alert?: boolean; children?: ReactNode; className?: string }
 
 export declare function Select(props: SelectProps): ReactElement;
@@ -157,15 +177,17 @@ type Responsive<T> = T | Partial<Record<Breakpoint, T>>;
 
 /** 색 팔레트 고르기. 기본으로 <html data-palette>를 바꿉니다. */
 export interface PalettePickerProps {
-  /** 제어 모드: 선택된 팔레트 */
-  value?: PaletteId;
-  onChange?: (id: PaletteId) => void;
+  /** 제어 모드: 선택된 팔레트 (브랜드 팔레트 id도 됩니다) */
+  value?: PaletteId | (string & {});
+  onChange?: (id: PaletteId | (string & {})) => void;
   /** false면 data-palette를 바꾸지 않고 onChange만 부릅니다 */
   apply?: boolean;
   /** 팔레트를 적용할 요소 (기본: <html>) */
   target?: HTMLElement;
-  /** 한 묶음만 보이기: "caffeine"(카페인 6종) 또는 "web"(웹 기본 7종). 생략하면 전부 */
-  group?: "caffeine" | "web";
+  /** 한 묶음만 보이기: "caffeine"(카페인 6종), "web"(웹 기본 7종), "custom"(applyBrandColor로 등록한 것). 생략하면 전부 */
+  group?: "caffeine" | "web" | "custom";
+  /** false면 applyBrandColor()로 등록한 브랜드 팔레트를 숨깁니다 (기본 true) */
+  custom?: boolean;
   /** 이름 없이 동그라미만 */
   compact?: boolean;
   label?: string;
@@ -206,12 +228,18 @@ export declare function isAtLeast(bp: Breakpoint, width?: number): boolean;
 /** 단계가 바뀔 때마다 호출. 해제 함수를 돌려줍니다. */
 export declare function onBreakpointChange(cb: (bp: Breakpoint) => void): () => void;
 
+export interface LowEndOptions {
+  /** 메모리(GB)가 이보다 작으면 저사양. 기본 4 (메모리를 알려 주는 Chromium에서만) */
+  minMemory?: number;
+  /** 코어가 이보다 적으면 저사양. 기본 4 (메모리를 알려 주는 브라우저에서만 봅니다) */
+  minCores?: number;
+}
 /** 저사양 기기·절전·투명도 줄이기 설정이면 true */
-export declare function shouldReduceCrema(): boolean;
+export declare function shouldReduceCrema(options?: LowEndOptions): boolean;
 /** 데스크톱 모드를 켤 만한 기기인지 (lg 이상, 마우스, 코어 6개·메모리 8GB 이상) */
 export declare function isDesktopCapable(): boolean;
 export type CremaMode = "off" | "on" | "rich";
-export interface CremaOptions {
+export interface CremaOptions extends LowEndOptions {
   /** 데스크톱 모드. "auto"(기본)는 데스크톱일 때만 켭니다. false면 끕니다. */
   rich?: boolean | "auto";
   /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
@@ -227,13 +255,29 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 /** 크레마 모드를 바로 정합니다. "auto"는 applyCremaPreference()와 같습니다. */
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
+export interface CremaIssue {
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 1.4 이름(glass)을 쓰는 요소 */
+  code: "blur-budget" | "primary" | "legacy-glass";
+  message: string;
+  elements: Element[];
+}
+export interface CremaAuditOptions {
+  /** 블러 예산. 기본: 모드에 따라 off 0 · on 3 · rich 6 */
+  budget?: number;
+  /** true면 bl- 클래스가 아닌 요소의 backdrop-filter까지 셉니다(느림) */
+  all?: boolean;
+}
+/** 지금 화면을 한 번 검사합니다(화면에 보이는 것만). 서버에서는 []. */
+export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
+/** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */
+export declare function auditCrema(options?: CremaAuditOptions & { onReport?: (issues: CremaIssue[]) => void; force?: boolean }): () => void;
 
 /** @deprecated 1.5부터 CremaMode. 2.0에서 제거 */
 export type GlassMode = CremaMode;
 /** @deprecated 1.5부터 CremaOptions. 2.0에서 제거 */
 export type GlassOptions = CremaOptions;
 /** @deprecated 1.5부터 shouldReduceCrema(). 2.0에서 제거 */
-export declare function shouldReduceGlass(): boolean;
+export declare function shouldReduceGlass(options?: LowEndOptions): boolean;
 /** @deprecated 1.5부터 applyCremaPreference(). 2.0에서 제거 */
 export declare function applyGlassPreference(options?: boolean | CremaOptions): boolean;
 /** @deprecated 1.5부터 setCremaMode(). 2.0에서 제거 */
@@ -267,7 +311,11 @@ export interface BrandColorOptions {
   /** false면 <style>만 넣고 data-palette는 바꾸지 않습니다 */
   apply?: boolean;
 }
-/** 브랜드색 하나로 라이트·다크 강조색 묶음을 WCAG 대비에 맞춰 만듭니다. 서버에서도 됩니다. */
+/** applyBrandColor()로 등록한 팔레트 목록 */
+export declare function getCustomPalettes(): { id: string; name: string; group: "custom" }[];
+/** 브랜드 팔레트가 새로 등록될 때마다 호출. 해제 함수를 돌려줍니다. */
+export declare function onCustomPalettesChange(cb: () => void): () => void;
+/** 브랜드색 하나로 라이트·다크 강조색 묶음을 WCAG 대비에 맞춰 만듭니다. 서버에서도 됩니다. id는 영문으로 시작하고 영문·숫자·하이픈만. */
 export declare function createPalette(color: string, options?: { id?: string; name?: string }): CustomPalette;
 /** createPalette 결과를 CSS로 */
 export declare function paletteToCss(palette: CustomPalette): string;

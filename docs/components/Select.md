@@ -6,3 +6,4 @@
 
 ## 소비자가 넣는 것
 - `label`(필수), `options`(문자열 또는 `{value,label,disabled}`), `value`, `onChange`, `placeholder`, `help`, `error`.
+- `placeholder`를 주고 값을 정하지 않으면 placeholder가 보이는 빈 값에서 시작합니다(React·Svelte 같음).

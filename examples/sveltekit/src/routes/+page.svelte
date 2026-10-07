@@ -37,7 +37,7 @@
   </section>
 </Container>
 
-<div class="bl-hide-from-lg" style="position: fixed; left: var(--space-4); right: var(--space-4); bottom: var(--space-4)">
+<div style="position: fixed; left: var(--space-4); right: var(--space-4); bottom: var(--space-4)">
   <TabBar bind:value={tab} items={[{ id: "home", label: "홈", icon: "home" }, { id: "saved", label: "저장", icon: "heart" }, { id: "me", label: "내 정보", icon: "person" }]} />
 </div>
 

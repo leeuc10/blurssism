@@ -6,4 +6,5 @@
 - 좁은 화면에서는 가로로 스크롤되며, 스크롤 영역은 키보드로 포커스할 수 있습니다.
 
 ## 소비자가 넣는 것
-- `columns`(`{key,label,numeric,render}`), `rows`, `caption`(표 제목 겸 스크린리더 라벨).
+- `columns`(`{key,label,numeric,format}`), `rows`, `caption`(표 제목 겸 스크린리더 라벨. 있을 때만 스크롤 영역이 키보드 포커스를 받습니다).
+- 칸 그리기: 글자로 바꾸는 `format(행)`은 React·Svelte 공통. 노드를 그리려면 React는 `render(행)`, Svelte는 `cell` 스니펫.

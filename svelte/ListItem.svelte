@@ -1,18 +1,20 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
   import type { IconName } from "./types.js";
   import Icon from "./Icon.svelte";
-  /** href → <a>, onclick → <button>, 둘 다 없으면 <div>. <ul class="bl-list"><li> 안에 둡니다. */
-  let { title, subtitle, icon, trailing, href, onclick, class: className }: {
+  /** href → <a>, onclick → <button>, 둘 다 없으면 <div>. <ul class="bl-list"><li> 안에 둡니다. 나머지 속성(aria-*, target, data-*)은 그 요소에 붙습니다. */
+  type Props = Omit<HTMLAttributes<HTMLElement>, "title"> & {
     title: string; subtitle?: string; icon?: IconName;
     /** 오른쪽: 글자 또는 스니펫(Switch, Badge…). 생략하면 링크·버튼일 때 chevron */
-    trailing?: string | Snippet; href?: string; onclick?: (e: MouseEvent) => void; class?: string;
-  } = $props();
+    trailing?: string | Snippet; href?: string; target?: string; rel?: string; onclick?: (e: MouseEvent) => void;
+  };
+  let { title, subtitle, icon, trailing, href, onclick, class: className, ...rest }: Props = $props();
   const tag = $derived(href ? "a" : onclick ? "button" : "div");
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions — onclick이 있으면 tag가 button이 됩니다 -->
-<svelte:element this={tag} class={["bl-item", className]} {href} type={tag === "button" ? "button" : undefined} {onclick}>
+<svelte:element this={tag} class={["bl-item", className]} {href} type={tag === "button" ? "button" : undefined} {onclick} {...rest}>
   {#if icon}<span class="bl-item-lead"><Icon name={icon} /></span>{/if}
   <span class="bl-item-text">
     <span class="bl-item-title">{title}</span>

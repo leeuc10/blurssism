@@ -4,9 +4,11 @@ type $$ComponentProps = {
         id: string;
         label: string;
         icon: IconName;
+        href?: string;
     }[];
     value?: string;
     label?: string;
+    hideFrom?: "sm" | "md" | "lg" | "xl" | false;
     onchange?: (id: string) => void;
     class?: string;
 };

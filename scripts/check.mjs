@@ -1,5 +1,6 @@
 // blurssism 대비 검사 · © caffeinecat · MIT
 // 모든 팔레트 × 라이트·다크에서 글자와 조작 요소의 대비가 WCAG 기준을 넘는지 확인합니다.
+// 불투명한 바탕(paper 등)과, 반투명한 크레마 면(뒤가 검정·흰색인 최악의 경우)을 모두 검사합니다.
 // `node scripts/check.mjs` — 하나라도 미달이면 종료 코드 1.
 import { readFileSync } from "node:fs";
 
@@ -62,5 +63,48 @@ for (const color of samples) {
   }
 }
 console.log(`✓ 브랜드색 ${samples.length}개로 만든 팔레트${brandFails ? ` — ${brandFails}개 미달` : " 모두 통과"}`);
+
+// ── 크레마 위 글자 ─────────────────────────────
+// 크레마는 반투명이라 뒤에 무엇이 오느냐에 따라 바탕색이 바뀝니다. 브라우저처럼 sRGB에서 층을 차례로 겹쳐
+// (뒤 → 채움 → 거품 결(평균) → 크레마 띠 → 데스크톱 모드의 포인터 빛) 뒤가 완전한 검정·흰색일 때의 바탕을 구합니다.
+// 기준: 얇은 크레마 위 ink, 두꺼운 크레마 위 ink와 crema-ink-muted가 4.5:1 이상.
+const mat = (n, th) => { const t = [...tokens.color.tokens, ...tokens.material.tokens].find((x) => x.name === n); return typeof t.value === "string" ? t.value : t.value[th]; };
+const rgbaOf = (str) => { const v = str.match(/rgba?\(([^)]+)\)/)[1].split(",").map(Number); return [v.slice(0, 3), v[3] ?? 1]; };
+const pct = (str) => parseFloat(str) / 100;
+const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const hexOf = (c) => "#" + c.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
+const over = (bg, c, a) => bg.map((v, i) => v * (1 - a) + c[i] * a);
+const grainOf = (th) => {   // feColorMatrix의 색과 알파(노이즈 평균 0.5)
+  const m = decodeURIComponent(mat("crema-grain", th)).match(/values='([^']+)'/)[1].split(/\s+/).map(Number);
+  return [[m[4], m[9], m[14]].map((v) => v * 255), m[18] * 0.5];
+};
+let cremaFails = 0, cremaChecks = 0, cremaWorst = Infinity;
+function checkCremaText(label, values, theme) {
+  const tint = over(rgb(values.accent), rgb(values.deco), pct(mat("crema-tint-mix", theme)));
+  const [grainC, grainA] = grainOf(theme);
+  const lip = pct(mat("crema-band-lip", theme)), low = pct(mat("crema-band-low", theme));
+  const light = pct(mat("crema-light-strength", theme)), pointer = 1 - (1 - light) * (1 - light / 2);
+  const ink = base(theme).ink, muted = base(theme)["crema-ink-muted"];
+  for (const [surface, token, texts] of [["얇은", "crema-fill", [["ink", ink]]], ["두꺼운", "crema-fill-strong", [["ink", ink], ["crema-ink-muted", muted]]]]) {
+    const [fc, fa] = rgbaOf(mat(token, theme));
+    for (const mode of ["on", "rich"]) for (const back of [[0, 0, 0], [255, 255, 255]]) {
+      const a = mode === "rich" && token === "crema-fill" ? fa * pct(mat("crema-rich-fill", theme)) : fa;
+      const under = over(over(back, fc, a), grainC, grainA);
+      const bands = [lip, low]; if (mode === "rich") bands.push(1 - (1 - lip) * (1 - pointer));
+      for (const ta of bands) {
+        const bg = hexOf(over(under, tint, ta));
+        for (const [name, color] of texts) {
+          cremaChecks++; checks++;
+          const r = ratio(color, bg);
+          cremaWorst = Math.min(cremaWorst, r);
+          if (r < 4.5) { cremaFails++; fails++; console.log(`✗ ${label}/${theme}/${mode}: ${surface} 크레마(뒤 ${back[0] ? "흰색" : "검정"}) 위 ${name} = ${r.toFixed(2)} (< 4.5)`); }
+        }
+      }
+    }
+  }
+}
+for (const p of tokens.palettes.list) for (const theme of ["light", "dark"]) checkCremaText(p.id, p.values[theme], theme);
+for (const color of samples) { const p = createPalette(color); for (const theme of ["light", "dark"]) checkCremaText("brand " + color, p.values[theme], theme); }
+console.log(`✓ 크레마 위 글자 ${cremaChecks}개 조합${cremaFails ? ` — ${cremaFails}개 미달` : ` 모두 통과 (최저 ${cremaWorst.toFixed(2)}:1)`}`);
 console.log(fails ? `\n${fails}/${checks} 미달` : `\n${checks}개 조합 모두 통과`);
 process.exit(fails ? 1 : 0);

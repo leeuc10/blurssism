@@ -1,4 +1,4 @@
-/* blurssism v1.5.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
 export const palettes = [{"id":"espresso","name":"에스프레소","group":"caffeine","description":"기본. 볶은 원두의 갈색과 크레마.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","group":"caffeine","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","group":"caffeine","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","group":"caffeine","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","group":"caffeine","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","group":"caffeine","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}},{"id":"blue","name":"블루","group":"web","description":"링크와 버튼에서 가장 익숙한 파랑.","swatch":{"light":"#1d5bb8","dark":"#8eb9f5"}},{"id":"indigo","name":"인디고","group":"web","description":"SaaS와 개발 도구에서 흔한 남보라.","swatch":{"light":"#4a3fb5","dark":"#aaa6f4"}},{"id":"violet","name":"바이올렛","group":"web","description":"창작 도구와 커뮤니티의 보라.","swatch":{"light":"#7038a8","dark":"#cfa6f2"}},{"id":"teal","name":"틸","group":"web","description":"헬스케어와 핀테크의 청록.","swatch":{"light":"#0e6b66","dark":"#78d0c4"}},{"id":"emerald","name":"에메랄드","group":"web","description":"결제와 성장 서비스의 선명한 초록.","swatch":{"light":"#13704a","dark":"#7fd6a5"}},{"id":"pink","name":"핑크","group":"web","description":"커머스와 뷰티의 분홍.","swatch":{"light":"#b0306a","dark":"#f49ac0"}},{"id":"graphite","name":"그래파이트","group":"web","description":"색 없이 먹색 하나로 쓰는 단색.","swatch":{"light":"#3b3632","dark":"#e2dbd2"}}];
@@ -7,7 +7,7 @@ export const palettes = [{"id":"espresso","name":"에스프레소","group":"caff
 export const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-export const version = "1.5.0";
+export const version = "1.6.0";
 export const author = "caffeinecat";
 
 function rootEl(el) {
@@ -72,14 +72,21 @@ export function onBreakpointChange(cb) {
   };
 }
 
-/** 저사양 기기·절전·투명도 줄이기 설정이면 true */
-export function shouldReduceCrema() {
+/**
+ * 저사양 기기·절전·투명도 줄이기 설정이면 true.
+ * 메모리(GB)가 minMemory보다 작거나 코어가 minCores보다 적으면 저사양으로 봅니다(기본 4·4).
+ * 코어 수는 메모리를 알려 주는 브라우저(Chromium)에서만 봅니다. Safari는 코어 수를 줄여서 알려 주기 때문입니다.
+ */
+export function shouldReduceCrema(options) {
   if (typeof window === "undefined") return false;
+  const o = options || {}, minMemory = o.minMemory != null ? o.minMemory : 4, minCores = o.minCores != null ? o.minCores : 4;
   const n = window.navigator || {}, mq = window.matchMedia;
   if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
   if (n.connection && n.connection.saveData) return true;
-  if (n.deviceMemory && n.deviceMemory <= 4) return true;
-  if (n.hardwareConcurrency && n.hardwareConcurrency <= 4) return true;
+  if (n.deviceMemory) {
+    if (n.deviceMemory < minMemory) return true;
+    if (n.hardwareConcurrency && n.hardwareConcurrency < minCores) return true;
+  }
   return false;
 }
 
@@ -97,10 +104,13 @@ export function isDesktopCapable() {
 }
 
 const cremaState = { mq: null, onMq: null, onMove: null, raf: 0 };
+/** 블러가 걸리는 크레마 요소. 포인터 빛과 auditCrema()가 씁니다. */
+const CREMA_SELECTOR = ".bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass, .bl-glass-thick, .bl-btn-glass";
 
+/* 포인터 빛: 좌표를 <html>이 아니라 크레마 요소에만, 요소 기준 좌표로 씁니다.
+   문서 전체의 스타일을 다시 계산하지 않고, 배경을 화면에 고정(fixed)하지 않아 스크롤할 때 다시 그리지 않습니다. */
 function pointerLight(on) {
-  const root = rootEl();
-  if (!root || typeof window === "undefined") return;
+  if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) on = false;
   if (on && !cremaState.onMove) {
     let x = 0, y = 0;
@@ -109,16 +119,21 @@ function pointerLight(on) {
       if (cremaState.raf) return;
       cremaState.raf = requestAnimationFrame(function () {
         cremaState.raf = 0;
-        root.style.setProperty("--bl-light-x", x + "px");
-        root.style.setProperty("--bl-light-y", y + "px");
+        const els = document.querySelectorAll(CREMA_SELECTOR);
+        const rects = Array.prototype.map.call(els, (el) => el.getBoundingClientRect());   // 읽기를 먼저 모두 하고
+        els.forEach((el, i) => {                                                           // 쓰기는 나중에 (레이아웃 한 번)
+          el.style.setProperty("--bl-light-x", Math.round(x - rects[i].left) + "px");
+          el.style.setProperty("--bl-light-y", Math.round(y - rects[i].top) + "px");
+        });
       });
     };
     window.addEventListener("pointermove", cremaState.onMove, { passive: true });
   } else if (!on && cremaState.onMove) {
     window.removeEventListener("pointermove", cremaState.onMove);
+    if (cremaState.raf) cancelAnimationFrame(cremaState.raf);
     cremaState.onMove = null;
-    root.style.removeProperty("--bl-light-x");
-    root.style.removeProperty("--bl-light-y");
+    cremaState.raf = 0;
+    document.querySelectorAll(CREMA_SELECTOR).forEach((el) => { el.style.removeProperty("--bl-light-x"); el.style.removeProperty("--bl-light-y"); });
   }
 }
 
@@ -127,7 +142,7 @@ function pointerLight(on) {
  *   "off"  : 블러 없음(저사양·절전·투명도 줄이기)
  *   "on"   : 기본 블러레마
  *   "rich" : 데스크톱 모드. 블러가 더 깊고, 포인터 주변에 따뜻한 빛이 번집니다.
- * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: true | false })
+ * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: true | false, minMemory: 4, minCores: 4 })
  *   rich 기본값 "auto"는 데스크톱(isDesktopCapable)일 때만 켜고, 창 크기가 바뀌면 다시 판단합니다.
  *   rich: false로 데스크톱 모드를 끕니다. applyCremaPreference(true | false)로 강제로 켜고 끌 수도 있습니다.
  */
@@ -135,7 +150,7 @@ export function applyCremaPreference(options) {
   if (typeof document === "undefined") return true;
   const o = typeof options === "boolean" ? { force: options } : options || {};
   const root = document.documentElement;
-  const reduce = o.force === undefined ? shouldReduceCrema() : !o.force;
+  const reduce = o.force === undefined ? shouldReduceCrema(o) : !o.force;
   const rich = o.rich === undefined ? "auto" : o.rich;
   if (cremaState.mq) {
     cremaState.mq.removeEventListener ? cremaState.mq.removeEventListener("change", cremaState.onMq) : cremaState.mq.removeListener(cremaState.onMq);
@@ -171,16 +186,82 @@ export function getCremaMode() {
   return m === "off" || m === "rich" ? m : "on";
 }
 
+/* ── 개발 중 검사 ─────────────────────────────
+   블러 예산·primary 버튼 개수·옛 glass 이름을 화면에서 세어 콘솔로 알려 줍니다. 배포 빌드(NODE_ENV=production)에서는 아무것도 하지 않습니다. */
+const isProd = () => typeof process !== "undefined" && !!process.env && process.env.NODE_ENV === "production";
+
+function onScreen(el) {
+  const r = el.getBoundingClientRect();
+  if (!r.width || !r.height || r.bottom <= 0 || r.right <= 0 || r.top >= window.innerHeight || r.left >= window.innerWidth) return false;
+  const cs = getComputedStyle(el);
+  return cs.visibility !== "hidden" && cs.display !== "none" && cs.opacity !== "0";
+}
+function hasBlur(el) {
+  const cs = getComputedStyle(el), f = cs.backdropFilter || cs.webkitBackdropFilter;
+  return !!f && f !== "none";
+}
+
+/**
+ * 지금 화면을 한 번 검사해 문제 목록을 돌려줍니다. 서버에서는 [].
+ * checkCrema() → [{ code: "blur-budget" | "primary" | "legacy-glass", message, elements }]
+ */
+export function checkCrema(options) {
+  if (typeof document === "undefined" || typeof window === "undefined") return [];
+  const o = options || {}, issues = [];
+  const mode = getCremaMode();
+  const budget = o.budget != null ? o.budget : mode === "rich" ? 6 : mode === "off" ? 0 : 3;
+  const blurred = Array.prototype.filter.call(document.querySelectorAll(o.all ? "body *" : CREMA_SELECTOR + ", .bl-scrim, .bl-dialog, .bl-tooltip, .bl-tooltip-pop, [style*='backdrop-filter']"),
+    (el) => hasBlur(el) && onScreen(el));
+  if (blurred.length > budget) issues.push({ code: "blur-budget", elements: blurred,
+    message: `블러가 걸린 면이 화면에 ${blurred.length}개 있어요(예산 ${budget}개, 모드 ${mode}). 반복되는 면은 .bl-crema-lite(MediaCard는 lite)로 바꾸거나 크레마를 줄여 주세요.` });
+  const primaries = Array.prototype.filter.call(document.querySelectorAll(".bl-btn-primary"), onScreen);
+  if (primaries.length > 1) issues.push({ code: "primary", elements: primaries,
+    message: `primary 버튼이 화면에 ${primaries.length}개 있어요. 가장 중요한 행동 하나만 primary로 두고 나머지는 variant="ghost"나 "crema"로 바꿔 주세요.` });
+  const legacy = Array.prototype.filter.call(document.querySelectorAll(".bl-glass, .bl-glass-thick, .bl-glass-lite, .bl-btn-glass, [data-glass]"), (el) =>
+    el.hasAttribute("data-glass") ? el !== document.documentElement && !el.hasAttribute("data-crema")
+      : !/\bbl-(crema|btn-crema)/.test(el.className));
+  if (legacy.length) issues.push({ code: "legacy-glass", elements: legacy,
+    message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 사라지니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
+  return issues;
+}
+
+/**
+ * 개발 중에 화면이 바뀔 때마다 checkCrema()를 돌려 새 문제만 콘솔에 알립니다. 멈추는 함수를 돌려줍니다.
+ * 앱 시작 시: if (import.meta.env.DEV) auditCrema();
+ */
+export function auditCrema(options) {
+  const o = options || {};
+  if (typeof document === "undefined" || typeof window === "undefined" || (isProd() && !o.force)) return function () {};
+  let timer = 0, last = "";
+  const report = o.onReport || ((list) => list.forEach((i) => console.warn("blurssism: " + i.message, i.elements)));
+  function run() {
+    timer = 0;
+    const list = checkCrema(o), key = list.map((i) => i.message).join("|");
+    if (key !== last) { last = key; if (list.length) report(list); }
+  }
+  function later() { if (!timer) timer = setTimeout(run, 400); }
+  const mo = typeof MutationObserver !== "undefined" ? new MutationObserver(later) : null;
+  if (mo) mo.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["class", "style", "open", "hidden", "data-crema"] });
+  window.addEventListener("resize", later, { passive: true });
+  window.addEventListener("scroll", later, { passive: true, capture: true });
+  later();
+  return function () {
+    if (mo) mo.disconnect();
+    window.removeEventListener("resize", later);
+    window.removeEventListener("scroll", later, { capture: true });
+    if (timer) clearTimeout(timer);
+  };
+}
+
 /* ── 1.4 이름(glass) 별칭: 그대로 동작하고, 개발 중에 한 번만 안내합니다. 2.0에서 제거됩니다. ── */
 const warned = {};
 function deprecated(oldName, newName) {
   if (warned[oldName]) return;
   warned[oldName] = true;
-  const prod = typeof process !== "undefined" && process.env && process.env.NODE_ENV === "production";
-  if (!prod && typeof console !== "undefined") console.warn(`blurssism: ${oldName}()는 2.0에서 사라져요. ${newName}()를 써 주세요.`);
+  if (!isProd() && typeof console !== "undefined") console.warn(`blurssism: ${oldName}()는 2.0에서 사라져요. ${newName}()를 써 주세요.`);
 }
 /** @deprecated 1.5부터 shouldReduceCrema() */
-export function shouldReduceGlass() { deprecated("shouldReduceGlass", "shouldReduceCrema"); return shouldReduceCrema(); }
+export function shouldReduceGlass(options) { deprecated("shouldReduceGlass", "shouldReduceCrema"); return shouldReduceCrema(options); }
 /** @deprecated 1.5부터 applyCremaPreference() */
 export function applyGlassPreference(options) { deprecated("applyGlassPreference", "applyCremaPreference"); return applyCremaPreference(options); }
 /** @deprecated 1.5부터 setCremaMode() */
@@ -192,8 +273,19 @@ export function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); ret
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
 
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
-const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","on-accent":"#ffffff"},"dark":{"paper":"#16110d","paper-raised":"#201913","on-accent":"#21180f"}};
+const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","on-accent":"#ffffff","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","on-accent":"#21180f","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
 const customPalettes = {};
+const customListeners = [];
+
+/** applyBrandColor()로 등록한 팔레트 목록 [{ id, name, group: "custom" }]. PalettePicker가 함께 보여 줍니다. */
+export function getCustomPalettes() {
+  return Object.keys(customPalettes).map((id) => ({ id, name: customPalettes[id].name, group: "custom" }));
+}
+/** 브랜드 팔레트가 새로 등록될 때마다 cb()를 부릅니다. 해제 함수를 돌려줍니다. */
+export function onCustomPalettesChange(cb) {
+  customListeners.push(cb);
+  return function () { const i = customListeners.indexOf(cb); if (i >= 0) customListeners.splice(i, 1); };
+}
 
 function parseHex(c) {
   const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(c).trim());
@@ -240,6 +332,7 @@ function walk(h, s, l, step, ok) {
  */
 export function createPalette(color, options) {
   const o = options || {};
+  const id = checkId(o.id || "brand");
   const src = toHex(parseHex(color));
   const [h, s, l] = rgbToHsl(parseHex(src));
   const L = BASE.light, D = BASE.dark;
@@ -260,7 +353,8 @@ export function createPalette(color, options) {
   const accentD = walk(h, s2, Math.max(l, 66), 1, okFill(D.paper, D["paper-raised"], D["on-accent"]));
   const softD = hsl(h, s * 0.35, 16);
   const inkD = walk(h, s2, rgbToHsl(parseHex(accentD))[2] + 6, 1, okText(D.paper, D["paper-raised"], softD));
-  const decoD = hsl(h, s * 0.4, 47);
+  // 노랑·연두처럼 밝은 색은 같은 명도에서도 너무 밝아, 크레마 띠가 다크 글자 대비를 해치지 않게 어둡게 맞춥니다
+  const decoD = walk(h, s * 0.4, 47, -1, (c) => luminance(c) <= 0.25);
 
   const tint = (hex, a) => `rgba(${parseHex(hex).join(", ")}, ${a})`;
   const warnings = [];
@@ -272,7 +366,7 @@ export function createPalette(color, options) {
   if (s < 8) warnings.push({ code: "neutral", message: "채도가 거의 없어 그래파이트처럼 단색으로 보여요. 선택 상태는 굵기나 아이콘으로도 보여 주세요." });
 
   return {
-    id: o.id || "brand",
+    id,
     name: o.name || "브랜드",
     group: "custom",
     source: src,
@@ -285,12 +379,30 @@ export function createPalette(color, options) {
   };
 }
 
+/* 팔레트 id는 CSS 선택자에 그대로 들어가므로 글자·숫자·하이픈만 받습니다. */
+function checkId(id) {
+  if (!/^[a-z][a-z0-9-]*$/i.test(String(id))) throw new TypeError(`blurssism: 팔레트 id "${id}"는 쓸 수 없어요. 영문으로 시작하고 영문·숫자·하이픈(-)만 넣어 주세요. 예: "brand", "my-brand"`);
+  return String(id);
+}
+
 /** createPalette 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣거나 파일로 저장할 때 씁니다. */
 export function paletteToCss(palette) {
-  const id = palette.id, decl = (t, pad) => Object.entries(palette.values[t]).map(([k, v]) => `${pad}--${k}: ${v};`).join("\n");
-  return `[data-palette="${id}"] {\n${decl("light", "  ")}\n}\n` +
-    `[data-theme="dark"][data-palette="${id}"], [data-theme="dark"] [data-palette="${id}"] {\n${decl("dark", "  ")}\n}\n` +
-    `@media (prefers-color-scheme: dark) {\n  :root:not([data-theme="light"])[data-palette="${id}"], :root:not([data-theme="light"]) [data-palette="${id}"] {\n${decl("dark", "    ")}\n  }\n}\n`;
+  const id = checkId(palette.id), X = `[data-palette="${id}"]`;
+  // 팔레트 안에서 크레마 가장자리 색이 그림자에도 반영되도록 그림자를 팔레트마다 다시 선언합니다.
+  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다. 그래서 옛 이름으로 덮어써도 그대로 맞습니다(2.0에서 제거).
+  const decl = (t, pad) => [
+    ...Object.entries(palette.values[t]).filter(([k]) => k !== "glass-tint-accent").map(([k, v]) => k === "crema-tint-accent"
+      ? `${pad}--glass-tint-accent: ${v};\n${pad}--crema-tint-accent: var(--glass-tint-accent);` : `${pad}--${k}: ${v};`),
+    ...(BASE[t] && BASE[t]["shadow-crema"] ? [
+      `${pad}--shadow-glass: ${BASE[t]["shadow-crema"]};\n${pad}--shadow-crema: var(--shadow-glass);`,
+      `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
+  ].join("\n");
+  const L = '[data-theme="light"]', D = '[data-theme="dark"]', SYS = ':root:not([data-theme="light"])';
+  // 테마와 팔레트를 서로 다른 요소에 걸어도(<html data-palette> 안의 <section data-theme="dark"> 등) 맞는 값을 씁니다.
+  return `${X}, ${L}${X}, ${L} ${X}, ${X} ${L} {\n${decl("light", "  ")}\n}\n` +
+    `${D}${X}, ${D} ${X}, ${X} ${D} {\n${decl("dark", "  ")}\n}\n` +
+    `@media (prefers-color-scheme: dark) {\n  ${SYS}${X}, ${SYS} ${X} {\n${decl("dark", "    ")}\n  }\n` +
+    `  ${SYS} ${L}${X}, ${SYS} ${L} ${X} {\n${decl("light", "    ")}\n  }\n}\n`;
 }
 
 /**
@@ -301,6 +413,7 @@ export function applyBrandColor(color, options) {
   const o = options || {};
   const p = createPalette(color, o);
   customPalettes[p.id] = p;
+  customListeners.forEach((fn) => fn());
   if (typeof document !== "undefined") {
     const sid = "bl-palette-" + p.id;
     let style = document.getElementById(sid);

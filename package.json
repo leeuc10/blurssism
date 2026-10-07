@@ -1,6 +1,6 @@
 {
   "name": "@caffeinecatkr/blurssism",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 · A web & app design system combining glassmorphism and blur — Blurema crema, caffeine palettes, brand-color palettes, responsive grid, React & Svelte components",
   "author": {
     "name": "caffeinecat",
@@ -62,6 +62,7 @@
     "./tokens.css": "./dist/tokens.css",
     "./bundle.css": "./dist/bundle.css",
     "./styles.css": "./dist/bundle.css",
+    "./fonts.css": "./dist/fonts.css",
     "./tokens.json": "./dist/tokens.json",
     "./tailwind": "./dist/tailwind-preset.js",
     "./logos/*": "./logos/*",
@@ -73,6 +74,8 @@
     },
     "./utils": {
       "types": "./svelte/utils.d.ts",
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs",
       "default": "./dist/utils.mjs"
     }
   },
@@ -80,10 +83,6 @@
     "dist",
     "bin",
     "svelte",
-    "src/core.js",
-    "src/utils.js",
-    "src/tokens.json",
-    "src/bundle.css",
     "logos",
     "docs",
     "LICENSE",
@@ -95,8 +94,8 @@
     "./dist/bundle.js"
   ],
   "scripts": {
-    "build": "node scripts/build.mjs && svelte-package -i src/svelte -o svelte",
-    "check": "node scripts/check.mjs && svelte-check --tsconfig ./tsconfig.json",
+    "build": "node scripts/build.mjs && svelte-package -i src/svelte -o svelte && node scripts/build.mjs --post",
+    "check": "node scripts/check.mjs && svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.react.json && node scripts/ssr.mjs",
     "prepublishOnly": "npm run build && npm run check"
   },
   "peerDependencies": {
@@ -117,6 +116,10 @@
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "svelte": "^5.57.1",
     "svelte-check": "^4.7.6",
     "typescript": "^5.9.3"

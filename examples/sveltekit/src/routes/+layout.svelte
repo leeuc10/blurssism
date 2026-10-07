@@ -1,4 +1,5 @@
 <script>
+  import "@caffeinecatkr/blurssism/fonts.css";
   import "@caffeinecatkr/blurssism/tokens.css";
   import "@caffeinecatkr/blurssism/bundle.css";
   import { applyCremaPreference } from "@caffeinecatkr/blurssism/svelte";
