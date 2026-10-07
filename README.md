@@ -30,7 +30,7 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 1. **90 / 10.** 화면의 90% 이상은 종이(`paper`)와 먹(`ink`). 강조색은 10% 이내.
 2. **떠 있는 것만 크레마로.** 내비게이션·탭바·시트·토스트만 크레마. 카드·입력창·리스트는 불투명.
 3. **화면당 행동 하나.** primary 버튼은 한 화면에 하나.
-4. **사람의 문장은 명조로.** 인용과 큰 이름만 Gowun Batang, 나머지 UI는 Pretendard.
+4. **사람의 문장은 명조로.** 인용과 큰 이름만 Blurssism Serif, 나머지 UI는 Blurssism Sans.
 5. **캡슐과 큰 모서리.** 누르는 것은 캡슐, 담는 것은 24px 이상.
 
 **들어 있는 것**
@@ -108,7 +108,7 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
 
-**글꼴**: `fonts.css`는 Pretendard와 Gowun Batang을 CDN에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
+**글꼴**: Blurssism Sans(UI)와 Blurssism Serif(명조)를 씁니다. Pretendard와 Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본이라 파일이 작습니다(Sans 가변 450KB, Serif 400·700 합쳐 383KB). 2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. OFL 예약 이름 때문에 이름을 바꿨습니다. `fonts.css`는 같은 버전의 글꼴 파일을 jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
 
 ```js
 import "@caffeinecatkr/blurssism/fonts.local.css";   // fonts.css 대신
@@ -252,7 +252,7 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 1. **90 / 10.** At least 90% of a screen is paper (`paper`) and ink (`ink`). Accent colors stay under 10%.
 2. **Only floating things are crema.** Navigation bars, tab bars, sheets and toasts are crema. Cards, inputs and lists stay opaque.
 3. **One action per screen.** Only one primary button per screen.
-4. **Human words in serif.** Quotes and large names use Gowun Batang; the rest of the UI uses Pretendard.
+4. **Human words in serif.** Quotes and large names use Blurssism Serif; the rest of the UI uses Blurssism Sans.
 5. **Capsules and large corners.** Anything you press is a capsule; anything that contains is 24px+.
 
 **What's inside**
@@ -308,7 +308,7 @@ In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be
 <TextField label="Email" bind:value={email} />
 ```
 
-**Fonts**: `fonts.css` loads Pretendard and Gowun Batang from a CDN. To skip the CDN (CSP, intranet, offline), import `fonts.local.css` in its place and you're done: it uses the font files shipped in the package (`dist/fonts/`, SIL OFL), and Vite, Next.js and SvelteKit emit them for you. Without a bundler, serve `dist/fonts.local.css` next to the `dist/fonts/` folder. To use other fonts, override `--font-sans` and `--font-serif`.
+**Fonts**: Blurssism Sans (UI) and Blurssism Serif. They are Pretendard and Gowun Batang cut down to the 2,350 KS X 1001 Hangul syllables plus Latin, digits and common symbols (Sans 450KB variable, Serif 400 and 700 383KB); rarer syllables fall back to system fonts. The copies are renamed because of the OFL Reserved Font Name. `fonts.css` loads the same version's font files from jsDelivr. To skip the CDN (CSP, intranet, offline), import `fonts.local.css` in its place and you're done: it uses the font files shipped in the package (`dist/fonts/`, SIL OFL), and Vite, Next.js and SvelteKit emit them for you. Without a bundler, serve `dist/fonts.local.css` next to the `dist/fonts/` folder. To use other fonts, override `--font-sans` and `--font-serif`.
 
 Inputs support `bind:value`, `bind:checked` and `bind:open`. Use snippets (`{#snippet actions()}…{/snippet}`) instead of slots. Requires Svelte 5.20+. See [`examples/sveltekit`](examples/sveltekit).
 
@@ -369,7 +369,7 @@ Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Plea
 
 - 코드, 토큰, 문서 / Code, tokens, docs: [MIT](LICENSE) © caffeinecat
 - 로고와 표식 / Logos and marks (`logos/`): 권리 보유 / all rights reserved — [logos/LICENSE.md](logos/LICENSE.md)
-- 글꼴 / Fonts: Pretendard와 Gowun Batang(둘 다 SIL OFL 1.1). `fonts.css`는 CDN에서 불러오고, `fonts.local.css`용 woff2 파일은 `dist/fonts/`에 라이선스와 함께 들어 있습니다 / `fonts.css` loads them from a CDN; the woff2 files for `fonts.local.css` ship in `dist/fonts/` with their licenses.
+- 글꼴 / Fonts: Blurssism Sans·Blurssism Serif는 Pretendard(© Kil Hyung-jin)와 Gowun Batang(© The Gowun Batang Project Authors)을 2350자로 줄인 사본입니다(둘 다 SIL OFL 1.1, 예약 이름 때문에 이름을 바꿈). woff2 파일은 `dist/fonts/`에 원본 라이선스와 함께 들어 있습니다 / Subsets of Pretendard and Gowun Batang under SIL OFL 1.1, renamed per the Reserved Font Name; the woff2 files ship in `dist/fonts/` with their licenses.
 
 ## 기여 · Contributing
 

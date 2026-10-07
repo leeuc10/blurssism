@@ -1,5 +1,28 @@
 /* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-/* fonts.css — Pretendard(UI)와 Gowun Batang(명조). 둘 다 SIL OFL, CDN에서 불러옵니다.
-   CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. 패키지에 든 글꼴 파일을 씁니다. */
-@import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
-@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+/* fonts.css — Blurssism Sans(가변 45~930, 450KB)·Blurssism Serif(400·700). Pretendard·Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본이에요.
+   2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. 라이선스: fonts/blurssism-sans/LICENSE.txt, fonts/blurssism-serif/LICENSE.txt (SIL OFL 1.1)
+   jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. */
+/* Blurssism Sans = Pretendard Variable 1.3.9, Blurssism Serif = Gowun Batang 400·700
+   KS X 1001 한글 2350자 + 영문·숫자·기호만 남긴 사본 (scripts/subset-fonts.py). OFL 예약 이름 때문에 이름을 바꿨습니다.
+   build.mjs가 fonts.local.css(상대 경로)와 fonts.css(jsDelivr 경로)로 내보냅니다. */
+@font-face {
+  font-family: 'Blurssism Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 45 930;
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@1.6.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2-variations'), url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@1.6.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Blurssism Serif';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@1.6.0/dist/fonts/blurssism-serif/BlurssismSerif-Regular.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Blurssism Serif';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@1.6.0/dist/fonts/blurssism-serif/BlurssismSerif-Bold.woff2) format('woff2');
+}

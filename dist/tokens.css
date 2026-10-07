@@ -866,8 +866,8 @@
   --prose-max: 640px;
   --touch-min: 44px;
   --navbar-h: 56px;
-  --font-sans: "Pretendard Variable", Pretendard, "IBM Plex Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-serif: "Gowun Batang", "Noto Serif KR", serif;
+  --font-sans: "Blurssism Sans", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-serif: "Blurssism Serif", "Noto Serif KR", AppleMyungjo, Batang, serif;
 }
 :root { --grid-columns: 4; --grid-gutter: 16px; --grid-margin: 16px; }
 @media (min-width: 600px) { :root { --grid-columns: 8; --grid-gutter: 16px; --grid-margin: 24px; } }

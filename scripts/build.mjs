@@ -3,7 +3,7 @@
 //   src/tokens.json → dist/tokens.json, dist/tokens.css, dist/tailwind-preset.js
 //   src/utils.js    → dist/utils.mjs · dist/utils.cjs (프레임워크 없이 쓰는 함수: 팔레트·테마·브레이크포인트·크레마 설정)
 //   src/core.js     → dist/index.mjs (ESM), dist/index.cjs (CommonJS), dist/bundle.js (<script>용 window.Blurssism)
-//   글꼴            → dist/fonts.css (CDN), dist/fonts.local.css (패키지에 든 dist/fonts/ 파일. tokens.css와 bundle.css는 글꼴을 불러오지 않습니다)
+//   글꼴            → dist/fonts.css (jsDelivr), dist/fonts.local.css (패키지에 든 dist/fonts/ 파일. tokens.css와 bundle.css는 글꼴을 불러오지 않습니다)
 //   아이콘 경로     → src/svelte/icons.js
 // `node scripts/build.mjs --post`는 svelte-package 뒤에 svelte/utils.js가 dist/utils.mjs를 가리키게 고칩니다.
 //   React·Svelte·바닐라가 같은 utils 모듈 하나를 써서 팔레트 등록·크레마 모드 상태가 한 곳에만 있습니다.
@@ -40,7 +40,7 @@ const decl = (list, theme, indent = "  ") => list.map((t) => withAlias(t.name, c
 const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens, ...tokens.material.tokens];
 const plain = ["spacing", "radius", "blur", "backdrop", "layout"].flatMap((f) => tokens[f].tokens);
 const families = Object.entries(tokens.type.families)
-  .map(([k, v]) => `  --font-${k}: ${k === "sans" ? v.replace("Pretendard,", '"Pretendard Variable", Pretendard,') : v};`).join("\n");
+  .map(([k, v]) => `  --font-${k}: ${v};`).join("\n");
 const styles = tokens.type.groups.flatMap((g) => g.styles.map((s) => ({ ...s, family: s.family || g.family })));
 const typeCss = styles.map((s) =>
   `.${s.name} { font-family: var(--font-${s.family}); font-size: ${s.fontSize}; line-height: ${s.lineHeight}; font-weight: ${s.fontWeight};${s.letterSpacing ? ` letter-spacing: ${s.letterSpacing};` : ""} }`).join("\n");
@@ -86,18 +86,18 @@ const fluidType = `@media (max-width: 767px) {
   .title-2 { font-size: 20px; line-height: 28px; }
 }`;
 
-write("dist/fonts.css", `${banner}/* fonts.css — Pretendard(UI)와 Gowun Batang(명조). 둘 다 SIL OFL, CDN에서 불러옵니다.
-   CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. 패키지에 든 글꼴 파일을 씁니다. */
-@import url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
-@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
-`);
-
-// fonts.local.css: 패키지에 든 글꼴 파일(dist/fonts/, scripts/vendor-fonts.mjs가 받아 둠)을 쓰는 @font-face.
-// 번들러(Vite·Next.js·SvelteKit)는 import하면 글꼴 파일을 함께 내보내고, 번들러가 없으면 이 파일과 fonts/ 폴더를 같이 올리면 됩니다.
-write("dist/fonts.local.css", `${banner}/* fonts.local.css — CDN 없이 패키지에 든 글꼴 파일을 씁니다. fonts.css 대신 불러오세요.
-   Pretendard는 화면에 나온 글자의 조각만 받습니다(unicode-range). 라이선스: fonts/pretendard/LICENSE.txt, fonts/gowun-batang/LICENSE.txt (SIL OFL 1.1) */
-${read("src/fonts/pretendard.css")}
-${read("src/fonts/gowun-batang.css")}`);
+// 글꼴: Blurssism Sans(Pretendard 사본)·Blurssism Serif(Gowun Batang 사본). 한글 2350자 + 영문·숫자·기호만 든 woff2 하나씩(scripts/subset-fonts.py가 만듦).
+// fonts.css는 같은 버전의 패키지 파일을 jsDelivr에서, fonts.local.css는 패키지에 든 파일을 씁니다.
+// 번들러(Vite·Next.js·SvelteKit)는 import하면 글꼴 파일을 함께 내보내고, 번들러가 없으면 fonts.local.css와 fonts/ 폴더를 같이 올리면 됩니다.
+const fontFaces = read("src/fonts/blurssism.css");
+const fontNote = `Blurssism Sans(가변 45~930, 450KB)·Blurssism Serif(400·700). Pretendard·Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본이에요.
+   2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. 라이선스: fonts/blurssism-sans/LICENSE.txt, fonts/blurssism-serif/LICENSE.txt (SIL OFL 1.1)`;
+write("dist/fonts.css", `${banner}/* fonts.css — ${fontNote}
+   jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. */
+${fontFaces.replaceAll("url(./fonts/", `url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@${version}/dist/fonts/`)}`);
+write("dist/fonts.local.css", `${banner}/* fonts.local.css — ${fontNote}
+   CDN 없이 패키지에 든 글꼴 파일을 씁니다. fonts.css 대신 불러오세요. */
+${fontFaces}`);
 
 write("dist/tokens.css", `${banner}/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">
    글꼴은 fonts.css에 따로 있습니다. */

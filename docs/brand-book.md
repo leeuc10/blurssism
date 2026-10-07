@@ -5,7 +5,7 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 1. **90 / 10.** 화면 면적의 90% 이상은 `paper` 계열과 `ink` 계열입니다. `accent`, `positive`, `deco` 같은 색은 합쳐서 10%를 넘지 않습니다.
 2. **크레마는 떠 있는 것에만.** 내비게이션 바, 탭바, 시트, 토스트, 이미지 위 캡션처럼 콘텐츠 *위에 떠 있는* 요소만 크레마입니다. 본문 카드, 입력창, 리스트는 불투명한 `paper-raised`입니다. 크레마 위에 크레마를 겹치지 않습니다.
 3. **화면당 행동 하나.** `primary`(또는 `accent`) 버튼은 한 화면에 하나만 둡니다. 나머지는 `ghost`입니다.
-4. **사람의 문장은 명조로.** 인용, 사용자가 쓴 글, 큰 이름은 `serif`(Gowun Batang). 그 밖의 모든 UI는 `sans`(Pretendard)입니다.
+4. **사람의 문장은 명조로.** 인용, 사용자가 쓴 글, 큰 이름은 `serif`(Blurssism Serif). 그 밖의 모든 UI는 `sans`(Blurssism Sans)입니다.
 5. **캡슐과 큰 모서리.** 누를 수 있는 것은 모두 `radius-full` 캡슐이고, 담는 것은 `radius-lg`(24px) 이상입니다.
 
 ## 글쓰기
@@ -134,7 +134,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 | 크레마 사용량 | 규칙으로 정한 예산(화면당 3개, 데스크톱 6개)과 기기별 자동 3단계(끄기·기본·데스크톱) | 크레마를 어디에 몇 개 쓸지는 앱이 판단 |
 | 브랜드색 | 색 하나를 넣으면 강조색 묶음만 만들고 바탕 90%는 그대로. 라이트·다크 모두 WCAG 대비를 맞추고, 상태색과 헷갈리는 색은 경고 | 색 하나로 화면 전체 톤을 바꾸는 방식(Material의 다이내믹 컬러), 또는 직접 조합 |
 | 검증 | `npm run check`가 팔레트 13종과 브랜드색 133개로 16,644개 대비 조합(크레마 위 글자 포함)을 매번 검사, 개발 중에는 `auditCrema()`가 블러 예산과 primary 개수를 셈 | 문서로 기준만 안내 |
-| 언어 | 한국어 화면 기준: Pretendard·Gowun Batang, 해요체, `keep-all` 줄바꿈 | 영어 기준, 한국어는 따로 조정 |
+| 언어 | 한국어 화면 기준: Blurssism Sans·Serif, 해요체, `keep-all` 줄바꿈 | 영어 기준, 한국어는 따로 조정 |
 | 쓰는 곳 | 하나의 원본에서 React·Svelte 5·CSS만 | 프레임워크 하나에 묶임 |
 
 ## 성능 — 블러 예산
@@ -166,9 +166,10 @@ p.warnings.forEach((w) => console.warn(w.message));
 
 ## 타이포그래피
 
-- `sans`: Pretendard → IBM Plex Sans KR(설치돼 있으면) → 시스템 산세리프.
-- `serif`: Gowun Batang.
-- 글꼴은 `fonts.css`가 불러옵니다(Pretendard는 jsDelivr, Gowun Batang은 Google Fonts). 1.6부터 `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
+- `sans`: Blurssism Sans → 시스템 산세리프(Apple SD Gothic Neo, 맑은 고딕).
+- `serif`: Blurssism Serif → Noto Serif KR → 시스템 명조.
+- 두 글꼴은 Pretendard와 Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본입니다(SIL OFL, 예약 이름 때문에 이름을 바꿈). 2350자 밖의 드문 글자는 시스템 글꼴로 보입니다. 다시 만들 때는 `python3 scripts/subset-fonts.py`.
+- 글꼴은 `fonts.css`가 jsDelivr에서 불러옵니다. 1.6부터 `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
 - 스타일: `display` 40/48 · `title-1` 30/38 · `quote` 22/32 (명조) / `title-2` 22/30 · `title-3` 18/26 · `body` 16/26 · `body-strong` 16/26 · `body-sm` 14/22 · `label` 15/20 · `caption` 12/16 (산세리프).
 - 한글 본문의 행간은 1.6(16/26)입니다. 제목은 자간을 −0.01 ~ −0.02em 좁힙니다.
 - 긴 글 본문은 `prose-max`(640px)를 넘지 않게 합니다.

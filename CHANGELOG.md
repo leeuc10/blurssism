@@ -3,7 +3,7 @@
 ## 1.6.0 — 2026-10-07
 
 > **올리기 전에 확인할 것 / Before upgrading**
-> - 글꼴을 `tokens.css`·`bundle.css`가 더 이상 불러오지 않아요. `import "@caffeinecatkr/blurssism/fonts.css"`(또는 `<link>`)를 한 줄 더하거나, CDN 없이 쓰려면 그 자리에 `fonts.local.css`를 불러오세요(패키지에 든 글꼴 파일을 씀). / Fonts moved to `fonts.css` (CDN) or `fonts.local.css` (font files shipped in the package).
+> - 글꼴을 `tokens.css`·`bundle.css`가 더 이상 불러오지 않아요. `import "@caffeinecatkr/blurssism/fonts.css"`(또는 `<link>`)를 한 줄 더하거나, CDN 없이 쓰려면 그 자리에 `fonts.local.css`를 불러오세요(패키지에 든 글꼴 파일을 씀). 글꼴 이름이 Blurssism Sans·Blurssism Serif로 바뀌었으니 `font-family`에 Pretendard·Gowun Batang을 직접 썼다면 `var(--font-sans)`·`var(--font-serif)`로 바꾸세요. / Fonts moved to `fonts.css` (CDN) or `fonts.local.css` (font files shipped in the package).
 > - `TabBar`가 lg(1120px)부터 스스로 숨고, `NavBar` 링크는 lg부터 보여요(전에는 md부터). 계속 보이려면 `hideFrom={false}`. / TabBar hides from lg by default; NavBar links show from lg.
 > - `Dialog`가 네이티브 `<dialog>`로 바뀌었어요. `className`은 이제 `<dialog class="bl-dialog">`에 붙어요. / Dialog renders a native `<dialog>`.
 > - `TabBar`는 `role="tablist"` 대신 `<nav>` + `aria-current="page"`예요. `[aria-selected]`에 건 CSS는 `[aria-current="page"]`로 바꾸세요. / TabBar uses `<nav>` + `aria-current`.
@@ -37,7 +37,8 @@
 - React `Button`이 `href`일 때 `target`·`rel` 같은 링크 속성을 타입에서도 받아요. `variant="glass"`는 개발 중 한 번 안내해요.
 - React `Chip`: `defaultSelected`·`onChange`로 스스로 바뀌는 모드. React `Table`: `format`(Svelte와 같음). Svelte `ListItem`: 나머지 속성 전달. Svelte `Checkbox`: `label`에 스니펫.
 - `TabBar`: 항목 `href`, `hideFrom`. `PalettePicker`: 브랜드 팔레트 표시(`custom`), `group="custom"`, `value`에 브랜드 id. 새 함수 `getCustomPalettes()`·`onCustomPalettesChange()`.
-- 패키지: `./fonts.css`(CDN), `./fonts.local.css`와 `./fonts/*`(Pretendard·Gowun Batang woff2 약 7MB와 SIL OFL 라이선스, `scripts/vendor-fonts.mjs`로 받음), `./utils`의 `require` 조건(`dist/utils.cjs`). 쓰이지 않던 `src/` 파일을 패키지에서 뺐어요.
+- 패키지: `./fonts.css`(CDN), `./fonts.local.css`와 `./fonts/*`(woff2 3개 840KB와 SIL OFL 라이선스), `./utils`의 `require` 조건(`dist/utils.cjs`). 쓰이지 않던 `src/` 파일을 패키지에서 뺐어요.
+- 글꼴이 Blurssism Sans·Blurssism Serif로 바뀌었어요. Pretendard·Gowun Batang에서 KS X 1001 한글 2350자 + 영문·숫자·기호만 남긴 사본이고(OFL 예약 이름 때문에 이름을 바꿈), 조각 수백 개 대신 파일 하나씩 받아요. 2350자 밖의 드문 글자는 시스템 글꼴로 보여요. `scripts/subset-fonts.py`로 만들어요. / Fonts are now Blurssism Sans and Serif: 2,350-syllable subsets of Pretendard and Gowun Batang, one file each.
 
 **개발 / Tooling**
 - `npm run check`가 대비(크레마 위 포함), Svelte 타입, React 타입(`tsc`), 서버 렌더링 스모크 테스트를 함께 돌려요. GitHub Actions에서 빌드 재현성과 함께 검사해요.
