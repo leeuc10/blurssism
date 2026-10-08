@@ -1,7 +1,7 @@
 "use client";
-/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 import React from "react";
-import { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundToCss, applyBackgroundColor } from "./utils.mjs";
+import { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor } from "./utils.mjs";
 
 function createBlurssism(React) {
   var h = React.createElement;
@@ -456,7 +456,7 @@ function createBlurssism(React) {
   return api;
 }
 
-const B = Object.assign(createBlurssism(React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundToCss, applyBackgroundColor });
+const B = Object.assign(createBlurssism(React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
 export const Button = B.Button;
 export const IconButton = B.IconButton;
 export const Chip = B.Chip;
@@ -487,6 +487,6 @@ export const Dialog = B.Dialog;
 export const Toast = B.Toast;
 export const Icon = B.Icon;
 export const useBreakpoint = B.useBreakpoint;
-export { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundToCss, applyBackgroundColor };
+export { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor };
 export { createBlurssism };
 export default B;

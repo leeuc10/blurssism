@@ -375,7 +375,7 @@ export function createPalette(color, options) {
   const softD = hsl(h, s * 0.35, 16);
   const inkD = walk(h, s2, rgbToHsl(parseHex(accentD))[2] + 6, 1, okText(D.paper, D["paper-raised"], softD));
   // 노랑·연두처럼 밝은 색은 같은 명도에서도 너무 밝아, 크레마 띠가 다크 글자 대비를 해치지 않게 어둡게 맞춥니다
-  const decoD = walk(h, s * 0.4, 47, -1, (c) => luminance(c) <= 0.25);
+  const decoD = walk(h, s * 0.4, 47, -1, (c) => luminance(c) <= 0.2);
 
   const tint = (hex, a) => `rgba(${parseHex(hex).join(", ")}, ${a})`;
   const warnings = [];
@@ -513,15 +513,63 @@ export function createBackground(color, options) {
     }
     values[theme] = v;
   }
-  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 크레마는 크림빛 그대로이니 함께 어울리는지 확인해 주세요." });
-  return { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 강조색과 함께 어울리는지 확인해 주세요." });
+  const bg = { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+  const crema = backgroundCrema(bg);
+  for (const t of ["light", "dark"]) Object.assign(values[t], crema[t]);
+  return bg;
 }
 
-/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. */
+/* ── 적응형 블러레마 ─────────────────────────────
+   크레마의 우유 거품 색(채움)과 거품 결 색이 바탕을 따라갑니다. 크림 바탕이면 기본 토큰과 같은 값이 나옵니다.
+   - 채움: 라이트는 paper, 다크는 paper와 paper-raised 사이. 불투명도는 기본 토큰 그대로
+   - 거품 결: 기본 결 색의 명도는 두고, 색조는 바탕을 따라 돌리고 채도는 바탕 채도에 비례 (흰·회색 바탕이면 무채색 결) */
+const rgbaParts = (str) => { const v = /rgba?\(([^)]+)\)/.exec(str)[1].split(",").map(Number); return [v.slice(0, 3), v[3] == null ? 1 : v[3]]; };
+const mixRgb = (a, b, t) => a.map((x, i) => x + (b[i] - x) * t);
+const rgbaStr = (c, a) => `rgba(${c.map((v) => Math.round(v)).join(", ")}, ${a.toFixed(2)})`;
+function adaptGrain(theme, paperHex) {
+  const B = BASE[theme], src = B["crema-grain"], m = /values='([^']+)'/.exec(src);
+  const vals = m[1].split(/\s+/).map(Number);
+  const [gh, gs, gl] = rgbToHsl([vals[4], vals[9], vals[14]].map((v) => v * 255));
+  const [rh, rs] = rgbToHsl(parseHex(B.paper)), [bh, bs] = rgbToHsl(parseHex(paperHex));
+  const h = (((bh + gh - rh) % 360) + 360) % 360;
+  const c = parseHex(hsl(h, gs * (rs ? Math.min(1, bs / rs) : 0), gl)).map((v) => +(v / 255).toFixed(3));
+  [vals[4], vals[9], vals[14]] = c;
+  return src.replace(m[1], vals.map((v) => String(v).replace(/^0\./, ".")).join(" "));
+}
+
+/** 바탕 값(paper·paper-raised)에 맞는 크레마 채움과 거품 결. { light: { "crema-fill", "crema-fill-strong", "crema-grain" }, dark } */
+export function backgroundCrema(background) {
+  const out = {};
+  for (const t of ["light", "dark"]) {
+    const v = background.values[t], B = BASE[t], p = parseHex(v.paper), r = parseHex(v["paper-raised"]);
+    // 명도는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게: 뒤가 검정·흰색이어도 글자 대비를 지킵니다
+    const fill = (c, token) => {
+      const [def, a] = rgbaParts(B[token]), target = luminance(toHex(def)), hex = toHex(c);
+      const ok = (x) => (t === "light" ? luminance(x) >= target : luminance(x) <= target);
+      if (ok(hex)) return rgbaStr(c, a);
+      const [h, sat, l] = rgbToHsl(c);
+      return rgbaStr(parseHex(walk(h, sat, l, t === "light" ? 0.5 : -0.5, ok)), a);
+    };
+    out[t] = {
+      "crema-fill": fill(t === "light" ? p : mixRgb(p, r, 0.8), "crema-fill"),
+      "crema-fill-strong": fill(t === "light" ? p : mixRgb(p, r, 0.55), "crema-fill-strong"),
+      "crema-grain": adaptGrain(t, v.paper),
+    };
+  }
+  return out;
+}
+
+/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. 크레마 채움·결도 바탕에 맞춰 함께 넣습니다. */
 export function backgroundToCss(background) {
   const X = `[data-background="${checkId(background.id, "배경")}"]`;
-  const keys = [...SURFACE_KEYS, ...INK_KEYS];
-  return scopedCss(X, (t, pad) => keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`).join("\n"));
+  const keys = [...SURFACE_KEYS, ...INK_KEYS], crema = backgroundCrema(background);
+  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다(팔레트와 같은 방식, 2.0에서 정리).
+  const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
+  return scopedCss(X, (t, pad) => [
+    ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
+    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});`),
+  ].join("\n"));
 }
 
 /**

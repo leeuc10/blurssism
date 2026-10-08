@@ -99,19 +99,22 @@ const pct = (str) => parseFloat(str) / 100;
 const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 const hexOf = (c) => "#" + c.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
 const over = (bg, c, a) => bg.map((v, i) => v * (1 - a) + c[i] * a);
-const grainOf = (th) => {   // feColorMatrix의 색과 알파(노이즈 평균 0.5)
-  const m = decodeURIComponent(mat("crema-grain", th)).match(/values='([^']+)'/)[1].split(/\s+/).map(Number);
+const grainOf = (th, src) => {   // feColorMatrix의 색과 알파(노이즈 평균 0.5)
+  const m = decodeURIComponent(src || mat("crema-grain", th)).match(/values='([^']+)'/)[1].split(/\s+/).map(Number);
   return [[m[4], m[9], m[14]].map((v) => v * 255), m[18] * 0.5];
 };
 let cremaFails = 0, cremaChecks = 0, cremaWorst = Infinity;
-function checkCremaText(label, values, theme) {
+// crema: 배경을 바꿨을 때의 { "crema-fill", "crema-fill-strong", "crema-grain" } (적응형 블러레마)
+function checkCremaText(label, values, theme, crema) {
   const tint = over(rgb(values.accent), rgb(values.deco), pct(mat("crema-tint-mix", theme)));
-  const [grainC, grainA] = grainOf(theme);
+  const [grainC, grainA] = grainOf(theme, crema && crema["crema-grain"]);
   const lip = pct(mat("crema-band-lip", theme)), low = pct(mat("crema-band-low", theme));
   const light = pct(mat("crema-light-strength", theme)), pointer = 1 - (1 - light) * (1 - light / 2);
   const ink = base(theme).ink, muted = base(theme)["crema-ink-muted"];
   for (const [surface, token, texts] of [["얇은", "crema-fill", [["ink", ink]]], ["두꺼운", "crema-fill-strong", [["ink", ink], ["crema-ink-muted", muted]]]]) {
-    const [fc, fa] = rgbaOf(mat(token, theme));
+    // 1.6.2: 채움에 팔레트 장식색을 crema-fill-tint만큼 섞습니다(color-mix, 알파를 곱한 채로 섞음)
+    const [fc0, fa0] = rgbaOf((crema && crema[token]) || mat(token, theme)), mixP = pct(mat("crema-fill-tint", theme)), deco = rgb(values.deco);
+    const fa = fa0 * (1 - mixP) + mixP, fc = fc0.map((v, i) => (v * fa0 * (1 - mixP) + deco[i] * mixP) / fa);
     for (const mode of ["on", "rich"]) for (const back of [[0, 0, 0], [255, 255, 255]]) {
       const a = mode === "rich" && token === "crema-fill" ? fa * pct(mat("crema-rich-fill", theme)) : fa;
       const under = over(over(back, fc, a), grainC, grainA);
@@ -130,6 +133,12 @@ function checkCremaText(label, values, theme) {
 }
 for (const p of tokens.palettes.list) for (const theme of ["light", "dark"]) checkCremaText(p.id, p.values[theme], theme);
 for (const color of samples) { const p = createPalette(color); for (const theme of ["light", "dark"]) checkCremaText("brand " + color, p.values[theme], theme); }
+// 적응형 블러레마: 내장 배경과 배경색 샘플마다 크레마 채움·결이 바뀌어도 같은 기준을 넘는지
+const { backgroundCrema } = await import("../dist/utils.mjs");
+for (const b of [...tokens.backgrounds.list, ...bgSamples.map((c) => createBackground(c))]) {
+  const crema = backgroundCrema(b), label = "배경 " + (b.source || b.id);
+  for (const p of tokens.palettes.list) for (const theme of ["light", "dark"]) checkCremaText(`${label} × ${p.id}`, p.values[theme], theme, crema[theme]);
+}
 console.log(`✓ 크레마 위 글자 ${cremaChecks}개 조합${cremaFails ? ` — ${cremaFails}개 미달` : ` 모두 통과 (최저 ${cremaWorst.toFixed(2)}:1)`}`);
 console.log(fails ? `\n${fails}/${checks} 미달` : `\n${checks}개 조합 모두 통과`);
 process.exit(fails ? 1 : 0);

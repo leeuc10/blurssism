@@ -37,7 +37,7 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 - **블러레마 크레마**: 블러 위에 우유 거품 색, 거품 결, 팔레트를 따라가는 캐러멜빛 띠를 겹친 젖빛 면
 - **크레마 모드 3단계**: 저사양 `off` · 기본 `on` · 데스크톱 `rich`(더 깊은 블러와 포인터 빛). 데스크톱 모드는 개발자가 켜고 끌 수 있음
 - **브랜드색 팔레트**: 색 하나를 넣으면 라이트·다크 강조색을 WCAG 대비에 맞춰 자동 생성
-- 팔레트 14종 × 라이트·다크. 카페인 7종(블랙·에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 65,682개 대비 조합 모두 WCAG 통과(배경 바꾼 경우 포함, 불투명한 바탕 56,862개 + 크레마 위 글자 8,820개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
+- 팔레트 14종 × 라이트·다크. 카페인 7종(블랙·에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 108,522개 대비 조합 모두 WCAG 통과(배경 바꾼 경우 포함, 불투명한 바탕 56,862개 + 크레마 위 글자 51,660개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
@@ -232,7 +232,7 @@ const bg = applyBackgroundColor("#f5f0ff");   // <html data-background="custom">
 bg.warnings.forEach((w) => console.warn(w.message));
 ```
 
-바탕 묶음(`paper`·`paper-raised`·`paper-sunken`·`line`)만 바꾸고 글자·강조·상태색은 그대로 둡니다. 색 하나를 주면 카드·눌린 면·구분선을 같은 색조로 만들고, 글자와 모든 내장 팔레트가 읽히지 않으면 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기며, 보조 글자색이 모자라면 조금 진하게 맞춥니다. 밝은 색은 라이트 바탕이 되고 다크 바탕은 같은 색조로 만들어요. 다크 바탕을 따로 정하려면 `applyBackgroundColor("#ffffff", { dark: "#101010" })`. 서버 렌더링에서는 `backgroundToCss(createBackground("#f5f0ff"))`를 `<style>`에 넣습니다. 브랜드색 팔레트를 함께 쓰면 `createPalette(color, { background: bg })`로 그 바탕에서 대비를 맞춥니다. 크레마는 크림빛 그대로입니다.
+바탕 묶음(`paper`·`paper-raised`·`paper-sunken`·`line`)만 바꾸고 글자·강조·상태색은 그대로 둡니다. 1.6.2부터 크레마(블러레마)의 우유 거품 채움과 거품 결도 바탕을 따라가서, 흰·회색 바탕 위에서는 무채색 크레마가 됩니다(크림 바탕이면 전과 같음). 채움은 팔레트·브랜드색의 장식색도 조금(`crema-fill-tint`) 머금어요. 색 하나를 주면 카드·눌린 면·구분선을 같은 색조로 만들고, 글자와 모든 내장 팔레트가 읽히지 않으면 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기며, 보조 글자색이 모자라면 조금 진하게 맞춥니다. 밝은 색은 라이트 바탕이 되고 다크 바탕은 같은 색조로 만들어요. 다크 바탕을 따로 정하려면 `applyBackgroundColor("#ffffff", { dark: "#101010" })`. 서버 렌더링에서는 `backgroundToCss(createBackground("#f5f0ff"))`를 `<style>`에 넣습니다. 브랜드색 팔레트를 함께 쓰면 `createPalette(color, { background: bg })`로 그 바탕에서 대비를 맞춥니다. 크레마 띠는 팔레트를 따라갑니다.
 
 ### 크레마 모드 · 블러 예산
 
@@ -275,7 +275,7 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 - **Blurema crema**: blur topped with a milk tint, a fine foam grain, and a caramel crema band that follows the palette.
 - **Three crema modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
 - **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
-- 14 palettes × light and dark: 7 caffeine palettes (black, espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 65,682 contrast pairs pass WCAG, brand-color palettes and custom backgrounds included: 56,862 on opaque surfaces and 8,820 for text on crema over a pure black or white backdrop.
+- 14 palettes × light and dark: 7 caffeine palettes (black, espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 108,522 contrast pairs pass WCAG, brand-color palettes and custom backgrounds included: 56,862 on opaque surfaces and 51,660 for text on crema over a pure black or white backdrop.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
@@ -376,7 +376,7 @@ setBackground("white");                       // <html data-background="white"> 
 const bg = applyBackgroundColor("#f5f0ff");   // any color, sets <html data-background="custom">
 ```
 
-Only the surface set (`paper`, `paper-raised`, `paper-sunken`, `line`) changes. From one color blurssism derives the card, sunken and divider colors for light and dark, nudges the paper just enough for ink, status colors and every built-in palette to pass contrast, and darkens the secondary text if needed. Pass `{ dark: "#101010" }` to set the dark paper yourself. For SSR, use `backgroundToCss(createBackground(color))`; pair it with a brand palette via `createPalette(color, { background: bg })`.
+Only the surface set (`paper`, `paper-raised`, `paper-sunken`, `line`) changes, and since 1.6.2 the crema fill and foam grain follow it (neutral crema on white or gray; unchanged on cream). From one color blurssism derives the card, sunken and divider colors for light and dark, nudges the paper just enough for ink, status colors and every built-in palette to pass contrast, and darkens the secondary text if needed. Pass `{ dark: "#101010" }` to set the dark paper yourself. For SSR, use `backgroundToCss(createBackground(color))`; pair it with a brand palette via `createPalette(color, { background: bg })`.
 
 ### Crema modes and blur budget
 

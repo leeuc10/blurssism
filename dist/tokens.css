@@ -1,4 +1,4 @@
-/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
@@ -44,13 +44,14 @@
   --glass-edge: rgba(244, 222, 198, 0.95);
   --crema-edge: var(--glass-edge);
   --crema-tint-mix: 65%;
-  --crema-band-top: 50%;
+  --crema-fill-tint: 20%;
+  --crema-band-top: 42%;
   --crema-band-lip: 26%;
   --crema-band-mid: 16%;
   --crema-band-low: 10%;
   --crema-light-strength: 36%;
   --crema-rich-fill: 88%;
-  --glass-crema: linear-gradient(180deg, rgba(192, 150, 113, 0.5), rgba(192, 150, 113, 0.26) 10px, rgba(192, 150, 113, 0.16) 40%, rgba(192, 150, 113, 0.1));
+  --glass-crema: linear-gradient(180deg, rgba(192, 150, 113, 0.42), rgba(192, 150, 113, 0.356) 2px, rgba(192, 150, 113, 0.3) 5px, rgba(192, 150, 113, 0.26) 10px, rgba(192, 150, 113, 0.22) 20px, rgba(192, 150, 113, 0.16) 40%, rgba(192, 150, 113, 0.1));
   --crema-band: var(--glass-crema);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
@@ -100,13 +101,14 @@
   --glass-edge: rgba(226, 171, 122, 0.22);
   --crema-edge: var(--glass-edge);
   --crema-tint-mix: 90%;
-  --crema-band-top: 45%;
+  --crema-fill-tint: 12%;
+  --crema-band-top: 30%;
   --crema-band-lip: 16%;
   --crema-band-mid: 10%;
   --crema-band-low: 7%;
   --crema-light-strength: 10%;
   --crema-rich-fill: 100%;
-  --glass-crema: linear-gradient(180deg, rgba(174, 125, 83, 0.45), rgba(174, 125, 83, 0.16) 10px, rgba(174, 125, 83, 0.1) 40%, rgba(174, 125, 83, 0.07));
+  --glass-crema: linear-gradient(180deg, rgba(174, 125, 83, 0.3), rgba(174, 125, 83, 0.244) 2px, rgba(174, 125, 83, 0.195) 5px, rgba(174, 125, 83, 0.16) 10px, rgba(174, 125, 83, 0.136) 20px, rgba(174, 125, 83, 0.1) 40%, rgba(174, 125, 83, 0.07));
   --crema-band: var(--glass-crema);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
@@ -157,13 +159,14 @@
     --glass-edge: rgba(226, 171, 122, 0.22);
     --crema-edge: var(--glass-edge);
     --crema-tint-mix: 90%;
-    --crema-band-top: 45%;
+    --crema-fill-tint: 12%;
+    --crema-band-top: 30%;
     --crema-band-lip: 16%;
     --crema-band-mid: 10%;
     --crema-band-low: 7%;
     --crema-light-strength: 10%;
     --crema-rich-fill: 100%;
-    --glass-crema: linear-gradient(180deg, rgba(174, 125, 83, 0.45), rgba(174, 125, 83, 0.16) 10px, rgba(174, 125, 83, 0.1) 40%, rgba(174, 125, 83, 0.07));
+    --glass-crema: linear-gradient(180deg, rgba(174, 125, 83, 0.3), rgba(174, 125, 83, 0.244) 2px, rgba(174, 125, 83, 0.195) 5px, rgba(174, 125, 83, 0.16) 10px, rgba(174, 125, 83, 0.136) 20px, rgba(174, 125, 83, 0.1) 40%, rgba(174, 125, 83, 0.07));
     --crema-band: var(--glass-crema);
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
@@ -495,7 +498,7 @@
   --accent-soft: #3a2434;
   --on-accent: #1c1917;
   --accent-ink: #e8b6d9;
-  --deco: #c98a63;
+  --deco: #a8735a;
   --glass-tint-accent: rgba(224, 166, 207, 0.18);
   --crema-tint-accent: var(--glass-tint-accent);
   --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
@@ -508,7 +511,7 @@
     --accent-soft: #3a2434;
     --on-accent: #1c1917;
     --accent-ink: #e8b6d9;
-    --deco: #c98a63;
+    --deco: #a8735a;
     --glass-tint-accent: rgba(224, 166, 207, 0.18);
     --crema-tint-accent: var(--glass-tint-accent);
     --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
@@ -891,12 +894,24 @@
   --paper-raised: #ffffff;
   --paper-sunken: #f1e9df;
   --line: #e8ded2;
+  --glass-fill: rgba(250, 246, 240, 0.70);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(250, 246, 240, 0.88);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 [data-theme="dark"][data-background="cream"], [data-theme="dark"] [data-background="cream"], [data-background="cream"] [data-theme="dark"] {
   --paper: #16110d;
   --paper-raised: #201913;
   --paper-sunken: #0f0b08;
   --line: #372e26;
+  --glass-fill: rgba(30, 23, 18, 0.82);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(28, 21, 16, 0.90);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .961 0 0 0 0 .898 0 0 0 0 .839 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="cream"], :root:not([data-theme="light"]) [data-background="cream"] {
@@ -904,12 +919,24 @@
     --paper-raised: #201913;
     --paper-sunken: #0f0b08;
     --line: #372e26;
+    --glass-fill: rgba(30, 23, 18, 0.82);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(28, 21, 16, 0.90);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .961 0 0 0 0 .898 0 0 0 0 .839 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="cream"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="cream"] {
     --paper: #faf6f0;
     --paper-raised: #ffffff;
     --paper-sunken: #f1e9df;
     --line: #e8ded2;
+    --glass-fill: rgba(250, 246, 240, 0.70);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(250, 246, 240, 0.88);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
 }
 /* 배경 white — 화이트: 색 없는 흰 바탕. 카드는 테두리로 구분합니다. */
@@ -918,12 +945,24 @@
   --paper-raised: #ffffff;
   --paper-sunken: #f4f4f4;
   --line: #e6e6e6;
+  --glass-fill: rgba(255, 255, 255, 0.70);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(255, 255, 255, 0.88);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 [data-theme="dark"][data-background="white"], [data-theme="dark"] [data-background="white"], [data-background="white"] [data-theme="dark"] {
   --paper: #121212;
   --paper-raised: #1c1c1c;
   --paper-sunken: #0a0a0a;
   --line: #2e2e2e;
+  --glass-fill: rgba(23, 23, 23, 0.82);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(22, 22, 22, 0.90);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="white"], :root:not([data-theme="light"]) [data-background="white"] {
@@ -931,12 +970,24 @@
     --paper-raised: #1c1c1c;
     --paper-sunken: #0a0a0a;
     --line: #2e2e2e;
+    --glass-fill: rgba(23, 23, 23, 0.82);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(22, 22, 22, 0.90);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="white"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="white"] {
     --paper: #ffffff;
     --paper-raised: #ffffff;
     --paper-sunken: #f4f4f4;
     --line: #e6e6e6;
+    --glass-fill: rgba(255, 255, 255, 0.70);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(255, 255, 255, 0.88);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
 }
 /* 배경 gray — 그레이: 옅은 회색 바탕 위에 흰 카드. */
@@ -945,12 +996,24 @@
   --paper-raised: #ffffff;
   --paper-sunken: #e8e8e8;
   --line: #dddddd;
+  --glass-fill: rgba(247, 247, 247, 0.70);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(247, 247, 247, 0.88);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 [data-theme="dark"][data-background="gray"], [data-theme="dark"] [data-background="gray"], [data-background="gray"] [data-theme="dark"] {
   --paper: #1a1a1a;
   --paper-raised: #242424;
   --paper-sunken: #111111;
   --line: #363636;
+  --glass-fill: rgba(24, 24, 24, 0.82);
+  --crema-fill: var(--glass-fill);
+  --glass-fill-strong: rgba(21, 21, 21, 0.90);
+  --crema-fill-strong: var(--glass-fill-strong);
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --crema-grain: var(--glass-grain);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="gray"], :root:not([data-theme="light"]) [data-background="gray"] {
@@ -958,12 +1021,24 @@
     --paper-raised: #242424;
     --paper-sunken: #111111;
     --line: #363636;
+    --glass-fill: rgba(24, 24, 24, 0.82);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(21, 21, 21, 0.90);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="gray"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="gray"] {
     --paper: #f2f2f2;
     --paper-raised: #ffffff;
     --paper-sunken: #e8e8e8;
     --line: #dddddd;
+    --glass-fill: rgba(247, 247, 247, 0.70);
+    --crema-fill: var(--glass-fill);
+    --glass-fill-strong: rgba(247, 247, 247, 0.88);
+    --crema-fill-strong: var(--glass-fill-strong);
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --crema-grain: var(--glass-grain);
   }
 }
 

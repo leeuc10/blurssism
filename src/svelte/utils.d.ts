@@ -121,7 +121,10 @@ export interface BackgroundValues {
   paper: string; "paper-raised": string; "paper-sunken": string; line: string;
   /** 바탕에 맞춰 필요할 때만 바뀌는 보조 글자색과 조작 요소 테두리 */
   "ink-muted": string; "ink-subtle": string; "line-strong": string;
+  /** 적응형 블러레마: 바탕에 맞춘 크레마 채움·거품 결 (1.6.2) */
+  "crema-fill"?: string; "crema-fill-strong"?: string; "crema-grain"?: string;
 }
+export interface BackgroundCrema { "crema-fill": string; "crema-fill-strong": string; "crema-grain": string }
 export interface BackgroundWarning { code: "adjusted" | "ink" | "saturated"; message: string }
 export interface CustomBackground {
   id: string;
@@ -142,7 +145,9 @@ export interface BackgroundOptions {
 }
 /** 배경색 하나로 바탕 묶음(paper·paper-raised·paper-sunken·line)을 라이트·다크 모두 만들고, 글자가 읽히도록 맞춥니다. 서버에서도 됩니다. */
 export declare function createBackground(color: string, options?: BackgroundOptions): CustomBackground;
-/** createBackground 결과를 CSS로 */
+/** 바탕(paper·paper-raised)에 맞춘 크레마 채움과 거품 결. 크림 바탕이면 기본 토큰과 같은 값 */
+export declare function backgroundCrema(background: { values: { light: Pick<BackgroundValues, "paper" | "paper-raised">; dark: Pick<BackgroundValues, "paper" | "paper-raised"> } }): { light: BackgroundCrema; dark: BackgroundCrema };
+/** createBackground 결과를 CSS로 (크레마 채움·결 포함) */
 export declare function backgroundToCss(background: CustomBackground): string;
 /** 배경색으로 바탕 묶음을 만들어 바로 적용합니다. */
 export declare function applyBackgroundColor(color: string, options?: BackgroundOptions & {

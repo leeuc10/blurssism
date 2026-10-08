@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"PalettePicker"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"Container"},{"name":"Grid"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -11,7 +11,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "1.6.1";
+const version = "1.6.2";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -291,7 +291,7 @@ function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); return get
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
 
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
-const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
+const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"crema-fill":"rgba(250, 246, 240, 0.70)","crema-fill-strong":"rgba(250, 246, 240, 0.88)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"crema-fill":"rgba(30, 23, 18, 0.82)","crema-fill-strong":"rgba(28, 21, 16, 0.90)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
 const customPalettes = {};
 const customBackgrounds = {};
 const customListeners = [];
@@ -375,7 +375,7 @@ function createPalette(color, options) {
   const softD = hsl(h, s * 0.35, 16);
   const inkD = walk(h, s2, rgbToHsl(parseHex(accentD))[2] + 6, 1, okText(D.paper, D["paper-raised"], softD));
   // 노랑·연두처럼 밝은 색은 같은 명도에서도 너무 밝아, 크레마 띠가 다크 글자 대비를 해치지 않게 어둡게 맞춥니다
-  const decoD = walk(h, s * 0.4, 47, -1, (c) => luminance(c) <= 0.25);
+  const decoD = walk(h, s * 0.4, 47, -1, (c) => luminance(c) <= 0.2);
 
   const tint = (hex, a) => `rgba(${parseHex(hex).join(", ")}, ${a})`;
   const warnings = [];
@@ -513,15 +513,63 @@ function createBackground(color, options) {
     }
     values[theme] = v;
   }
-  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 크레마는 크림빛 그대로이니 함께 어울리는지 확인해 주세요." });
-  return { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 강조색과 함께 어울리는지 확인해 주세요." });
+  const bg = { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+  const crema = backgroundCrema(bg);
+  for (const t of ["light", "dark"]) Object.assign(values[t], crema[t]);
+  return bg;
 }
 
-/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. */
+/* ── 적응형 블러레마 ─────────────────────────────
+   크레마의 우유 거품 색(채움)과 거품 결 색이 바탕을 따라갑니다. 크림 바탕이면 기본 토큰과 같은 값이 나옵니다.
+   - 채움: 라이트는 paper, 다크는 paper와 paper-raised 사이. 불투명도는 기본 토큰 그대로
+   - 거품 결: 기본 결 색의 명도는 두고, 색조는 바탕을 따라 돌리고 채도는 바탕 채도에 비례 (흰·회색 바탕이면 무채색 결) */
+const rgbaParts = (str) => { const v = /rgba?\(([^)]+)\)/.exec(str)[1].split(",").map(Number); return [v.slice(0, 3), v[3] == null ? 1 : v[3]]; };
+const mixRgb = (a, b, t) => a.map((x, i) => x + (b[i] - x) * t);
+const rgbaStr = (c, a) => `rgba(${c.map((v) => Math.round(v)).join(", ")}, ${a.toFixed(2)})`;
+function adaptGrain(theme, paperHex) {
+  const B = BASE[theme], src = B["crema-grain"], m = /values='([^']+)'/.exec(src);
+  const vals = m[1].split(/\s+/).map(Number);
+  const [gh, gs, gl] = rgbToHsl([vals[4], vals[9], vals[14]].map((v) => v * 255));
+  const [rh, rs] = rgbToHsl(parseHex(B.paper)), [bh, bs] = rgbToHsl(parseHex(paperHex));
+  const h = (((bh + gh - rh) % 360) + 360) % 360;
+  const c = parseHex(hsl(h, gs * (rs ? Math.min(1, bs / rs) : 0), gl)).map((v) => +(v / 255).toFixed(3));
+  [vals[4], vals[9], vals[14]] = c;
+  return src.replace(m[1], vals.map((v) => String(v).replace(/^0\./, ".")).join(" "));
+}
+
+/** 바탕 값(paper·paper-raised)에 맞는 크레마 채움과 거품 결. { light: { "crema-fill", "crema-fill-strong", "crema-grain" }, dark } */
+function backgroundCrema(background) {
+  const out = {};
+  for (const t of ["light", "dark"]) {
+    const v = background.values[t], B = BASE[t], p = parseHex(v.paper), r = parseHex(v["paper-raised"]);
+    // 명도는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게: 뒤가 검정·흰색이어도 글자 대비를 지킵니다
+    const fill = (c, token) => {
+      const [def, a] = rgbaParts(B[token]), target = luminance(toHex(def)), hex = toHex(c);
+      const ok = (x) => (t === "light" ? luminance(x) >= target : luminance(x) <= target);
+      if (ok(hex)) return rgbaStr(c, a);
+      const [h, sat, l] = rgbToHsl(c);
+      return rgbaStr(parseHex(walk(h, sat, l, t === "light" ? 0.5 : -0.5, ok)), a);
+    };
+    out[t] = {
+      "crema-fill": fill(t === "light" ? p : mixRgb(p, r, 0.8), "crema-fill"),
+      "crema-fill-strong": fill(t === "light" ? p : mixRgb(p, r, 0.55), "crema-fill-strong"),
+      "crema-grain": adaptGrain(t, v.paper),
+    };
+  }
+  return out;
+}
+
+/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. 크레마 채움·결도 바탕에 맞춰 함께 넣습니다. */
 function backgroundToCss(background) {
   const X = `[data-background="${checkId(background.id, "배경")}"]`;
-  const keys = [...SURFACE_KEYS, ...INK_KEYS];
-  return scopedCss(X, (t, pad) => keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`).join("\n"));
+  const keys = [...SURFACE_KEYS, ...INK_KEYS], crema = backgroundCrema(background);
+  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다(팔레트와 같은 방식, 2.0에서 정리).
+  const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
+  return scopedCss(X, (t, pad) => [
+    ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
+    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});`),
+  ].join("\n"));
 }
 
 /**
@@ -996,7 +1044,7 @@ function createBlurssism(React) {
 }
 
   if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundToCss, applyBackgroundColor });
+    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
   } else if (typeof console !== "undefined") {
     console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
   }

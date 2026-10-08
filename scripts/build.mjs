@@ -59,6 +59,8 @@ const utilsSrc = read("src/utils.js")
     ...Object.fromEntries(colorTokens.filter((t) => t.value && /^#/.test(val(t.value, th))).map((t) => [t.name, val(t.value, th)])),
     // 내장 팔레트의 [accent, accent-ink]. createBackground가 어느 팔레트와도 읽히는 바탕을 고릅니다.
     accents: palettes.map((p) => [p.values[th].accent, p.values[th]["accent-ink"]]),
+    // 적응형 블러레마: 기본 크레마 채움·거품 결. backgroundCrema가 바탕에 맞게 바꿉니다.
+    ...Object.fromEntries(["crema-fill", "crema-fill-strong", "crema-grain"].map((n) => [n, val([...colorTokens, ...tokens.material.tokens].find((t) => t.name === n).value, th)])),
     "on-accent": palettes[0].values[th]["on-accent"],
     "shadow-crema": val(tokens.shadow.tokens.find((t) => t.name === "shadow-crema").value, th),
     "shadow-sheet": val(tokens.shadow.tokens.find((t) => t.name === "shadow-sheet").value, th),

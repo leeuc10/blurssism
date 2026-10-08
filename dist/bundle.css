@@ -1,4 +1,4 @@
-/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* blurssism 컴포넌트 스타일 원본 · © caffeinecat · MIT. 모든 값은 tokens.css 변수에서 옵니다. 접두어 bl-. dist/bundle.css는 빌드가 만듭니다.
    글꼴은 불러오지 않습니다. fonts.css를 함께 쓰거나 직접 호스팅하세요. */
 
@@ -13,18 +13,29 @@
   background-image: var(--crema-band), var(--crema-grain);
 }
 .bl-crema, .bl-glass {
-  background-color: var(--crema-fill);
+  background-color: var(--bl-crema-fill);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
   backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
   border: 1px solid var(--crema-stroke);
   box-shadow: var(--shadow-crema);
 }
 .bl-crema-thick, .bl-glass-thick {
-  background-color: var(--crema-fill-strong);
+  background-color: var(--bl-crema-fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
   backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
   border: 1px solid var(--crema-stroke);
   box-shadow: var(--shadow-sheet);
+}
+/* 크레마 채움이 팔레트(브랜드 팔레트 포함)의 장식색을 조금 머금습니다(1.6.2, 세기: --crema-fill-tint).
+   요소마다 계산하므로 --crema-fill·--glass-fill을 덮어써도, 배경·팔레트를 영역마다 바꿔도 그대로 따라갑니다. */
+.bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-crema-lite, .bl-glass-lite, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn {
+  --bl-crema-fill: var(--crema-fill); --bl-crema-fill-strong: var(--crema-fill-strong);
+}
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-crema-lite, .bl-glass-lite, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn {
+    --bl-crema-fill: color-mix(in srgb, var(--crema-fill), var(--deco) var(--crema-fill-tint));
+    --bl-crema-fill-strong: color-mix(in srgb, var(--crema-fill-strong), var(--deco) var(--crema-fill-tint));
+  }
 }
 /* 크레마가 팔레트의 장식색(deco)을 따라가게 합니다. color-mix가 없는 브라우저는 tokens.css의 고정값을 씁니다.
    크레마 띠는 위 가장자리에 조금 더 고이고, 아래로 옅어지면서 면 전체에 남습니다(세기: --crema-band-top·lip·mid·low).
@@ -33,9 +44,13 @@
   :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
     --crema: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent)); --crema-tint: var(--crema);
     --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke)); --crema-edge: var(--glass-edge);
+    /* 1.6.2: 위 가장자리에서 곡선으로 옅어지도록 중간 지점을 둡니다(직선 두 개가 꺾이는 10px 지점이 선처럼 보이지 않게) */
     --glass-crema: linear-gradient(180deg,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-top), transparent),
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.6 + var(--crema-band-lip) * 0.4), transparent) 2px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.25 + var(--crema-band-lip) * 0.75), transparent) 5px,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-lip), transparent) 10px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-lip) * 0.6 + var(--crema-band-mid) * 0.4), transparent) 20px,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-mid), transparent) 40%,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-low), transparent)); --crema-band: var(--glass-crema);
     --glass-light: color-mix(in srgb, var(--crema-tint) var(--crema-light-strength), transparent); --crema-light: var(--glass-light);
@@ -59,7 +74,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 }
 [data-crema="rich"] .bl-crema-thick, [data-glass="rich"] .bl-crema-thick, [data-crema="rich"] .bl-glass-thick, [data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), var(--shadow-sheet-rich); }
 @supports (color: color-mix(in srgb, red, blue)) {
-  [data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--crema-fill) var(--crema-rich-fill), transparent); }
+  [data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--bl-crema-fill) var(--crema-rich-fill), transparent); }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
@@ -85,7 +100,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-btn-block { display: flex; width: 100%; }
 .bl-btn-primary { background: var(--ink); color: var(--paper); }
 .bl-btn-accent { background: var(--accent); color: var(--on-accent); }
-.bl-btn-crema, .bl-btn-glass { background-color: var(--crema-fill); color: var(--ink); border-color: var(--crema-stroke); box-shadow: var(--shadow-crema);
+.bl-btn-crema, .bl-btn-glass { background-color: var(--bl-crema-fill); color: var(--ink); border-color: var(--crema-stroke); box-shadow: var(--shadow-crema);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); }
 .bl-btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
 .bl-btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
@@ -94,7 +109,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
-  background-color: var(--crema-fill); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-crema);
+  background-color: var(--bl-crema-fill); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-crema);
   -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate));
 }
 .bl-icon-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
@@ -103,7 +118,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-icon-btn svg { width: 22px; height: 22px; }
 /* 크레마 안의 아이콘 버튼은 블러를 다시 걸지 않습니다. 뒤가 이미 흐려져 있어 보이는 차이가 없고, 블러 예산만 씁니다. */
 .bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
-  background-color: var(--crema-fill-strong); background-image: var(--crema-grain); -webkit-backdrop-filter: none; backdrop-filter: none;
+  background-color: var(--bl-crema-fill-strong); background-image: var(--crema-grain); -webkit-backdrop-filter: none; backdrop-filter: none;
 }
 
 /* ── Chip ─────────────────────────────── */
@@ -211,6 +226,12 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-tab[aria-current="page"], .bl-tab[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700;
   text-decoration: underline 2px; text-underline-offset: 3px; }
 .bl-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+/* 1.6.2: 크레마가 팔레트 장식색을 머금어 accent-soft 캡슐과 가까워지므로, 선택 캡슐에 강조색 1px 테두리를 둡니다 */
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-tab[aria-current="page"], .bl-tab[aria-selected="true"], .bl-navbar-link[aria-current="page"] {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+}
 
 /* ── Sheet ─────────────────────────────── */
 .bl-sheet { padding: var(--space-3) var(--space-6) var(--space-6); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
@@ -235,7 +256,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── 성능: 크레마 끄기·가벼운 크레마 ─────────────────────────────
    <html data-crema="off">  → 모든 크레마가 불투명(blur 0)으로. 저사양 기기·절전 모드용 (Blurssism.applyCremaPreference())
    .bl-crema-lite           → 블러 없이 두꺼운 반투명만. 긴 목록 안에서 반복되는 크레마용 */
-.bl-crema-lite, .bl-glass-lite { background: var(--crema-fill-strong); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.bl-crema-lite, .bl-glass-lite { background: var(--bl-crema-fill-strong); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
 [data-crema="off"] .bl-crema, [data-glass="off"] .bl-crema, [data-crema="off"] .bl-glass, [data-glass="off"] .bl-glass, [data-crema="off"] .bl-crema-thick, [data-glass="off"] .bl-crema-thick, [data-crema="off"] .bl-glass-thick, [data-glass="off"] .bl-glass-thick, [data-crema="off"] .bl-btn-crema, [data-glass="off"] .bl-btn-crema, [data-crema="off"] .bl-btn-glass, [data-glass="off"] .bl-btn-glass, [data-crema="off"] .bl-icon-btn, [data-glass="off"] .bl-icon-btn, [data-crema="off"] .bl-scrim, [data-glass="off"] .bl-scrim {
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }

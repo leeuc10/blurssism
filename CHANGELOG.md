@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.2 — 2026-10-08
+
+**적응형 블러레마 / Adaptive Blurema**
+- 크레마의 우유 거품 채움(`crema-fill`·`crema-fill-strong`)과 거품 결(`crema-grain`)이 배경을 따라가요. 흰·회색 바탕에서는 무채색 크레마, 색 있는 바탕에서는 그 색조의 크레마가 되고, 크림 바탕(기본)은 전과 똑같아요. 크레마 띠·가장자리는 전처럼 팔레트를 따라가요. / The crema fill and foam grain now follow the background; cream (default) is unchanged.
+- 크레마 채움이 팔레트(브랜드 팔레트 포함)의 장식색(`deco`)을 조금 머금어요. 말차면 녹차빛, 블루면 하늘빛, 핑크면 분홍빛이 살짝 돌아요. 세기는 새 토큰 `crema-fill-tint`(라이트 20%, 다크 12%)이고 0%면 1.6.1과 같아요. color-mix가 없는 브라우저는 전처럼 보여요. / The crema fill now takes on a little of the palette's deco color (`crema-fill-tint`).
+- 다크에서도 장식색이 충분히 들어가도록, 혼자 유난히 밝던 클래식 팔레트의 다크 장식색을 `#c98a63`에서 `#a8735a`로, 브랜드색 팔레트의 다크 장식색 밝기 상한을 조금 낮췄어요(상대 휘도 0.25 → 0.2).
+- 크레마 띠가 위 가장자리에서 곡선으로 옅어져요. 전에는 직선 두 개가 10px 지점에서 꺾여 그 자리가 선처럼 보였어요. 맨 위 세기(`crema-band-top`)도 라이트 50→42%, 다크 45→30%로 낮춰 가장자리에 띠가 따로 떠 보이지 않아요. / The crema band now eases out smoothly instead of kinking at 10px.
+- 탭바·내비게이션의 선택 캡슐에 강조색 1px 테두리를 더했어요. 크레마가 팔레트 색을 머금어 `accent-soft` 캡슐과 가까워져도 구분돼요.
+- 커버 예제의 유리판도 같은 채움·거품 결(`--crema-grain`)을 써서 헤더 크레마와 색이 맞아요. 그래파이트 팔레트에서도 먹색 판을 회갈색으로 바꿔 강조색 판과 겹쳐 보이지 않아요.
+- 채움 밝기는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게 막아서, 뒤가 검정·흰색이어도 크레마 위 글자 대비를 지켜요. / Fill luminance is clamped so text-on-crema contrast holds.
+- `data-background`(내장 배경)와 `applyBackgroundColor()`·`backgroundToCss()`가 크레마 값을 함께 넣어요. 새 함수 `backgroundCrema(배경)`, `createBackground()` 결과의 `values`에 크레마 값 추가. / New `backgroundCrema()`.
+- 대비 검사에 배경 51종 × 팔레트 14종의 크레마 위 글자를 더해 108,522개 조합 모두 통과(크레마 위 글자 51,660개). / Contrast check: 108,522 pairs.
+
 ## 1.6.1 — 2026-10-08
 
 > **올리기 전에 확인할 것 / Before upgrading**
