@@ -9,6 +9,6 @@
 ## 소비자가 넣는 것
 - 아무것도 안 넣으면 `<html>`에 바로 적용됩니다. `value` / `onChange`로 제어하거나, `apply={false}`로 적용 없이 값만 받습니다.
 - `target`(특정 요소 아래만 바꾸기), `compact`, `label`.
-- `group`: `"caffeine"`(카페인 6종), `"web"`(웹 기본 7종), `"custom"`(브랜드 팔레트)만 보이기. 생략하면 전부.
+- `group`: `"caffeine"`(카페인 7종), `"web"`(웹 기본 7종), `"custom"`(브랜드 팔레트)만 보이기. 생략하면 전부.
 - `applyBrandColor()`로 등록한 브랜드 팔레트는 목록 끝에 함께 나옵니다. 숨기려면 `custom={false}`.
 - 선택을 기억하는 것(localStorage, 서버 저장)은 소비자 몫입니다. 페이지를 열 때 `setPalette(저장된 값)`을 부르세요.

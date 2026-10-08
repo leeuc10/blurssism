@@ -19,7 +19,7 @@
     onchange?: (id: PaletteId | (string & {})) => void;
     class?: string;
   } = $props();
-  let internal = $state<string>("espresso");
+  let internal = $state<string>("black");
   // 서버와 첫 렌더는 빈 목록(하이드레이션), 마운트 뒤에 채웁니다
   let registered = $state<{ id: string; name: string; group: string }[]>([]);
   const current = $derived(value ?? internal);

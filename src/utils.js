@@ -4,6 +4,8 @@
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
 export const palettes = /*__PALETTES__*/[];
+/** 배경 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
+export const backgrounds = /*__BACKGROUNDS__*/[];
 
 /** 브레이크포인트(min-width, px). xs는 0부터 sm 전까지입니다. */
 export const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
@@ -25,10 +27,24 @@ export function setPalette(id, el) {
   return true;
 }
 
-/** 현재 팔레트 id. 지정이 없으면 "espresso". */
+/** 현재 팔레트 id. 지정이 없으면 "black". */
 export function getPalette(el) {
   const target = rootEl(el);
-  return (target && target.getAttribute("data-palette")) || "espresso";
+  return (target && target.getAttribute("data-palette")) || "black";
+}
+
+/** 배경을 바꿉니다("cream" | "white" | "gray" 또는 applyBackgroundColor로 만든 id). el을 주면 그 요소 아래만. 알 수 없는 id면 false. */
+export function setBackground(id, el) {
+  const target = rootEl(el);
+  if (!target || !(backgrounds.some((b) => b.id === id) || customBackgrounds[id])) return false;
+  target.setAttribute("data-background", id);
+  return true;
+}
+
+/** 현재 배경 id. 지정이 없으면 "cream". */
+export function getBackground(el) {
+  const target = rootEl(el);
+  return (target && target.getAttribute("data-background")) || "cream";
 }
 
 /** 테마를 바꿉니다: "light" | "dark" | "system"(시스템 설정 따르기). */
@@ -277,6 +293,7 @@ export function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); ret
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
 const BASE = /*__BASE__*/{};
 const customPalettes = {};
+const customBackgrounds = {};
 const customListeners = [];
 
 /** applyBrandColor()로 등록한 팔레트 목록 [{ id, name, group: "custom" }]. PalettePicker가 함께 보여 줍니다. */
@@ -337,7 +354,9 @@ export function createPalette(color, options) {
   const id = checkId(o.id || "brand");
   const src = toHex(parseHex(color));
   const [h, s, l] = rgbToHsl(parseHex(src));
-  const L = BASE.light, D = BASE.dark;
+  // 배경을 바꿨다면(createBackground 결과) 그 바탕에서 대비를 맞춥니다
+  const bgv = o.background && o.background.values;
+  const L = { ...BASE.light, ...(bgv && bgv.light) }, D = { ...BASE.dark, ...(bgv && bgv.dark) };
   const okFill = (bg1, bg2, on) => (a) => contrastRatio(on, a) >= 4.5 && contrastRatio(a, bg1) >= 3 && contrastRatio(a, bg2) >= 3;
   const okText = (bg1, bg2, soft) => (a) => contrastRatio(a, bg1) >= 4.5 && contrastRatio(a, bg2) >= 4.5 && contrastRatio(a, soft) >= 4.5;
 
@@ -382,8 +401,8 @@ export function createPalette(color, options) {
 }
 
 /* 팔레트 id는 CSS 선택자에 그대로 들어가므로 글자·숫자·하이픈만 받습니다. */
-function checkId(id) {
-  if (!/^[a-z][a-z0-9-]*$/i.test(String(id))) throw new TypeError(`blurssism: 팔레트 id "${id}"는 쓸 수 없어요. 영문으로 시작하고 영문·숫자·하이픈(-)만 넣어 주세요. 예: "brand", "my-brand"`);
+function checkId(id, kind) {
+  if (!/^[a-z][a-z0-9-]*$/i.test(String(id))) throw new TypeError(`blurssism: ${kind || "팔레트"} id "${id}"는 쓸 수 없어요. 영문으로 시작하고 영문·숫자·하이픈(-)만 넣어 주세요. 예: "brand", "my-brand"`);
   return String(id);
 }
 
@@ -399,8 +418,12 @@ export function paletteToCss(palette) {
       `${pad}--shadow-glass: ${BASE[t]["shadow-crema"]};\n${pad}--shadow-crema: var(--shadow-glass);`,
       `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
   ].join("\n");
+  return scopedCss(X, decl);
+}
+
+/* 테마와 팔레트·배경을 서로 다른 요소에 걸어도(<html data-palette> 안의 <section data-theme="dark"> 등) 맞는 값을 씁니다. */
+function scopedCss(X, decl) {
   const L = '[data-theme="light"]', D = '[data-theme="dark"]', SYS = ':root:not([data-theme="light"])';
-  // 테마와 팔레트를 서로 다른 요소에 걸어도(<html data-palette> 안의 <section data-theme="dark"> 등) 맞는 값을 씁니다.
   return `${X}, ${L}${X}, ${L} ${X}, ${X} ${L} {\n${decl("light", "  ")}\n}\n` +
     `${D}${X}, ${D} ${X}, ${X} ${D} {\n${decl("dark", "  ")}\n}\n` +
     `@media (prefers-color-scheme: dark) {\n  ${SYS}${X}, ${SYS} ${X} {\n${decl("dark", "    ")}\n  }\n` +
@@ -424,4 +447,97 @@ export function applyBrandColor(color, options) {
     if (o.apply !== false) rootEl(o.target).setAttribute("data-palette", p.id);
   }
   return p;
+}
+
+/* ── 배경색 ─────────────────────────────
+   바탕색 하나를 주면 카드·눌린 면·구분선과, 그 위에서 읽히도록 보조 글자색을 라이트·다크 모두 맞춥니다. */
+
+const SURFACE_KEYS = ["paper", "paper-raised", "paper-sunken", "line"];
+const INK_KEYS = ["ink-muted", "ink-subtle", "line-strong"];
+
+/* 바탕 하나에서 나머지 면을 만듭니다(크림 기본값의 명도 차이를 따름). */
+function surfaces(theme, src, h, s, l, l0) {
+  const paper = l === l0 ? src : hsl(h, s, l);
+  s = Math.min(s, 50);   // 채도 높은 바탕에서도 카드·눌린 면·구분선은 차분하게
+  return theme === "light"
+    ? { paper, "paper-raised": hsl(h, s, Math.min(100, l + 4)), "paper-sunken": hsl(h, s, l - 5.5), line: hsl(h, s * 0.8, l - 9.5) }
+    : { paper, "paper-raised": hsl(h, s, l + 3), "paper-sunken": hsl(h, s, Math.max(0, l - 3)), line: hsl(h, s * 0.8, l + 11) };
+}
+
+/* 글자·상태색·내장 팔레트 강조색이 이 바탕들 위에서 기준을 넘는지 */
+function surfaceOk(theme, v) {
+  const B = BASE[theme], bgs = [v.paper, v["paper-raised"]];
+  const text = (c, min) => bgs.every((b) => contrastRatio(c, b) >= min);
+  return text(B.ink, 7) && contrastRatio(B.ink, v["paper-sunken"]) >= 7 &&
+    ["positive", "warning", "danger", "info"].every((k) => contrastRatio(B[k], v.paper) >= 4.5) &&
+    text(B["focus-ring"], 3) &&
+    (B.accents || []).every(([a, ink]) => text(a, 3) && text(ink, 4.5));
+}
+
+/**
+ * 배경색 하나로 바탕 묶음을 만듭니다. 서버에서도 됩니다.
+ * 밝은 색이면 라이트 테마 바탕이 되고 다크 바탕은 같은 색조로 만들어요(어두운 색이면 반대). 둘 다 정하려면 { dark: "#hex" }.
+ * createBackground("#ffffff") · createBackground("#f5f0ff", { id: "lilac", dark: "#15121c" })
+ * → { id, name, source, adjusted, values: { light, dark }, warnings }
+ */
+export function createBackground(color, options) {
+  const o = options || {};
+  const id = checkId(o.id || "custom", "배경");
+  const src = toHex(parseHex(color));
+  const srcDark = o.dark != null ? toHex(parseHex(o.dark)) : null;
+  const [h, s] = rgbToHsl(parseHex(src));
+  const isDark = !srcDark && luminance(src) < 0.18;
+  const from = {
+    light: isDark ? hsl(h, Math.min(s, 30), 97) : src,
+    dark: srcDark || (isDark ? src : hsl(h, Math.min(s, 20), 7)),
+  };
+  const values = {}, warnings = [];
+  let adjusted = false;
+  for (const theme of ["light", "dark"]) {
+    const base = from[theme], [bh, bs, l0] = rgbToHsl(parseHex(base)), step = theme === "light" ? 0.5 : -0.5;
+    // 글자가 읽힐 때까지 바탕을 밝게(라이트)·어둡게(다크) 옮깁니다
+    let l = l0, v = surfaces(theme, base, bh, bs, l, l0);
+    while (!surfaceOk(theme, v) && l + step >= 0 && l + step <= 100) { l += step; v = surfaces(theme, base, bh, bs, l, l0); }
+    if (v.paper !== base) {
+      adjusted = true;
+      if (base === src || base === srcDark) warnings.push({ code: "adjusted", message: `${theme === "light" ? "라이트" : "다크"} 테마에서 글자가 읽히도록 바탕을 ${base}에서 ${v.paper}로 맞췄어요.` });
+    }
+    // 보조 글자와 조작 요소 테두리는 필요할 때만 진하게(다크는 밝게)
+    const B = BASE[theme], bgs = [v.paper, v["paper-raised"], v["paper-sunken"]];
+    for (const k of INK_KEYS) {
+      const min = k === "line-strong" ? 3 : 4.5, on = k === "line-strong" ? bgs.slice(0, 2) : bgs;
+      const [ih, is, il] = rgbToHsl(parseHex(B[k]));
+      const ok = (c) => on.every((b) => contrastRatio(c, b) >= min);
+      v[k] = ok(B[k]) ? B[k] : walk(ih, is, il, -step * 2, ok);
+      if (v[k] !== B[k] && !warnings.some((w) => w.code === "ink")) warnings.push({ code: "ink", message: "바탕에 맞춰 보조 글자색(ink-muted·ink-subtle)이나 입력창 테두리(line-strong)를 조금 바꿨어요." });
+    }
+    values[theme] = v;
+  }
+  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 크레마는 크림빛 그대로이니 함께 어울리는지 확인해 주세요." });
+  return { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+}
+
+/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. */
+export function backgroundToCss(background) {
+  const X = `[data-background="${checkId(background.id, "배경")}"]`;
+  const keys = [...SURFACE_KEYS, ...INK_KEYS];
+  return scopedCss(X, (t, pad) => keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`).join("\n"));
+}
+
+/**
+ * 배경색으로 바탕 묶음을 만들어 바로 적용합니다. 만든 배경을 돌려줍니다(warnings 확인).
+ * applyBackgroundColor("#ffffff")  ·  applyBackgroundColor("#eef3f8", { id: "sky", dark: "#0e1318", target: el })
+ */
+export function applyBackgroundColor(color, options) {
+  const o = options || {};
+  const b = createBackground(color, o);
+  customBackgrounds[b.id] = b;
+  if (typeof document !== "undefined") {
+    const sid = "bl-background-" + b.id;
+    let style = document.getElementById(sid);
+    if (!style) { style = document.createElement("style"); style.id = sid; document.head.appendChild(style); }
+    style.textContent = backgroundToCss(b);
+    if (o.apply !== false) rootEl(o.target).setAttribute("data-background", b.id);
+  }
+  return b;
 }

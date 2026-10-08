@@ -104,11 +104,53 @@ export declare function getCustomPalettes(): { id: string; name: string; group: 
 /** 브랜드 팔레트가 새로 등록될 때마다 호출. 해제 함수를 돌려줍니다. */
 export declare function onCustomPalettesChange(cb: () => void): () => void;
 /** 브랜드색 하나로 라이트·다크 강조색 묶음을 WCAG 대비에 맞춰 만듭니다. 서버에서도 됩니다. id는 영문으로 시작하고 영문·숫자·하이픈만. */
-export declare function createPalette(color: string, options?: { id?: string; name?: string }): CustomPalette;
+export declare function createPalette(color: string, options?: { id?: string; name?: string; /** 바꾼 배경(createBackground 결과) 위에서 대비를 맞춥니다 */ background?: CustomBackground }): CustomPalette;
 /** createPalette 결과를 CSS로 */
 export declare function paletteToCss(palette: CustomPalette): string;
 /** 브랜드색 팔레트를 만들어 바로 적용합니다. */
 export declare function applyBrandColor(color: string, options?: BrandColorOptions): CustomPalette;
+export type BackgroundId = "cream" | "white" | "gray";
+export interface BackgroundInfo { id: BackgroundId; name: string; description: string; swatch: { light: string; dark: string } }
+/** 내장 배경 목록 */
+export declare const backgrounds: BackgroundInfo[];
+/** 배경을 바꿉니다(<html data-background>). el을 주면 그 요소 아래만. 알 수 없는 id면 false. */
+export declare function setBackground(id: BackgroundId | (string & {}), el?: HTMLElement): boolean;
+/** 현재 배경 id. 지정이 없으면 "cream". */
+export declare function getBackground(el?: HTMLElement): BackgroundId | (string & {});
+export interface BackgroundValues {
+  paper: string; "paper-raised": string; "paper-sunken": string; line: string;
+  /** 바탕에 맞춰 필요할 때만 바뀌는 보조 글자색과 조작 요소 테두리 */
+  "ink-muted": string; "ink-subtle": string; "line-strong": string;
+}
+export interface BackgroundWarning { code: "adjusted" | "ink" | "saturated"; message: string }
+export interface CustomBackground {
+  id: string;
+  name: string;
+  /** 넣은 색 (#rrggbb) */
+  source: string;
+  /** 글자 대비를 맞추려고 바탕을 바꿨으면 true */
+  adjusted: boolean;
+  values: { light: BackgroundValues; dark: BackgroundValues };
+  warnings: BackgroundWarning[];
+}
+export interface BackgroundOptions {
+  /** data-background 값 (기본 "custom"). 영문으로 시작하고 영문·숫자·하이픈만 */
+  id?: string;
+  name?: string;
+  /** 다크 테마 바탕을 따로 정합니다. 없으면 같은 색조로 만듭니다. */
+  dark?: string;
+}
+/** 배경색 하나로 바탕 묶음(paper·paper-raised·paper-sunken·line)을 라이트·다크 모두 만들고, 글자가 읽히도록 맞춥니다. 서버에서도 됩니다. */
+export declare function createBackground(color: string, options?: BackgroundOptions): CustomBackground;
+/** createBackground 결과를 CSS로 */
+export declare function backgroundToCss(background: CustomBackground): string;
+/** 배경색으로 바탕 묶음을 만들어 바로 적용합니다. */
+export declare function applyBackgroundColor(color: string, options?: BackgroundOptions & {
+  /** 적용할 요소 (기본 <html>) */
+  target?: HTMLElement;
+  /** false면 <style>만 넣고 data-background는 바꾸지 않습니다 */
+  apply?: boolean;
+}): CustomBackground;
 /** 두 hex 색의 WCAG 대비 */
 export declare function contrastRatio(a: string, b: string): number;
 export declare const version: string;

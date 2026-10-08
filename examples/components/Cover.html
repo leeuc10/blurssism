@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../dist/fonts.css">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
-<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="../../dist/bundle.js"></script>
@@ -21,6 +21,8 @@
   .deco { fill:var(--deco); }
   .positive { fill:var(--positive); }
   .deep { fill:var(--ink); }
+  /* 블랙 팔레트(기본)에서는 강조색이 이미 검정이라, 먹색 판이 검정 판과 겹쳐 보이지 않게 크레마 갈색으로 */
+  :root:not([data-palette]) .deep, [data-palette="black"] .deep { fill:var(--line-strong); }
   .dot { fill:var(--ink-muted); }
   .lg { rx:var(--radius-lg); }
   .pill { rx:32px; }
@@ -30,6 +32,14 @@
   .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
   .name { margin:0; font-family:var(--font-serif); font-size:88px; line-height:.92; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
   .tag { margin:var(--space-3) 0 0 2px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+  /* 좁은 화면(md 미만): 그림을 줄이지 않고 위에 그림, 아래에 이름을 쌓아 글자가 읽히는 크기로 둡니다 */
+  @media (max-width: 767px) {
+    .cover { width:100%; height:auto; }
+    .art { position:relative; left:auto; width:100%; max-width:560px; height:auto; aspect-ratio:480 / 288; }
+    .art svg { width:100%; height:100%; }
+    .words { position:static; max-width:none; padding:var(--space-5) 0 var(--space-1); }
+    .name { font-size:clamp(48px, 15vw, 72px); }
+  }
 </style>
 </head>
 <body>
@@ -80,7 +90,7 @@
 </div>
 <div class="words">
   <p class="name">blurssism</p>
-  <p class="tag">글래스모피즘과 블러, 그리고 카페인 — made by caffeinecat</p>
+  <p class="tag">글래스모피즘과 블러, 그리고 카페인 <span style="white-space:nowrap">— made by caffeinecat</span></p>
 </div>
 </div>
 </body>

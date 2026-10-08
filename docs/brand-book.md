@@ -1,4 +1,4 @@
-blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다. **글래스모피즘과 블러 효과의 조합**이 핵심으로, 따뜻한 종이와 먹으로 된 차분한 바탕 위에 우유 거품 색 젖빛 크레마 **블러레마(Blurema)**를 필요한 곳에만 띄웁니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았지만, 맑고 반짝이는 유리 대신 캐러멜빛 띠가 얹힌 젖빛 면으로 바꿨고, 색은 **카페인**에서 가져왔습니다. 우유 거품 같은 크림색 바탕, 에스프레소 같은 글자, 볶은 원두와 크레마의 강조색이 기본이고, 팔레트 13종이나 브랜드색 하나로 만든 팔레트로 바꿀 수 있습니다. 원칙은 세 가지입니다. **바탕은 조용하게, 떠 있는 것만 크레마로, 강조는 한 번만.**
+blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다. **글래스모피즘과 블러 효과의 조합**이 핵심으로, 따뜻한 종이와 먹으로 된 차분한 바탕 위에 우유 거품 색 젖빛 크레마 **블러레마(Blurema)**를 필요한 곳에만 띄웁니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았지만, 맑고 반짝이는 유리 대신 캐러멜빛 띠가 얹힌 젖빛 면으로 바꿨고, 색은 **카페인**에서 가져왔습니다. 우유 거품 같은 크림색 바탕, 에스프레소 같은 글자, 블랙커피 같은 검정 강조색이 기본이고, 팔레트 14종이나 브랜드색 하나로 만든 팔레트로 바꿀 수 있습니다. 원칙은 세 가지입니다. **바탕은 조용하게, 떠 있는 것만 크레마로, 강조는 한 번만.**
 
 ## 원칙
 
@@ -21,10 +21,10 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
 | 역할 | 토큰 | 규칙 |
 | --- | --- | --- |
-| 바탕 | `paper` → `paper-raised` → `paper-sunken` | 페이지는 `paper`, 카드·입력창은 `paper-raised`, 눌린 곳·자리표시는 `paper-sunken`. 순백·순흑은 쓰지 않습니다. |
+| 바탕 | `paper` → `paper-raised` → `paper-sunken` | 페이지는 `paper`, 카드·입력창은 `paper-raised`, 눌린 곳·자리표시는 `paper-sunken`. 기본은 크림색이고 `data-background`로 바꿀 수 있습니다(아래 "배경"). |
 | 글자 | `ink`, `ink-muted`, `ink-subtle` | 제목·본문 `ink`, 보조 `ink-muted`, 자리표시·시간 `ink-subtle`. 모두 paper 계열 위에서 4.5:1 이상. |
 | 선 | `line`, `line-strong` | 장식 구분선은 `line`. 입력창·칩·스위치처럼 조작 요소의 테두리는 3:1을 넘는 `line-strong`. |
-| 강조 | `accent`, `accent-soft`, `on-accent`, `accent-ink` | 기본은 에스프레소(볶은 원두 갈색). 팔레트에 따라 바뀝니다. 선택·활성·브랜드 순간에만. 채움 위 글자는 반드시 `on-accent` (다크에서는 어두운 글자로 바뀝니다). |
+| 강조 | `accent`, `accent-soft`, `on-accent`, `accent-ink` | 기본은 블랙(블랙커피의 검정). 팔레트에 따라 바뀝니다. 선택·활성·브랜드 순간에만. 채움 위 글자는 반드시 `on-accent` (다크에서는 어두운 글자로 바뀝니다). |
 | 상태 | `positive`, `warning`, `danger`, `info` (+ `-soft`) | 색만으로 알리지 않습니다. 항상 단어, 필요하면 아이콘. `info`는 파랑이라 `danger`와 색각에 상관없이 구분됩니다. |
 | 장식 | `deco` | 크레마색. 일러스트·자리표시 도형 전용, 글자를 올리지 않습니다. 팔레트에 따라 바뀝니다. (`apricot`은 1.2 호환용 별칭) |
 | 크레마 | `crema-fill`, `crema-fill-strong`, `crema-stroke`, `crema-tint-accent`, `crema-ink-muted`, `scrim`, 재질 `crema-edge`·`crema-band`·`crema-grain`·`crema-light` | 아래 "크레마 재질 — 블러레마" 참고. 두꺼운 크레마 위 보조 글자는 `ink-muted` 대신 `crema-ink-muted`. |
@@ -33,13 +33,14 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
 ## 팔레트
 
-강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `crema-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 에스프레소입니다.
+강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `crema-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 블랙입니다(1.6.0까지는 에스프레소).
 
-**카페인 6종**
+**카페인 7종**
 
 | id | 이름 | 느낌 | 라이트 accent | 다크 accent |
 | --- | --- | --- | --- | --- |
-| `espresso` | 에스프레소 (기본) | 볶은 원두의 갈색과 크레마 | `#7a4524` | `#e2ab7a` |
+| `black` | 블랙 (기본) | 블랙커피의 검정과 그 위의 크레마 | `#000000` | `#f2f2f2` |
+| `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 (1.6.0까지의 기본) | `#7a4524` | `#e2ab7a` |
 | `matcha` | 말차 | 녹차의 차분한 초록 | `#3e6b35` | `#a3d48f` |
 | `chai` | 차이 | 향신료 밀크티의 주황 | `#9a4512` | `#f2a66a` |
 | `coldbrew` | 콜드브루 | 차갑게 우린 커피의 깊은 남색 | `#2b4c74` | `#9cc1ea` |
@@ -71,13 +72,37 @@ p.warnings.forEach((w) => console.warn(w.message));
 - 서버 렌더링: `createPalette(색)`과 `paletteToCss(팔레트)`로 CSS 문자열을 만들어 `<style>`에 넣습니다. 터미널에서는 `npx @caffeinecatkr/blurssism palette "#ff5a1f"`로 CSS를 출력합니다.
 - id를 주면 여러 개를 둘 수 있습니다: `applyBrandColor("#03c75a", { id: "green" })`. 만든 id는 `setPalette`로도 고를 수 있습니다.
 
-- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 팔레트 13종과 브랜드색 133개로 만든 팔레트를 16,644개 조합으로 검사합니다. 불투명한 바탕 7,884개와, 크레마 위 글자 8,760개(뒤가 완전한 검정·흰색인 최악의 경우, 데스크톱 모드 포함)입니다.
+- 모든 팔레트 × 라이트·다크에서 글자 대비 4.5:1, 조작 요소 3:1 이상입니다. 저장소의 `npm run check`가 팔레트 14종, 브랜드색 133개로 만든 팔레트, 내장 배경 3종과 배경색 48개로 만든 바탕을 65,682개 조합으로 검사합니다. 불투명한 바탕 56,862개와, 크레마 위 글자 8,820개(뒤가 완전한 검정·흰색인 최악의 경우, 데스크톱 모드 포함)입니다.
 - 한 화면에는 팔레트 하나. 섹션마다 팔레트를 바꾸지 않습니다. 예외는 팔레트 고르기 화면처럼 팔레트 자체를 보여 줄 때뿐입니다.
 - 사용자에게 고르게 하려면 `PalettePicker`를 쓰고, 선택은 소비자가 저장해 다음 방문 때 `setPalette(id)`로 복원합니다.
 - 상태색(`positive`·`warning`·`danger`·`info`)은 팔레트와 상관없이 고정이라, 말차·에메랄드의 초록과 `positive`, 블루와 `info`가 비슷해 보여도 의미는 단어와 아이콘으로 구분합니다.
 - 노랑과 빨강은 `warning`·`danger`와 헷갈려서 팔레트로 두지 않습니다. 브랜드색이 노랑이면 `deco`로만 쓰세요.
 - `graphite`는 강조색 없이 먹색으로만 꾸미는 단색 팔레트입니다. 색이 브랜드를 대신하지 않는 도구형 화면에 맞습니다.
 - `PalettePicker group="web"`처럼 한 묶음만 보일 수 있습니다.
+
+## 배경
+
+바탕 묶음(`paper`·`paper-raised`·`paper-sunken`·`line`)은 팔레트와 따로 고릅니다. 글자·강조·상태색은 그대로라 어느 팔레트와도 함께 쓸 수 있고, 90/10 원칙(바탕 90% 이상)도 그대로입니다. `<html data-background="white">`처럼 고르고, 지정하지 않으면 크림입니다.
+
+| id | 이름 | 느낌 | 라이트 paper | 다크 paper |
+| --- | --- | --- | --- | --- |
+| `cream` | 크림 (기본) | 우유 거품 같은 따뜻한 크림색 | `#faf6f0` | `#16110d` |
+| `white` | 화이트 | 색 없는 흰 바탕. 카드는 테두리로 구분 | `#ffffff` | `#121212` |
+| `gray` | 그레이 | 옅은 회색 바탕 위에 흰 카드 | `#f2f2f2` | `#1a1a1a` |
+
+**아무 색으로 만들기** — `applyBackgroundColor("#f5f0ff")`는 색 하나로 라이트·다크 바탕 묶음을 만들고 `<html data-background="custom">`으로 바꿉니다.
+
+```js
+import { applyBackgroundColor } from "@caffeinecatkr/blurssism/utils";
+const bg = applyBackgroundColor("#f5f0ff", { dark: "#15121c" });   // dark는 생략하면 같은 색조로 만듭니다
+bg.warnings.forEach((w) => console.warn(w.message));
+```
+
+- 카드(`paper-raised`)·눌린 면(`paper-sunken`)·구분선(`line`)은 크림 기본값과 같은 명도 차이로 만들고, 채도는 50%까지로 눌러 차분하게 둡니다.
+- `ink`가 세 바탕 모두에서 7:1, 상태색이 4.5:1, 내장 팔레트 14종의 강조색이 3:1·`accent-ink`가 4.5:1을 넘을 때까지 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기고 `warnings`로 알려 줍니다.
+- `ink-muted`·`ink-subtle`·`line-strong`이 모자라면 그것만 조금 진하게(다크는 밝게) 맞춥니다.
+- 채도가 높은 바탕은 `saturated` 경고를 냅니다. 화면 대부분을 덮는 색이라 눈이 쉽게 피로하고, 크레마는 크림빛 그대로라 어울리는지 봐야 합니다.
+- 서버 렌더링은 `backgroundToCss(createBackground(색))`. 브랜드색 팔레트와 함께 쓰면 `createPalette(브랜드색, { background: bg })`로 그 바탕 위에서 대비를 맞춥니다.
 
 ## 크레마 재질 — 블러레마(Blurema)
 
@@ -133,7 +158,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 | 크레마 | 블러레마: 크림색 젖빛 + 거품 결 + 팔레트를 따라가는 캐러멜빛 띠 | 맑은 유리와 흰 반사광(Apple Liquid Glass), 중립 회색 아크릴(Fluent), 유리 없이 색 높이로 층 구분(Material) |
 | 크레마 사용량 | 규칙으로 정한 예산(화면당 3개, 데스크톱 6개)과 기기별 자동 3단계(끄기·기본·데스크톱) | 크레마를 어디에 몇 개 쓸지는 앱이 판단 |
 | 브랜드색 | 색 하나를 넣으면 강조색 묶음만 만들고 바탕 90%는 그대로. 라이트·다크 모두 WCAG 대비를 맞추고, 상태색과 헷갈리는 색은 경고 | 색 하나로 화면 전체 톤을 바꾸는 방식(Material의 다이내믹 컬러), 또는 직접 조합 |
-| 검증 | `npm run check`가 팔레트 13종과 브랜드색 133개로 16,644개 대비 조합(크레마 위 글자 포함)을 매번 검사, 개발 중에는 `auditCrema()`가 블러 예산과 primary 개수를 셈 | 문서로 기준만 안내 |
+| 검증 | `npm run check`가 팔레트 14종, 브랜드색 133개, 배경 51종으로 65,682개 대비 조합(크레마 위 글자 포함)을 매번 검사, 개발 중에는 `auditCrema()`가 블러 예산과 primary 개수를 셈 | 문서로 기준만 안내 |
 | 언어 | 한국어 화면 기준: Blurssism Sans·Serif, 해요체, `keep-all` 줄바꿈 | 영어 기준, 한국어는 따로 조정 |
 | 쓰는 곳 | 하나의 원본에서 React·Svelte 5·CSS만 | 프레임워크 하나에 묶임 |
 
@@ -273,7 +298,7 @@ p.warnings.forEach((w) => console.warn(w.message));
 - **Tailwind**: `tailwind.config.js`에 `presets: [require("@caffeinecatkr/blurssism/tailwind")]`를 넣고 `tokens.css`를 함께 불러옵니다. 크레마는 `.bl-crema` / `.bl-crema-thick` 클래스로 씁니다.
 - **네이티브 앱(SwiftUI·Compose·Flutter)**: `dist/tokens.json`의 값을 그대로 옮깁니다. 얇은 크레마는 플랫폼 블러(iOS `.ultraThinMaterial`, Android `RenderEffect` blur) 위에 `crema-fill`과 위쪽 크레마 그라디언트를 겹쳐 블러레마에 가깝게 맞춥니다.
 - 다크 모드는 `<html data-theme="dark">`, 팔레트는 `<html data-palette="matcha">`로 전환합니다.
-- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 13종), `Blurema`(크레마 층과 모드), `BrandColor`(브랜드색 팔레트), `Responsive`(반응형 규칙) 카드를 참고합니다.
+- 실제 조합 예시는 `AppScreen`(모바일 설정 화면), `WebLanding`(웹 랜딩), `Palettes`(팔레트 14종), `Blurema`(크레마 층과 모드), `BrandColor`(브랜드색 팔레트), `Responsive`(반응형 규칙) 카드를 참고합니다.
 
 ---
 

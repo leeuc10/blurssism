@@ -46,15 +46,19 @@ const typeCss = styles.map((s) =>
   `.${s.name} { font-family: var(--font-${s.family}); font-size: ${s.fontSize}; line-height: ${s.lineHeight}; font-weight: ${s.fontWeight};${s.letterSpacing ? ` letter-spacing: ${s.letterSpacing};` : ""} }`).join("\n");
 
 const palettes = tokens.palettes.list;
+const backgrounds = tokens.backgrounds.list;
 
 /* ── 2. 프레임워크 없는 유틸리티 ───────────────────────────── */
 const paletteMeta = palettes.map(({ id, name, group, description, values }) => ({ id, name, group, description, swatch: { light: values.light.accent, dark: values.dark.accent } }));
 const utilsSrc = read("src/utils.js")
   .replace(/^\/\*[\s\S]*?\*\/\n/, "")
   .replace("/*__PALETTES__*/[]", JSON.stringify(paletteMeta))
+  .replace("/*__BACKGROUNDS__*/[]", JSON.stringify(backgrounds.map(({ id, name, description, values }) => ({ id, name, description, swatch: { light: values.light.paper, dark: values.dark.paper } }))))
   .replace("/*__BASE__*/{}", JSON.stringify(Object.fromEntries(["light", "dark"].map((th) => [th, {
-    paper: val(colorTokens.find((t) => t.name === "paper").value, th),
-    "paper-raised": val(colorTokens.find((t) => t.name === "paper-raised").value, th),
+    // 바탕·글자·상태색(hex). createPalette·createBackground가 대비를 맞출 때 씁니다.
+    ...Object.fromEntries(colorTokens.filter((t) => t.value && /^#/.test(val(t.value, th))).map((t) => [t.name, val(t.value, th)])),
+    // 내장 팔레트의 [accent, accent-ink]. createBackground가 어느 팔레트와도 읽히는 바탕을 고릅니다.
+    accents: palettes.map((p) => [p.values[th].accent, p.values[th]["accent-ink"]]),
     "on-accent": palettes[0].values[th]["on-accent"],
     "shadow-crema": val(tokens.shadow.tokens.find((t) => t.name === "shadow-crema").value, th),
     "shadow-sheet": val(tokens.shadow.tokens.find((t) => t.name === "shadow-sheet").value, th),
@@ -64,8 +68,9 @@ write("dist/utils.mjs", banner + utilsSrc);
 const utilsInline = utilsSrc.replace(/^export /gm, "");
 const utilNames = [...utilsSrc.matchAll(/^export (?:function|const) (\w+)/gm)].map((m) => m[1]);
 write("dist/utils.cjs", banner + '"use strict";\n' + utilsInline + `\nmodule.exports = { ${utilNames.join(", ")} };\n`);
-const { paletteToCss } = await import(new URL(`dist/utils.mjs?${Date.now()}`, root));
+const { paletteToCss, backgroundToCss } = await import(new URL(`dist/utils.mjs?${Date.now()}`, root));
 const paletteCss = palettes.map((p) => `/* ${p.id} — ${p.name}: ${p.description} */\n${paletteToCss(p)}`).join("");
+const backgroundCss = backgrounds.map((b) => `/* 배경 ${b.id} — ${b.name}: ${b.description} */\n${backgroundToCss(b)}`).join("");
 
 // 반응형: 단계별 그리드 값. CSS 변수는 미디어쿼리 조건에 못 쓰므로 px를 직접 씁니다.
 const grid = [
@@ -99,7 +104,7 @@ write("dist/fonts.local.css", `${banner}/* fonts.local.css — ${fontNote}
    CDN 없이 패키지에 든 글꼴 파일을 씁니다. fonts.css 대신 불러오세요. */
 ${fontFaces}`);
 
-write("dist/tokens.css", `${banner}/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">
+write("dist/tokens.css", `${banner}/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
 ${decl(colorsAndShadows, "light")}
@@ -112,7 +117,7 @@ ${decl(colorsAndShadows, "dark")}
 ${decl(colorsAndShadows, "dark", "    ")}
   }
 }
-${paletteCss}
+${paletteCss}${backgroundCss}
 :root {
 ${plain.map((t) => withAlias(t.name, t.value, "  ")).join("\n")}
 ${families}
@@ -210,4 +215,4 @@ write("src/svelte/utils.js", banner + "/* 생성 파일: dist/utils.mjs를 다�
 const utilTypes = read("src/index.d.ts").match(/\/\*\* 팔레트 목록 \*\/[\s\S]*?(?=export declare const version)/)[0];
 write("src/svelte/utils.d.ts", `/* 생성 파일 */\nimport type { PaletteId, Breakpoint } from "./types.js";\nexport interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }\n${utilTypes}export declare const version: string;\nexport declare const author: "caffeinecat";\n`);
 
-console.log(`blurssism ${version}: ${components.length} React components, ${utilNames.length} utils, ${palettes.length} palettes → dist/, src/svelte/{icons,utils}.js`);
+console.log(`blurssism ${version}: ${components.length} React components, ${utilNames.length} utils, ${palettes.length} palettes, ${backgrounds.length} backgrounds → dist/, src/svelte/{icons,utils}.js`);

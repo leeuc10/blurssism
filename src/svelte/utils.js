@@ -1,3 +1,3 @@
-/* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* 생성 파일: dist/utils.mjs를 다시 내보냅니다 */
 export * from "../../dist/utils.mjs";

@@ -41,3 +41,13 @@ const stop: () => void = auditCrema({ onReport: (list) => void list });
 stop();
 paletteToCss(createPalette("#ff5a1f", { id: "my-brand" }));
 getCustomPalettes().map((p) => p.id);
+
+// 배경 (1.6.1)
+import { createBackground, backgroundToCss, applyBackgroundColor, setBackground, getBackground, backgrounds, createPalette as cp2 } from "../dist/index";
+const bgx = createBackground("#ffffff", { id: "plain", dark: "#101010" });
+const bgCss: string = backgroundToCss(bgx);
+const bgId: string = getBackground();
+setBackground("white");
+applyBackgroundColor("#f5f0ff", { apply: false });
+cp2("#ff5a1f", { background: bgx });
+void bgCss; void bgId; void backgrounds[0].swatch.light;

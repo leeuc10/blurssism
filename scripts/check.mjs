@@ -64,6 +64,31 @@ for (const color of samples) {
 }
 console.log(`✓ 브랜드색 ${samples.length}개로 만든 팔레트${brandFails ? ` — ${brandFails}개 미달` : " 모두 통과"}`);
 
+// 배경: 내장 배경 × 내장 팔레트, 그리고 아무 색으로 만든 배경 × 내장 팔레트·브랜드색 팔레트
+const { createBackground } = await import("../dist/utils.mjs");
+let bgFails = 0;
+const checkOn = (label, bgValues, palValues) => {
+  for (const theme of ["light", "dark"]) {
+    const c = { ...base(theme), ...bgValues[theme], ...Object.fromEntries(Object.entries(palValues[theme]).filter(([, v]) => v.startsWith("#"))) };
+    for (const [fg, bg, min] of PAIRS) {
+      checks++;
+      if (ratio(c[fg], c[bg]) < min) { fails++; bgFails++; console.log(`✗ ${label}/${theme}: ${fg} on ${bg} = ${ratio(c[fg], c[bg]).toFixed(2)} (< ${min})`); }
+    }
+  }
+};
+for (const b of tokens.backgrounds.list) for (const p of tokens.palettes.list) checkOn(`배경 ${b.id} × ${p.id}`, b.values, p.values);
+const bgSamples = ["#ffffff", "#000000", "#808080", "#f2f2f2", "#1e1e1e", "#ff0000", "#00ff00", "#0000ff", "#fef3c7", "#f5f0ff", "#0f172a", "#e0f2fe"];
+for (let hue = 0; hue < 360; hue += 30) for (const [sat, lig] of [[30, 95], [60, 50], [20, 10]]) {
+  const f = (n) => { const k = (n + hue / 30) % 12, a = (sat / 100) * Math.min(lig / 100, 1 - lig / 100); return Math.round(255 * (lig / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); };
+  bgSamples.push("#" + [f(0), f(8), f(4)].map((v) => v.toString(16).padStart(2, "0")).join(""));
+}
+for (const color of bgSamples) {
+  const b = createBackground(color);
+  for (const p of tokens.palettes.list) checkOn(`배경 ${color} × ${p.id}`, b.values, p.values);
+  for (const brand of ["#ff5a1f", "#1877f2", "#fee500", "#808080"]) checkOn(`배경 ${color} × 브랜드 ${brand}`, b.values, createPalette(brand, { background: b }).values);
+}
+console.log(`✓ 배경 ${tokens.backgrounds.list.length}종과 배경색 ${bgSamples.length}개${bgFails ? ` — ${bgFails}개 미달` : " 모두 통과"}`);
+
 // ── 크레마 위 글자 ─────────────────────────────
 // 크레마는 반투명이라 뒤에 무엇이 오느냐에 따라 바탕색이 바뀝니다. 브라우저처럼 sRGB에서 층을 차례로 겹쳐
 // (뒤 → 채움 → 거품 결(평균) → 크레마 띠 → 데스크톱 모드의 포인터 빛) 뒤가 완전한 검정·흰색일 때의 바탕을 구합니다.

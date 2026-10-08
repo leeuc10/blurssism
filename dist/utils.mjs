@@ -1,13 +1,15 @@
-/* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
-export const palettes = [{"id":"espresso","name":"에스프레소","group":"caffeine","description":"기본. 볶은 원두의 갈색과 크레마.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","group":"caffeine","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","group":"caffeine","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","group":"caffeine","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","group":"caffeine","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","group":"caffeine","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}},{"id":"blue","name":"블루","group":"web","description":"링크와 버튼에서 가장 익숙한 파랑.","swatch":{"light":"#1d5bb8","dark":"#8eb9f5"}},{"id":"indigo","name":"인디고","group":"web","description":"SaaS와 개발 도구에서 흔한 남보라.","swatch":{"light":"#4a3fb5","dark":"#aaa6f4"}},{"id":"violet","name":"바이올렛","group":"web","description":"창작 도구와 커뮤니티의 보라.","swatch":{"light":"#7038a8","dark":"#cfa6f2"}},{"id":"teal","name":"틸","group":"web","description":"헬스케어와 핀테크의 청록.","swatch":{"light":"#0e6b66","dark":"#78d0c4"}},{"id":"emerald","name":"에메랄드","group":"web","description":"결제와 성장 서비스의 선명한 초록.","swatch":{"light":"#13704a","dark":"#7fd6a5"}},{"id":"pink","name":"핑크","group":"web","description":"커머스와 뷰티의 분홍.","swatch":{"light":"#b0306a","dark":"#f49ac0"}},{"id":"graphite","name":"그래파이트","group":"web","description":"색 없이 먹색 하나로 쓰는 단색.","swatch":{"light":"#3b3632","dark":"#e2dbd2"}}];
+export const palettes = [{"id":"black","name":"블랙","group":"caffeine","description":"기본. 블랙커피의 검정과 그 위의 크레마.","swatch":{"light":"#000000","dark":"#f2f2f2"}},{"id":"espresso","name":"에스프레소","group":"caffeine","description":"볶은 원두의 갈색과 크레마. 1.6.0까지의 기본.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","group":"caffeine","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","group":"caffeine","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","group":"caffeine","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","group":"caffeine","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","group":"caffeine","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}},{"id":"blue","name":"블루","group":"web","description":"링크와 버튼에서 가장 익숙한 파랑.","swatch":{"light":"#1d5bb8","dark":"#8eb9f5"}},{"id":"indigo","name":"인디고","group":"web","description":"SaaS와 개발 도구에서 흔한 남보라.","swatch":{"light":"#4a3fb5","dark":"#aaa6f4"}},{"id":"violet","name":"바이올렛","group":"web","description":"창작 도구와 커뮤니티의 보라.","swatch":{"light":"#7038a8","dark":"#cfa6f2"}},{"id":"teal","name":"틸","group":"web","description":"헬스케어와 핀테크의 청록.","swatch":{"light":"#0e6b66","dark":"#78d0c4"}},{"id":"emerald","name":"에메랄드","group":"web","description":"결제와 성장 서비스의 선명한 초록.","swatch":{"light":"#13704a","dark":"#7fd6a5"}},{"id":"pink","name":"핑크","group":"web","description":"커머스와 뷰티의 분홍.","swatch":{"light":"#b0306a","dark":"#f49ac0"}},{"id":"graphite","name":"그래파이트","group":"web","description":"색 없이 먹색 하나로 쓰는 단색.","swatch":{"light":"#3b3632","dark":"#e2dbd2"}}];
+/** 배경 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
+export const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유 거품 같은 따뜻한 크림색.","swatch":{"light":"#faf6f0","dark":"#16110d"}},{"id":"white","name":"화이트","description":"색 없는 흰 바탕. 카드는 테두리로 구분합니다.","swatch":{"light":"#ffffff","dark":"#121212"}},{"id":"gray","name":"그레이","description":"옅은 회색 바탕 위에 흰 카드.","swatch":{"light":"#f2f2f2","dark":"#1a1a1a"}}];
 
 /** 브레이크포인트(min-width, px). xs는 0부터 sm 전까지입니다. */
 export const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-export const version = "1.6.0";
+export const version = "1.6.1";
 export const author = "caffeinecat";
 
 function rootEl(el) {
@@ -23,10 +25,24 @@ export function setPalette(id, el) {
   return true;
 }
 
-/** 현재 팔레트 id. 지정이 없으면 "espresso". */
+/** 현재 팔레트 id. 지정이 없으면 "black". */
 export function getPalette(el) {
   const target = rootEl(el);
-  return (target && target.getAttribute("data-palette")) || "espresso";
+  return (target && target.getAttribute("data-palette")) || "black";
+}
+
+/** 배경을 바꿉니다("cream" | "white" | "gray" 또는 applyBackgroundColor로 만든 id). el을 주면 그 요소 아래만. 알 수 없는 id면 false. */
+export function setBackground(id, el) {
+  const target = rootEl(el);
+  if (!target || !(backgrounds.some((b) => b.id === id) || customBackgrounds[id])) return false;
+  target.setAttribute("data-background", id);
+  return true;
+}
+
+/** 현재 배경 id. 지정이 없으면 "cream". */
+export function getBackground(el) {
+  const target = rootEl(el);
+  return (target && target.getAttribute("data-background")) || "cream";
 }
 
 /** 테마를 바꿉니다: "light" | "dark" | "system"(시스템 설정 따르기). */
@@ -273,8 +289,9 @@ export function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); ret
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
 
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
-const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","on-accent":"#ffffff","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","on-accent":"#21180f","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
+const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
 const customPalettes = {};
+const customBackgrounds = {};
 const customListeners = [];
 
 /** applyBrandColor()로 등록한 팔레트 목록 [{ id, name, group: "custom" }]. PalettePicker가 함께 보여 줍니다. */
@@ -335,7 +352,9 @@ export function createPalette(color, options) {
   const id = checkId(o.id || "brand");
   const src = toHex(parseHex(color));
   const [h, s, l] = rgbToHsl(parseHex(src));
-  const L = BASE.light, D = BASE.dark;
+  // 배경을 바꿨다면(createBackground 결과) 그 바탕에서 대비를 맞춥니다
+  const bgv = o.background && o.background.values;
+  const L = { ...BASE.light, ...(bgv && bgv.light) }, D = { ...BASE.dark, ...(bgv && bgv.dark) };
   const okFill = (bg1, bg2, on) => (a) => contrastRatio(on, a) >= 4.5 && contrastRatio(a, bg1) >= 3 && contrastRatio(a, bg2) >= 3;
   const okText = (bg1, bg2, soft) => (a) => contrastRatio(a, bg1) >= 4.5 && contrastRatio(a, bg2) >= 4.5 && contrastRatio(a, soft) >= 4.5;
 
@@ -380,8 +399,8 @@ export function createPalette(color, options) {
 }
 
 /* 팔레트 id는 CSS 선택자에 그대로 들어가므로 글자·숫자·하이픈만 받습니다. */
-function checkId(id) {
-  if (!/^[a-z][a-z0-9-]*$/i.test(String(id))) throw new TypeError(`blurssism: 팔레트 id "${id}"는 쓸 수 없어요. 영문으로 시작하고 영문·숫자·하이픈(-)만 넣어 주세요. 예: "brand", "my-brand"`);
+function checkId(id, kind) {
+  if (!/^[a-z][a-z0-9-]*$/i.test(String(id))) throw new TypeError(`blurssism: ${kind || "팔레트"} id "${id}"는 쓸 수 없어요. 영문으로 시작하고 영문·숫자·하이픈(-)만 넣어 주세요. 예: "brand", "my-brand"`);
   return String(id);
 }
 
@@ -397,8 +416,12 @@ export function paletteToCss(palette) {
       `${pad}--shadow-glass: ${BASE[t]["shadow-crema"]};\n${pad}--shadow-crema: var(--shadow-glass);`,
       `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
   ].join("\n");
+  return scopedCss(X, decl);
+}
+
+/* 테마와 팔레트·배경을 서로 다른 요소에 걸어도(<html data-palette> 안의 <section data-theme="dark"> 등) 맞는 값을 씁니다. */
+function scopedCss(X, decl) {
   const L = '[data-theme="light"]', D = '[data-theme="dark"]', SYS = ':root:not([data-theme="light"])';
-  // 테마와 팔레트를 서로 다른 요소에 걸어도(<html data-palette> 안의 <section data-theme="dark"> 등) 맞는 값을 씁니다.
   return `${X}, ${L}${X}, ${L} ${X}, ${X} ${L} {\n${decl("light", "  ")}\n}\n` +
     `${D}${X}, ${D} ${X}, ${X} ${D} {\n${decl("dark", "  ")}\n}\n` +
     `@media (prefers-color-scheme: dark) {\n  ${SYS}${X}, ${SYS} ${X} {\n${decl("dark", "    ")}\n  }\n` +
@@ -422,4 +445,97 @@ export function applyBrandColor(color, options) {
     if (o.apply !== false) rootEl(o.target).setAttribute("data-palette", p.id);
   }
   return p;
+}
+
+/* ── 배경색 ─────────────────────────────
+   바탕색 하나를 주면 카드·눌린 면·구분선과, 그 위에서 읽히도록 보조 글자색을 라이트·다크 모두 맞춥니다. */
+
+const SURFACE_KEYS = ["paper", "paper-raised", "paper-sunken", "line"];
+const INK_KEYS = ["ink-muted", "ink-subtle", "line-strong"];
+
+/* 바탕 하나에서 나머지 면을 만듭니다(크림 기본값의 명도 차이를 따름). */
+function surfaces(theme, src, h, s, l, l0) {
+  const paper = l === l0 ? src : hsl(h, s, l);
+  s = Math.min(s, 50);   // 채도 높은 바탕에서도 카드·눌린 면·구분선은 차분하게
+  return theme === "light"
+    ? { paper, "paper-raised": hsl(h, s, Math.min(100, l + 4)), "paper-sunken": hsl(h, s, l - 5.5), line: hsl(h, s * 0.8, l - 9.5) }
+    : { paper, "paper-raised": hsl(h, s, l + 3), "paper-sunken": hsl(h, s, Math.max(0, l - 3)), line: hsl(h, s * 0.8, l + 11) };
+}
+
+/* 글자·상태색·내장 팔레트 강조색이 이 바탕들 위에서 기준을 넘는지 */
+function surfaceOk(theme, v) {
+  const B = BASE[theme], bgs = [v.paper, v["paper-raised"]];
+  const text = (c, min) => bgs.every((b) => contrastRatio(c, b) >= min);
+  return text(B.ink, 7) && contrastRatio(B.ink, v["paper-sunken"]) >= 7 &&
+    ["positive", "warning", "danger", "info"].every((k) => contrastRatio(B[k], v.paper) >= 4.5) &&
+    text(B["focus-ring"], 3) &&
+    (B.accents || []).every(([a, ink]) => text(a, 3) && text(ink, 4.5));
+}
+
+/**
+ * 배경색 하나로 바탕 묶음을 만듭니다. 서버에서도 됩니다.
+ * 밝은 색이면 라이트 테마 바탕이 되고 다크 바탕은 같은 색조로 만들어요(어두운 색이면 반대). 둘 다 정하려면 { dark: "#hex" }.
+ * createBackground("#ffffff") · createBackground("#f5f0ff", { id: "lilac", dark: "#15121c" })
+ * → { id, name, source, adjusted, values: { light, dark }, warnings }
+ */
+export function createBackground(color, options) {
+  const o = options || {};
+  const id = checkId(o.id || "custom", "배경");
+  const src = toHex(parseHex(color));
+  const srcDark = o.dark != null ? toHex(parseHex(o.dark)) : null;
+  const [h, s] = rgbToHsl(parseHex(src));
+  const isDark = !srcDark && luminance(src) < 0.18;
+  const from = {
+    light: isDark ? hsl(h, Math.min(s, 30), 97) : src,
+    dark: srcDark || (isDark ? src : hsl(h, Math.min(s, 20), 7)),
+  };
+  const values = {}, warnings = [];
+  let adjusted = false;
+  for (const theme of ["light", "dark"]) {
+    const base = from[theme], [bh, bs, l0] = rgbToHsl(parseHex(base)), step = theme === "light" ? 0.5 : -0.5;
+    // 글자가 읽힐 때까지 바탕을 밝게(라이트)·어둡게(다크) 옮깁니다
+    let l = l0, v = surfaces(theme, base, bh, bs, l, l0);
+    while (!surfaceOk(theme, v) && l + step >= 0 && l + step <= 100) { l += step; v = surfaces(theme, base, bh, bs, l, l0); }
+    if (v.paper !== base) {
+      adjusted = true;
+      if (base === src || base === srcDark) warnings.push({ code: "adjusted", message: `${theme === "light" ? "라이트" : "다크"} 테마에서 글자가 읽히도록 바탕을 ${base}에서 ${v.paper}로 맞췄어요.` });
+    }
+    // 보조 글자와 조작 요소 테두리는 필요할 때만 진하게(다크는 밝게)
+    const B = BASE[theme], bgs = [v.paper, v["paper-raised"], v["paper-sunken"]];
+    for (const k of INK_KEYS) {
+      const min = k === "line-strong" ? 3 : 4.5, on = k === "line-strong" ? bgs.slice(0, 2) : bgs;
+      const [ih, is, il] = rgbToHsl(parseHex(B[k]));
+      const ok = (c) => on.every((b) => contrastRatio(c, b) >= min);
+      v[k] = ok(B[k]) ? B[k] : walk(ih, is, il, -step * 2, ok);
+      if (v[k] !== B[k] && !warnings.some((w) => w.code === "ink")) warnings.push({ code: "ink", message: "바탕에 맞춰 보조 글자색(ink-muted·ink-subtle)이나 입력창 테두리(line-strong)를 조금 바꿨어요." });
+    }
+    values[theme] = v;
+  }
+  if (s >= 40 && luminance(src) > 0.05) warnings.push({ code: "saturated", message: "채도가 높은 바탕은 화면 대부분을 덮어 눈이 쉽게 피로해요. 크레마는 크림빛 그대로이니 함께 어울리는지 확인해 주세요." });
+  return { id, name: o.name || "사용자 배경", source: src, adjusted, values, warnings };
+}
+
+/** createBackground 결과를 CSS 문자열로. 서버 렌더링에서 <style>에 넣을 때 씁니다. */
+export function backgroundToCss(background) {
+  const X = `[data-background="${checkId(background.id, "배경")}"]`;
+  const keys = [...SURFACE_KEYS, ...INK_KEYS];
+  return scopedCss(X, (t, pad) => keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`).join("\n"));
+}
+
+/**
+ * 배경색으로 바탕 묶음을 만들어 바로 적용합니다. 만든 배경을 돌려줍니다(warnings 확인).
+ * applyBackgroundColor("#ffffff")  ·  applyBackgroundColor("#eef3f8", { id: "sky", dark: "#0e1318", target: el })
+ */
+export function applyBackgroundColor(color, options) {
+  const o = options || {};
+  const b = createBackground(color, o);
+  customBackgrounds[b.id] = b;
+  if (typeof document !== "undefined") {
+    const sid = "bl-background-" + b.id;
+    let style = document.getElementById(sid);
+    if (!style) { style = document.createElement("style"); style.id = sid; document.head.appendChild(style); }
+    style.textContent = backgroundToCss(b);
+    if (o.apply !== false) rootEl(o.target).setAttribute("data-background", b.id);
+  }
+  return b;
 }

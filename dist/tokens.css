@@ -1,5 +1,5 @@
-/* blurssism v1.6.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">
+/* blurssism v1.6.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
   --paper: #faf6f0;
@@ -10,15 +10,15 @@
   --ink-subtle: #72655a;
   --line: #e8ded2;
   --line-strong: #8e8174;
-  --accent: #7a4524;
-  --accent-soft: #f6e7d8;
+  --accent: #000000;
+  --accent-soft: #eee9e3;
   --on-accent: #ffffff;
-  --accent-ink: #653819;
+  --accent-ink: #000000;
   --positive: #3d6650;
   --positive-soft: #e3ede6;
   --warning: #8a5300;
   --warning-soft: #fbf0dc;
-  --deco: #e6c29b;
+  --deco: #d9c8b4;
   --apricot: var(--deco);
   --danger: #b42318;
   --danger-soft: #fbe9e7;
@@ -31,7 +31,7 @@
   --crema-ink-muted: #342a21;
   --glass-stroke: rgba(255, 255, 255, 0.55);
   --crema-stroke: var(--glass-stroke);
-  --glass-tint-accent: rgba(122, 69, 36, 0.14);
+  --glass-tint-accent: rgba(0, 0, 0, 0.14);
   --crema-tint-accent: var(--glass-tint-accent);
   --scrim: rgba(23, 21, 19, 0.40);
   --shadow-card: 0 1px 2px rgba(28, 25, 23, 0.06), 0 4px 16px rgba(28, 25, 23, 0.05);
@@ -66,15 +66,15 @@
   --ink-subtle: #9b8d7f;
   --line: #372e26;
   --line-strong: #80736a;
-  --accent: #e2ab7a;
-  --accent-soft: #3b281a;
+  --accent: #f2f2f2;
+  --accent-soft: #2a2520;
   --on-accent: #21180f;
-  --accent-ink: #ecbf96;
+  --accent-ink: #ffffff;
   --positive: #8fc0a2;
   --positive-soft: #1f2e25;
   --warning: #f0c46a;
   --warning-soft: #3a2c12;
-  --deco: #a8784f;
+  --deco: #8c7663;
   --apricot: var(--deco);
   --danger: #f2867a;
   --danger-soft: #3b1b17;
@@ -87,7 +87,7 @@
   --crema-ink-muted: #e2d8cc;
   --glass-stroke: rgba(255, 240, 225, 0.10);
   --crema-stroke: var(--glass-stroke);
-  --glass-tint-accent: rgba(226, 171, 122, 0.18);
+  --glass-tint-accent: rgba(242, 242, 242, 0.18);
   --crema-tint-accent: var(--glass-tint-accent);
   --scrim: rgba(0, 0, 0, 0.56);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -123,15 +123,15 @@
     --ink-subtle: #9b8d7f;
     --line: #372e26;
     --line-strong: #80736a;
-    --accent: #e2ab7a;
-    --accent-soft: #3b281a;
+    --accent: #f2f2f2;
+    --accent-soft: #2a2520;
     --on-accent: #21180f;
-    --accent-ink: #ecbf96;
+    --accent-ink: #ffffff;
     --positive: #8fc0a2;
     --positive-soft: #1f2e25;
     --warning: #f0c46a;
     --warning-soft: #3a2c12;
-    --deco: #a8784f;
+    --deco: #8c7663;
     --apricot: var(--deco);
     --danger: #f2867a;
     --danger-soft: #3b1b17;
@@ -144,7 +144,7 @@
     --crema-ink-muted: #e2d8cc;
     --glass-stroke: rgba(255, 240, 225, 0.10);
     --crema-stroke: var(--glass-stroke);
-    --glass-tint-accent: rgba(226, 171, 122, 0.18);
+    --glass-tint-accent: rgba(242, 242, 242, 0.18);
     --crema-tint-accent: var(--glass-tint-accent);
     --scrim: rgba(0, 0, 0, 0.56);
     --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -171,7 +171,58 @@
     --crema-light: var(--glass-light);
   }
 }
-/* espresso — 에스프레소: 기본. 볶은 원두의 갈색과 크레마. */
+/* black — 블랙: 기본. 블랙커피의 검정과 그 위의 크레마. */
+[data-palette="black"], [data-theme="light"][data-palette="black"], [data-theme="light"] [data-palette="black"], [data-palette="black"] [data-theme="light"] {
+  --accent: #000000;
+  --accent-soft: #eee9e3;
+  --on-accent: #ffffff;
+  --accent-ink: #000000;
+  --deco: #d9c8b4;
+  --glass-tint-accent: rgba(0, 0, 0, 0.14);
+  --crema-tint-accent: var(--glass-tint-accent);
+  --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
+  --shadow-crema: var(--shadow-glass);
+  --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
+}
+[data-theme="dark"][data-palette="black"], [data-theme="dark"] [data-palette="black"], [data-palette="black"] [data-theme="dark"] {
+  --accent: #f2f2f2;
+  --accent-soft: #2a2520;
+  --on-accent: #21180f;
+  --accent-ink: #ffffff;
+  --deco: #8c7663;
+  --glass-tint-accent: rgba(242, 242, 242, 0.18);
+  --crema-tint-accent: var(--glass-tint-accent);
+  --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+  --shadow-crema: var(--shadow-glass);
+  --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-palette="black"], :root:not([data-theme="light"]) [data-palette="black"] {
+    --accent: #f2f2f2;
+    --accent-soft: #2a2520;
+    --on-accent: #21180f;
+    --accent-ink: #ffffff;
+    --deco: #8c7663;
+    --glass-tint-accent: rgba(242, 242, 242, 0.18);
+    --crema-tint-accent: var(--glass-tint-accent);
+    --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42);
+    --shadow-crema: var(--shadow-glass);
+    --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5);
+  }
+  :root:not([data-theme="light"]) [data-theme="light"][data-palette="black"], :root:not([data-theme="light"]) [data-theme="light"] [data-palette="black"] {
+    --accent: #000000;
+    --accent-soft: #eee9e3;
+    --on-accent: #ffffff;
+    --accent-ink: #000000;
+    --deco: #d9c8b4;
+    --glass-tint-accent: rgba(0, 0, 0, 0.14);
+    --crema-tint-accent: var(--glass-tint-accent);
+    --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
+    --shadow-crema: var(--shadow-glass);
+    --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
+  }
+}
+/* espresso — 에스프레소: 볶은 원두의 갈색과 크레마. 1.6.0까지의 기본. */
 [data-palette="espresso"], [data-theme="light"][data-palette="espresso"], [data-theme="light"] [data-palette="espresso"], [data-palette="espresso"] [data-theme="light"] {
   --accent: #7a4524;
   --accent-soft: #f6e7d8;
@@ -832,6 +883,87 @@
     --shadow-glass: inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10);
     --shadow-crema: var(--shadow-glass);
     --shadow-sheet: inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12);
+  }
+}
+/* 배경 cream — 크림: 기본. 우유 거품 같은 따뜻한 크림색. */
+[data-background="cream"], [data-theme="light"][data-background="cream"], [data-theme="light"] [data-background="cream"], [data-background="cream"] [data-theme="light"] {
+  --paper: #faf6f0;
+  --paper-raised: #ffffff;
+  --paper-sunken: #f1e9df;
+  --line: #e8ded2;
+}
+[data-theme="dark"][data-background="cream"], [data-theme="dark"] [data-background="cream"], [data-background="cream"] [data-theme="dark"] {
+  --paper: #16110d;
+  --paper-raised: #201913;
+  --paper-sunken: #0f0b08;
+  --line: #372e26;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-background="cream"], :root:not([data-theme="light"]) [data-background="cream"] {
+    --paper: #16110d;
+    --paper-raised: #201913;
+    --paper-sunken: #0f0b08;
+    --line: #372e26;
+  }
+  :root:not([data-theme="light"]) [data-theme="light"][data-background="cream"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="cream"] {
+    --paper: #faf6f0;
+    --paper-raised: #ffffff;
+    --paper-sunken: #f1e9df;
+    --line: #e8ded2;
+  }
+}
+/* 배경 white — 화이트: 색 없는 흰 바탕. 카드는 테두리로 구분합니다. */
+[data-background="white"], [data-theme="light"][data-background="white"], [data-theme="light"] [data-background="white"], [data-background="white"] [data-theme="light"] {
+  --paper: #ffffff;
+  --paper-raised: #ffffff;
+  --paper-sunken: #f4f4f4;
+  --line: #e6e6e6;
+}
+[data-theme="dark"][data-background="white"], [data-theme="dark"] [data-background="white"], [data-background="white"] [data-theme="dark"] {
+  --paper: #121212;
+  --paper-raised: #1c1c1c;
+  --paper-sunken: #0a0a0a;
+  --line: #2e2e2e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-background="white"], :root:not([data-theme="light"]) [data-background="white"] {
+    --paper: #121212;
+    --paper-raised: #1c1c1c;
+    --paper-sunken: #0a0a0a;
+    --line: #2e2e2e;
+  }
+  :root:not([data-theme="light"]) [data-theme="light"][data-background="white"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="white"] {
+    --paper: #ffffff;
+    --paper-raised: #ffffff;
+    --paper-sunken: #f4f4f4;
+    --line: #e6e6e6;
+  }
+}
+/* 배경 gray — 그레이: 옅은 회색 바탕 위에 흰 카드. */
+[data-background="gray"], [data-theme="light"][data-background="gray"], [data-theme="light"] [data-background="gray"], [data-background="gray"] [data-theme="light"] {
+  --paper: #f2f2f2;
+  --paper-raised: #ffffff;
+  --paper-sunken: #e8e8e8;
+  --line: #dddddd;
+}
+[data-theme="dark"][data-background="gray"], [data-theme="dark"] [data-background="gray"], [data-background="gray"] [data-theme="dark"] {
+  --paper: #1a1a1a;
+  --paper-raised: #242424;
+  --paper-sunken: #111111;
+  --line: #363636;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-background="gray"], :root:not([data-theme="light"]) [data-background="gray"] {
+    --paper: #1a1a1a;
+    --paper-raised: #242424;
+    --paper-sunken: #111111;
+    --line: #363636;
+  }
+  :root:not([data-theme="light"]) [data-theme="light"][data-background="gray"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="gray"] {
+    --paper: #f2f2f2;
+    --paper-raised: #ffffff;
+    --paper-sunken: #e8e8e8;
+    --line: #dddddd;
   }
 }
 

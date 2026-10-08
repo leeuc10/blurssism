@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.1 — 2026-10-08
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - 기본 팔레트가 에스프레소(갈색)에서 블랙(검정)으로 바뀌었어요. 전처럼 갈색을 쓰려면 `<html data-palette="espresso">` 또는 `setPalette("espresso")`. / The default palette is now `black`; add `data-palette="espresso"` to keep the previous brown.
+
+- 새 팔레트 `black`(블랙, 카페인 묶음): 라이트 accent `#000000`, 다크 accent `#f2f2f2`. 장식색(`deco`)은 크레마빛이라 크레마 띠가 회색으로 탁해지지 않아요. 팔레트 14종. / New `black` palette, now the default.
+- `getPalette()`, `PalettePicker`가 지정이 없을 때 `"black"`을 돌려주고 골라요. 타입 `PaletteId`에 `"black"` 추가. / `getPalette()` and `PalettePicker` default to `"black"`.
+- 배경색을 바꿀 수 있어요. 내장 배경 `cream`(기본)·`white`·`gray`를 `<html data-background>` 또는 `setBackground()`로 고르고, 아무 색이나 `applyBackgroundColor("#hex")`로 넣으면 카드·눌린 면·구분선을 같은 색조로 만들고 글자와 모든 내장 팔레트가 읽히도록 바탕과 보조 글자색을 맞춰요. 서버 렌더링은 `backgroundToCss(createBackground(hex))`, 브랜드 팔레트와 함께 쓰면 `createPalette(color, { background })`. 새 함수 `backgrounds`·`setBackground`·`getBackground`·`createBackground`·`backgroundToCss`·`applyBackgroundColor`. / Configurable backgrounds: presets via `data-background`, any color via `applyBackgroundColor()`.
+- 대비 검사에 배경 51종(내장 3 + 샘플 48)을 더해 65,682개 조합 모두 통과(불투명한 바탕 56,862개 + 크레마 위 글자 8,820개). / Contrast check now covers backgrounds: 65,682 pairs.
+- 갤러리에 배경 고르기 추가, 예제는 `?background=`를 읽어요.
+- 갤러리 헤더의 로고 마크가 지금 팔레트·배경을 따라 칠해지고, 커버는 블랙 팔레트에서 먹색 판을 `line-strong`으로 바꿔 검정 판과 겹쳐 보이지 않아요.
+- 커버(`examples/components/Cover.html`)가 md(768px) 미만에서 그림 위·이름 아래로 쌓여요. 전에는 960px 그림을 통째로 줄여 한 줄 소개가 5px 안팎으로 작아졌어요.
+
 ## 1.6.0 — 2026-10-07
 
 > **올리기 전에 확인할 것 / Before upgrading**

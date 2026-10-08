@@ -362,7 +362,7 @@ export function createBlurssism(React) {
   /* 팔레트 라디오 묶음. 방향키로 고르고(포커스도 따라감), 고른 것에는 체크 표시가 붙습니다.
      applyBrandColor()로 등록한 브랜드 팔레트도 함께 보여 줍니다(custom={false}로 숨김). */
   function PalettePicker(p) {
-    var st = React.useState(p.value || "espresso"), cur = p.value || st[0];
+    var st = React.useState(p.value || "black"), cur = p.value || st[0];
     var cs = React.useState([]), custom = cs[0];   // 서버와 첫 렌더는 빈 목록(하이드레이션), 마운트 뒤에 채웁니다
     React.useEffect(function () {
       if (!p.value) st[1](getPalette(p.target));
