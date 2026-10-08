@@ -103,6 +103,12 @@ const grainOf = (th, src) => {   // feColorMatrix의 색과 알파(노이즈 평
   const m = decodeURIComponent(src || mat("crema-grain", th)).match(/values='([^']+)'/)[1].split(/\s+/).map(Number);
   return [[m[4], m[9], m[14]].map((v) => v * 255), m[18] * 0.5];
 };
+// color 블렌드(W3C): 위 색의 색조·채도에 아래 색의 밝기(Lum)를 씁니다
+const LUM = (c) => 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2];
+const setLum = (c, l) => {
+  const d = l - LUM(c), x = c.map((v) => v + d), L = LUM(x), n = Math.min(...x), m = Math.max(...x);
+  return x.map((v) => (n < 0 ? L + ((v - L) * L) / (L - n) : m > 255 ? L + ((v - L) * (255 - L)) / (m - L) : v));
+};
 let cremaFails = 0, cremaChecks = 0, cremaWorst = Infinity;
 // crema: 배경을 바꿨을 때의 { "crema-fill", "crema-fill-strong", "crema-grain" } (적응형 블러레마)
 function checkCremaText(label, values, theme, crema) {
@@ -113,11 +119,14 @@ function checkCremaText(label, values, theme, crema) {
   const ink = base(theme).ink, muted = base(theme)["crema-ink-muted"];
   for (const [surface, token, texts] of [["얇은", "crema-fill", [["ink", ink]]], ["두꺼운", "crema-fill-strong", [["ink", ink], ["crema-ink-muted", muted]]]]) {
     // 1.6.2: 채움에 팔레트 장식색을 crema-fill-tint만큼 섞습니다(color-mix, 알파를 곱한 채로 섞음)
-    const [fc0, fa0] = rgbaOf((crema && crema[token]) || mat(token, theme)), mixP = pct(mat("crema-fill-tint", theme)), deco = rgb(values.deco);
+    const [fc0, fa0] = rgbaOf((crema && crema[token]) || mat(token, theme)), mixP = pct((crema && crema["crema-fill-tint"]) || mat("crema-fill-tint", theme)), deco = rgb(values.deco);
     const fa = fa0 * (1 - mixP) + mixP, fc = fc0.map((v, i) => (v * fa0 * (1 - mixP) + deco[i] * mixP) / fa);
     for (const mode of ["on", "rich"]) for (const back of [[0, 0, 0], [255, 255, 255]]) {
       const a = mode === "rich" && token === "crema-fill" ? fa * pct(mat("crema-rich-fill", theme)) : fa;
-      const under = over(over(back, fc, a), grainC, grainA);
+      let under = over(over(back, fc, a), grainC, grainA);
+      // 1.6.3: 거품 결 위 장식색 층(color 블렌드, 세기 crema-grain-tint). 아래 층이 불투명하지 않은 만큼은 그냥 덮입니다.
+      const gt = pct(mat("crema-grain-tint", theme));
+      if (gt) { const dk = deco.map((v) => v * 0.6), B = setLum(dk, LUM(under)); under = under.map((v, i) => (1 - gt) * v + gt * ((1 - a) * dk[i] + a * B[i])); }
       const bands = [lip, low]; if (mode === "rich") bands.push(1 - (1 - lip) * (1 - pointer));
       for (const ta of bands) {
         const bg = hexOf(over(under, tint, ta));

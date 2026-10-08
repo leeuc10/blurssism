@@ -1,4 +1,4 @@
-/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
@@ -45,6 +45,7 @@
   --crema-edge: var(--glass-edge);
   --crema-tint-mix: 65%;
   --crema-fill-tint: 20%;
+  --crema-grain-tint: 0%;
   --crema-band-top: 42%;
   --crema-band-lip: 26%;
   --crema-band-mid: 16%;
@@ -102,6 +103,7 @@
   --crema-edge: var(--glass-edge);
   --crema-tint-mix: 90%;
   --crema-fill-tint: 12%;
+  --crema-grain-tint: 40%;
   --crema-band-top: 30%;
   --crema-band-lip: 16%;
   --crema-band-mid: 10%;
@@ -160,6 +162,7 @@
     --crema-edge: var(--glass-edge);
     --crema-tint-mix: 90%;
     --crema-fill-tint: 12%;
+    --crema-grain-tint: 40%;
     --crema-band-top: 30%;
     --crema-band-lip: 16%;
     --crema-band-mid: 10%;
@@ -900,6 +903,11 @@
   --crema-fill-strong: var(--glass-fill-strong);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 42%;
+  --crema-band-lip: 26%;
+  --crema-band-mid: 16%;
+  --crema-band-low: 10%;
+  --crema-fill-tint: 20%;
 }
 [data-theme="dark"][data-background="cream"], [data-theme="dark"] [data-background="cream"], [data-background="cream"] [data-theme="dark"] {
   --paper: #16110d;
@@ -912,6 +920,11 @@
   --crema-fill-strong: var(--glass-fill-strong);
   --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .961 0 0 0 0 .898 0 0 0 0 .839 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 30%;
+  --crema-band-lip: 16%;
+  --crema-band-mid: 10%;
+  --crema-band-low: 7%;
+  --crema-fill-tint: 12%;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="cream"], :root:not([data-theme="light"]) [data-background="cream"] {
@@ -925,6 +938,11 @@
     --crema-fill-strong: var(--glass-fill-strong);
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .961 0 0 0 0 .898 0 0 0 0 .839 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 30%;
+    --crema-band-lip: 16%;
+    --crema-band-mid: 10%;
+    --crema-band-low: 7%;
+    --crema-fill-tint: 12%;
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="cream"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="cream"] {
     --paper: #faf6f0;
@@ -937,6 +955,11 @@
     --crema-fill-strong: var(--glass-fill-strong);
     --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 42%;
+    --crema-band-lip: 26%;
+    --crema-band-mid: 16%;
+    --crema-band-low: 10%;
+    --crema-fill-tint: 20%;
   }
 }
 /* 배경 white — 화이트: 색 없는 흰 바탕. 카드는 테두리로 구분합니다. */
@@ -949,8 +972,13 @@
   --crema-fill: var(--glass-fill);
   --glass-fill-strong: rgba(255, 255, 255, 0.88);
   --crema-fill-strong: var(--glass-fill-strong);
-  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .184 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 18.9%;
+  --crema-band-lip: 11.7%;
+  --crema-band-mid: 7.2%;
+  --crema-band-low: 4.5%;
+  --crema-fill-tint: 10%;
 }
 [data-theme="dark"][data-background="white"], [data-theme="dark"] [data-background="white"], [data-background="white"] [data-theme="dark"] {
   --paper: #121212;
@@ -961,8 +989,13 @@
   --crema-fill: var(--glass-fill);
   --glass-fill-strong: rgba(22, 22, 22, 0.90);
   --crema-fill-strong: var(--glass-fill-strong);
-  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .096 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 13.5%;
+  --crema-band-lip: 7.2%;
+  --crema-band-mid: 4.5%;
+  --crema-band-low: 3.1%;
+  --crema-fill-tint: 6%;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="white"], :root:not([data-theme="light"]) [data-background="white"] {
@@ -974,8 +1007,13 @@
     --crema-fill: var(--glass-fill);
     --glass-fill-strong: rgba(22, 22, 22, 0.90);
     --crema-fill-strong: var(--glass-fill-strong);
-    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .096 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 13.5%;
+    --crema-band-lip: 7.2%;
+    --crema-band-mid: 4.5%;
+    --crema-band-low: 3.1%;
+    --crema-fill-tint: 6%;
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="white"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="white"] {
     --paper: #ffffff;
@@ -986,8 +1024,13 @@
     --crema-fill: var(--glass-fill);
     --glass-fill-strong: rgba(255, 255, 255, 0.88);
     --crema-fill-strong: var(--glass-fill-strong);
-    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .184 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 18.9%;
+    --crema-band-lip: 11.7%;
+    --crema-band-mid: 7.2%;
+    --crema-band-low: 4.5%;
+    --crema-fill-tint: 10%;
   }
 }
 /* 배경 gray — 그레이: 옅은 회색 바탕 위에 흰 카드. */
@@ -996,12 +1039,17 @@
   --paper-raised: #ffffff;
   --paper-sunken: #e8e8e8;
   --line: #dddddd;
-  --glass-fill: rgba(247, 247, 247, 0.70);
+  --glass-fill: rgba(251, 251, 251, 0.70);
   --crema-fill: var(--glass-fill);
-  --glass-fill-strong: rgba(247, 247, 247, 0.88);
+  --glass-fill-strong: rgba(253, 253, 253, 0.88);
   --crema-fill-strong: var(--glass-fill-strong);
-  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .184 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 18.9%;
+  --crema-band-lip: 11.7%;
+  --crema-band-mid: 7.2%;
+  --crema-band-low: 4.5%;
+  --crema-fill-tint: 10%;
 }
 [data-theme="dark"][data-background="gray"], [data-theme="dark"] [data-background="gray"], [data-background="gray"] [data-theme="dark"] {
   --paper: #1a1a1a;
@@ -1012,8 +1060,13 @@
   --crema-fill: var(--glass-fill);
   --glass-fill-strong: rgba(21, 21, 21, 0.90);
   --crema-fill-strong: var(--glass-fill-strong);
-  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .096 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-grain: var(--glass-grain);
+  --crema-band-top: 13.5%;
+  --crema-band-lip: 7.2%;
+  --crema-band-mid: 4.5%;
+  --crema-band-low: 3.1%;
+  --crema-fill-tint: 6%;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"])[data-background="gray"], :root:not([data-theme="light"]) [data-background="gray"] {
@@ -1025,20 +1078,30 @@
     --crema-fill: var(--glass-fill);
     --glass-fill-strong: rgba(21, 21, 21, 0.90);
     --crema-fill-strong: var(--glass-fill-strong);
-    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .898 0 0 0 0 .898 0 0 0 0 .898 0 0 0 .096 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 13.5%;
+    --crema-band-lip: 7.2%;
+    --crema-band-mid: 4.5%;
+    --crema-band-low: 3.1%;
+    --crema-fill-tint: 6%;
   }
   :root:not([data-theme="light"]) [data-theme="light"][data-background="gray"], :root:not([data-theme="light"]) [data-theme="light"] [data-background="gray"] {
     --paper: #f2f2f2;
     --paper-raised: #ffffff;
     --paper-sunken: #e8e8e8;
     --line: #dddddd;
-    --glass-fill: rgba(247, 247, 247, 0.70);
+    --glass-fill: rgba(251, 251, 251, 0.70);
     --crema-fill: var(--glass-fill);
-    --glass-fill-strong: rgba(247, 247, 247, 0.88);
+    --glass-fill-strong: rgba(253, 253, 253, 0.88);
     --crema-fill-strong: var(--glass-fill-strong);
-    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --glass-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .322 0 0 0 0 .322 0 0 0 0 .322 0 0 0 .184 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-grain: var(--glass-grain);
+    --crema-band-top: 18.9%;
+    --crema-band-lip: 11.7%;
+    --crema-band-mid: 7.2%;
+    --crema-band-low: 4.5%;
+    --crema-fill-tint: 10%;
   }
 }
 

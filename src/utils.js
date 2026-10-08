@@ -527,6 +527,11 @@ export function createBackground(color, options) {
 const rgbaParts = (str) => { const v = /rgba?\(([^)]+)\)/.exec(str)[1].split(",").map(Number); return [v.slice(0, 3), v[3] == null ? 1 : v[3]]; };
 const mixRgb = (a, b, t) => a.map((x, i) => x + (b[i] - x) * t);
 const rgbaStr = (c, a) => `rgba(${c.map((v) => Math.round(v)).join(", ")}, ${a.toFixed(2)})`;
+/* 바탕이 기본 크림만큼 따뜻하면 1, 무채색이면 0. 무채색일수록 크레마를 밝고 담백하게(결·띠를 옅게) 둡니다. */
+function warmth(theme, paperHex) {
+  const rs = rgbToHsl(parseHex(BASE[theme].paper))[1], bs = rgbToHsl(parseHex(paperHex))[1];
+  return rs ? Math.min(1, bs / rs) : 0;
+}
 function adaptGrain(theme, paperHex) {
   const B = BASE[theme], src = B["crema-grain"], m = /values='([^']+)'/.exec(src);
   const vals = m[1].split(/\s+/).map(Number);
@@ -535,6 +540,7 @@ function adaptGrain(theme, paperHex) {
   const h = (((bh + gh - rh) % 360) + 360) % 360;
   const c = parseHex(hsl(h, gs * (rs ? Math.min(1, bs / rs) : 0), gl)).map((v) => +(v / 255).toFixed(3));
   [vals[4], vals[9], vals[14]] = c;
+  vals[18] = +(vals[18] * (0.4 + 0.6 * warmth(theme, paperHex))).toFixed(3);   // 무채색 바탕에서는 결을 옅게(먼지처럼 보이지 않게)
   return src.replace(m[1], vals.map((v) => String(v).replace(/^0\./, ".")).join(" "));
 }
 
@@ -551,10 +557,16 @@ export function backgroundCrema(background) {
       const [h, sat, l] = rgbToHsl(c);
       return rgbaStr(parseHex(walk(h, sat, l, t === "light" ? 0.5 : -0.5, ok)), a);
     };
+    const w = warmth(t, v.paper), band = 0.45 + 0.55 * w;
     out[t] = {
-      "crema-fill": fill(t === "light" ? p : mixRgb(p, r, 0.8), "crema-fill"),
-      "crema-fill-strong": fill(t === "light" ? p : mixRgb(p, r, 0.55), "crema-fill-strong"),
+      // 라이트: 무채색 바탕일수록 paper-raised 쪽으로 밝혀 페이지보다 살짝 밝은 우유 거품처럼 뜨게 합니다
+      "crema-fill": fill(t === "light" ? mixRgb(p, r, (1 - w) * 0.7) : mixRgb(p, r, 0.8), "crema-fill"),
+      "crema-fill-strong": fill(t === "light" ? mixRgb(p, r, (1 - w) * 0.85) : mixRgb(p, r, 0.55), "crema-fill-strong"),
       "crema-grain": adaptGrain(t, v.paper),
+      // 캐러멜빛 띠도 무채색 바탕에서는 옅게
+      ...Object.fromEntries(["top", "lip", "mid", "low"].map((k) => [`crema-band-${k}`, `${+(parseFloat(B[`crema-band-${k}`]) * band).toFixed(1)}%`])),
+      // 팔레트 장식색도 무채색 바탕에서는 절반까지 덜 섞습니다
+      "crema-fill-tint": `${+(parseFloat(B["crema-fill-tint"]) * (0.5 + 0.5 * w)).toFixed(1)}%`,
     };
   }
   return out;
@@ -568,7 +580,7 @@ export function backgroundToCss(background) {
   const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
   return scopedCss(X, (t, pad) => [
     ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
-    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});`),
+    ...Object.entries(crema[t]).map(([k, v]) => legacy[k] ? `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});` : `${pad}--${k}: ${v};`),
   ].join("\n"));
 }
 

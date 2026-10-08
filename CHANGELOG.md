@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.3 — 2026-10-08
+
+**블러레마 / Blurema**
+- 다크 모드 거품 결이 팔레트(브랜드 팔레트 포함)를 따라 물들어요. 결 위에 팔레트 장식색 층을 `color` 블렌드로 얹어 밝기는 그대로 두고 색조만 바꿔요. 세기는 새 토큰 `crema-grain-tint`(다크 40%, 라이트는 결이 배경을 따라가므로 0%). / Dark-mode foam grain now takes the palette's hue (`crema-grain-tint`).
+- 화이트·그레이처럼 무채색에 가까운 배경에서 크레마가 탁하고 무겁게 보이던 문제를 고쳤어요. 바탕이 무채색일수록 채움을 `paper-raised` 쪽으로 밝혀 페이지보다 살짝 밝게 뜨고, 거품 결(최대 60% 옅게)·크레마 띠(최대 55% 옅게)·장식색 섞는 비율(최대 절반)을 줄여요. 크림 배경은 그대로예요. / Crema on neutral backgrounds (white, gray) is lighter and cleaner.
+- 커버 예제의 유리판도 같은 채움·결·결 색조를 써요.
+- 대비 검사 108,522개 조합 모두 통과(결 색조의 color 블렌드까지 계산).
+
 ## 1.6.2 — 2026-10-08
 
 **적응형 블러레마 / Adaptive Blurema**

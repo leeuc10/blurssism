@@ -1,4 +1,4 @@
-/* blurssism v1.6.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 "use strict";
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -10,7 +10,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "1.6.2";
+const version = "1.6.3";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -290,7 +290,7 @@ function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); return get
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
 
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
-const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"crema-fill":"rgba(250, 246, 240, 0.70)","crema-fill-strong":"rgba(250, 246, 240, 0.88)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"crema-fill":"rgba(30, 23, 18, 0.82)","crema-fill-strong":"rgba(28, 21, 16, 0.90)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
+const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"crema-fill":"rgba(250, 246, 240, 0.70)","crema-fill-strong":"rgba(250, 246, 240, 0.88)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"42%","crema-band-lip":"26%","crema-band-mid":"16%","crema-band-low":"10%","crema-fill-tint":"20%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"crema-fill":"rgba(30, 23, 18, 0.82)","crema-fill-strong":"rgba(28, 21, 16, 0.90)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"30%","crema-band-lip":"16%","crema-band-mid":"10%","crema-band-low":"7%","crema-fill-tint":"12%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
 const customPalettes = {};
 const customBackgrounds = {};
 const customListeners = [];
@@ -526,6 +526,11 @@ function createBackground(color, options) {
 const rgbaParts = (str) => { const v = /rgba?\(([^)]+)\)/.exec(str)[1].split(",").map(Number); return [v.slice(0, 3), v[3] == null ? 1 : v[3]]; };
 const mixRgb = (a, b, t) => a.map((x, i) => x + (b[i] - x) * t);
 const rgbaStr = (c, a) => `rgba(${c.map((v) => Math.round(v)).join(", ")}, ${a.toFixed(2)})`;
+/* 바탕이 기본 크림만큼 따뜻하면 1, 무채색이면 0. 무채색일수록 크레마를 밝고 담백하게(결·띠를 옅게) 둡니다. */
+function warmth(theme, paperHex) {
+  const rs = rgbToHsl(parseHex(BASE[theme].paper))[1], bs = rgbToHsl(parseHex(paperHex))[1];
+  return rs ? Math.min(1, bs / rs) : 0;
+}
 function adaptGrain(theme, paperHex) {
   const B = BASE[theme], src = B["crema-grain"], m = /values='([^']+)'/.exec(src);
   const vals = m[1].split(/\s+/).map(Number);
@@ -534,6 +539,7 @@ function adaptGrain(theme, paperHex) {
   const h = (((bh + gh - rh) % 360) + 360) % 360;
   const c = parseHex(hsl(h, gs * (rs ? Math.min(1, bs / rs) : 0), gl)).map((v) => +(v / 255).toFixed(3));
   [vals[4], vals[9], vals[14]] = c;
+  vals[18] = +(vals[18] * (0.4 + 0.6 * warmth(theme, paperHex))).toFixed(3);   // 무채색 바탕에서는 결을 옅게(먼지처럼 보이지 않게)
   return src.replace(m[1], vals.map((v) => String(v).replace(/^0\./, ".")).join(" "));
 }
 
@@ -550,10 +556,16 @@ function backgroundCrema(background) {
       const [h, sat, l] = rgbToHsl(c);
       return rgbaStr(parseHex(walk(h, sat, l, t === "light" ? 0.5 : -0.5, ok)), a);
     };
+    const w = warmth(t, v.paper), band = 0.45 + 0.55 * w;
     out[t] = {
-      "crema-fill": fill(t === "light" ? p : mixRgb(p, r, 0.8), "crema-fill"),
-      "crema-fill-strong": fill(t === "light" ? p : mixRgb(p, r, 0.55), "crema-fill-strong"),
+      // 라이트: 무채색 바탕일수록 paper-raised 쪽으로 밝혀 페이지보다 살짝 밝은 우유 거품처럼 뜨게 합니다
+      "crema-fill": fill(t === "light" ? mixRgb(p, r, (1 - w) * 0.7) : mixRgb(p, r, 0.8), "crema-fill"),
+      "crema-fill-strong": fill(t === "light" ? mixRgb(p, r, (1 - w) * 0.85) : mixRgb(p, r, 0.55), "crema-fill-strong"),
       "crema-grain": adaptGrain(t, v.paper),
+      // 캐러멜빛 띠도 무채색 바탕에서는 옅게
+      ...Object.fromEntries(["top", "lip", "mid", "low"].map((k) => [`crema-band-${k}`, `${+(parseFloat(B[`crema-band-${k}`]) * band).toFixed(1)}%`])),
+      // 팔레트 장식색도 무채색 바탕에서는 절반까지 덜 섞습니다
+      "crema-fill-tint": `${+(parseFloat(B["crema-fill-tint"]) * (0.5 + 0.5 * w)).toFixed(1)}%`,
     };
   }
   return out;
@@ -567,7 +579,7 @@ function backgroundToCss(background) {
   const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
   return scopedCss(X, (t, pad) => [
     ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
-    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});`),
+    ...Object.entries(crema[t]).map(([k, v]) => legacy[k] ? `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});` : `${pad}--${k}: ${v};`),
   ].join("\n"));
 }
 

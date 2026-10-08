@@ -29,8 +29,16 @@
   .pane { fill:none; stroke:var(--crema-edge, var(--crema-stroke)); stroke-width:1.5; rx:var(--radius-lg); }
   .pane-fill { fill:var(--crema-fill); fill-opacity:.62; }
   /* 1.6.2 적응형 블러레마: 컴포넌트 크레마와 같이 팔레트 장식색을 머금고, 거품 결도 배경을 따라갑니다 */
-  @supports (color: color-mix(in srgb, red, blue)) { .pane-fill { fill:color-mix(in srgb, var(--crema-fill), var(--deco) var(--crema-fill-tint)); } }
   .pane-grain { width:100%; height:100%; background-image:var(--crema-grain); }
+  /* 채움·결·결 색조를 컴포넌트 크레마와 같은 순서로 한 면에 겹칩니다(결 색조는 다크에서 팔레트를 따라감) */
+  @supports (color: color-mix(in srgb, red, blue)) {
+    .pane-fill { fill:transparent; }
+    .pane-grain {
+      background-color:color-mix(in srgb, color-mix(in srgb, var(--crema-fill), var(--deco) var(--crema-fill-tint)) 62%, transparent);
+      background-image:linear-gradient(var(--crema-grain-color, transparent), var(--crema-grain-color, transparent)), var(--crema-grain);
+      background-blend-mode:color, normal;
+    }
+  }
   .crema-stop { stop-color:var(--crema, #c0916a); }
   .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
   .name { margin:0; font-family:var(--font-serif); font-size:88px; line-height:.92; font-weight:700; letter-spacing:-.02em; color:var(--ink); }

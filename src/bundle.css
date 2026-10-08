@@ -9,7 +9,8 @@
    blur + crema. 맑은 유리 대신 우유 거품 색 젖빛 크레마입니다.
    블러 → 우유 거품 색(crema-fill) → 거품 결(crema-grain) → 크레마 띠(crema-band) → 크레마 가장자리(crema-edge) */
 .bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) {
-  background-image: var(--crema-band), var(--crema-grain);
+  background-image: var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+  background-blend-mode: normal, color, normal;
 }
 .bl-crema {
   background-color: var(--bl-crema-fill);
@@ -29,6 +30,8 @@
    요소마다 계산하므로 --crema-fill·--glass-fill을 덮어써도, 배경·팔레트를 영역마다 바꿔도 그대로 따라갑니다. */
 .bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn {
   --bl-crema-fill: var(--crema-fill); --bl-crema-fill-strong: var(--crema-fill-strong);
+  /* 거품 결 색조: 결 바로 위에 팔레트 장식색 층을 color 블렌드로 얹어 밝기는 두고 색조만 바꿉니다(세기: --crema-grain-tint, 다크만) */
+  --bl-grain-tint: linear-gradient(var(--crema-grain-color, transparent), var(--crema-grain-color, transparent));
 }
 @supports (color: color-mix(in srgb, red, blue)) {
   .bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn {
@@ -40,7 +43,7 @@
    크레마 띠는 위 가장자리에 조금 더 고이고, 아래로 옅어지면서 면 전체에 남습니다(세기: --crema-band-top·lip·mid·low).
    라이트·다크 값은 tokens.css의 테마 블록에서 오므로 여기서는 한 번만 선언합니다. */
 @supports (color: color-mix(in srgb, red, blue)) {
-  :root, [data-theme="light"], [data-theme="dark"], [data-palette] {
+  :root, [data-theme="light"], [data-theme="dark"], [data-palette], [data-background] {
     --crema-tint: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent));
     --crema-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke));
     /* 1.6.2: 위 가장자리에서 곡선으로 옅어지도록 중간 지점을 둡니다(직선 두 개가 꺾이는 10px 지점이 선처럼 보이지 않게) */
@@ -53,6 +56,8 @@
       color-mix(in srgb, var(--crema-tint) var(--crema-band-mid), transparent) 40%,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-low), transparent));
     --crema-light: color-mix(in srgb, var(--crema-tint) var(--crema-light-strength), transparent);
+    /* 같은 색조로 어둡게: color 블렌드는 색조·채도만 쓰고, 결 사이 틈은 밝아지지 않게 합니다 */
+    --crema-grain-color: color-mix(in srgb, color-mix(in srgb, var(--deco) 60%, black) var(--crema-grain-tint), transparent);
   }
 }
 
@@ -66,7 +71,8 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 40px; --blur-lg: 64px;
   background-image:
     radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
     radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), color-mix(in srgb, var(--crema-light) 50%, transparent), transparent 70%),
-    var(--crema-band), var(--crema-grain);
+    var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+  background-blend-mode: normal, normal, normal, color, normal;
 }
 [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
   box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), var(--shadow-crema-rich);
@@ -117,7 +123,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 40px; --blur-lg: 64px;
 .bl-icon-btn svg { width: 22px; height: 22px; }
 /* 크레마 안의 아이콘 버튼은 블러를 다시 걸지 않습니다. 뒤가 이미 흐려져 있어 보이는 차이가 없고, 블러 예산만 씁니다. */
 .bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
-  background-color: var(--bl-crema-fill-strong); background-image: var(--crema-grain); -webkit-backdrop-filter: none; backdrop-filter: none;
+  background-color: var(--bl-crema-fill-strong); background-image: var(--bl-grain-tint), var(--crema-grain); background-blend-mode: color, normal; -webkit-backdrop-filter: none; backdrop-filter: none;
 }
 
 /* ── Chip ─────────────────────────────── */
