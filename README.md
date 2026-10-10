@@ -42,7 +42,7 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 - 컴포넌트 38개: **React**(ESM·CommonJS·`<script>`, 안 쓰는 컴포넌트는 번들러가 버림)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도. 토스트 매니저, 로케일(`setLocale("en")`), 제어·비제어 겸용
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
 - 블러 성능 예산과 저사양 기기 자동 대응(실측 `probe`), 개발 중 검사(`auditCrema()`: 블러 예산·primary 개수·90/10·팔레트 하나)
-- 검사: 대비 108,550개 조합, jsdom 동작 테스트, axe 접근성, 서버 렌더링, 타입. 크레마 벤치마크 수치는 브랜드북에
+- 검사: 대비 108,550개 조합, jsdom 동작 테스트, axe 접근성, 서버 렌더링, 타입, 시각 회귀(스크린샷 108장). 크레마 벤치마크 수치는 브랜드북에
 - 접근성: 포커스 링, 네이티브 모달 다이얼로그, 방향키로 고르는 라디오 묶음·달력, 동작 줄이기·투명도 줄이기·고대비 모드 대응, 터치 영역 44px
 
 ### 다른 디자인 시스템과 다른 점
@@ -302,7 +302,7 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 - 38 components for **React** (ESM, CommonJS, `<script>`; tree-shakeable) and **Svelte 5**, or use the CSS classes (`bl-*`) alone. Toast manager, locale (`setLocale("en")`), controlled and uncontrolled inputs.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
 - A blur performance budget with automatic fallback on low-end devices (optional measured `probe`), plus dev-time audits (`auditCrema()`: blur budget, primary count, 90/10, one palette per screen).
-- Checks: 108,550 contrast pairs, jsdom behavior tests, axe accessibility, SSR and types. Crema benchmark numbers are in the brand book.
+- Checks: 108,550 contrast pairs, jsdom behavior tests, axe accessibility, SSR, types and visual regression (108 screenshots). Crema benchmark numbers are in the brand book.
 - Accessibility: focus rings, native modal dialogs, arrow-key radio groups and calendar, reduced motion, reduced transparency and forced-colors support, 44px touch targets.
 
 ### What makes it different
@@ -439,7 +439,7 @@ Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Plea
 ## 기여 · Contributing
 
 원본은 `src/`에 있습니다: 토큰 `src/tokens.json`, 스타일 `src/bundle.css`, React `src/core.js`, Svelte `src/svelte/`, 공통 함수 `src/utils.js`.
-`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비(크레마 위 포함), Svelte·React 타입, 서버 렌더링을 검사합니다. 같은 검사가 GitHub Actions에서도 돕니다.
+`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비(크레마 위 포함), Svelte·React 타입, 서버 렌더링, 동작·접근성 테스트를 검사합니다. 질감이나 간격을 바꿨다면 `npm run visual`로 스크린샷 108장을 기준과 비교하고, 의도한 변화면 `npm run visual:update`로 기준을 갱신합니다(처음 한 번 `npx playwright install chromium`). 같은 검사가 GitHub Actions에서도 돕니다.
 Sources live in `src/`. After `npm install`, run `npm run build` to generate `dist/` and `svelte/`, and `npm run check` to verify contrast (including text on crema), Svelte and React types, and server rendering. CI runs the same checks.
 
 <p align="center"><img src="logos/caffeinecat-mark.svg" width="28" alt=""><br><sub>made by caffeinecat</sub></p>

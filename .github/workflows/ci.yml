@@ -23,3 +23,17 @@ jobs:
         run: npm run check
       - name: 패키지 내용
         run: npm pack --dry-run
+
+  visual:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.64.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - name: 예시 페이지 스크린샷 (기준 이미지는 macOS에서 찍은 것이라 비교하지 않고 artifact로 올립니다)
+        run: npx playwright test --update-snapshots
+        env: { CI: "1" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-screenshots
+          path: scripts/visual/snapshots

@@ -1,5 +1,10 @@
 # Changelog
 
+## 미배포 / Unreleased
+
+- 시각 회귀 테스트: `npm run visual`이 예시 페이지 19개를 팔레트·테마 3종, 데스크톱·폰으로 찍은 108장을 기준 이미지와 비교해요(Playwright, 로컬 Chromium). CI는 Linux 스크린샷을 artifact로 올려요. / Visual regression tests with Playwright.
+- 예제 앱(vite-react·nextjs·sveltekit)이 새 컴포넌트 9개, 시트 모달, 토스트, `forwardRef`, 로케일 전환을 보여 줘요. SvelteKit 예제로 Svelte 새 컴포넌트를 브라우저에서 실제로 돌려 확인했고 프리렌더 빌드도 통과해요. / Example apps cover the new components; Svelte components verified in the browser.
+
 ## 2.1.2 — 2026-10-10
 
 **고친 것 / Fixed**

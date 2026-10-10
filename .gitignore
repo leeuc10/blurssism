@@ -4,3 +4,5 @@ node_modules/
 .next/
 examples/*/dist/
 .svelte-kit/
+scripts/visual/results/
+scripts/visual/report/

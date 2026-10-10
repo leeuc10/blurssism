@@ -177,7 +177,9 @@ bg.warnings.forEach((w) => console.warn(w.message));
 | 타입 | svelte-check, tsc(실제 쓰임새 + 틀린 쓰임새가 오류 나는지) | `scripts/types-test.tsx` |
 | 개발 중 | `auditCrema()`: 블러 예산, primary 개수, 강조색 면 10%(90/10), 영역별 팔레트, 남은 glass 이름 | 브라우저 콘솔 |
 
-아직 없는 것: 시각 회귀(스크린샷 비교). 질감을 바꿀 때는 갤러리를 눈으로 봅니다.
+| 시각 회귀 | 예시 페이지 19개 × 팔레트·테마 3종 × 데스크톱·폰 = 스크린샷 108장을 기준 이미지와 비교(`npm run visual`, 기준 갱신은 `npm run visual:update`). 기준은 macOS Chromium이라 로컬에서 비교하고, CI는 Linux 스크린샷을 artifact로 올립니다 | `scripts/visual/visual.spec.mjs` |
+
+질감·간격·색을 바꾸면 `npm run visual`이 어디가 달라졌는지 diff 이미지로 보여 줍니다. 의도한 변화면 기준을 갱신합니다.
 
 ## 다른 디자인 시스템과 다른 점
 

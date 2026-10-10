@@ -101,6 +101,8 @@
     "check": "node scripts/check.mjs && svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.react.json && node scripts/ssr.mjs && npm test",
     "test": "node --max-old-space-size=1024 --test scripts/test.mjs",
     "docs": "node scripts/docs.mjs",
+    "visual": "playwright test",
+    "visual:update": "playwright test --update-snapshots",
     "prepublishOnly": "npm run build && npm run check"
   },
   "peerDependencies": {
@@ -120,6 +122,7 @@
     }
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@sveltejs/package": "^2.5.8",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
