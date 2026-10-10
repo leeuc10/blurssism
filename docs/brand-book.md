@@ -322,7 +322,7 @@ bg.warnings.forEach((w) => console.warn(w.message));
 
 - **blurssism 마크** (`logos/blurssism-mark.svg`, 다크 바탕용 `blurssism-mark-dark.svg`): 에스프레소색 원 위에 반투명 크레마 판이 겹쳐 그 아래가 흐려지는 모양으로, 시스템의 원칙 "떠 있는 것만 크레마로"를 그대로 그렸습니다. 최소 크기 24px, 주변 여백은 마크 높이의 1/4.
 - **워드마크**: 마크 오른쪽에 `space-2` 간격으로 "blurssism"을 `--font-serif` 700, 자간 −0.02em, 소문자로 씁니다. 글자는 이미지로 굳히지 않고 실제 글자로 둡니다.
-- **caffeinecat 표식** (`logos/caffeinecat-mark.svg`, 다크용 `caffeinecat-mark-dark.svg`): 이 시스템을 만든 caffeinecat의 서명입니다. 커피콩 눈을 한 고양이 얼굴. 푸터나 크레딧에 `caption` 크기 글자 "made by caffeinecat"과 함께 16–24px로 둡니다. 제품 로고 자리에 쓰지 않습니다.
+- **caffeinecat 표식** (`logos/caffeinecat-mark.svg`, 다크용 `caffeinecat-mark-dark.svg`): 이 시스템을 만든 caffeinecat의 서명입니다. 커피를 좋아하는 고양이 귀 소녀의 얼굴을 동그랗게 자른 그림이에요(전신 그림은 `logos/caffeinecat.webp`). 푸터나 크레딧에 `caption` 크기 글자 "made by caffeinecat"과 함께 16–24px로 둡니다. 제품 로고 자리에 쓰지 않습니다.
 - 마크 색을 바꾸거나, 늘리거나, 그림자·그라디언트를 더하지 않습니다. 바탕이 어두우면 `-dark` 파일을 씁니다.
 
 ## 코드에서 쓰기
