@@ -19,7 +19,7 @@
     return h("div", { className: "side", "data-theme": p.theme, "data-palette": p.id },
       p.theme === "light" ? h(React.Fragment, null, h("p", { className: "name" }, p.name), h("p", { className: "desc" }, p.desc)) : h("p", { className: "desc" }, "다크"),
       h("div", { className: "sw", "aria-hidden": "true" }, h("i"), h("i"), h("i")),
-      h("div", null, h(B.Button, { variant: "accent", size: "md" }, "시작하기")),
+      h("div", null, h(B.Button, { size: "md" }, "시작하기")),
       h("div", null, h(B.Badge, { tone: "accent" }, p.id)));
   }
   var groups = [["caffeine", "카페인 · Caffeine"], ["web", "웹 기본 · Web essentials"]];

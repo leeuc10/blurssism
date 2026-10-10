@@ -1,26 +1,26 @@
-/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
-/* blurssism 컴포넌트 스타일 원본 · © caffeinecat · MIT. 모든 값은 tokens.css 변수에서 옵니다. 접두어 bl-. dist/bundle.css는 빌드가 만듭니다.
+/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism 컴포넌트 스타일 원본 · © caffeinecat · MIT. 색·간격·모서리·글자 크기 모두 tokens.css 변수(--text-* 포함)에서 옵니다. 접두어 bl-. dist/bundle.css는 빌드가 만듭니다.
    글꼴은 불러오지 않습니다. fonts.css를 함께 쓰거나 직접 호스팅하세요. */
 
 .bl-root, .bl-root * { box-sizing: border-box; }
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
 
 /* ── 크레마 재질: 블러레마(Blurema) ─────────────────────────────
-   1.5부터 클래스·속성·변수 이름이 crema입니다. 옛 이름(.bl-glass*, [data-glass], --glass-*)은 빌드가 같은 규칙에 함께 붙입니다(2.0에서 제거).
+   1.5부터 클래스·속성·변수 이름이 crema이고, 1.4의 glass 이름은 2.0에서 제거됐습니다(auditCrema()가 남은 쓰임새를 찾아 줍니다).
    blur + crema. 맑은 유리 대신 우유 거품 색 젖빛 크레마입니다.
    블러 → 우유 거품 색(crema-fill) → 거품 결(crema-grain) → 크레마 띠(crema-band) → 크레마 가장자리(crema-edge) */
-.bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain) {
+.bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) {
   background-image: var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
   background-blend-mode: normal, color, normal;
 }
-.bl-crema, .bl-glass {
+.bl-crema {
   background-color: var(--bl-crema-fill);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
   backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate));
   border: 1px solid var(--crema-stroke);
   box-shadow: var(--shadow-crema);
 }
-.bl-crema-thick, .bl-glass-thick {
+.bl-crema-thick {
   background-color: var(--bl-crema-fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
   backdrop-filter: blur(var(--blur-lg)) saturate(var(--crema-saturate));
@@ -28,14 +28,14 @@
   box-shadow: var(--shadow-sheet);
 }
 /* 크레마 채움이 팔레트(브랜드 팔레트 포함)의 장식색을 조금 머금습니다(1.6.2, 세기: --crema-fill-tint).
-   요소마다 계산하므로 --crema-fill·--glass-fill을 덮어써도, 배경·팔레트를 영역마다 바꿔도 그대로 따라갑니다. */
-.bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-crema-lite, .bl-glass-lite, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn {
+   요소마다 계산하므로 --crema-fill을 덮어써도, 배경·팔레트를 영역마다 바꿔도 그대로 따라갑니다. */
+.bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn {
   --bl-crema-fill: var(--crema-fill); --bl-crema-fill-strong: var(--crema-fill-strong);
   /* 거품 결 색조: 결 바로 위에 팔레트 장식색 층을 color 블렌드로 얹어 밝기는 두고 색조만 바꿉니다(세기: --crema-grain-tint, 다크만) */
   --bl-grain-tint: linear-gradient(var(--crema-grain-color, transparent), var(--crema-grain-color, transparent));
 }
 @supports (color: color-mix(in srgb, red, blue)) {
-  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-crema-lite, .bl-glass-lite, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn {
+  .bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn {
     --bl-crema-fill: color-mix(in srgb, var(--crema-fill), var(--deco) var(--crema-fill-tint));
     --bl-crema-fill-strong: color-mix(in srgb, var(--crema-fill-strong), var(--deco) var(--crema-fill-tint));
   }
@@ -45,57 +45,57 @@
    라이트·다크 값은 tokens.css의 테마 블록에서 오므로 여기서는 한 번만 선언합니다. */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette], [data-background] {
-    --crema: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent)); --crema-tint: var(--crema);
-    --glass-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke)); --crema-edge: var(--glass-edge);
+    --crema-tint: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent));
+    --crema-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke));
     /* 1.6.2: 위 가장자리에서 곡선으로 옅어지도록 중간 지점을 둡니다(직선 두 개가 꺾이는 10px 지점이 선처럼 보이지 않게) */
-    --glass-crema: linear-gradient(180deg,
+    --crema-band: linear-gradient(180deg,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-top), transparent),
       color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.6 + var(--crema-band-lip) * 0.4), transparent) 2px,
       color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.25 + var(--crema-band-lip) * 0.75), transparent) 5px,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-lip), transparent) 10px,
       color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-lip) * 0.6 + var(--crema-band-mid) * 0.4), transparent) 20px,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-mid), transparent) 40%,
-      color-mix(in srgb, var(--crema-tint) var(--crema-band-low), transparent)); --crema-band: var(--glass-crema);
-    --glass-light: color-mix(in srgb, var(--crema-tint) var(--crema-light-strength), transparent); --crema-light: var(--glass-light);
+      color-mix(in srgb, var(--crema-tint) var(--crema-band-low), transparent));
+    --crema-light: color-mix(in srgb, var(--crema-tint) var(--crema-light-strength), transparent);
     /* 같은 색조로 어둡게: color 블렌드는 색조·채도만 쓰고, 결 사이 틈은 밝아지지 않게 합니다 */
     --crema-grain-color: color-mix(in srgb, color-mix(in srgb, var(--deco) 60%, black) var(--crema-grain-tint), transparent);
   }
 }
 
 /* ── 데스크톱 모드: <html data-crema="rich"> ─────────────────────────────
-   applyCremaPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyCremaPreference( { rich: false }).
-   기본보다 블러가 훨씬 깊고(40/64px), 라이트에서는 크레마가 조금 더 비치고, 그림자가 두 겹 늘고,
-   포인터 주변에 캐러멜빛(crema-light)이 번집니다. 포인터 좌표는 각 크레마 요소 기준이라 스크롤해도 다시 그리지 않습니다.
-   포인터가 없으면 왼쪽 위에서 빛이 듭니다. 블러 예산은 화면당 6개. */
-html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-glass="rich"] { --blur-md: 40px; --blur-lg: 64px; --glass-saturate: 145%; --crema-saturate: var(--glass-saturate); }
-[data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-crema-thick, [data-glass="rich"] .bl-crema-thick, [data-crema="rich"] .bl-glass-thick, [data-glass="rich"] .bl-glass-thick, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+   applyCremaPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyCremaPreference({ rich: false }).
+   기본보다 블러가 깊고(32/48px. 2.0에서 40/64에서 낮춤), 라이트에서는 크레마가 조금 더 비치고, 그림자가 두 겹 늘고,
+   왼쪽 위에서 캐러멜빛(crema-light)이 듭니다. 포인터를 따라오는 빛은 2.0부터 기본으로 꺼져 있고(applyCremaPreference({ pointerLight: true })),
+   켜면 포인터 좌표를 각 크레마 요소 기준으로 씁니다. 블러 예산은 화면당 6개. */
+html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px; --crema-saturate: 140%; }
+[data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-crema-thick, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
   background-image:
     radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
     radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), color-mix(in srgb, var(--crema-light) 50%, transparent), transparent 70%),
     var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
   background-blend-mode: normal, normal, normal, color, normal;
 }
-[data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+[data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
   box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), var(--shadow-crema-rich);
 }
-[data-crema="rich"] .bl-crema-thick, [data-glass="rich"] .bl-crema-thick, [data-crema="rich"] .bl-glass-thick, [data-glass="rich"] .bl-glass-thick { box-shadow: var(--shadow-sheet), var(--shadow-sheet-rich); }
+[data-crema="rich"] .bl-crema-thick { box-shadow: var(--shadow-sheet), var(--shadow-sheet-rich); }
 @supports (color: color-mix(in srgb, red, blue)) {
-  [data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--bl-crema-fill) var(--crema-rich-fill), transparent); }
+  [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--bl-crema-fill) var(--crema-rich-fill), transparent); }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
-  [data-crema="rich"] .bl-btn-crema:hover, [data-glass="rich"] .bl-btn-crema:hover, [data-crema="rich"] .bl-btn-glass:hover, [data-glass="rich"] .bl-btn-glass:hover, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover {
+  [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease; }
+  [data-crema="rich"] .bl-btn-crema:hover, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), var(--shadow-crema-rich-hover);
   }
-  [data-crema="rich"] .bl-btn-crema:active, [data-glass="rich"] .bl-btn-crema:active, [data-crema="rich"] .bl-btn-glass:active, [data-glass="rich"] .bl-btn-glass:active, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active, [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
+  [data-crema="rich"] .bl-btn-crema:active, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain):active { transform: scale(0.97); }
 }
 
 /* ── Button ─────────────────────────────── */
 .bl-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
   height: 52px; padding: 0 var(--space-6); border-radius: var(--radius-full);
-  font-family: var(--font-sans); font-size: 15px; line-height: 20px; font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight);
   border: 1px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: transform .12s ease, background-color .12s ease;
 }
@@ -104,9 +104,10 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-btn:disabled { cursor: not-allowed; background: var(--paper-sunken); color: var(--ink-subtle); border-color: transparent; box-shadow: none; transform: none; }
 .bl-btn-md { height: 40px; padding: 0 var(--space-5); }
 .bl-btn-block { display: flex; width: 100%; }
-.bl-btn-primary { background: var(--ink); color: var(--paper); }
-.bl-btn-accent { background: var(--accent); color: var(--on-accent); }
-.bl-btn-crema, .bl-btn-glass { background-color: var(--bl-crema-fill); color: var(--ink); border-color: var(--crema-stroke); box-shadow: var(--shadow-crema);
+/* 2.0: primary가 강조색(accent) 채움입니다(전에는 ink 채움). 블랙 팔레트에서는 그대로 검정, 다른 팔레트에서는 그 팔레트 색.
+   .bl-btn-accent는 같은 규칙의 별칭이고, 컴포넌트 variant="accent"는 bl-btn-primary를 붙입니다. 화면당 하나. */
+.bl-btn-primary, .bl-btn-accent { background: var(--accent); color: var(--on-accent); }
+.bl-btn-crema { background-color: var(--bl-crema-fill); color: var(--ink); border-color: var(--crema-stroke); box-shadow: var(--shadow-crema);
   -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-md)) saturate(var(--crema-saturate)); }
 .bl-btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
 .bl-btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
@@ -123,7 +124,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-icon-btn-plain { background: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .bl-icon-btn svg { width: 22px; height: 22px; }
 /* 크레마 안의 아이콘 버튼은 블러를 다시 걸지 않습니다. 뒤가 이미 흐려져 있어 보이는 차이가 없고, 블러 예산만 씁니다. */
-.bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
+.bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
   background-color: var(--bl-crema-fill-strong); background-image: var(--bl-grain-tint), var(--crema-grain); background-blend-mode: color, normal; -webkit-backdrop-filter: none; backdrop-filter: none;
 }
 
@@ -132,7 +133,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-chip {
   display: inline-flex; align-items: center; gap: var(--space-1); height: 36px; padding: 0 var(--space-3);
   border-radius: var(--radius-full); border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
-  font-family: var(--font-sans); font-size: 15px; line-height: 20px; font-weight: 500; cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; cursor: pointer;
 }
 .bl-chip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-chip[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
@@ -140,15 +141,15 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 
 /* ── TextField ─────────────────────────────── */
 .bl-field { display: flex; flex-direction: column; gap: var(--space-2); }
-.bl-field-label { font-size: 14px; line-height: 22px; font-weight: 600; color: var(--ink); }
+.bl-field-label { font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); font-weight: 600; color: var(--ink); }
 .bl-field-input {
   height: 52px; padding: 0 var(--space-4); border-radius: var(--radius-md); width: 100%;
   border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
-  font-family: var(--font-sans); font-size: 16px; line-height: 26px;
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line);
 }
 .bl-field-input::placeholder { color: var(--ink-subtle); }
 .bl-field-input:focus { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-.bl-field-help { margin: 0; font-size: 14px; line-height: 22px; color: var(--ink-muted); }
+.bl-field-help { margin: 0; font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); color: var(--ink-muted); }
 .bl-field[data-invalid="true"] .bl-field-input { border-color: var(--danger); }
 .bl-field[data-invalid="true"] .bl-field-help { color: var(--danger); font-weight: 500; }
 
@@ -163,7 +164,7 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 
 /* ── Badge ─────────────────────────────── */
 .bl-badge { display: inline-flex; align-items: center; gap: var(--space-1); height: 24px; padding: 0 var(--space-2);
-  border-radius: var(--radius-full); font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
+  border-radius: var(--radius-full); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: 600; white-space: nowrap; }
 .bl-badge svg { width: 14px; height: 14px; }
 .bl-badge-neutral { background: var(--paper-sunken); color: var(--ink-muted); }
 .bl-badge-accent { background: var(--accent-soft); color: var(--accent-ink); }
@@ -174,10 +175,10 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 /* ── Card ─────────────────────────────── */
 .bl-card { padding: var(--space-6) var(--space-5) var(--space-5); border-radius: var(--radius-lg);
   background: var(--paper-raised); border: 1px solid var(--line); box-shadow: var(--shadow-card); }
-.bl-card-eyebrow { margin: 0 0 var(--space-2); font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.01em; color: var(--ink-muted); }
-.bl-card-title { margin: 0 0 var(--space-2); font-size: 18px; line-height: 26px; font-weight: 600; color: var(--ink); }
-.bl-card-body { margin: 0; font-size: 16px; line-height: 26px; color: var(--ink-muted); }
-.bl-card-quote { margin: 0; font-family: var(--font-serif); font-size: 22px; line-height: 32px; color: var(--ink); }
+.bl-card-eyebrow { margin: 0 0 var(--space-2); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); letter-spacing: var(--text-caption-tracking); color: var(--ink-muted); }
+.bl-card-title { margin: 0 0 var(--space-2); font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); color: var(--ink); }
+.bl-card-body { margin: 0; font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--ink-muted); }
+.bl-card-quote { margin: 0; font-family: var(--font-serif); font-size: var(--text-quote-size); line-height: var(--text-quote-line); font-weight: var(--text-quote-weight); color: var(--ink); }
 .bl-card-actions { display: flex; gap: var(--space-2); margin-top: var(--space-5); }
 
 /* ── MediaCard ─────────────────────────────── */
@@ -189,8 +190,8 @@ html[data-crema="rich"], html[data-glass="rich"], [data-crema="rich"], [data-gla
 .bl-media-bar { position: absolute; left: var(--space-3); right: var(--space-3); bottom: var(--space-3);
   display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5); border-radius: var(--radius-lg); }
 .bl-media-text { flex: 1; min-width: 0; }
-.bl-media-title { margin: 0; font-family: var(--font-serif); font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
-.bl-media-meta { margin: 0; font-size: 14px; line-height: 22px; color: var(--ink); }   /* 얇은 크레마 위 글자는 ink만 (뒤가 사진이어도 4.5:1) */
+.bl-media-title { margin: 0; font-family: var(--font-serif); font-size: var(--text-title-1-size); line-height: var(--text-title-1-line); font-weight: var(--text-title-1-weight); letter-spacing: var(--text-title-1-tracking); color: var(--ink); }
+.bl-media-meta { margin: 0; font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); color: var(--ink); }   /* 얇은 크레마 위 글자는 ink만 (뒤가 사진이어도 4.5:1) */
 
 /* ── ListItem ─────────────────────────────── */
 .bl-list { margin: 0; padding: var(--space-1) 0; list-style: none; border-radius: var(--radius-lg); background: var(--paper-raised); border: 1px solid var(--line); }
@@ -203,29 +204,29 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-item-lead { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--paper-sunken); color: var(--ink); }
 .bl-item-lead svg { width: 20px; height: 20px; }
 .bl-item-text { flex: 1; min-width: 0; }
-.bl-item-title { display: block; font-size: 16px; line-height: 24px; font-weight: 500; }
-.bl-item-sub { display: block; font-size: 14px; line-height: 22px; color: var(--ink-muted); }
-.bl-item-trail { flex: none; display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-subtle); font-size: 14px; line-height: 22px; }
+.bl-item-title { display: block; font-size: var(--text-body-size); line-height: 24px; font-weight: 500; }
+.bl-item-sub { display: block; font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); color: var(--ink-muted); }
+.bl-item-trail { flex: none; display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-subtle); font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); }
 .bl-item-trail svg { width: 18px; height: 18px; }
 
 /* ── NavBar ─────────────────────────────── */
 .bl-navbar { display: flex; align-items: center; gap: var(--space-2); height: var(--navbar-h); padding: 0 var(--space-2) 0 var(--space-4); border-radius: var(--radius-full); }
-.bl-navbar-title { flex: 1; min-width: 0; margin: 0; font-size: 17px; line-height: 24px; font-weight: 700; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bl-navbar-title { flex: 1; min-width: 0; margin: 0; font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: 700; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bl-navbar-links { display: flex; gap: var(--space-1); }
 .bl-navbar-link { height: 40px; display: inline-flex; align-items: center; padding: 0 var(--space-3); border-radius: var(--radius-full);
-  color: var(--ink); font-size: 15px; line-height: 20px; font-weight: 500; text-decoration: none; }
+  color: var(--ink); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; text-decoration: none; }
 /* 지금 페이지: 색(accent-soft) + 굵기 + 밑줄. 색만으로 알리지 않습니다. */
 .bl-navbar-link[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700;
   text-decoration: underline 2px; text-underline-offset: 4px; }
 .bl-navbar-link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-navbar .bl-icon-btn { width: 40px; height: 40px; }
-.bl-largetitle { margin: var(--space-6) 0 var(--space-4); font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
+.bl-largetitle { margin: var(--space-6) 0 var(--space-4); font-size: var(--text-title-1-size); line-height: var(--text-title-1-line); font-weight: var(--text-title-1-weight); letter-spacing: var(--text-title-1-tracking); color: var(--ink); }
 
 /* ── TabBar ─────────────────────────────── */
 .bl-tabbar { display: flex; gap: var(--space-1); padding: var(--space-1); border-radius: var(--radius-full); }
 .bl-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   height: 56px; min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
-  color: var(--ink); font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 500; text-decoration: none; }
+  color: var(--ink); font-family: var(--font-sans); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); text-decoration: none; }
 .bl-tab svg { width: 24px; height: 24px; }
 /* 지금 탭: 불투명한 accent-soft 캡슐 + 굵기 + 밑줄. 크레마 위에서도 대비가 4.5:1 이상이고, 색만으로 알리지 않습니다.
    aria-selected는 1.5까지의 마크업(role="tab")용입니다. */
@@ -242,13 +243,13 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── Sheet ─────────────────────────────── */
 .bl-sheet { padding: var(--space-3) var(--space-6) var(--space-6); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
 .bl-sheet-grip { width: 40px; height: 5px; margin: 0 auto var(--space-5); border-radius: var(--radius-full); background: var(--line-strong); }
-.bl-sheet-title { margin: 0 0 var(--space-2); font-size: 22px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
-.bl-sheet-body { margin: 0 0 var(--space-6); font-size: 16px; line-height: 26px; color: var(--crema-ink-muted); }
+.bl-sheet-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
+.bl-sheet-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
 .bl-sheet-actions { display: flex; flex-direction: column; gap: var(--space-2); }
 
 /* ── Toast ─────────────────────────────── */
 .bl-toast { display: flex; align-items: center; gap: var(--space-3); min-height: 52px; padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
-  border-radius: var(--radius-full); font-size: 15px; line-height: 22px; font-weight: 500; color: var(--ink); }
+  border-radius: var(--radius-full); font-size: var(--text-label-size); line-height: 22px; font-weight: 500; color: var(--ink); }
 .bl-toast > svg { width: 20px; height: 20px; flex: none; }
 .bl-toast[data-tone="positive"] > svg { color: var(--positive); }
 .bl-toast[data-tone="danger"] > svg { color: var(--danger); }
@@ -262,19 +263,19 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── 성능: 크레마 끄기·가벼운 크레마 ─────────────────────────────
    <html data-crema="off">  → 모든 크레마가 불투명(blur 0)으로. 저사양 기기·절전 모드용 (Blurssism.applyCremaPreference())
    .bl-crema-lite           → 블러 없이 두꺼운 반투명만. 긴 목록 안에서 반복되는 크레마용 */
-.bl-crema-lite, .bl-glass-lite { background: var(--bl-crema-fill-strong); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
-[data-crema="off"] .bl-crema, [data-glass="off"] .bl-crema, [data-crema="off"] .bl-glass, [data-glass="off"] .bl-glass, [data-crema="off"] .bl-crema-thick, [data-glass="off"] .bl-crema-thick, [data-crema="off"] .bl-glass-thick, [data-glass="off"] .bl-glass-thick, [data-crema="off"] .bl-btn-crema, [data-glass="off"] .bl-btn-crema, [data-crema="off"] .bl-btn-glass, [data-glass="off"] .bl-btn-glass, [data-crema="off"] .bl-icon-btn, [data-glass="off"] .bl-icon-btn, [data-crema="off"] .bl-scrim, [data-glass="off"] .bl-scrim {
+.bl-crema-lite { background: var(--bl-crema-fill-strong); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+[data-crema="off"] .bl-crema, [data-crema="off"] .bl-crema-thick, [data-crema="off"] .bl-btn-crema, [data-crema="off"] .bl-icon-btn, [data-crema="off"] .bl-scrim {
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-[data-crema="off"] .bl-btn-crema, [data-glass="off"] .bl-btn-crema, [data-crema="off"] .bl-btn-glass, [data-glass="off"] .bl-btn-glass, [data-crema="off"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
-[data-crema="off"] .bl-crema, [data-glass="off"] .bl-crema, [data-crema="off"] .bl-glass, [data-glass="off"] .bl-glass, [data-crema="off"] .bl-crema-thick, [data-glass="off"] .bl-crema-thick, [data-crema="off"] .bl-glass-thick, [data-glass="off"] .bl-glass-thick { background: var(--paper-raised); }
+[data-crema="off"] .bl-btn-crema, [data-crema="off"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
+[data-crema="off"] .bl-crema, [data-crema="off"] .bl-crema-thick { background: var(--paper-raised); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick { background: var(--paper-raised); }
-  .bl-btn-crema, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
+  .bl-crema, .bl-crema-thick { background: var(--paper-raised); }
+  .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: var(--paper-raised); background-image: none; }
 }
 
 /* ── Checkbox · Radio ─────────────────────────────── */
-.bl-check { display: inline-flex; align-items: center; gap: var(--space-3); min-height: var(--touch-min); cursor: pointer; font-size: 16px; line-height: 24px; color: var(--ink); }
+.bl-check { display: inline-flex; align-items: center; gap: var(--space-3); min-height: var(--touch-min); cursor: pointer; font-size: var(--text-body-size); line-height: 24px; color: var(--ink); }
 .bl-check input { appearance: none; -webkit-appearance: none; flex: none; display: grid; place-content: center; width: 22px; height: 22px; margin: 0;
   border: 1.5px solid var(--line-strong); border-radius: 6px; background: var(--paper-raised); cursor: pointer; transition: background-color .12s ease; }
 .bl-check input:checked { background: var(--accent); border-color: var(--accent); }
@@ -284,9 +285,9 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-check input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-check input:disabled { background: var(--paper-sunken); border-color: var(--line); cursor: not-allowed; }
 .bl-check:has(input:disabled) { color: var(--ink-subtle); cursor: not-allowed; }
-.bl-check-sub { display: block; font-size: 14px; line-height: 22px; color: var(--ink-muted); }
+.bl-check-sub { display: block; font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); color: var(--ink-muted); }
 .bl-radios { display: flex; flex-direction: column; border: 0; margin: 0; padding: 0; }
-.bl-radios legend { padding: 0; margin-bottom: var(--space-1); font-size: 14px; line-height: 22px; font-weight: 600; }
+.bl-radios legend { padding: 0; margin-bottom: var(--space-1); font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); font-weight: 600; }
 
 /* ── Select ─────────────────────────────── */
 .bl-select { position: relative; }
@@ -297,7 +298,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── SegmentedControl ─────────────────────────────── */
 .bl-seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radius-full); background: var(--paper-sunken); }
 .bl-seg-item { height: 34px; padding: 0 var(--space-4); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
-  font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ink-muted); transition: background-color .15s ease; }
+  font-family: var(--font-sans); font-size: var(--text-body-sm-size); line-height: var(--text-label-line); font-weight: 600; color: var(--ink-muted); transition: background-color .15s ease; }
 .bl-seg-item[aria-checked="true"] { background: var(--paper-raised); color: var(--ink); box-shadow: var(--shadow-card); }
 .bl-seg-item:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
 .bl-seg-block { display: flex; } .bl-seg-block .bl-seg-item { flex: 1; }
@@ -308,7 +309,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
    popover를 모르는 브라우저에서는 보이지 않고, aria-describedby로 스크린리더에만 읽힙니다. */
 .bl-tip { position: relative; display: inline-flex; }
 .bl-tooltip, .bl-tooltip-pop { padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm); white-space: nowrap; pointer-events: none;
-  font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ink); }
+  font-family: var(--font-sans); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); color: var(--ink); }
 .bl-tooltip { position: absolute; left: 50%; bottom: calc(100% + var(--space-2)); transform: translate(-50%, 4px); z-index: 10;
   opacity: 0; visibility: hidden; transition: opacity .12s ease, transform .12s ease, visibility .12s; }
 .bl-tip:focus-within .bl-tooltip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
@@ -327,7 +328,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 
 /* ── Progress ─────────────────────────────── */
 .bl-progress { display: grid; gap: var(--space-2); }
-.bl-progress-head { display: flex; justify-content: space-between; font-size: 14px; line-height: 22px; }
+.bl-progress-head { display: flex; justify-content: space-between; font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); }
 .bl-progress-head span:last-child { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 .bl-progress-track { height: 8px; border-radius: var(--radius-full); background: var(--paper-sunken); overflow: hidden; }
 .bl-progress-fill { height: 100%; border-radius: var(--radius-full); background: var(--accent); transition: width .3s cubic-bezier(.2,.8,.2,1); }
@@ -350,8 +351,8 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-dialog::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-dialog:focus { outline: none; }
 html:has(dialog.bl-dialog[open]) { overflow: hidden; }
-.bl-dialog-title { margin: 0 0 var(--space-2); font-size: 22px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
-.bl-dialog-body { margin: 0 0 var(--space-6); font-size: 16px; line-height: 26px; color: var(--crema-ink-muted); }
+.bl-dialog-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
+.bl-dialog-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
 .bl-dialog-actions { display: flex; gap: var(--space-2); justify-content: flex-end; }
 @media (max-width: 767px) {
   .bl-scrim { place-items: end stretch; padding: 0; }
@@ -364,9 +365,9 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 
 /* ── Table ─────────────────────────────── */
 .bl-table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper-raised); }
-.bl-table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 22px; color: var(--ink); }
-.bl-table caption { padding: var(--space-4) var(--space-4) 0; text-align: left; font-size: 18px; line-height: 26px; font-weight: 600; }
-.bl-table th { padding: var(--space-3) var(--space-4); text-align: left; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ink-muted); border-bottom: 1px solid var(--line); white-space: nowrap; }
+.bl-table { width: 100%; border-collapse: collapse; font-size: var(--text-label-size); line-height: var(--text-body-sm-line); color: var(--ink); }
+.bl-table caption { padding: var(--space-4) var(--space-4) 0; text-align: left; font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); }
+.bl-table th { padding: var(--space-3) var(--space-4); text-align: left; font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: 600; color: var(--ink-muted); border-bottom: 1px solid var(--line); white-space: nowrap; }
 .bl-table td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); vertical-align: middle; }
 .bl-table tr:last-child td { border-bottom: 0; }
 @media (hover: hover) { .bl-table tbody tr:hover { background: var(--paper); } .bl-tip:hover .bl-tooltip { opacity: 1; visibility: visible; transform: translate(-50%, 0); } }
@@ -375,12 +376,12 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 /* ── Calendar ─────────────────────────────── */
 .bl-cal { width: 320px; max-width: 100%; padding: var(--space-4); border-radius: var(--radius-lg); background: var(--paper-raised); border: 1px solid var(--line); }
 .bl-cal-head { display: flex; align-items: center; margin-bottom: var(--space-2); }
-.bl-cal-title { flex: 1; margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; text-align: center; }
+.bl-cal-title { flex: 1; margin: 0; font-size: var(--text-body-size); line-height: 24px; font-weight: 600; text-align: center; }
 .bl-cal-head .bl-icon-btn { width: 40px; height: 40px; }
 .bl-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
-.bl-cal-dow { font-size: 12px; line-height: 32px; font-weight: 500; color: var(--ink-muted); }
+.bl-cal-dow { font-size: var(--text-caption-size); line-height: 32px; font-weight: 500; color: var(--ink-muted); }
 .bl-cal-day { aspect-ratio: 1; min-height: 40px; border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
-  font-family: var(--font-sans); font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  font-family: var(--font-sans); font-size: var(--text-label-size); color: var(--ink); font-variant-numeric: tabular-nums; }
 @media (hover: hover) { .bl-cal-day:hover { background: var(--paper-sunken); } }
 .bl-cal-day[data-today="true"] { box-shadow: inset 0 0 0 1.5px var(--line-strong); }
 .bl-cal-day[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; box-shadow: none; }
@@ -391,15 +392,15 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 .bl-empty { display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-12) var(--space-6); text-align: center; }
 .bl-empty-icon { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: var(--space-2); border-radius: var(--radius-full); background: var(--paper-sunken); color: var(--ink-muted); }
 .bl-empty-icon svg { width: 28px; height: 28px; }
-.bl-empty-title { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--ink); }
-.bl-empty-body { margin: 0 0 var(--space-3); max-width: 320px; font-size: 15px; line-height: 24px; color: var(--ink-muted); }
+.bl-empty-title { margin: 0; font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); color: var(--ink); }
+.bl-empty-body { margin: 0 0 var(--space-3); max-width: 320px; font-size: var(--text-label-size); line-height: 24px; color: var(--ink-muted); }
 
 /* ── PalettePicker ───────────────────────────────
    각 버튼에 data-palette가 붙어 있어, 버튼 자신이 그 팔레트의 accent로 칠해집니다. */
 .bl-palettes { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .bl-palette { display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; padding: 0 var(--space-4) 0 var(--space-2);
   border: 1px solid var(--line-strong); border-radius: var(--radius-full); background: var(--paper-raised); color: var(--ink); cursor: pointer;
-  font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; }
+  font-family: var(--font-sans); font-size: var(--text-body-sm-size); line-height: var(--text-label-line); font-weight: 500; }
 .bl-palette-dot { display: grid; place-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--accent); box-shadow: inset 0 0 0 4px var(--deco); }
 /* 고른 팔레트: 색 + 굵기 + 동그라미 안의 체크 표시 */
 .bl-palette[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
@@ -431,7 +432,7 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
   .bl-navbar-links { display: none; }               /* lg 미만: 링크 대신 TabBar(또는 메뉴 버튼). TabBar는 lg부터 숨습니다 */
 }
 @media (max-width: 767px) {
-  .bl-table { font-size: 14px; }
+  .bl-table { font-size: var(--text-body-sm-size); }
   .bl-table th, .bl-table td { padding: var(--space-2) var(--space-3); }
 }
 @media (min-width: 768px) {
@@ -460,7 +461,9 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 /* ── 접근성: 투명도 줄이기 ───────────────────────────────
    파일 끝에 두고 선택자 명시도를 크레마 규칙과 맞춰, 크레마 버튼·아이콘 버튼·데스크톱 모드까지 모두 불투명하게 바꿉니다. */
 @media (prefers-reduced-transparency: reduce) {
-  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite, .bl-glass-lite, [data-crema="rich"] .bl-crema, [data-glass="rich"] .bl-crema, [data-crema="rich"] .bl-glass, [data-glass="rich"] .bl-glass, [data-crema="rich"] .bl-crema-thick, [data-glass="rich"] .bl-crema-thick, [data-crema="rich"] .bl-glass-thick, [data-glass="rich"] .bl-glass-thick, [data-crema="rich"] .bl-btn-crema, [data-glass="rich"] .bl-btn-crema, [data-crema="rich"] .bl-btn-glass, [data-glass="rich"] .bl-btn-glass, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), [data-glass="rich"] .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
+  .bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite,
+  [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-crema-thick, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain),
+  .bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
     background-color: var(--paper-raised); background-image: none; -webkit-backdrop-filter: none; backdrop-filter: none;
   }
 }
@@ -475,7 +478,7 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
    Windows 고대비처럼 색을 시스템 색으로 바꾸는 모드에서는 배경색과 그림자가 사라집니다.
    선택·켜짐 상태를 시스템 색(Highlight 등)으로 다시 그려 보이게 합니다. */
 @media (forced-colors: active) {
-  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-crema-lite, .bl-glass-lite, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain) { border: 1px solid CanvasText; }
+  .bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) { border: 1px solid CanvasText; }
   .bl-check input { forced-color-adjust: none; background: Canvas; border-color: CanvasText; }
   .bl-check input:checked { background: Highlight; border-color: Highlight; }
   .bl-check input[type="checkbox"]:checked::after { border-color: HighlightText; }
@@ -495,7 +498,7 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 
 /* ── 접근성: 대비 높이기 ── 크레마를 불투명하게, 구분선을 진하게 */
 @media (prefers-contrast: more) {
-  .bl-crema, .bl-glass, .bl-crema-thick, .bl-glass-thick, .bl-btn-crema, .bl-btn-glass, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite, .bl-glass-lite { background-color: var(--paper-raised); background-image: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
+  .bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite { background-color: var(--paper-raised); background-image: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
   .bl-card, .bl-list, .bl-table-wrap, .bl-cal, .bl-field-input { border-color: var(--line-strong); }
 }
 

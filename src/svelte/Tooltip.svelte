@@ -20,4 +20,4 @@
 <span class="bl-tip" bind:this={wrap} onmouseenter={() => (open = true)} onmouseleave={() => (open = false)}
   onfocusin={() => (open = true)} onfocusout={() => (open = false)}
   onkeydown={(e) => { if (e.key === "Escape" && open) { e.stopPropagation(); open = false; } }}
->{@render children?.(id)}<span {id} bind:this={tip} role="tooltip" popover="manual" class="bl-tooltip-pop bl-crema-thick bl-glass-thick">{label}</span></span>
+>{@render children?.(id)}<span {id} bind:this={tip} role="tooltip" popover="manual" class="bl-tooltip-pop bl-crema-thick">{label}</span></span>

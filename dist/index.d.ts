@@ -1,5 +1,8 @@
 /* blurssism 컴포넌트 타입 · © caffeinecat */
-import type { ReactNode, ReactElement, ButtonHTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes } from "react";
+import type { ReactNode, ReactElement, ButtonHTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes, ForwardRefExoticComponent, RefAttributes } from "react";
+
+/** ref를 받는 컴포넌트(2.0). <Button ref={…}>, <TextField ref={…}>(ref는 input), react-hook-form의 register가 됩니다. */
+type WithRef<P, E> = ForwardRefExoticComponent<P & RefAttributes<E>>;
 
 export type IconName =
   | "home" | "search" | "heart" | "chat" | "person" | "bell" | "settings" | "plus"
@@ -9,9 +12,9 @@ export type IconName =
 export interface IconProps { name: IconName; filled?: boolean; className?: string }
 
 interface ButtonOwnProps {
-  /** primary(기본): ink 채움 · accent: 강조색 채움 · crema: 크레마 · ghost: 테두리 · danger: 삭제·신고. "glass"는 1.4 이름(2.0에서 제거)
-   *  primary는 화면당 하나입니다. 개발 중에는 auditCrema()가 개수를 세어 알려 줍니다. */
-  variant?: "primary" | "accent" | "crema" | "glass" | "ghost" | "danger";
+  /** primary(기본): 강조색(accent) 채움, 화면당 하나 · accent: primary의 별칭(2.0부터 같은 버튼) · crema: 크레마 · ghost: 테두리 · danger: 삭제·신고.
+   *  개발 중에는 auditCrema()가 primary 개수를 세어 알려 줍니다. */
+  variant?: "primary" | "accent" | "crema" | "ghost" | "danger";
   /** lg = 52px(기본), md = 40px */
   size?: "lg" | "md";
   block?: boolean;
@@ -107,15 +110,16 @@ export interface SheetProps { title: string; description?: string; children?: Re
 export interface ToastProps { tone?: "neutral" | "positive" | "danger"; children: ReactNode; actionLabel?: string; onAction?: () => void; className?: string }
 
 export declare function Icon(props: IconProps): ReactElement;
-export declare function Button(props: ButtonProps): ReactElement;
-export declare function IconButton(props: IconButtonProps): ReactElement;
-export declare function Chip(props: ChipProps): ReactElement;
-export declare function TextField(props: TextFieldProps): ReactElement;
-export declare function Switch(props: SwitchProps): ReactElement;
+export declare const Button: WithRef<ButtonProps, HTMLButtonElement | HTMLAnchorElement>;
+export declare const IconButton: WithRef<IconButtonProps, HTMLButtonElement>;
+export declare const Chip: WithRef<ChipProps, HTMLButtonElement>;
+/** ref는 <input>에 닿습니다 */
+export declare const TextField: WithRef<TextFieldProps, HTMLInputElement>;
+export declare const Switch: WithRef<SwitchProps, HTMLButtonElement>;
 export declare function Badge(props: BadgeProps): ReactElement;
 export declare function Card(props: CardProps): ReactElement;
 export declare function MediaCard(props: MediaCardProps): ReactElement;
-export declare function ListItem(props: ListItemProps): ReactElement;
+export declare const ListItem: WithRef<ListItemProps, HTMLElement>;
 export declare function NavBar(props: NavBarProps): ReactElement;
 export declare function TabBar(props: TabBarProps): ReactElement;
 export declare function Sheet(props: SheetProps): ReactElement;
@@ -155,9 +159,11 @@ export interface EmptyStateProps { title: string; body?: string; icon?: IconName
 /** 가운데 모달(모바일에선 아래 시트). 네이티브 <dialog>(최상위 층, 뒤 화면 inert), Esc·바깥 클릭 닫기(alert는 바깥 클릭 제외). children = 버튼들. */
 export interface DialogProps { open: boolean; onClose?: () => void; title: string; description?: string; alert?: boolean; children?: ReactNode; className?: string }
 
-export declare function Select(props: SelectProps): ReactElement;
-export declare function Checkbox(props: CheckboxProps): ReactElement;
-export declare function RadioGroup(props: RadioGroupProps): ReactElement;
+/** ref는 <select>에 닿습니다 */
+export declare const Select: WithRef<SelectProps, HTMLSelectElement>;
+/** ref는 <input type="checkbox">에 닿습니다 */
+export declare const Checkbox: WithRef<CheckboxProps, HTMLInputElement>;
+export declare const RadioGroup: WithRef<RadioGroupProps, HTMLFieldSetElement>;
 export declare function SegmentedControl(props: SegmentedControlProps): ReactElement;
 export declare function Avatar(props: AvatarProps): ReactElement;
 export declare function Tooltip(props: TooltipProps): ReactElement;
@@ -208,8 +214,8 @@ export interface GridProps extends HTMLAttributes<HTMLElement> {
 }
 
 export declare function PalettePicker(props: PalettePickerProps): ReactElement;
-export declare function Container(props: ContainerProps): ReactElement;
-export declare function Grid(props: GridProps): ReactElement;
+export declare const Container: WithRef<ContainerProps, HTMLElement>;
+export declare const Grid: WithRef<GridProps, HTMLElement>;
 /** 지금 화면 단계. 서버와 첫 렌더에서는 null. */
 export declare function useBreakpoint(): Breakpoint | null;
 
@@ -242,13 +248,13 @@ export type CremaMode = "off" | "on" | "rich";
 export interface CremaOptions extends LowEndOptions {
   /** 데스크톱 모드. "auto"(기본)는 데스크톱일 때만 켭니다. false면 끕니다. */
   rich?: boolean | "auto";
-  /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
+  /** 데스크톱 모드에서 포인터를 따라오는 빛. 2.0부터 기본 false(마우스를 움직일 때마다 크레마 면을 다시 칠하므로 선택 기능). 동작 줄이기 설정이면 켜도 꺼집니다. */
   pointerLight?: boolean;
   /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
 }
 /**
- * <html data-crema="off|on|rich">를 정합니다(호환용 data-glass도 함께). 크레마가 켜졌으면 true.
+ * <html data-crema="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
  * applyCremaPreference() · applyCremaPreference({ rich: false }) · applyCremaPreference(false)
  */
 export declare function applyCremaPreference(options?: boolean | CremaOptions): boolean;
@@ -256,7 +262,7 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
 export interface CremaIssue {
-  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 1.4 이름(glass)을 쓰는 요소 */
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
   code: "blur-budget" | "primary" | "legacy-glass";
   message: string;
   elements: Element[];
@@ -272,23 +278,9 @@ export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
 /** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */
 export declare function auditCrema(options?: CremaAuditOptions & { onReport?: (issues: CremaIssue[]) => void; force?: boolean }): () => void;
 
-/** @deprecated 1.5부터 CremaMode. 2.0에서 제거 */
-export type GlassMode = CremaMode;
-/** @deprecated 1.5부터 CremaOptions. 2.0에서 제거 */
-export type GlassOptions = CremaOptions;
-/** @deprecated 1.5부터 shouldReduceCrema(). 2.0에서 제거 */
-export declare function shouldReduceGlass(options?: LowEndOptions): boolean;
-/** @deprecated 1.5부터 applyCremaPreference(). 2.0에서 제거 */
-export declare function applyGlassPreference(options?: boolean | CremaOptions): boolean;
-/** @deprecated 1.5부터 setCremaMode(). 2.0에서 제거 */
-export declare function setGlassMode(mode: CremaMode | "auto"): boolean;
-/** @deprecated 1.5부터 getCremaMode(). 2.0에서 제거 */
-export declare function getGlassMode(): CremaMode;
 
 export interface PaletteValues {
   accent: string; "accent-soft": string; "on-accent": string; "accent-ink": string; deco: string; "crema-tint-accent": string;
-  /** @deprecated 1.5부터 "crema-tint-accent". 2.0에서 제거 */
-  "glass-tint-accent": string;
 }
 export interface PaletteWarning { code: "adjusted" | "danger" | "warning" | "positive" | "neutral"; message: string }
 export interface CustomPalette {

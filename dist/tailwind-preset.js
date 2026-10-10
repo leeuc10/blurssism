@@ -1,4 +1,4 @@
-/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* Tailwind 프리셋 — tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
    dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. 브레이크포인트 sm/md/lg/xl은 blurssism과 같습니다. */
 module.exports = {
@@ -28,14 +28,10 @@ module.exports = {
         "info": "var(--info)",
         "focus-ring": "var(--focus-ring)",
         "crema-fill": "var(--crema-fill)",
-        "glass-fill": "var(--crema-fill)",
         "crema-fill-strong": "var(--crema-fill-strong)",
-        "glass-fill-strong": "var(--crema-fill-strong)",
         "crema-ink-muted": "var(--crema-ink-muted)",
         "crema-stroke": "var(--crema-stroke)",
-        "glass-stroke": "var(--crema-stroke)",
         "crema-tint-accent": "var(--crema-tint-accent)",
-        "glass-tint-accent": "var(--crema-tint-accent)",
         "scrim": "var(--scrim)"
       },
       "spacing": {
@@ -60,7 +56,6 @@ module.exports = {
       "boxShadow": {
         "card": "var(--shadow-card)",
         "crema": "var(--shadow-crema)",
-        "glass": "var(--shadow-crema)",
         "sheet": "var(--shadow-sheet)",
         "crema-rich": "var(--shadow-crema-rich)",
         "crema-rich-hover": "var(--shadow-crema-rich-hover)",
@@ -73,9 +68,7 @@ module.exports = {
       },
       "backgroundImage": {
         "crema-band": "var(--crema-band)",
-        "crema-grain": "var(--crema-grain)",
-        "glass-crema": "var(--crema-band)",
-        "glass-grain": "var(--crema-grain)"
+        "crema-grain": "var(--crema-grain)"
       },
       "fontFamily": {
         "sans": [
@@ -87,77 +80,83 @@ module.exports = {
       },
       "fontSize": {
         "display": [
-          "40px",
+          "var(--text-display-size)",
           {
-            "lineHeight": "48px",
-            "fontWeight": "700",
-            "letterSpacing": "-0.02em"
+            "lineHeight": "var(--text-display-line)",
+            "fontWeight": "var(--text-display-weight)",
+            "letterSpacing": "var(--text-display-tracking)"
           }
         ],
         "title-1": [
-          "30px",
+          "var(--text-title-1-size)",
           {
-            "lineHeight": "38px",
-            "fontWeight": "700",
-            "letterSpacing": "-0.015em"
+            "lineHeight": "var(--text-title-1-line)",
+            "fontWeight": "var(--text-title-1-weight)",
+            "letterSpacing": "var(--text-title-1-tracking)"
           }
         ],
         "quote": [
-          "22px",
+          "var(--text-quote-size)",
           {
-            "lineHeight": "32px",
-            "fontWeight": "400"
+            "lineHeight": "var(--text-quote-line)",
+            "fontWeight": "var(--text-quote-weight)",
+            "letterSpacing": "var(--text-quote-tracking)"
           }
         ],
         "title-2": [
-          "22px",
+          "var(--text-title-2-size)",
           {
-            "lineHeight": "30px",
-            "fontWeight": "700",
-            "letterSpacing": "-0.01em"
+            "lineHeight": "var(--text-title-2-line)",
+            "fontWeight": "var(--text-title-2-weight)",
+            "letterSpacing": "var(--text-title-2-tracking)"
           }
         ],
         "title-3": [
-          "18px",
+          "var(--text-title-3-size)",
           {
-            "lineHeight": "26px",
-            "fontWeight": "600"
+            "lineHeight": "var(--text-title-3-line)",
+            "fontWeight": "var(--text-title-3-weight)",
+            "letterSpacing": "var(--text-title-3-tracking)"
           }
         ],
         "body": [
-          "16px",
+          "var(--text-body-size)",
           {
-            "lineHeight": "26px",
-            "fontWeight": "400"
+            "lineHeight": "var(--text-body-line)",
+            "fontWeight": "var(--text-body-weight)",
+            "letterSpacing": "var(--text-body-tracking)"
           }
         ],
         "body-strong": [
-          "16px",
+          "var(--text-body-strong-size)",
           {
-            "lineHeight": "26px",
-            "fontWeight": "600"
+            "lineHeight": "var(--text-body-strong-line)",
+            "fontWeight": "var(--text-body-strong-weight)",
+            "letterSpacing": "var(--text-body-strong-tracking)"
           }
         ],
         "body-sm": [
-          "14px",
+          "var(--text-body-sm-size)",
           {
-            "lineHeight": "22px",
-            "fontWeight": "400"
+            "lineHeight": "var(--text-body-sm-line)",
+            "fontWeight": "var(--text-body-sm-weight)",
+            "letterSpacing": "var(--text-body-sm-tracking)"
           }
         ],
         "label": [
-          "15px",
+          "var(--text-label-size)",
           {
-            "lineHeight": "20px",
-            "fontWeight": "600"
+            "lineHeight": "var(--text-label-line)",
+            "fontWeight": "var(--text-label-weight)",
+            "letterSpacing": "var(--text-label-tracking)"
           }
         ],
         "caption": [
-          "12px",
+          "var(--text-caption-size)",
           {
-            "lineHeight": "16px",
-            "fontWeight": "500",
-            "letterSpacing": "0.01em"
+            "lineHeight": "var(--text-caption-line)",
+            "fontWeight": "var(--text-caption-weight)",
+            "letterSpacing": "var(--text-caption-tracking)"
           }
         ]
       },

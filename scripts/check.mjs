@@ -11,6 +11,14 @@ const lum = (hex) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+// sRGB → CIE Lab(D65) → 두 색의 CIE76 ΔE. 색이 "같아 보이는지"를 볼 때 씁니다(대비는 밝기만 봅니다).
+const lab = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  const xyz = [(0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047, 0.2126 * r + 0.7152 * g + 0.0722 * b, (0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883]
+    .map((v) => (v > 0.008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116));
+  return [116 * xyz[1] - 16, 500 * (xyz[0] - xyz[1]), 200 * (xyz[1] - xyz[2])];
+};
+const deltaE = (a, b) => Math.hypot(...lab(a).map((v, i) => v - lab(b)[i]));
 
 const base = (theme) => Object.fromEntries(tokens.color.tokens
   .filter((t) => typeof t.value === "object" || /^#/.test(t.value))
@@ -35,6 +43,10 @@ for (const p of tokens.palettes.list) {
   for (const theme of ["light", "dark"]) {
     const c = { ...base(theme), ...Object.fromEntries(Object.entries(p.values[theme]).filter(([, v]) => v.startsWith("#"))) };
     const worst = [];
+    // 2.0: 링크·활성 글자(accent-ink)가 본문(ink)과 색으로 구분돼야 합니다(CIE76 ΔE 12 이상. 밝기만 보는 대비로는 색조 차이를 못 잡습니다).
+    // 그래파이트는 단색 팔레트라 예외(굵기·밑줄로 구분). 1.6.3의 블랙은 ΔE 11.9(라이트)·8.6(다크), 지금은 31·36입니다.
+    checks++;
+    if (p.id !== "graphite" && deltaE(c["accent-ink"], c.ink) < 12) { fails++; console.log(`✗ ${p.id}/${theme}: accent-ink가 ink와 거의 같아요 (ΔE ${deltaE(c["accent-ink"], c.ink).toFixed(1)} < 12)`); }
     for (const [fg, bg, min] of PAIRS) {
       checks++;
       const r = ratio(c[fg], c[bg]);

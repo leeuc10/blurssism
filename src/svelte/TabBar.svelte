@@ -10,7 +10,7 @@
   function pick(id: string) { value = id; onchange?.(id); }
 </script>
 
-<nav class={["bl-tabbar bl-crema bl-glass", hideFrom && "bl-hide-from-" + hideFrom, className]} aria-label={label}>
+<nav class={["bl-tabbar bl-crema", hideFrom && "bl-hide-from-" + hideFrom, className]} aria-label={label}>
   {#each items as it (it.id)}
     {#if it.href}
       <a href={it.href} class="bl-tab" aria-current={it.id === value ? "page" : undefined} onclick={() => pick(it.id)}><Icon name={it.icon} filled={it.id === value} />{it.label}</a>

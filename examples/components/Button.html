@@ -16,7 +16,7 @@
   var B = window.Blurssism, h = React.createElement;
   function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
   mount(h("div", { style: { display: "grid", gap: "16px" } },
-    h("div", { className: "row" }, h(B.Button, null, "저장하기"), h(B.Button, { variant: "accent", icon: "plus" }, "새로 만들기"), h(B.Button, { variant: "ghost" }, "취소")),
+    h("div", { className: "row" }, h(B.Button, { icon: "plus" }, "새로 만들기"), h(B.Button, { variant: "ghost" }, "취소"), h(B.Button, { variant: "crema" }, "크레마")),
     h("div", { className: "row" }, h(B.Button, { size: "md" }, "확인"), h(B.Button, { size: "md", variant: "ghost" }, "더 보기"), h(B.Button, { size: "md", variant: "danger" }, "삭제하기"), h(B.Button, { size: "md", disabled: true }, "비활성"))));
 </script>
 </body>

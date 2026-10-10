@@ -7,7 +7,7 @@
   } = $props();
 </script>
 
-<header class={["bl-navbar bl-crema bl-glass", className]}>
+<header class={["bl-navbar bl-crema", className]}>
   {#if onback}<IconButton icon="chevron-left" label="뒤로" plain onclick={onback} />{/if}
   <p class="bl-navbar-title">{#if typeof title === "string"}{title}{:else}{@render title()}{/if}</p>
   {#if links}

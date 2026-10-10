@@ -30,13 +30,13 @@ export type CremaMode = "off" | "on" | "rich";
 export interface CremaOptions extends LowEndOptions {
   /** 데스크톱 모드. "auto"(기본)는 데스크톱일 때만 켭니다. false면 끕니다. */
   rich?: boolean | "auto";
-  /** 데스크톱 모드에서 포인터 주변 빛. 기본 true (동작 줄이기 설정이면 꺼짐) */
+  /** 데스크톱 모드에서 포인터를 따라오는 빛. 2.0부터 기본 false(마우스를 움직일 때마다 크레마 면을 다시 칠하므로 선택 기능). 동작 줄이기 설정이면 켜도 꺼집니다. */
   pointerLight?: boolean;
   /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
 }
 /**
- * <html data-crema="off|on|rich">를 정합니다(호환용 data-glass도 함께). 크레마가 켜졌으면 true.
+ * <html data-crema="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
  * applyCremaPreference() · applyCremaPreference({ rich: false }) · applyCremaPreference(false)
  */
 export declare function applyCremaPreference(options?: boolean | CremaOptions): boolean;
@@ -44,7 +44,7 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
 export interface CremaIssue {
-  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 1.4 이름(glass)을 쓰는 요소 */
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
   code: "blur-budget" | "primary" | "legacy-glass";
   message: string;
   elements: Element[];
@@ -60,23 +60,9 @@ export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
 /** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */
 export declare function auditCrema(options?: CremaAuditOptions & { onReport?: (issues: CremaIssue[]) => void; force?: boolean }): () => void;
 
-/** @deprecated 1.5부터 CremaMode. 2.0에서 제거 */
-export type GlassMode = CremaMode;
-/** @deprecated 1.5부터 CremaOptions. 2.0에서 제거 */
-export type GlassOptions = CremaOptions;
-/** @deprecated 1.5부터 shouldReduceCrema(). 2.0에서 제거 */
-export declare function shouldReduceGlass(options?: LowEndOptions): boolean;
-/** @deprecated 1.5부터 applyCremaPreference(). 2.0에서 제거 */
-export declare function applyGlassPreference(options?: boolean | CremaOptions): boolean;
-/** @deprecated 1.5부터 setCremaMode(). 2.0에서 제거 */
-export declare function setGlassMode(mode: CremaMode | "auto"): boolean;
-/** @deprecated 1.5부터 getCremaMode(). 2.0에서 제거 */
-export declare function getGlassMode(): CremaMode;
 
 export interface PaletteValues {
   accent: string; "accent-soft": string; "on-accent": string; "accent-ink": string; deco: string; "crema-tint-accent": string;
-  /** @deprecated 1.5부터 "crema-tint-accent". 2.0에서 제거 */
-  "glass-tint-accent": string;
 }
 export interface PaletteWarning { code: "adjusted" | "danger" | "warning" | "positive" | "neutral"; message: string }
 export interface CustomPalette {

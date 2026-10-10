@@ -1,12 +1,45 @@
 # Changelog
 
+## 2.0.0 — 2026-10-10
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - `primary` 버튼이 `ink` 채움에서 **강조색(`accent`) 채움**으로 바뀌었어요. 블랙 팔레트(기본)는 그대로 검정이고, 에스프레소·말차 같은 팔레트에서는 primary 버튼이 그 색이 돼요. `variant="accent"`는 primary의 별칭이라 그대로 동작해요(같은 클래스 `bl-btn-primary`). / `primary` buttons are now filled with `accent`; `accent` is an alias of `primary`.
+> - 타입 클래스에 `bl-` 접두어가 붙었어요: `.body` → `.bl-body`, `.title-1` → `.bl-title-1`, `.label` → `.bl-label` 등. 접두어 없는 이름은 소비자 CSS(`.label`, `.body`)와 충돌했어요. / Type classes are prefixed: `.bl-body`, `.bl-title-1`, …
+> - 데스크톱 모드의 포인터를 따라오는 빛이 **기본으로 꺼져요**. 켜려면 `applyCremaPreference({ pointerLight: true })`. 리치 블러는 40/64px에서 32/48px로. / Pointer light is opt-in; rich blur is 32/48px.
+> - 블랙 팔레트의 `accent-ink`(링크·활성 글자)가 검정에서 캐러멜빛(`#653819`, 다크 `#e2ab7a`)으로 바뀌었어요. 본문 `ink`와 같은 색이라 링크가 구분되지 않던 문제예요. / The black palette's `accent-ink` is now caramel so links differ from body text.
+> - 1.4의 glass 이름이 **제거**됐어요: `.bl-glass*`·`.bl-btn-glass`·`variant="glass"`·`data-glass`·`--glass-*`·`--crema`(띠 색)·`applyGlassPreference()`·`setGlassMode()`·`getGlassMode()`·`shouldReduceGlass()`·`GlassMode`·`GlassOptions`·팔레트 값의 `glass-tint-accent`. 1.5부터 예고한 대로예요. crema 이름으로 바꾸고, 남은 쓰임새는 `auditCrema()`가 `legacy-glass`로 찾아 줘요. / The 1.4 glass names are removed; `auditCrema()` reports leftovers.
+
+**정리 / Cleanup**
+- glass 별칭을 걷어내서 `dist/bundle.css`의 복제 선택자 104개와 `tokens.css`의 이중 변수 선언이 사라졌어요. / Removing the aliases drops 104 duplicated selectors and the double variable declarations.
+
+**왜 2.0인가 / Why 2.0**
+- 1.6.x에서 기본 팔레트·글꼴·TabBar 동작 같은 보이는 변경이 마이너·패치 릴리스로 나갔어요. 2.0부터는 보이는 변경은 메이저에서만 해요. / Visible changes now ship only in major releases.
+
+**색 역할 / Color roles**
+- 블랙 팔레트에서 `ink`(본문)·`accent`(채움)·`accent-ink`(링크)가 사실상 한 색이라 primary 버튼과 accent 버튼이 구분되지 않고 링크 어포던스가 사라졌어요. primary를 accent 채움으로 합치고, `accent-ink`를 캐러멜빛으로 분리했어요. 대비 검사 108,550개 조합 그대로 통과.
+
+**블러레마 / Blurema**
+- 크레마가 흐린 유리가 아니라 매트한 황갈색 판으로 읽히던 문제. 거품 결 알파 .46→.26(다크 .24→.16), 크레마 띠 세기 42/26/16/10 → 30/18/10/6%(다크 30/16/10/7 → 24/13/8/5%), 채움 틴트 20→12%(다크 12→10%). / Lighter grain, band and tint so crema reads as frosted glass.
+- 갤러리의 팔레트 선택 패널이 평평한 바탕 위의 크레마였어요(원칙 2 위반). 불투명 카드로 바꿨어요.
+
+**타이포그래피 / Typography**
+- 타입 스케일이 변수로 나와요: `--text-{이름}-size`·`-line`·`-weight`·`-tracking`(이름: display·title-1·quote·title-2·title-3·body·body-strong·body-sm·label·caption). 컴포넌트 CSS의 하드코딩 px 43곳이 이 변수를 읽어서, `:root { --text-body-size: 17px }`처럼 덮어쓰면 입력창·카드까지 함께 바뀌어요. md 미만에서 제목이 줄어드는 규칙도 변수를 바꾸는 방식이라 MediaCard·Dialog 제목이 함께 줄어요. Tailwind 프리셋의 `fontSize`도 같은 변수를 읽어요. / Type scale is now variables; components read them.
+
+**React**
+- `Button`·`IconButton`·`Chip`·`TextField`(ref는 `<input>`)·`Select`(`<select>`)·`Checkbox`(`<input>`)·`Switch`·`RadioGroup`·`ListItem`·`Container`·`Grid`가 `forwardRef`예요. react-hook-form의 `register`, 프로그램적 포커스가 돼요. `displayName`도 붙어요. / These components forward refs.
+
+**성능 / Performance**
+- 포인터 빛을 켰을 때도 포인터에서 420px 안에 있는 크레마 면만 매 프레임 다시 칠하고, 멀어진 면은 한 번만 화면 밖으로 보내요. 전에는 화면의 모든 블러 면에 매 프레임 인라인 속성을 써서 전부 다시 칠해졌어요.
+- 저사양 판정에 `(update: slow)`(전자잉크 등)를 더했어요. 메모리를 알려 주지 않는 Safari·Firefox에서는 여전히 `prefers-reduced-transparency`·데이터 절약·`update: slow`만 자동으로 잡히고, 나머지는 `setCremaMode("off")`로 앱이 정해요.
+- 브랜드북의 "거품 결은 성능 부담이 거의 없다"는 문장을 지웠어요. 측정한 적이 없고, blend-mode와 함께 칠해지는 층이라 블러 예산 안에서 세는 게 맞아요.
+
 ## 1.6.3 — 2026-10-08
 
 **블러레마 / Blurema**
 - 다크 모드 거품 결이 팔레트(브랜드 팔레트 포함)를 따라 물들어요. 결 위에 팔레트 장식색 층을 `color` 블렌드로 얹어 밝기는 그대로 두고 색조만 바꿔요. 세기는 새 토큰 `crema-grain-tint`(다크 40%, 라이트는 결이 배경을 따라가므로 0%). / Dark-mode foam grain now takes the palette's hue (`crema-grain-tint`).
 - 화이트·그레이처럼 무채색에 가까운 배경에서 크레마가 탁하고 무겁게 보이던 문제를 고쳤어요. 바탕이 무채색일수록 채움을 `paper-raised` 쪽으로 밝혀 페이지보다 살짝 밝게 뜨고, 거품 결(최대 60% 옅게)·크레마 띠(최대 55% 옅게)·장식색 섞는 비율(최대 절반)을 줄여요. 크림 배경은 그대로예요. / Crema on neutral backgrounds (white, gray) is lighter and cleaner.
 - 커버 예제의 유리판도 같은 채움·결·결 색조를 써요.
-- 대비 검사 108,522개 조합 모두 통과(결 색조의 color 블렌드까지 계산).
+- 대비 검사 108,550개 조합 모두 통과(결 색조의 color 블렌드까지 계산).
 
 ## 1.6.2 — 2026-10-08
 
@@ -19,7 +52,7 @@
 - 커버 예제의 유리판도 같은 채움·거품 결(`--crema-grain`)을 써서 헤더 크레마와 색이 맞아요. 그래파이트 팔레트에서도 먹색 판을 회갈색으로 바꿔 강조색 판과 겹쳐 보이지 않아요.
 - 채움 밝기는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게 막아서, 뒤가 검정·흰색이어도 크레마 위 글자 대비를 지켜요. / Fill luminance is clamped so text-on-crema contrast holds.
 - `data-background`(내장 배경)와 `applyBackgroundColor()`·`backgroundToCss()`가 크레마 값을 함께 넣어요. 새 함수 `backgroundCrema(배경)`, `createBackground()` 결과의 `values`에 크레마 값 추가. / New `backgroundCrema()`.
-- 대비 검사에 배경 51종 × 팔레트 14종의 크레마 위 글자를 더해 108,522개 조합 모두 통과(크레마 위 글자 51,660개). / Contrast check: 108,522 pairs.
+- 대비 검사에 배경 51종 × 팔레트 14종의 크레마 위 글자를 더해 108,550개 조합 모두 통과(크레마 위 글자 51,660개). / Contrast check: 108,550 pairs.
 
 ## 1.6.1 — 2026-10-08
 
@@ -29,7 +62,7 @@
 - 새 팔레트 `black`(블랙, 카페인 묶음): 라이트 accent `#000000`, 다크 accent `#f2f2f2`. 장식색(`deco`)은 크레마빛이라 크레마 띠가 회색으로 탁해지지 않아요. 팔레트 14종. / New `black` palette, now the default.
 - `getPalette()`, `PalettePicker`가 지정이 없을 때 `"black"`을 돌려주고 골라요. 타입 `PaletteId`에 `"black"` 추가. / `getPalette()` and `PalettePicker` default to `"black"`.
 - 배경색을 바꿀 수 있어요. 내장 배경 `cream`(기본)·`white`·`gray`를 `<html data-background>` 또는 `setBackground()`로 고르고, 아무 색이나 `applyBackgroundColor("#hex")`로 넣으면 카드·눌린 면·구분선을 같은 색조로 만들고 글자와 모든 내장 팔레트가 읽히도록 바탕과 보조 글자색을 맞춰요. 서버 렌더링은 `backgroundToCss(createBackground(hex))`, 브랜드 팔레트와 함께 쓰면 `createPalette(color, { background })`. 새 함수 `backgrounds`·`setBackground`·`getBackground`·`createBackground`·`backgroundToCss`·`applyBackgroundColor`. / Configurable backgrounds: presets via `data-background`, any color via `applyBackgroundColor()`.
-- 대비 검사에 배경 51종(내장 3 + 샘플 48)을 더해 65,682개 조합 모두 통과(불투명한 바탕 56,862개 + 크레마 위 글자 8,820개). / Contrast check now covers backgrounds: 65,682 pairs.
+- 대비 검사에 배경 51종(내장 3 + 샘플 48)을 더해 65,682개 조합 모두 통과(불투명한 바탕 56,890개 + 크레마 위 글자 8,820개). / Contrast check now covers backgrounds: 65,682 pairs.
 - 갤러리에 배경 고르기 추가, 예제는 `?background=`를 읽어요.
 - 갤러리 헤더의 로고 마크가 지금 팔레트·배경을 따라 칠해지고, 커버는 블랙 팔레트에서 먹색 판을 `line-strong`으로 바꿔 검정 판과 겹쳐 보이지 않아요.
 - 커버(`examples/components/Cover.html`)가 md(768px) 미만에서 그림 위·이름 아래로 쌓여요. 전에는 960px 그림을 통째로 줄여 한 줄 소개가 5px 안팎으로 작아졌어요.

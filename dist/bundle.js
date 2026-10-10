@@ -1,9 +1,9 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Button"},{"name":"IconButton"},{"name":"Chip"},{"name":"TextField"},{"name":"Select"},{"name":"Checkbox"},{"name":"RadioGroup"},{"name":"Switch"},{"name":"SegmentedControl"},{"name":"PalettePicker"},{"name":"Badge"},{"name":"Avatar"},{"name":"Tooltip"},{"name":"Progress"},{"name":"Skeleton"},{"name":"Card"},{"name":"MediaCard"},{"name":"ListItem"},{"name":"Table"},{"name":"Calendar"},{"name":"EmptyState"},{"name":"Container"},{"name":"Grid"},{"name":"NavBar"},{"name":"TabBar"},{"name":"Sheet"},{"name":"Dialog"},{"name":"Toast"},{"name":"Icon"}]} */
-/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
-const palettes = [{"id":"black","name":"블랙","group":"caffeine","description":"기본. 블랙커피의 검정과 그 위의 크레마.","swatch":{"light":"#000000","dark":"#f2f2f2"}},{"id":"espresso","name":"에스프레소","group":"caffeine","description":"볶은 원두의 갈색과 크레마. 1.6.0까지의 기본.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","group":"caffeine","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","group":"caffeine","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","group":"caffeine","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","group":"caffeine","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","group":"caffeine","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}},{"id":"blue","name":"블루","group":"web","description":"링크와 버튼에서 가장 익숙한 파랑.","swatch":{"light":"#1d5bb8","dark":"#8eb9f5"}},{"id":"indigo","name":"인디고","group":"web","description":"SaaS와 개발 도구에서 흔한 남보라.","swatch":{"light":"#4a3fb5","dark":"#aaa6f4"}},{"id":"violet","name":"바이올렛","group":"web","description":"창작 도구와 커뮤니티의 보라.","swatch":{"light":"#7038a8","dark":"#cfa6f2"}},{"id":"teal","name":"틸","group":"web","description":"헬스케어와 핀테크의 청록.","swatch":{"light":"#0e6b66","dark":"#78d0c4"}},{"id":"emerald","name":"에메랄드","group":"web","description":"결제와 성장 서비스의 선명한 초록.","swatch":{"light":"#13704a","dark":"#7fd6a5"}},{"id":"pink","name":"핑크","group":"web","description":"커머스와 뷰티의 분홍.","swatch":{"light":"#b0306a","dark":"#f49ac0"}},{"id":"graphite","name":"그래파이트","group":"web","description":"색 없이 먹색 하나로 쓰는 단색.","swatch":{"light":"#3b3632","dark":"#e2dbd2"}}];
+const palettes = [{"id":"black","name":"블랙","group":"caffeine","description":"기본. 블랙커피의 검정 채움과 그 위의 캐러멜빛 글자 강조.","swatch":{"light":"#000000","dark":"#f2f2f2"}},{"id":"espresso","name":"에스프레소","group":"caffeine","description":"볶은 원두의 갈색과 크레마. 1.6.0까지의 기본.","swatch":{"light":"#7a4524","dark":"#e2ab7a"}},{"id":"matcha","name":"말차","group":"caffeine","description":"녹차의 차분한 초록.","swatch":{"light":"#3e6b35","dark":"#a3d48f"}},{"id":"chai","name":"차이","group":"caffeine","description":"향신료 밀크티의 주황.","swatch":{"light":"#9a4512","dark":"#f2a66a"}},{"id":"coldbrew","name":"콜드브루","group":"caffeine","description":"차갑게 우린 커피의 깊은 남색.","swatch":{"light":"#2b4c74","dark":"#9cc1ea"}},{"id":"mocha","name":"모카","group":"caffeine","description":"초콜릿과 장미빛 코코아.","swatch":{"light":"#7c3a46","dark":"#e8a5b0"}},{"id":"classic","name":"클래식","group":"caffeine","description":"1.2까지의 자두색.","swatch":{"light":"#7a3b69","dark":"#e0a6cf"}},{"id":"blue","name":"블루","group":"web","description":"링크와 버튼에서 가장 익숙한 파랑.","swatch":{"light":"#1d5bb8","dark":"#8eb9f5"}},{"id":"indigo","name":"인디고","group":"web","description":"SaaS와 개발 도구에서 흔한 남보라.","swatch":{"light":"#4a3fb5","dark":"#aaa6f4"}},{"id":"violet","name":"바이올렛","group":"web","description":"창작 도구와 커뮤니티의 보라.","swatch":{"light":"#7038a8","dark":"#cfa6f2"}},{"id":"teal","name":"틸","group":"web","description":"헬스케어와 핀테크의 청록.","swatch":{"light":"#0e6b66","dark":"#78d0c4"}},{"id":"emerald","name":"에메랄드","group":"web","description":"결제와 성장 서비스의 선명한 초록.","swatch":{"light":"#13704a","dark":"#7fd6a5"}},{"id":"pink","name":"핑크","group":"web","description":"커머스와 뷰티의 분홍.","swatch":{"light":"#b0306a","dark":"#f49ac0"}},{"id":"graphite","name":"그래파이트","group":"web","description":"색 없이 먹색 하나로 쓰는 단색.","swatch":{"light":"#3b3632","dark":"#e2dbd2"}}];
 /** 배경 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
 const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유 거품 같은 따뜻한 크림색.","swatch":{"light":"#faf6f0","dark":"#16110d"}},{"id":"white","name":"화이트","description":"색 없는 흰 바탕. 카드는 테두리로 구분합니다.","swatch":{"light":"#ffffff","dark":"#121212"}},{"id":"gray","name":"그레이","description":"옅은 회색 바탕 위에 흰 카드.","swatch":{"light":"#f2f2f2","dark":"#1a1a1a"}}];
 
@@ -11,7 +11,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "1.6.3";
+const version = "2.0.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -100,6 +100,7 @@ function shouldReduceCrema(options) {
   const o = options || {}, minMemory = o.minMemory != null ? o.minMemory : 4, minCores = o.minCores != null ? o.minCores : 4;
   const n = window.navigator || {}, mq = window.matchMedia;
   if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
+  if (mq && mq("(update: slow)").matches) return true;   // 전자잉크처럼 화면 갱신이 느린 기기(메모리를 알려 주지 않는 브라우저에서도 잡힘)
   if (n.connection && n.connection.saveData) return true;
   if (n.deviceMemory) {
     if (n.deviceMemory < minMemory) return true;
@@ -123,10 +124,14 @@ function isDesktopCapable() {
 
 const cremaState = { mq: null, onMq: null, onMove: null, raf: 0 };
 /** 블러가 걸리는 크레마 요소. 포인터 빛과 auditCrema()가 씁니다. */
-const CREMA_SELECTOR = ".bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass, .bl-glass-thick, .bl-btn-glass";
+const CREMA_SELECTOR = ".bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain)";
 
-/* 포인터 빛: 좌표를 <html>이 아니라 크레마 요소에만, 요소 기준 좌표로 씁니다.
-   문서 전체의 스타일을 다시 계산하지 않고, 배경을 화면에 고정(fixed)하지 않아 스크롤할 때 다시 그리지 않습니다. */
+/* 포인터 빛(2.0부터 기본 꺼짐, applyCremaPreference({ pointerLight: true })로 켬).
+   좌표를 <html>이 아니라 크레마 요소에만, 요소 기준 좌표로 씁니다. 문서 전체의 스타일을 다시 계산하지 않고,
+   배경을 화면에 고정(fixed)하지 않아 스크롤할 때 다시 그리지 않습니다.
+   backdrop-filter가 걸린 면은 인라인 속성이 바뀔 때마다 다시 칠해지므로, 빛이 닿는 거리(LIGHT_REACH) 안에 있는 요소만 매 프레임 쓰고,
+   멀어진 요소는 한 번만 화면 밖으로 보내 둡니다. 그래서 포인터가 지나가는 면 한두 개만 다시 칠해집니다. */
+const LIGHT_REACH = 420;   // 큰 빛의 반지름(bundle.css의 radial-gradient 420px)
 function pointerLight(on) {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) on = false;
@@ -140,8 +145,17 @@ function pointerLight(on) {
         const els = document.querySelectorAll(CREMA_SELECTOR);
         const rects = Array.prototype.map.call(els, (el) => el.getBoundingClientRect());   // 읽기를 먼저 모두 하고
         els.forEach((el, i) => {                                                           // 쓰기는 나중에 (레이아웃 한 번)
-          el.style.setProperty("--bl-light-x", Math.round(x - rects[i].left) + "px");
-          el.style.setProperty("--bl-light-y", Math.round(y - rects[i].top) + "px");
+          const r = rects[i];
+          const near = x > r.left - LIGHT_REACH && x < r.right + LIGHT_REACH && y > r.top - LIGHT_REACH && y < r.bottom + LIGHT_REACH;
+          if (near) {
+            el.style.setProperty("--bl-light-x", Math.round(x - r.left) + "px");
+            el.style.setProperty("--bl-light-y", Math.round(y - r.top) + "px");
+            el.dataset.blLit = "1";
+          } else if (el.dataset.blLit) {   // 빛이 닿지 않는 면은 한 번만 쓰고 그 뒤로는 건드리지 않습니다
+            el.style.setProperty("--bl-light-x", "-9999px");
+            el.style.setProperty("--bl-light-y", "-9999px");
+            delete el.dataset.blLit;
+          }
         });
       });
     };
@@ -151,18 +165,19 @@ function pointerLight(on) {
     if (cremaState.raf) cancelAnimationFrame(cremaState.raf);
     cremaState.onMove = null;
     cremaState.raf = 0;
-    document.querySelectorAll(CREMA_SELECTOR).forEach((el) => { el.style.removeProperty("--bl-light-x"); el.style.removeProperty("--bl-light-y"); });
+    document.querySelectorAll(CREMA_SELECTOR).forEach((el) => { el.style.removeProperty("--bl-light-x"); el.style.removeProperty("--bl-light-y"); delete el.dataset.blLit; });
   }
 }
 
 /**
- * <html data-crema>(와 호환용 data-glass)를 정합니다. 크레마가 켜졌으면 true.
+ * <html data-crema>를 정합니다. 크레마가 켜졌으면 true.
  *   "off"  : 블러 없음(저사양·절전·투명도 줄이기)
  *   "on"   : 기본 블러레마
  *   "rich" : 데스크톱 모드. 블러가 더 깊고, 포인터 주변에 따뜻한 빛이 번집니다.
- * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: true | false, minMemory: 4, minCores: 4 })
+ * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: false | true, minMemory: 4, minCores: 4 })
  *   rich 기본값 "auto"는 데스크톱(isDesktopCapable)일 때만 켜고, 창 크기가 바뀌면 다시 판단합니다.
  *   rich: false로 데스크톱 모드를 끕니다. applyCremaPreference(true | false)로 강제로 켜고 끌 수도 있습니다.
+ *   pointerLight는 2.0부터 기본 false입니다(마우스를 움직일 때마다 크레마 면을 다시 칠하므로 선택 기능). 켜면 포인터 근처 면만 다시 칠합니다.
  */
 function applyCremaPreference(options) {
   if (typeof document === "undefined") return true;
@@ -177,8 +192,7 @@ function applyCremaPreference(options) {
   function update() {
     const mode = reduce ? "off" : rich === true || (rich === "auto" && isDesktopCapable()) ? "rich" : "on";
     root.setAttribute("data-crema", mode);
-    root.setAttribute("data-glass", mode); // 1.x 호환 (2.0에서 제거)
-    pointerLight(mode === "rich" && o.pointerLight !== false);
+    pointerLight(mode === "rich" && o.pointerLight === true);
   }
   update();
   if (!reduce && rich === "auto" && window.matchMedia) {
@@ -200,12 +214,12 @@ function setCremaMode(mode) {
 /** 지금 크레마 모드: "off" | "on" | "rich". 설정 전이나 서버에서는 "on". */
 function getCremaMode() {
   const root = rootEl();
-  const m = root && (root.getAttribute("data-crema") || root.getAttribute("data-glass"));
+  const m = root && root.getAttribute("data-crema");
   return m === "off" || m === "rich" ? m : "on";
 }
 
 /* ── 개발 중 검사 ─────────────────────────────
-   블러 예산·primary 버튼 개수·옛 glass 이름을 화면에서 세어 콘솔로 알려 줍니다. 배포 빌드(NODE_ENV=production)에서는 아무것도 하지 않습니다. */
+   블러 예산·primary 버튼 개수·2.0에서 제거된 glass 이름을 화면에서 세어 콘솔로 알려 줍니다. 배포 빌드(NODE_ENV=production)에서는 아무것도 하지 않습니다. */
 const isProd = () => typeof process !== "undefined" && !!process.env && process.env.NODE_ENV === "production";
 
 function onScreen(el) {
@@ -239,7 +253,7 @@ function checkCrema(options) {
     el.hasAttribute("data-glass") ? el !== document.documentElement && !el.hasAttribute("data-crema")
       : !/\bbl-(crema|btn-crema)/.test(el.className));
   if (legacy.length) issues.push({ code: "legacy-glass", elements: legacy,
-    message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 사라지니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
+    message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 제거돼 스타일이 없으니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
   return issues;
 }
 
@@ -271,27 +285,11 @@ function auditCrema(options) {
   };
 }
 
-/* ── 1.4 이름(glass) 별칭: 그대로 동작하고, 개발 중에 한 번만 안내합니다. 2.0에서 제거됩니다. ── */
-const warned = {};
-function deprecated(oldName, newName) {
-  if (warned[oldName]) return;
-  warned[oldName] = true;
-  if (!isProd() && typeof console !== "undefined") console.warn(`blurssism: ${oldName}()는 2.0에서 사라져요. ${newName}()를 써 주세요.`);
-}
-/** @deprecated 1.5부터 shouldReduceCrema() */
-function shouldReduceGlass(options) { deprecated("shouldReduceGlass", "shouldReduceCrema"); return shouldReduceCrema(options); }
-/** @deprecated 1.5부터 applyCremaPreference() */
-function applyGlassPreference(options) { deprecated("applyGlassPreference", "applyCremaPreference"); return applyCremaPreference(options); }
-/** @deprecated 1.5부터 setCremaMode() */
-function setGlassMode(mode) { deprecated("setGlassMode", "setCremaMode"); return setCremaMode(mode); }
-/** @deprecated 1.5부터 getCremaMode() */
-function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); return getCremaMode(); }
-
 /* ── 브랜드색 팔레트 ─────────────────────────────
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
 
 /** 바탕·글자 기준색. 빌드할 때 src/tokens.json에서 채워집니다. */
-const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#000000","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#000000"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"crema-fill":"rgba(250, 246, 240, 0.70)","crema-fill-strong":"rgba(250, 246, 240, 0.88)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .46 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"42%","crema-band-lip":"26%","crema-band-mid":"16%","crema-band-low":"10%","crema-fill-tint":"20%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#ffffff","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#ffffff"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"crema-fill":"rgba(30, 23, 18, 0.82)","crema-fill-strong":"rgba(28, 21, 16, 0.90)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"30%","crema-band-lip":"16%","crema-band-mid":"10%","crema-band-low":"7%","crema-fill-tint":"12%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
+const BASE = {"light":{"paper":"#faf6f0","paper-raised":"#ffffff","paper-sunken":"#f1e9df","ink":"#21180f","ink-muted":"#5e5146","ink-subtle":"#72655a","line":"#e8ded2","line-strong":"#8e8174","accent":"#000000","accent-soft":"#eee9e3","on-accent":"#ffffff","accent-ink":"#653819","positive":"#3d6650","positive-soft":"#e3ede6","warning":"#8a5300","warning-soft":"#fbf0dc","deco":"#d9c8b4","danger":"#b42318","danger-soft":"#fbe9e7","info":"#1d5a8c","focus-ring":"#1d5a8c","crema-ink-muted":"#342a21","accents":[["#000000","#653819"],["#7a4524","#653819"],["#3e6b35","#335a2c"],["#9a4512","#843a0e"],["#2b4c74","#233f61"],["#7c3a46","#6a303b"],["#7a3b69","#6a2f5b"],["#1d5bb8","#184c9a"],["#4a3fb5","#3d3399"],["#7038a8","#5f2e90"],["#0e6b66","#0b5a56"],["#13704a","#0f5e3e"],["#b0306a","#962659"],["#3b3632","#2e2a26"]],"crema-fill":"rgba(250, 246, 240, 0.70)","crema-fill-strong":"rgba(250, 246, 240, 0.88)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .26 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"30%","crema-band-lip":"18%","crema-band-mid":"10%","crema-band-low":"6%","crema-fill-tint":"12%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(33, 24, 15, 0.10)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(33, 24, 15, 0.12)"},"dark":{"paper":"#16110d","paper-raised":"#201913","paper-sunken":"#0f0b08","ink":"#f4ece2","ink-muted":"#b8aa9b","ink-subtle":"#9b8d7f","line":"#372e26","line-strong":"#80736a","accent":"#f2f2f2","accent-soft":"#2a2520","on-accent":"#21180f","accent-ink":"#e2ab7a","positive":"#8fc0a2","positive-soft":"#1f2e25","warning":"#f0c46a","warning-soft":"#3a2c12","deco":"#8c7663","danger":"#f2867a","danger-soft":"#3b1b17","info":"#8cc0ec","focus-ring":"#8cc0ec","crema-ink-muted":"#e2d8cc","accents":[["#f2f2f2","#e2ab7a"],["#e2ab7a","#ecbf96"],["#a3d48f","#b5dea4"],["#f2a66a","#f6bb8b"],["#9cc1ea","#b2cff0"],["#e8a5b0","#efbac2"],["#e0a6cf","#e8b6d9"],["#8eb9f5","#a9cbf8"],["#aaa6f4","#bfbcf7"],["#cfa6f2","#dbbcf5"],["#78d0c4","#95dccf"],["#7fd6a5","#9ce0b8"],["#f49ac0","#f7b3d0"],["#e2dbd2","#ece6de"]],"crema-fill":"rgba(30, 23, 18, 0.82)","crema-fill-strong":"rgba(28, 21, 16, 0.90)","crema-grain":"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")","crema-band-top":"24%","crema-band-lip":"13%","crema-band-mid":"8%","crema-band-low":"5%","crema-fill-tint":"10%","shadow-crema":"inset 0 1px 0 var(--crema-edge), 0 10px 30px rgba(0, 0, 0, 0.42)","shadow-sheet":"inset 0 1px 0 var(--crema-edge), 0 -8px 40px rgba(0, 0, 0, 0.5)"}};
 const customPalettes = {};
 const customBackgrounds = {};
 const customListeners = [];
@@ -393,8 +391,8 @@ function createPalette(color, options) {
     source: src,
     adjusted: accentL !== src,
     values: {
-      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "crema-tint-accent": tint(accentL, 0.14), "glass-tint-accent": tint(accentL, 0.14) },
-      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "crema-tint-accent": tint(accentD, 0.18), "glass-tint-accent": tint(accentD, 0.18) },
+      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "crema-tint-accent": tint(accentL, 0.14) },
+      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "crema-tint-accent": tint(accentD, 0.18) },
     },
     warnings,
   };
@@ -410,13 +408,9 @@ function checkId(id, kind) {
 function paletteToCss(palette) {
   const id = checkId(palette.id), X = `[data-palette="${id}"]`;
   // 팔레트 안에서 크레마 가장자리 색이 그림자에도 반영되도록 그림자를 팔레트마다 다시 선언합니다.
-  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다. 그래서 옛 이름으로 덮어써도 그대로 맞습니다(2.0에서 제거).
   const decl = (t, pad) => [
-    ...Object.entries(palette.values[t]).filter(([k]) => k !== "glass-tint-accent").map(([k, v]) => k === "crema-tint-accent"
-      ? `${pad}--glass-tint-accent: ${v};\n${pad}--crema-tint-accent: var(--glass-tint-accent);` : `${pad}--${k}: ${v};`),
-    ...(BASE[t] && BASE[t]["shadow-crema"] ? [
-      `${pad}--shadow-glass: ${BASE[t]["shadow-crema"]};\n${pad}--shadow-crema: var(--shadow-glass);`,
-      `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
+    ...Object.entries(palette.values[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
+    ...(BASE[t] && BASE[t]["shadow-crema"] ? [`${pad}--shadow-crema: ${BASE[t]["shadow-crema"]};`, `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
   ].join("\n");
   return scopedCss(X, decl);
 }
@@ -576,11 +570,9 @@ function backgroundCrema(background) {
 function backgroundToCss(background) {
   const X = `[data-background="${checkId(background.id, "배경")}"]`;
   const keys = [...SURFACE_KEYS, ...INK_KEYS], crema = backgroundCrema(background);
-  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다(팔레트와 같은 방식, 2.0에서 정리).
-  const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
   return scopedCss(X, (t, pad) => [
     ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
-    ...Object.entries(crema[t]).map(([k, v]) => legacy[k] ? `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});` : `${pad}--${k}: ${v};`),
+    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
   ].join("\n"));
 }
 
@@ -606,11 +598,8 @@ function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
   function omit(o, keys) { var r = {}; for (var k in o) if (keys.indexOf(k) < 0) r[k] = o[k]; return r; }
-  var warned = {};
-  function warnOnce(key, msg) {
-    if (warned[key] || typeof console === "undefined" || (typeof process !== "undefined" && process.env && process.env.NODE_ENV === "production")) return;
-    warned[key] = true; console.warn("blurssism: " + msg);
-  }
+  /* 2.0: ref를 받는 컴포넌트(forwardRef). react-hook-form의 register, 프로그램적 포커스가 됩니다. React 18 전용. */
+  function withRef(name, render) { var C = React.forwardRef(render); C.displayName = name; return C; }
   /* 최신 값을 담아 두는 ref. effect가 처음 값을 붙잡지 않게 합니다(Dialog의 onClose 등). */
   function useLatest(v) { var r = React.useRef(v); r.current = v; return r; }
   /* 라디오 묶음 방향키: 선택을 옮기고 포커스도 따라갑니다. Home·End로 처음·끝. */
@@ -653,56 +642,58 @@ function createBlurssism(React) {
       strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round", className: p.className }, h("path", { d: PATHS[p.name] || "" }));
   }
 
-  function Button(p) {
+  /* 2.0: primary는 강조색(accent) 채움입니다. "accent"는 primary의 별칭(같은 클래스)이라 화면당 하나 규칙을 함께 셉니다. */
+  var Button = withRef("Button", function (p, ref) {
     var variant = p.variant || "primary", tag = p.href ? "a" : "button";
-    if (variant === "glass") warnOnce("variant-glass", 'Button variant="glass"는 2.0에서 사라져요. variant="crema"를 써 주세요.');
+    if (variant === "accent") variant = "primary";
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
-      // "glass"는 1.4 이름(2.0에서 제거). 옛 CSS 덮어쓰기가 계속 맞도록 두 클래스를 함께 붙입니다.
-      className: cx("bl-btn", variant === "crema" || variant === "glass" ? "bl-btn-crema bl-btn-glass" : "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
+      ref: ref,
+      className: cx("bl-btn", "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
     }), p.icon ? h(Icon, { name: p.icon }) : null, p.children);
-  }
+  });
 
-  function IconButton(p) {
+  var IconButton = withRef("IconButton", function (p, ref) {
     return h("button", Object.assign({ type: "button" }, omit(p, ["icon", "label", "pressed", "plain", "className"]), {
-      className: cx("bl-icon-btn", p.plain && "bl-icon-btn-plain", p.className), "aria-label": p.label,
+      ref: ref, className: cx("bl-icon-btn", p.plain && "bl-icon-btn-plain", p.className), "aria-label": p.label,
       "aria-pressed": p.pressed == null ? undefined : String(!!p.pressed)
     }), h(Icon, { name: p.icon, filled: !!p.pressed }));
-  }
+  });
 
   /* selected를 주면 제어 모드, 안 주면 누를 때마다 스스로 바뀝니다(defaultSelected로 처음 값). onChange(다음 값)를 부릅니다. */
-  function Chip(p) {
+  var Chip = withRef("Chip", function (p, ref) {
     var st = React.useState(!!p.defaultSelected), on = p.selected != null ? !!p.selected : st[0];
     return h("button", Object.assign({ type: "button" }, omit(p, ["selected", "defaultSelected", "onChange", "className", "children"]), {
-      className: cx("bl-chip", p.className), "aria-pressed": String(on),
+      ref: ref, className: cx("bl-chip", p.className), "aria-pressed": String(on),
       onClick: function (e) {
         if (p.selected == null) st[1](!on);
         p.onChange && p.onChange(!on);
         p.onClick && p.onClick(e);
       }
     }), on ? h(Icon, { name: "check" }) : null, p.children);
-  }
+  });
 
   /* React 18의 useId는 서버·클라이언트에서 같은 값을 만들어 하이드레이션이 어긋나지 않습니다 */
   var uid = 0;
   var useStableId = React.useId || function () { return React.useMemo(function () { return "bl-" + (++uid); }, []); };
   function useId(given) { var auto = useStableId(); return given || auto; }
 
-  function TextField(p) {
+  /* ref는 <input>에 닿습니다 */
+  var TextField = withRef("TextField", function (p, ref) {
     var id = useId(p.id), help = p.error || p.help;
     return h("div", { className: cx("bl-field", p.className), "data-invalid": p.error ? "true" : undefined },
       h("label", { className: "bl-field-label", htmlFor: id }, p.label),
       h("input", Object.assign({}, omit(p, ["label", "help", "error", "className", "id"]), {
-        id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
+        ref: ref, id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
       })),
       help ? h("p", { id: id + "-help", className: "bl-field-help" }, p.error ? "오류: " + p.error : p.help) : null);
-  }
+  });
 
-  function Switch(p) {
+  var Switch = withRef("Switch", function (p, ref) {
     return h("button", Object.assign({ type: "button", role: "switch" }, omit(p, ["checked", "onChange", "label", "className"]), {
-      className: cx("bl-switch", p.className), "aria-checked": String(!!p.checked), "aria-label": p.label,
+      ref: ref, className: cx("bl-switch", p.className), "aria-checked": String(!!p.checked), "aria-label": p.label,
       onClick: function () { p.onChange && p.onChange(!p.checked); }
     }));
-  }
+  });
 
   function Badge(p) {
     return h("span", { className: cx("bl-badge", "bl-badge-" + (p.tone || "neutral"), p.className) }, p.icon ? h(Icon, { name: p.icon }) : null, p.children);
@@ -725,27 +716,28 @@ function createBlurssism(React) {
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
       p.image ? h("img", { className: "bl-media-img", src: p.image, alt: p.imageAlt || "" }) : ph,
       p.badge ? h(Badge, { tone: p.badgeTone || "positive", icon: p.badgeIcon }, p.badge) : null,
-      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite bl-glass-lite" : "bl-crema bl-glass") },
+      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite" : "bl-crema") },
         h("div", { className: "bl-media-text" },
           h("p", { className: "bl-media-title" }, p.title),
           p.meta ? h("p", { className: "bl-media-meta" }, p.meta) : null),
         p.action || null));
   }
 
-  function ListItem(p) {
+  var ListItem = withRef("ListItem", function (p, ref) {
     var tag = p.href ? "a" : p.onClick ? "button" : "div";
     var trail = p.trailing !== undefined ? p.trailing : (tag !== "div" ? h(Icon, { name: "chevron-right" }) : null);
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["icon", "title", "subtitle", "trailing", "className"]), {
-      className: cx("bl-item", p.className) }),
+      ref: ref, className: cx("bl-item", p.className) }),
       p.icon ? h("span", { className: "bl-item-lead" }, h(Icon, { name: p.icon })) : null,
       h("span", { className: "bl-item-text" },
         h("span", { className: "bl-item-title" }, p.title),
         p.subtitle ? h("span", { className: "bl-item-sub" }, p.subtitle) : null),
       trail ? h("span", { className: "bl-item-trail" }, trail) : null);
-  }
+  });
 
 
-  function Select(p) {
+  /* ref는 <select>에 닿습니다 */
+  var Select = withRef("Select", function (p, ref) {
     var id = useId(p.id), help = p.error || p.help;
     // placeholder가 있고 값이 정해지지 않았으면 빈 값("")에서 시작해 placeholder가 보이게 합니다(Svelte와 같게).
     var start = p.placeholder && p.value === undefined && p.defaultValue === undefined ? { defaultValue: "" } : {};
@@ -753,22 +745,23 @@ function createBlurssism(React) {
       h("label", { className: "bl-field-label", htmlFor: id }, p.label),
       h("div", { className: "bl-select" },
         h("select", Object.assign(start, omit(p, ["label", "help", "error", "className", "id", "options", "placeholder"]), {
-          id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
+          ref: ref, id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
         }),
           p.placeholder ? h("option", { value: "", disabled: true }, p.placeholder) : null,
           (p.options || []).map(function (o) { o = typeof o === "string" ? { value: o, label: o } : o; return h("option", { key: o.value, value: o.value, disabled: o.disabled }, o.label); }))),
       help ? h("p", { id: id + "-help", className: "bl-field-help" }, p.error ? "오류: " + p.error : p.help) : null);
-  }
+  });
 
-  function Checkbox(p) {
+  /* ref는 <input type="checkbox">에 닿습니다 */
+  var Checkbox = withRef("Checkbox", function (p, ref) {
     return h("label", { className: cx("bl-check", p.className) },
-      h("input", Object.assign({ type: "checkbox" }, omit(p, ["label", "description", "className"]))),
+      h("input", Object.assign({ type: "checkbox", ref: ref }, omit(p, ["label", "description", "className"]))),
       h("span", null, p.label, p.description ? h("span", { className: "bl-check-sub" }, p.description) : null));
-  }
+  });
 
-  function RadioGroup(p) {
+  var RadioGroup = withRef("RadioGroup", function (p, ref) {
     var name = useId(p.name);
-    return h("fieldset", { className: cx("bl-radios", p.className) },
+    return h("fieldset", { ref: ref, className: cx("bl-radios", p.className) },
       p.legend ? h("legend", null, p.legend) : null,
       (p.options || []).map(function (o) {
         o = typeof o === "string" ? { value: o, label: o } : o;
@@ -777,7 +770,7 @@ function createBlurssism(React) {
             onChange: function () { p.onChange && p.onChange(o.value); } }),
           h("span", null, o.label, o.description ? h("span", { className: "bl-check-sub" }, o.description) : null));
       }));
-  }
+  });
 
   function SegmentedControl(p) {
     var items = p.items || [], ids = items.map(function (i) { return i.id; });
@@ -815,7 +808,7 @@ function createBlurssism(React) {
       onMouseEnter: function () { setOpen(true); }, onMouseLeave: function () { setOpen(false); },
       onFocus: function () { setOpen(true); }, onBlur: function () { setOpen(false); },
       onKeyDown: function (e) { if (e.key === "Escape" && open) { e.stopPropagation(); setOpen(false); } } },
-      child, h("span", { id: id, ref: tip, role: "tooltip", popover: "manual", className: "bl-tooltip-pop bl-crema-thick bl-glass-thick" }, p.label));
+      child, h("span", { id: id, ref: tip, role: "tooltip", popover: "manual", className: "bl-tooltip-pop bl-crema-thick" }, p.label));
   }
   /* 기준 요소 위 가운데에 놓고, 위가 모자라면 아래로, 좌우는 화면 안으로 */
   function placeTooltip(t, a) {
@@ -945,7 +938,7 @@ function createBlurssism(React) {
       };
     }, [p.open]);
     if (!p.open) return null;
-    return h("dialog", { ref: ref, className: cx("bl-dialog bl-crema-thick bl-glass-thick", p.className), role: p.alert ? "alertdialog" : undefined,
+    return h("dialog", { ref: ref, className: cx("bl-dialog bl-crema-thick", p.className), role: p.alert ? "alertdialog" : undefined,
       "aria-labelledby": id, "aria-describedby": p.description ? id + "-desc" : undefined, tabIndex: -1,
       onClick: function (e) {
         if (p.alert || e.target !== e.currentTarget) return;
@@ -994,24 +987,24 @@ function createBlurssism(React) {
     return React.useSyncExternalStore(onBreakpointChange, function () { return getBreakpoint(); }, function () { return null; });
   }
 
-  function Container(p) {
+  var Container = withRef("Container", function (p, ref) {
     var tag = p.as || "div";
     return h(tag, Object.assign({}, omit(p, ["as", "size", "className", "children"]), {
-      className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
-  }
+      ref: ref, className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
+  });
 
   /* columns: 숫자 또는 { xs, sm, md, lg, xl } — 단계별 열 수. 생략한 단계는 아래 단계 값을 이어받습니다. */
-  function Grid(p) {
+  var Grid = withRef("Grid", function (p, ref) {
     var c = typeof p.columns === "number" ? { xs: p.columns } : (p.columns || { xs: 1, sm: 2, lg: 3 });
     var style = {}, last = 1;
     ["xs", "sm", "md", "lg", "xl"].forEach(function (bp) { if (c[bp] != null) last = c[bp]; style["--bl-cols-" + bp] = last; });
     if (p.gap) style["--bl-grid-gap"] = "var(--" + p.gap + ")";
     return h(p.as || "div", Object.assign({}, omit(p, ["as", "columns", "gap", "className", "children", "style"]), {
-      className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
-  }
+      ref: ref, className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
+  });
 
   function NavBar(p) {
-    return h("header", { className: cx("bl-navbar bl-crema bl-glass", p.className) },
+    return h("header", { className: cx("bl-navbar bl-crema", p.className) },
       p.onBack ? h(IconButton, { icon: "chevron-left", label: "뒤로", plain: true, onClick: p.onBack }) : null,
       h("p", { className: "bl-navbar-title" }, p.title),
       p.links ? h("nav", { className: "bl-navbar-links", "aria-label": "주요 메뉴" }, p.links.map(function (l) {
@@ -1024,7 +1017,7 @@ function createBlurssism(React) {
      기본으로 lg(1120px)부터 숨습니다(그때는 NavBar 링크). 계속 보이려면 hideFrom={false}. */
   function TabBar(p) {
     var hide = p.hideFrom === undefined ? "lg" : p.hideFrom;
-    return h("nav", { className: cx("bl-tabbar bl-crema bl-glass", hide && "bl-hide-from-" + hide, p.className), "aria-label": p.label || "주요 메뉴" },
+    return h("nav", { className: cx("bl-tabbar bl-crema", hide && "bl-hide-from-" + hide, p.className), "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h(it.href ? "a" : "button", Object.assign(it.href ? { href: it.href } : { type: "button" }, {
@@ -1034,7 +1027,7 @@ function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("div", { className: cx("bl-sheet bl-crema-thick bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-crema-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -1044,7 +1037,7 @@ function createBlurssism(React) {
   function Toast(p) {
     var tone = p.tone || "neutral";
     var icon = tone === "positive" ? "check" : tone === "danger" ? "alert" : null;
-    return h("div", { className: cx("bl-toast bl-crema-thick bl-glass-thick", p.className), role: "status", "data-tone": tone },
+    return h("div", { className: cx("bl-toast bl-crema-thick", p.className), role: "status", "data-tone": tone },
       icon ? h(Icon, { name: icon }) : null,
       h("span", { className: "bl-toast-msg" }, p.children),
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);
@@ -1056,7 +1049,7 @@ function createBlurssism(React) {
 }
 
   if (typeof window !== "undefined" && window.React) {
-    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
+    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
   } else if (typeof console !== "undefined") {
     console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");
   }

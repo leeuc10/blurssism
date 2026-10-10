@@ -16,8 +16,8 @@
     </NavBar>
   </div>
 
-  <h1 class="display">오늘의 커피</h1>
-  <p class="body" style="color: var(--ink-muted)">지금 화면 단계: {bp.current ?? "…"}</p>
+  <h1 class="bl-display">오늘의 커피</h1>
+  <p class="bl-body" style="color: var(--ink-muted)">지금 화면 단계: {bp.current ?? "…"}</p>
 
   <PalettePicker />
 
@@ -43,5 +43,5 @@
 
 <Dialog bind:open title="구독할까요?" description="새 원두가 들어오면 알려 드려요.">
   <Button variant="ghost" size="md" onclick={() => (open = false)}>나중에</Button>
-  <Button variant="accent" size="md" onclick={() => (open = false)}>구독하기</Button>
+  <Button size="md" onclick={() => (open = false)}>구독하기</Button>
 </Dialog>

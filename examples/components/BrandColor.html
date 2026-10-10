@@ -22,7 +22,7 @@
     return h("div", { className: "side", "data-theme": p.theme, "data-palette": "preview" },
       h("p", null, p.theme === "light" ? "라이트" : "다크", " · 강조 ", v.accent, " · 글자 대비 ", B.contrastRatio(v["on-accent"], v.accent).toFixed(1), ":1"),
       h("div", { className: "chips", "aria-hidden": "true" }, ["accent", "accent-soft", "accent-ink", "deco"].map(function (k) { return h("i", { key: k, style: { background: "var(--" + k + ")" } }); })),
-      h("div", { className: "row" }, h(B.Button, { variant: "accent", size: "md" }, "시작하기"), h(B.Badge, { tone: "accent" }, "새 기능"), h(B.Chip, { selected: true }, "선택됨")),
+      h("div", { className: "row" }, h(B.Button, { size: "md" }, "시작하기"), h(B.Badge, { tone: "accent" }, "새 기능"), h(B.Chip, { selected: true }, "선택됨")),
       h(B.Switch, { label: "알림 받기", checked: true, onChange: function () {} }));
   }
   function Demo() {

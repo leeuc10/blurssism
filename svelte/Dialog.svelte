@@ -25,7 +25,7 @@
 
 {#if open}
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions — 바깥(backdrop) 누르기. 키보드는 Esc(cancel) -->
-  <dialog bind:this={box} class={["bl-dialog bl-crema-thick bl-glass-thick", className]} role={alert ? "alertdialog" : undefined}
+  <dialog bind:this={box} class={["bl-dialog bl-crema-thick", className]} role={alert ? "alertdialog" : undefined}
     aria-labelledby={id} aria-describedby={description ? id + "-desc" : undefined} tabindex="-1"
     oncancel={(e) => { e.preventDefault(); close(); }} {onclick}>
     <h2 {id} class="bl-dialog-title">{title}</h2>

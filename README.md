@@ -29,15 +29,15 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 **원칙**
 1. **90 / 10.** 화면의 90% 이상은 종이(`paper`)와 먹(`ink`). 강조색은 10% 이내.
 2. **떠 있는 것만 크레마로.** 내비게이션·탭바·시트·토스트만 크레마. 카드·입력창·리스트는 불투명.
-3. **화면당 행동 하나.** primary 버튼은 한 화면에 하나.
+3. **화면당 행동 하나.** primary 버튼(강조색 채움)은 한 화면에 하나.
 4. **사람의 문장은 명조로.** 인용과 큰 이름만 Blurssism Serif, 나머지 UI는 Blurssism Sans.
 5. **캡슐과 큰 모서리.** 누르는 것은 캡슐, 담는 것은 24px 이상.
 
 **들어 있는 것**
 - **블러레마 크레마**: 블러 위에 우유 거품 색, 거품 결, 팔레트를 따라가는 캐러멜빛 띠를 겹친 젖빛 면
-- **크레마 모드 3단계**: 저사양 `off` · 기본 `on` · 데스크톱 `rich`(더 깊은 블러와 포인터 빛). 데스크톱 모드는 개발자가 켜고 끌 수 있음
+- **크레마 모드 3단계**: 저사양 `off` · 기본 `on` · 데스크톱 `rich`(더 깊은 블러와 두 겹 그림자). 데스크톱 모드와 포인터 빛은 개발자가 켜고 끌 수 있음
 - **브랜드색 팔레트**: 색 하나를 넣으면 라이트·다크 강조색을 WCAG 대비에 맞춰 자동 생성
-- 팔레트 14종 × 라이트·다크. 카페인 7종(블랙·에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 108,522개 대비 조합 모두 WCAG 통과(배경 바꾼 경우 포함, 불투명한 바탕 56,862개 + 크레마 위 글자 51,660개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
+- 팔레트 14종 × 라이트·다크. 카페인 7종(블랙·에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 108,550개 대비 조합 모두 WCAG 통과(배경 바꾼 경우 포함, 불투명한 바탕 56,890개 + 크레마 위 글자 51,660개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
@@ -76,7 +76,7 @@ export default function App() {
       <Grid columns={{ xs: 1, md: 2, lg: 3 }}>
         <Card title="오늘의 원두" body="에티오피아 예가체프" />
       </Grid>
-      <Button variant="accent" icon="plus">새로 만들기</Button>
+      <Button icon="plus">새로 만들기</Button>
     </Container>
   );
 }
@@ -148,7 +148,7 @@ React와 Svelte는 같은 CSS와 같은 함수 모듈(`/utils`)을 써서, 어�
 
 | `data-palette` | 이름 | 느낌 |
 | --- | --- | --- |
-| `black` | 블랙 (기본) | 블랙커피의 검정과 그 위의 크레마 |
+| `black` | 블랙 (기본) | 블랙커피의 검정 채움과 캐러멜빛 글자 강조 |
 | `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 (1.6.0까지의 기본) |
 | `matcha` | 말차 | 녹차의 차분한 초록 |
 | `chai` | 차이 | 향신료 밀크티의 주황 |
@@ -192,13 +192,20 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 `bg-paper`, `text-accent`, `rounded-full`, `backdrop-blur-md`, 그리고 같은 브레이크포인트(`sm:` `md:` `lg:` `xl:`)를 씁니다.
 
-### 1.4에서 올릴 때 (이름 바꾸기)
+### 1.x에서 2.0으로 올릴 때
 
-1.5부터 코드 이름이 glass → crema로 바뀌었어요. 옛 이름은 2.0까지 그대로 동작하니 천천히 바꾸면 돼요. 옛 함수나 `variant="glass"`를 쓰면 개발 중에 콘솔에 한 번만 새 이름을 알려 주고, 화면에 남은 `.bl-glass`·`data-glass`는 `auditCrema()`가 찾아 줘요.
+| 1.x | 2.0 | 왜 |
+| --- | --- | --- |
+| `primary` 버튼 = `ink` 채움, `accent` 버튼 = 강조색 채움 | `primary` = 강조색(`accent`) 채움. `accent`는 primary의 별칭 | 블랙 팔레트에서 둘이 같은 검정이었고, 규칙상 둘을 나란히 두지 않으므로 하나로 합침 |
+| 블랙 팔레트 `accent-ink` = 검정 | 캐러멜빛(`#653819` · 다크 `#e2ab7a`) | 링크·활성 탭 글자가 본문과 같은 색이라 구분되지 않았음 |
+| 타입 클래스 `.body` `.label` `.caption` `.display` `.title-1` … | `.bl-body` `.bl-label` … (접두어) | 소비자 CSS와 충돌. 값은 새 변수 `--text-body-size`·`-line`·`-weight`·`-tracking`으로도 나옴 |
+| 데스크톱 모드 포인터 빛 기본 켜짐, 블러 40/64px | 포인터 빛 기본 꺼짐(`{ pointerLight: true }`), 블러 32/48px | 마우스가 움직일 때마다 블러 면을 다시 칠해 블러 예산 취지와 어긋남 |
+| 크레마 결·띠 진함 | 결 알파 .46→.26(다크 .24→.16), 띠 42→30%, 채움 틴트 20→12% | 매트한 판처럼 보여 흐린 유리로 되돌림. 대비 검사 108,522개 그대로 통과 |
+| React 컴포넌트에 `ref` 불가 | `Button`·`IconButton`·`Chip`·`TextField`(input)·`Select`(select)·`Checkbox`(input)·`Switch`·`RadioGroup`·`ListItem`·`Container`·`Grid`가 `forwardRef` | react-hook-form `register`, 프로그램적 포커스 |
 
-CSS 변수는 옛 이름(`--glass-*`)에 값이 있고 새 이름(`--crema-*`)이 그 값을 읽어요. 그래서 1.4처럼 `--glass-fill`을 덮어써도, 새로 `--crema-fill`을 덮어써도 반영돼요(1.5.0에서는 옛 변수를 덮어써도 반영되지 않았는데 1.6에서 고쳤어요). 1.4의 `--crema`(띠 색)는 `--crema-tint`가 읽어요.
+1.4의 glass 이름(`.bl-glass*`, `data-glass`, `--glass-*`, `applyGlassPreference()` 등)은 2.0에서 **제거**됐어요. 1.5~1.6의 별칭 표대로 crema 이름으로 바꾸면 되고, 화면에 남은 `.bl-glass`·`data-glass`는 `auditCrema()`가 찾아 줘요.
 
-| 1.4까지 (2.0에서 제거) | 1.5부터 |
+| 1.4까지 (2.0에서 제거됨) | 1.5부터 |
 | --- | --- |
 | `.bl-glass` · `.bl-glass-thick` · `.bl-glass-lite` | `.bl-crema` · `.bl-crema-thick` · `.bl-crema-lite` |
 | `.bl-btn-glass`, `variant="glass"` | `.bl-btn-crema`, `variant="crema"` |
@@ -206,7 +213,7 @@ CSS 변수는 옛 이름(`--glass-*`)에 값이 있고 새 이름(`--crema-*`)�
 | `applyGlassPreference()` · `setGlassMode()` · `getGlassMode()` · `shouldReduceGlass()` | `applyCremaPreference()` · `setCremaMode()` · `getCremaMode()` · `shouldReduceCrema()` |
 | `GlassMode` · `GlassOptions` (타입) | `CremaMode` · `CremaOptions` |
 | `--glass-fill` · `--glass-fill-strong` · `--glass-stroke` · `--glass-tint-accent` | `--crema-fill` · `--crema-fill-strong` · `--crema-stroke` · `--crema-tint-accent` |
-| `--glass-edge` · `--glass-crema` · `--glass-grain` · `--glass-light` | `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` |
+| `--glass-edge` · `--glass-crema` · `--glass-grain` · `--glass-light` · `--crema`(1.4의 띠 색) | `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` · `--crema-tint` |
 | `--shadow-glass` · `--glass-saturate` | `--shadow-crema` · `--crema-saturate` |
 
 ### 브랜드색 팔레트
@@ -247,13 +254,13 @@ applyCremaPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 | --- | --- | --- |
 | `off` | 저사양·데이터 절약·투명도 줄이기 | 0 (불투명) |
 | `on` | 기본, 모바일 | 화면당 3개 |
-| `rich` | 1120px 이상 + 마우스 + 넉넉한 기기 | 화면당 6개, 블러 40/64px, 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛 |
+| `rich` | 1120px 이상 + 마우스 + 넉넉한 기기 | 화면당 6개, 블러 32/48px, 더 비치는 크레마, 두 겹 그림자. 포인터를 따라오는 캐러멜빛은 `{ pointerLight: true }`로 켬 |
 
 반복 목록 안에서는 `.bl-crema-lite`(MediaCard는 `lite`), 블러 반경은 애니메이션하지 않습니다. 크레마 안의 아이콘 버튼과 다이얼로그 뒤 scrim은 블러를 걸지 않습니다.
 
 ```js
 import { auditCrema } from "@caffeinecatkr/blurssism";
-if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 옛 glass 이름을 콘솔로 알려 줌
+if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 2.0에서 제거된 glass 이름을 콘솔로 알려 줌
 ```
 
 저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있어요(기본: 메모리 4GB 미만이면 `off`).
@@ -267,15 +274,15 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 **Principles**
 1. **90 / 10.** At least 90% of a screen is paper (`paper`) and ink (`ink`). Accent colors stay under 10%.
 2. **Only floating things are crema.** Navigation bars, tab bars, sheets and toasts are crema. Cards, inputs and lists stay opaque.
-3. **One action per screen.** Only one primary button per screen.
+3. **One action per screen.** Only one primary button (filled with the accent) per screen.
 4. **Human words in serif.** Quotes and large names use Blurssism Serif; the rest of the UI uses Blurssism Sans.
 5. **Capsules and large corners.** Anything you press is a capsule; anything that contains is 24px+.
 
 **What's inside**
 - **Blurema crema**: blur topped with a milk tint, a fine foam grain, and a caramel crema band that follows the palette.
-- **Three crema modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and a pointer light). Developers can turn desktop mode on or off.
+- **Three crema modes**: `off` for low-end devices, `on` by default, and `rich` for desktop (deeper blur and layered shadows). Desktop mode and the optional pointer light are up to the developer.
 - **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
-- 14 palettes × light and dark: 7 caffeine palettes (black, espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 108,522 contrast pairs pass WCAG, brand-color palettes and custom backgrounds included: 56,862 on opaque surfaces and 51,660 for text on crema over a pure black or white backdrop.
+- 14 palettes × light and dark: 7 caffeine palettes (black, espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 108,550 contrast pairs pass WCAG, brand-color palettes and custom backgrounds included: 56,890 on opaque surfaces and 51,660 for text on crema over a pure black or white backdrop.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
@@ -355,9 +362,13 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 Also load `tokens.css`. The `sm:` / `md:` / `lg:` / `xl:` breakpoints match blurssism.
 
-### Upgrading from 1.4 (renamed to crema)
+### Upgrading to 2.0
 
-Since 1.5 the code names moved from glass to crema: `.bl-glass*` → `.bl-crema*`, `variant="glass"` → `"crema"`, `data-glass` → `data-crema`, `applyGlassPreference` / `setGlassMode` / `getGlassMode` / `shouldReduceGlass` → `applyCremaPreference` / `setCremaMode` / `getCremaMode` / `shouldReduceCrema`, and `--glass-*` → `--crema-*` (`--glass-crema` → `--crema-band`, `--shadow-glass` → `--shadow-crema`). The old names keep working until 2.0: overriding either `--glass-fill` or `--crema-fill` takes effect (fixed in 1.6; in 1.5.0 overriding the old variable did nothing). The old functions and `variant="glass"` log a one-time hint during development, and `auditCrema()` finds leftover `.bl-glass` / `data-glass` on the page.
+- `primary` buttons are filled with `accent` (was `ink`); `variant="accent"` is now an alias of `primary`. The black palette's `accent-ink` (links, active labels) is caramel so it differs from body text.
+- Type classes are prefixed (`.bl-body`, `.bl-title-1`, …) and the scale is exposed as `--text-{name}-size/-line/-weight/-tracking`, which components read.
+- Desktop-mode pointer light is opt-in (`{ pointerLight: true }`); rich blur is 32/48px.
+- `Button`, `IconButton`, `Chip`, `TextField` (input), `Select` (select), `Checkbox` (input), `Switch`, `RadioGroup`, `ListItem`, `Container` and `Grid` forward refs.
+- The 1.4 glass names are **removed**: `.bl-glass*` → `.bl-crema*`, `variant="glass"` → `"crema"`, `data-glass` → `data-crema`, `applyGlassPreference` / `setGlassMode` / `getGlassMode` / `shouldReduceGlass` → `applyCremaPreference` / `setCremaMode` / `getCremaMode` / `shouldReduceCrema`, and `--glass-*` → `--crema-*` (`--glass-crema` → `--crema-band`, `--shadow-glass` → `--shadow-crema`). `auditCrema()` reports leftover `.bl-glass` / `data-glass` on the page.
 
 ### Brand-color palettes
 
@@ -380,7 +391,7 @@ Only the surface set (`paper`, `paper-raised`, `paper-sunken`, `line`) changes, 
 
 ### Crema modes and blur budget
 
-`applyCremaPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, deeper blur, a caramel light that follows the pointer). Turn desktop mode off with `applyCremaPreference({ rich: false })`, force it with `{ rich: true }`, or use `setCremaMode("off" | "on" | "rich" | "auto")`. Use `.bl-crema-lite` inside repeated lists and never animate the blur radius. During development, `auditCrema()` warns when a screen goes over the blur budget or shows more than one primary button. Since 1.5 the code names are crema too (`bl-crema`, `data-crema`, `applyCremaPreference`); the 1.4 glass names keep working as aliases until 2.0.
+`applyCremaPreference()` picks `off` (low-end devices, data saver, reduced transparency), `on` (default, 3 crema surfaces per screen) or `rich`, a desktop mode for 1120px+ screens with a mouse and capable hardware (6 per screen, 32/48px blur, layered shadows; pass `{ pointerLight: true }` for a caramel light that follows the pointer). Turn desktop mode off with `applyCremaPreference({ rich: false })`, force it with `{ rich: true }`, or use `setCremaMode("off" | "on" | "rich" | "auto")`. Use `.bl-crema-lite` inside repeated lists and never animate the blur radius. During development, `auditCrema()` warns when a screen goes over the blur budget or shows more than one primary button. Since 1.5 the code names are crema too (`bl-crema`, `data-crema`, `applyCremaPreference`); the 1.4 glass names keep working as aliases until 2.0.
 
 The full rules are in the [brand book](docs/brand-book.md) (Korean).
 

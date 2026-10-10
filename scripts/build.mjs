@@ -31,19 +31,19 @@ write("dist/tokens.json", JSON.stringify(tokens, null, 2) + "\n");
 const colorTokens = tokens.color.tokens;
 const val = (v, theme) => (typeof v === "string" ? v : v[theme] ?? v.light);
 const cssVal = (v) => v.replace(/^\{(.+)\}$/, "var(--$1)");
-// 1.5: glass → crema 이름 변경. 옛 이름(별칭)에 값을 두고 새 이름이 그 값을 읽습니다(2.0에서 제거).
-// 그래서 1.4처럼 --glass-fill을 덮어써도, 새로 --crema-fill을 덮어써도 컴포넌트에 반영됩니다.
-const ALIAS = tokens.aliases.map;
-const withAlias = (name, value, indent) => ALIAS[name]
-  ? `${indent}--${ALIAS[name]}: ${value};\n${indent}--${name}: var(--${ALIAS[name]});` : `${indent}--${name}: ${value};`;
-const decl = (list, theme, indent = "  ") => list.map((t) => withAlias(t.name, cssVal(val(t.value, theme)), indent)).join("\n");
+// 2.0: 1.4의 glass 이름 별칭(--glass-*)은 더 만들지 않습니다.
+const decl = (list, theme, indent = "  ") => list.map((t) => `${indent}--${t.name}: ${cssVal(val(t.value, theme))};`).join("\n");
 const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens, ...tokens.material.tokens];
 const plain = ["spacing", "radius", "blur", "backdrop", "layout"].flatMap((f) => tokens[f].tokens);
 const families = Object.entries(tokens.type.families)
   .map(([k, v]) => `  --font-${k}: ${v};`).join("\n");
 const styles = tokens.type.groups.flatMap((g) => g.styles.map((s) => ({ ...s, family: s.family || g.family })));
+// 2.0: 타입 스케일은 변수(--text-{이름}-size·line·weight·tracking)로도 나가고, 클래스는 bl- 접두어(.bl-body, .bl-title-1 …)를 씁니다.
+//      컴포넌트(bundle.css)는 px 대신 이 변수를 읽어서, 스케일을 바꾸면 컴포넌트 글자도 함께 바뀝니다.
+const typeVars = styles.map((s) =>
+  `  --text-${s.name}-size: ${s.fontSize}; --text-${s.name}-line: ${s.lineHeight}; --text-${s.name}-weight: ${s.fontWeight}; --text-${s.name}-tracking: ${s.letterSpacing || "0"};`).join("\n");
 const typeCss = styles.map((s) =>
-  `.${s.name} { font-family: var(--font-${s.family}); font-size: ${s.fontSize}; line-height: ${s.lineHeight}; font-weight: ${s.fontWeight};${s.letterSpacing ? ` letter-spacing: ${s.letterSpacing};` : ""} }`).join("\n");
+  `.bl-${s.name} { font-family: var(--font-${s.family}); font-size: var(--text-${s.name}-size); line-height: var(--text-${s.name}-line); font-weight: var(--text-${s.name}-weight); letter-spacing: var(--text-${s.name}-tracking); }`).join("\n");
 
 const palettes = tokens.palettes.list;
 const backgrounds = tokens.backgrounds.list;
@@ -86,11 +86,9 @@ const gridCss = grid.map((g) => {
   const body = `--grid-columns: ${g.cols}; --grid-gutter: ${g.gutter}; --grid-margin: ${g.margin};`;
   return g.bp ? `@media (min-width: ${g.bp}px) { :root { ${body} } }` : `:root { ${body} }`;
 }).join("\n");
-// 작은 화면에서 큰 제목을 줄입니다 (md 미만)
+// 작은 화면에서 큰 제목을 줄입니다 (md 미만). 변수를 바꾸므로 .bl-display 클래스와 그 변수를 읽는 컴포넌트(MediaCard 제목 등)가 함께 줄어듭니다.
 const fluidType = `@media (max-width: 767px) {
-  .display { font-size: 32px; line-height: 40px; }
-  .title-1 { font-size: 26px; line-height: 34px; }
-  .title-2 { font-size: 20px; line-height: 28px; }
+  :root { --text-display-size: 32px; --text-display-line: 40px; --text-title-1-size: 26px; --text-title-1-line: 34px; --text-title-2-size: 20px; --text-title-2-line: 28px; }
 }`;
 
 // 글꼴: Blurssism Sans(Pretendard 사본)·Blurssism Serif(Gowun Batang 사본). 한글 2350자 + 영문·숫자·기호만 든 woff2 하나씩(scripts/subset-fonts.py가 만듦).
@@ -121,8 +119,9 @@ ${decl(colorsAndShadows, "dark", "    ")}
 }
 ${paletteCss}${backgroundCss}
 :root {
-${plain.map((t) => withAlias(t.name, t.value, "  ")).join("\n")}
+${plain.map((t) => `  --${t.name}: ${t.value};`).join("\n")}
 ${families}
+${typeVars}
 }
 ${gridCss}
 ${typeCss}
@@ -132,14 +131,14 @@ ${fluidType}
 const tw = {
   theme: {
     extend: {
-      colors: Object.fromEntries(colorTokens.flatMap((t) => [[t.name, `var(--${t.name})`], ...(ALIAS[t.name] ? [[ALIAS[t.name], `var(--${t.name})`]] : [])])),
+      colors: Object.fromEntries(colorTokens.map((t) => [t.name, `var(--${t.name})`])),
       spacing: Object.fromEntries(tokens.spacing.tokens.map((t) => [t.name.replace("space-", ""), `var(--${t.name})`])),
       borderRadius: Object.fromEntries(tokens.radius.tokens.map((t) => [t.name.replace("radius-", ""), `var(--${t.name})`])),
-      boxShadow: Object.fromEntries(tokens.shadow.tokens.flatMap((t) => [[t.name.replace("shadow-", ""), `var(--${t.name})`], ...(ALIAS[t.name] ? [[ALIAS[t.name].replace("shadow-", ""), `var(--${t.name})`]] : [])])),
+      boxShadow: Object.fromEntries(tokens.shadow.tokens.map((t) => [t.name.replace("shadow-", ""), `var(--${t.name})`])),
       backdropBlur: Object.fromEntries(tokens.blur.tokens.map((t) => [t.name.replace("blur-", ""), `var(--${t.name})`])),
-      backgroundImage: { "crema-band": "var(--crema-band)", "crema-grain": "var(--crema-grain)", "glass-crema": "var(--crema-band)", "glass-grain": "var(--crema-grain)" },
+      backgroundImage: { "crema-band": "var(--crema-band)", "crema-grain": "var(--crema-grain)" },
       fontFamily: { sans: ["var(--font-sans)"], serif: ["var(--font-serif)"] },
-      fontSize: Object.fromEntries(styles.map((s) => [s.name, [s.fontSize, { lineHeight: s.lineHeight, fontWeight: String(s.fontWeight), ...(s.letterSpacing ? { letterSpacing: s.letterSpacing } : {}) }]])),
+      fontSize: Object.fromEntries(styles.map((s) => [s.name, [`var(--text-${s.name}-size)`, { lineHeight: `var(--text-${s.name}-line)`, fontWeight: `var(--text-${s.name}-weight)`, letterSpacing: `var(--text-${s.name}-tracking)` }]])),
       screens: { sm: "600px", md: "768px", lg: "1120px", xl: "1440px" },
       maxWidth: { content: "var(--content-max)", prose: "var(--prose-max)" },
     },
@@ -158,23 +157,8 @@ const bpSpans = Object.entries(bps).map(([bp, px]) =>
   `@media (min-width: ${px}px) {\n${range(12).map((n) => `  .bl-span-${bp}-${n} { grid-column: span ${n} / span ${n}; }`).join("\n")}\n  .bl-span-${bp}-full { grid-column: 1 / -1; }\n}`).join("\n");
 const vis = Object.entries(bps).map(([bp, px]) =>
   `@media (min-width: ${px}px) { .bl-hide-from-${bp} { display: none !important; } }\n@media (max-width: ${px - 1}px) { .bl-hide-below-${bp} { display: none !important; } }`).join("\n");
-// 1.5: .bl-crema* · .bl-btn-crema · [data-crema] 규칙마다 옛 이름(.bl-glass* · .bl-btn-glass · [data-glass])도 같은 규칙에 붙입니다.
-// 속성과 클래스를 따로 바꾼 조합까지 모두 만들어, 옛 이름과 새 이름을 섞어 써도 맞습니다.
-// 커스텀 속성은 옛 이름(--glass-*)에 값을 두고 새 이름이 읽습니다(tokens.css와 같은 방향).
-const swapAttr = (sel) => sel.replace(/\[data-crema/g, "[data-glass");
-const swapClass = (sel) => sel.replace(/\.bl-crema/g, ".bl-glass").replace(/\.bl-btn-crema/g, ".bl-btn-glass");
-const aliasCss = (css) => css
-  .replace(/([^{};]+)\{/g, (m, raw) => {
-    const cut = raw.lastIndexOf("*/") + 2;           // 앞에 붙은 주석은 건드리지 않습니다
-    const head = cut > 1 ? raw.slice(0, cut) : "", prelude = cut > 1 ? raw.slice(cut) : raw;
-    if (/^\s*@/.test(prelude) || !/crema/.test(prelude)) return m;
-    const lead = head + prelude.match(/^\s*/)[0];
-    const out = [];
-    for (const sel of prelude.trim().split(/\s*,\s*/)) for (const v of [sel, swapAttr(sel), swapClass(sel), swapAttr(swapClass(sel))]) if (!out.includes(v)) out.push(v);
-    return `${lead}${out.join(", ")} {`;
-  })
-  .replace(/(?<![\w(-])--(crema-[\w-]+):([^;]*);/g, (m, name, v) => ALIAS[name] ? `--${ALIAS[name]}:${v}; --${name}: var(--${ALIAS[name]});` : m);
-write("dist/bundle.css", banner + aliasCss(read("src/bundle.css")) +
+// 2.0: 옛 glass 이름(.bl-glass*, [data-glass], --glass-*)은 더 만들지 않습니다. 남은 쓰임새는 auditCrema()가 찾아 줍니다.
+write("dist/bundle.css", banner + read("src/bundle.css") +
   `\n/* ── 생성: 그리드 칸 (xs는 4열이므로 .bl-span-1~4, 단계별은 .bl-span-md-6 처럼) ── */\n${spans}\n${bpSpans}\n` +
   `/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */\n${vis}\n`);
 

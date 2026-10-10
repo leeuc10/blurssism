@@ -39,8 +39,8 @@
   var modes = [
     ["off", "끄기", "블러 없이 불투명. 저사양·절전·투명도 줄이기"],
     ["on", "기본", "블러 24px + 블러레마. 모바일과 일반 기기"],
-    ["rich", "데스크톱", "블러 40px, 더 비치는 크레마, 두 겹 그림자, 포인터를 따라오는 캐러멜빛"]];
-  // 미리보기용: 포인터 빛 위치를 직접 넘깁니다 (실제 앱에서는 applyCremaPreference()가 합니다)
+    ["rich", "데스크톱", "블러 32px, 더 비치는 크레마, 두 겹 그림자. 이 미리보기는 포인터를 따라오는 빛을 켠 상태(앱에서는 pointerLight: true)"]];
+  // 미리보기용: 포인터 빛 위치를 직접 넘깁니다 (실제 앱에서는 applyCremaPreference({ pointerLight: true })가 합니다. 2.0부터 기본 꺼짐)
   var raf = 0;
   window.addEventListener("pointermove", function (e) {
     if (raf) return;

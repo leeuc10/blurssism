@@ -33,7 +33,26 @@ export const others = (
   </>
 );
 
-applyCremaPreference({ rich: false, minMemory: 2 });
+// 2.0: ref (react-hook-form register 등)
+import { useRef } from "react";
+import { TextField, Checkbox } from "../dist/index";
+export function Refs() {
+  const input = useRef<HTMLInputElement>(null);
+  const select = useRef<HTMLSelectElement>(null);
+  const btn = useRef<HTMLButtonElement>(null);
+  return (
+    <>
+      <TextField ref={input} label="이메일" />
+      <Select ref={select} label="원두" options={["a"]} />
+      <Checkbox ref={input} label="동의" />
+      <Button ref={btn}>저장하기</Button>
+      {/* @ts-expect-error TextField의 ref는 input이라 select ref를 못 받아요 */}
+      <TextField ref={select} label="x" />
+    </>
+  );
+}
+
+applyCremaPreference({ rich: false, minMemory: 2, pointerLight: true });
 shouldReduceCrema({ minCores: 2 });
 const issues = checkCrema({ budget: 3 });
 issues.forEach((i) => i.code === "blur-budget" && i.elements.length);

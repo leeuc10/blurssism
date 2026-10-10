@@ -100,6 +100,7 @@ export function shouldReduceCrema(options) {
   const o = options || {}, minMemory = o.minMemory != null ? o.minMemory : 4, minCores = o.minCores != null ? o.minCores : 4;
   const n = window.navigator || {}, mq = window.matchMedia;
   if (mq && mq("(prefers-reduced-transparency: reduce)").matches) return true;
+  if (mq && mq("(update: slow)").matches) return true;   // 전자잉크처럼 화면 갱신이 느린 기기(메모리를 알려 주지 않는 브라우저에서도 잡힘)
   if (n.connection && n.connection.saveData) return true;
   if (n.deviceMemory) {
     if (n.deviceMemory < minMemory) return true;
@@ -123,10 +124,14 @@ export function isDesktopCapable() {
 
 const cremaState = { mq: null, onMq: null, onMove: null, raf: 0 };
 /** 블러가 걸리는 크레마 요소. 포인터 빛과 auditCrema()가 씁니다. */
-const CREMA_SELECTOR = ".bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-glass, .bl-glass-thick, .bl-btn-glass";
+const CREMA_SELECTOR = ".bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain)";
 
-/* 포인터 빛: 좌표를 <html>이 아니라 크레마 요소에만, 요소 기준 좌표로 씁니다.
-   문서 전체의 스타일을 다시 계산하지 않고, 배경을 화면에 고정(fixed)하지 않아 스크롤할 때 다시 그리지 않습니다. */
+/* 포인터 빛(2.0부터 기본 꺼짐, applyCremaPreference({ pointerLight: true })로 켬).
+   좌표를 <html>이 아니라 크레마 요소에만, 요소 기준 좌표로 씁니다. 문서 전체의 스타일을 다시 계산하지 않고,
+   배경을 화면에 고정(fixed)하지 않아 스크롤할 때 다시 그리지 않습니다.
+   backdrop-filter가 걸린 면은 인라인 속성이 바뀔 때마다 다시 칠해지므로, 빛이 닿는 거리(LIGHT_REACH) 안에 있는 요소만 매 프레임 쓰고,
+   멀어진 요소는 한 번만 화면 밖으로 보내 둡니다. 그래서 포인터가 지나가는 면 한두 개만 다시 칠해집니다. */
+const LIGHT_REACH = 420;   // 큰 빛의 반지름(bundle.css의 radial-gradient 420px)
 function pointerLight(on) {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) on = false;
@@ -140,8 +145,17 @@ function pointerLight(on) {
         const els = document.querySelectorAll(CREMA_SELECTOR);
         const rects = Array.prototype.map.call(els, (el) => el.getBoundingClientRect());   // 읽기를 먼저 모두 하고
         els.forEach((el, i) => {                                                           // 쓰기는 나중에 (레이아웃 한 번)
-          el.style.setProperty("--bl-light-x", Math.round(x - rects[i].left) + "px");
-          el.style.setProperty("--bl-light-y", Math.round(y - rects[i].top) + "px");
+          const r = rects[i];
+          const near = x > r.left - LIGHT_REACH && x < r.right + LIGHT_REACH && y > r.top - LIGHT_REACH && y < r.bottom + LIGHT_REACH;
+          if (near) {
+            el.style.setProperty("--bl-light-x", Math.round(x - r.left) + "px");
+            el.style.setProperty("--bl-light-y", Math.round(y - r.top) + "px");
+            el.dataset.blLit = "1";
+          } else if (el.dataset.blLit) {   // 빛이 닿지 않는 면은 한 번만 쓰고 그 뒤로는 건드리지 않습니다
+            el.style.setProperty("--bl-light-x", "-9999px");
+            el.style.setProperty("--bl-light-y", "-9999px");
+            delete el.dataset.blLit;
+          }
         });
       });
     };
@@ -151,18 +165,19 @@ function pointerLight(on) {
     if (cremaState.raf) cancelAnimationFrame(cremaState.raf);
     cremaState.onMove = null;
     cremaState.raf = 0;
-    document.querySelectorAll(CREMA_SELECTOR).forEach((el) => { el.style.removeProperty("--bl-light-x"); el.style.removeProperty("--bl-light-y"); });
+    document.querySelectorAll(CREMA_SELECTOR).forEach((el) => { el.style.removeProperty("--bl-light-x"); el.style.removeProperty("--bl-light-y"); delete el.dataset.blLit; });
   }
 }
 
 /**
- * <html data-crema>(와 호환용 data-glass)를 정합니다. 크레마가 켜졌으면 true.
+ * <html data-crema>를 정합니다. 크레마가 켜졌으면 true.
  *   "off"  : 블러 없음(저사양·절전·투명도 줄이기)
  *   "on"   : 기본 블러레마
  *   "rich" : 데스크톱 모드. 블러가 더 깊고, 포인터 주변에 따뜻한 빛이 번집니다.
- * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: true | false, minMemory: 4, minCores: 4 })
+ * 옵션: applyCremaPreference({ rich: "auto" | true | false, pointerLight: false | true, minMemory: 4, minCores: 4 })
  *   rich 기본값 "auto"는 데스크톱(isDesktopCapable)일 때만 켜고, 창 크기가 바뀌면 다시 판단합니다.
  *   rich: false로 데스크톱 모드를 끕니다. applyCremaPreference(true | false)로 강제로 켜고 끌 수도 있습니다.
+ *   pointerLight는 2.0부터 기본 false입니다(마우스를 움직일 때마다 크레마 면을 다시 칠하므로 선택 기능). 켜면 포인터 근처 면만 다시 칠합니다.
  */
 export function applyCremaPreference(options) {
   if (typeof document === "undefined") return true;
@@ -177,8 +192,7 @@ export function applyCremaPreference(options) {
   function update() {
     const mode = reduce ? "off" : rich === true || (rich === "auto" && isDesktopCapable()) ? "rich" : "on";
     root.setAttribute("data-crema", mode);
-    root.setAttribute("data-glass", mode); // 1.x 호환 (2.0에서 제거)
-    pointerLight(mode === "rich" && o.pointerLight !== false);
+    pointerLight(mode === "rich" && o.pointerLight === true);
   }
   update();
   if (!reduce && rich === "auto" && window.matchMedia) {
@@ -200,12 +214,12 @@ export function setCremaMode(mode) {
 /** 지금 크레마 모드: "off" | "on" | "rich". 설정 전이나 서버에서는 "on". */
 export function getCremaMode() {
   const root = rootEl();
-  const m = root && (root.getAttribute("data-crema") || root.getAttribute("data-glass"));
+  const m = root && root.getAttribute("data-crema");
   return m === "off" || m === "rich" ? m : "on";
 }
 
 /* ── 개발 중 검사 ─────────────────────────────
-   블러 예산·primary 버튼 개수·옛 glass 이름을 화면에서 세어 콘솔로 알려 줍니다. 배포 빌드(NODE_ENV=production)에서는 아무것도 하지 않습니다. */
+   블러 예산·primary 버튼 개수·2.0에서 제거된 glass 이름을 화면에서 세어 콘솔로 알려 줍니다. 배포 빌드(NODE_ENV=production)에서는 아무것도 하지 않습니다. */
 const isProd = () => typeof process !== "undefined" && !!process.env && process.env.NODE_ENV === "production";
 
 function onScreen(el) {
@@ -239,7 +253,7 @@ export function checkCrema(options) {
     el.hasAttribute("data-glass") ? el !== document.documentElement && !el.hasAttribute("data-crema")
       : !/\bbl-(crema|btn-crema)/.test(el.className));
   if (legacy.length) issues.push({ code: "legacy-glass", elements: legacy,
-    message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 사라지니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
+    message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 제거돼 스타일이 없으니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
   return issues;
 }
 
@@ -270,22 +284,6 @@ export function auditCrema(options) {
     if (timer) clearTimeout(timer);
   };
 }
-
-/* ── 1.4 이름(glass) 별칭: 그대로 동작하고, 개발 중에 한 번만 안내합니다. 2.0에서 제거됩니다. ── */
-const warned = {};
-function deprecated(oldName, newName) {
-  if (warned[oldName]) return;
-  warned[oldName] = true;
-  if (!isProd() && typeof console !== "undefined") console.warn(`blurssism: ${oldName}()는 2.0에서 사라져요. ${newName}()를 써 주세요.`);
-}
-/** @deprecated 1.5부터 shouldReduceCrema() */
-export function shouldReduceGlass(options) { deprecated("shouldReduceGlass", "shouldReduceCrema"); return shouldReduceCrema(options); }
-/** @deprecated 1.5부터 applyCremaPreference() */
-export function applyGlassPreference(options) { deprecated("applyGlassPreference", "applyCremaPreference"); return applyCremaPreference(options); }
-/** @deprecated 1.5부터 setCremaMode() */
-export function setGlassMode(mode) { deprecated("setGlassMode", "setCremaMode"); return setCremaMode(mode); }
-/** @deprecated 1.5부터 getCremaMode() */
-export function getGlassMode() { deprecated("getGlassMode", "getCremaMode"); return getCremaMode(); }
 
 /* ── 브랜드색 팔레트 ─────────────────────────────
    색 하나를 주면 강조색 묶음을 라이트·다크 모두 WCAG 대비에 맞춰 만듭니다. */
@@ -393,8 +391,8 @@ export function createPalette(color, options) {
     source: src,
     adjusted: accentL !== src,
     values: {
-      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "crema-tint-accent": tint(accentL, 0.14), "glass-tint-accent": tint(accentL, 0.14) },
-      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "crema-tint-accent": tint(accentD, 0.18), "glass-tint-accent": tint(accentD, 0.18) },
+      light: { accent: accentL, "accent-soft": softL, "on-accent": "#ffffff", "accent-ink": inkL, deco: decoL, "crema-tint-accent": tint(accentL, 0.14) },
+      dark: { accent: accentD, "accent-soft": softD, "on-accent": D["on-accent"], "accent-ink": inkD, deco: decoD, "crema-tint-accent": tint(accentD, 0.18) },
     },
     warnings,
   };
@@ -410,13 +408,9 @@ function checkId(id, kind) {
 export function paletteToCss(palette) {
   const id = checkId(palette.id), X = `[data-palette="${id}"]`;
   // 팔레트 안에서 크레마 가장자리 색이 그림자에도 반영되도록 그림자를 팔레트마다 다시 선언합니다.
-  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다. 그래서 옛 이름으로 덮어써도 그대로 맞습니다(2.0에서 제거).
   const decl = (t, pad) => [
-    ...Object.entries(palette.values[t]).filter(([k]) => k !== "glass-tint-accent").map(([k, v]) => k === "crema-tint-accent"
-      ? `${pad}--glass-tint-accent: ${v};\n${pad}--crema-tint-accent: var(--glass-tint-accent);` : `${pad}--${k}: ${v};`),
-    ...(BASE[t] && BASE[t]["shadow-crema"] ? [
-      `${pad}--shadow-glass: ${BASE[t]["shadow-crema"]};\n${pad}--shadow-crema: var(--shadow-glass);`,
-      `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
+    ...Object.entries(palette.values[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
+    ...(BASE[t] && BASE[t]["shadow-crema"] ? [`${pad}--shadow-crema: ${BASE[t]["shadow-crema"]};`, `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
   ].join("\n");
   return scopedCss(X, decl);
 }
@@ -576,11 +570,9 @@ export function backgroundCrema(background) {
 export function backgroundToCss(background) {
   const X = `[data-background="${checkId(background.id, "배경")}"]`;
   const keys = [...SURFACE_KEYS, ...INK_KEYS], crema = backgroundCrema(background);
-  // 1.4 이름(glass-*)이 앞서고 새 이름은 그 값을 읽습니다(팔레트와 같은 방식, 2.0에서 정리).
-  const legacy = { "crema-fill": "glass-fill", "crema-fill-strong": "glass-fill-strong", "crema-grain": "glass-grain" };
   return scopedCss(X, (t, pad) => [
     ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
-    ...Object.entries(crema[t]).map(([k, v]) => legacy[k] ? `${pad}--${legacy[k]}: ${v};\n${pad}--${k}: var(--${legacy[k]});` : `${pad}--${k}: ${v};`),
+    ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
   ].join("\n"));
 }
 

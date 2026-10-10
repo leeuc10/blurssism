@@ -1,17 +1,14 @@
 "use client";
-/* blurssism v1.6.3 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 import React from "react";
-import { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor } from "./utils.mjs";
+import { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor } from "./utils.mjs";
 
 function createBlurssism(React) {
   var h = React.createElement;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(" "); }
   function omit(o, keys) { var r = {}; for (var k in o) if (keys.indexOf(k) < 0) r[k] = o[k]; return r; }
-  var warned = {};
-  function warnOnce(key, msg) {
-    if (warned[key] || typeof console === "undefined" || (typeof process !== "undefined" && process.env && process.env.NODE_ENV === "production")) return;
-    warned[key] = true; console.warn("blurssism: " + msg);
-  }
+  /* 2.0: ref를 받는 컴포넌트(forwardRef). react-hook-form의 register, 프로그램적 포커스가 됩니다. React 18 전용. */
+  function withRef(name, render) { var C = React.forwardRef(render); C.displayName = name; return C; }
   /* 최신 값을 담아 두는 ref. effect가 처음 값을 붙잡지 않게 합니다(Dialog의 onClose 등). */
   function useLatest(v) { var r = React.useRef(v); r.current = v; return r; }
   /* 라디오 묶음 방향키: 선택을 옮기고 포커스도 따라갑니다. Home·End로 처음·끝. */
@@ -54,56 +51,58 @@ function createBlurssism(React) {
       strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round", className: p.className }, h("path", { d: PATHS[p.name] || "" }));
   }
 
-  function Button(p) {
+  /* 2.0: primary는 강조색(accent) 채움입니다. "accent"는 primary의 별칭(같은 클래스)이라 화면당 하나 규칙을 함께 셉니다. */
+  var Button = withRef("Button", function (p, ref) {
     var variant = p.variant || "primary", tag = p.href ? "a" : "button";
-    if (variant === "glass") warnOnce("variant-glass", 'Button variant="glass"는 2.0에서 사라져요. variant="crema"를 써 주세요.');
+    if (variant === "accent") variant = "primary";
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
-      // "glass"는 1.4 이름(2.0에서 제거). 옛 CSS 덮어쓰기가 계속 맞도록 두 클래스를 함께 붙입니다.
-      className: cx("bl-btn", variant === "crema" || variant === "glass" ? "bl-btn-crema bl-btn-glass" : "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
+      ref: ref,
+      className: cx("bl-btn", "bl-btn-" + variant, p.size === "md" && "bl-btn-md", p.block && "bl-btn-block", p.className)
     }), p.icon ? h(Icon, { name: p.icon }) : null, p.children);
-  }
+  });
 
-  function IconButton(p) {
+  var IconButton = withRef("IconButton", function (p, ref) {
     return h("button", Object.assign({ type: "button" }, omit(p, ["icon", "label", "pressed", "plain", "className"]), {
-      className: cx("bl-icon-btn", p.plain && "bl-icon-btn-plain", p.className), "aria-label": p.label,
+      ref: ref, className: cx("bl-icon-btn", p.plain && "bl-icon-btn-plain", p.className), "aria-label": p.label,
       "aria-pressed": p.pressed == null ? undefined : String(!!p.pressed)
     }), h(Icon, { name: p.icon, filled: !!p.pressed }));
-  }
+  });
 
   /* selected를 주면 제어 모드, 안 주면 누를 때마다 스스로 바뀝니다(defaultSelected로 처음 값). onChange(다음 값)를 부릅니다. */
-  function Chip(p) {
+  var Chip = withRef("Chip", function (p, ref) {
     var st = React.useState(!!p.defaultSelected), on = p.selected != null ? !!p.selected : st[0];
     return h("button", Object.assign({ type: "button" }, omit(p, ["selected", "defaultSelected", "onChange", "className", "children"]), {
-      className: cx("bl-chip", p.className), "aria-pressed": String(on),
+      ref: ref, className: cx("bl-chip", p.className), "aria-pressed": String(on),
       onClick: function (e) {
         if (p.selected == null) st[1](!on);
         p.onChange && p.onChange(!on);
         p.onClick && p.onClick(e);
       }
     }), on ? h(Icon, { name: "check" }) : null, p.children);
-  }
+  });
 
   /* React 18의 useId는 서버·클라이언트에서 같은 값을 만들어 하이드레이션이 어긋나지 않습니다 */
   var uid = 0;
   var useStableId = React.useId || function () { return React.useMemo(function () { return "bl-" + (++uid); }, []); };
   function useId(given) { var auto = useStableId(); return given || auto; }
 
-  function TextField(p) {
+  /* ref는 <input>에 닿습니다 */
+  var TextField = withRef("TextField", function (p, ref) {
     var id = useId(p.id), help = p.error || p.help;
     return h("div", { className: cx("bl-field", p.className), "data-invalid": p.error ? "true" : undefined },
       h("label", { className: "bl-field-label", htmlFor: id }, p.label),
       h("input", Object.assign({}, omit(p, ["label", "help", "error", "className", "id"]), {
-        id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
+        ref: ref, id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
       })),
       help ? h("p", { id: id + "-help", className: "bl-field-help" }, p.error ? "오류: " + p.error : p.help) : null);
-  }
+  });
 
-  function Switch(p) {
+  var Switch = withRef("Switch", function (p, ref) {
     return h("button", Object.assign({ type: "button", role: "switch" }, omit(p, ["checked", "onChange", "label", "className"]), {
-      className: cx("bl-switch", p.className), "aria-checked": String(!!p.checked), "aria-label": p.label,
+      ref: ref, className: cx("bl-switch", p.className), "aria-checked": String(!!p.checked), "aria-label": p.label,
       onClick: function () { p.onChange && p.onChange(!p.checked); }
     }));
-  }
+  });
 
   function Badge(p) {
     return h("span", { className: cx("bl-badge", "bl-badge-" + (p.tone || "neutral"), p.className) }, p.icon ? h(Icon, { name: p.icon }) : null, p.children);
@@ -126,27 +125,28 @@ function createBlurssism(React) {
     return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
       p.image ? h("img", { className: "bl-media-img", src: p.image, alt: p.imageAlt || "" }) : ph,
       p.badge ? h(Badge, { tone: p.badgeTone || "positive", icon: p.badgeIcon }, p.badge) : null,
-      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite bl-glass-lite" : "bl-crema bl-glass") },
+      h("div", { className: "bl-media-bar " + (p.lite ? "bl-crema-lite" : "bl-crema") },
         h("div", { className: "bl-media-text" },
           h("p", { className: "bl-media-title" }, p.title),
           p.meta ? h("p", { className: "bl-media-meta" }, p.meta) : null),
         p.action || null));
   }
 
-  function ListItem(p) {
+  var ListItem = withRef("ListItem", function (p, ref) {
     var tag = p.href ? "a" : p.onClick ? "button" : "div";
     var trail = p.trailing !== undefined ? p.trailing : (tag !== "div" ? h(Icon, { name: "chevron-right" }) : null);
     return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["icon", "title", "subtitle", "trailing", "className"]), {
-      className: cx("bl-item", p.className) }),
+      ref: ref, className: cx("bl-item", p.className) }),
       p.icon ? h("span", { className: "bl-item-lead" }, h(Icon, { name: p.icon })) : null,
       h("span", { className: "bl-item-text" },
         h("span", { className: "bl-item-title" }, p.title),
         p.subtitle ? h("span", { className: "bl-item-sub" }, p.subtitle) : null),
       trail ? h("span", { className: "bl-item-trail" }, trail) : null);
-  }
+  });
 
 
-  function Select(p) {
+  /* ref는 <select>에 닿습니다 */
+  var Select = withRef("Select", function (p, ref) {
     var id = useId(p.id), help = p.error || p.help;
     // placeholder가 있고 값이 정해지지 않았으면 빈 값("")에서 시작해 placeholder가 보이게 합니다(Svelte와 같게).
     var start = p.placeholder && p.value === undefined && p.defaultValue === undefined ? { defaultValue: "" } : {};
@@ -154,22 +154,23 @@ function createBlurssism(React) {
       h("label", { className: "bl-field-label", htmlFor: id }, p.label),
       h("div", { className: "bl-select" },
         h("select", Object.assign(start, omit(p, ["label", "help", "error", "className", "id", "options", "placeholder"]), {
-          id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
+          ref: ref, id: id, className: "bl-field-input", "aria-invalid": p.error ? "true" : undefined, "aria-describedby": help ? id + "-help" : undefined
         }),
           p.placeholder ? h("option", { value: "", disabled: true }, p.placeholder) : null,
           (p.options || []).map(function (o) { o = typeof o === "string" ? { value: o, label: o } : o; return h("option", { key: o.value, value: o.value, disabled: o.disabled }, o.label); }))),
       help ? h("p", { id: id + "-help", className: "bl-field-help" }, p.error ? "오류: " + p.error : p.help) : null);
-  }
+  });
 
-  function Checkbox(p) {
+  /* ref는 <input type="checkbox">에 닿습니다 */
+  var Checkbox = withRef("Checkbox", function (p, ref) {
     return h("label", { className: cx("bl-check", p.className) },
-      h("input", Object.assign({ type: "checkbox" }, omit(p, ["label", "description", "className"]))),
+      h("input", Object.assign({ type: "checkbox", ref: ref }, omit(p, ["label", "description", "className"]))),
       h("span", null, p.label, p.description ? h("span", { className: "bl-check-sub" }, p.description) : null));
-  }
+  });
 
-  function RadioGroup(p) {
+  var RadioGroup = withRef("RadioGroup", function (p, ref) {
     var name = useId(p.name);
-    return h("fieldset", { className: cx("bl-radios", p.className) },
+    return h("fieldset", { ref: ref, className: cx("bl-radios", p.className) },
       p.legend ? h("legend", null, p.legend) : null,
       (p.options || []).map(function (o) {
         o = typeof o === "string" ? { value: o, label: o } : o;
@@ -178,7 +179,7 @@ function createBlurssism(React) {
             onChange: function () { p.onChange && p.onChange(o.value); } }),
           h("span", null, o.label, o.description ? h("span", { className: "bl-check-sub" }, o.description) : null));
       }));
-  }
+  });
 
   function SegmentedControl(p) {
     var items = p.items || [], ids = items.map(function (i) { return i.id; });
@@ -216,7 +217,7 @@ function createBlurssism(React) {
       onMouseEnter: function () { setOpen(true); }, onMouseLeave: function () { setOpen(false); },
       onFocus: function () { setOpen(true); }, onBlur: function () { setOpen(false); },
       onKeyDown: function (e) { if (e.key === "Escape" && open) { e.stopPropagation(); setOpen(false); } } },
-      child, h("span", { id: id, ref: tip, role: "tooltip", popover: "manual", className: "bl-tooltip-pop bl-crema-thick bl-glass-thick" }, p.label));
+      child, h("span", { id: id, ref: tip, role: "tooltip", popover: "manual", className: "bl-tooltip-pop bl-crema-thick" }, p.label));
   }
   /* 기준 요소 위 가운데에 놓고, 위가 모자라면 아래로, 좌우는 화면 안으로 */
   function placeTooltip(t, a) {
@@ -346,7 +347,7 @@ function createBlurssism(React) {
       };
     }, [p.open]);
     if (!p.open) return null;
-    return h("dialog", { ref: ref, className: cx("bl-dialog bl-crema-thick bl-glass-thick", p.className), role: p.alert ? "alertdialog" : undefined,
+    return h("dialog", { ref: ref, className: cx("bl-dialog bl-crema-thick", p.className), role: p.alert ? "alertdialog" : undefined,
       "aria-labelledby": id, "aria-describedby": p.description ? id + "-desc" : undefined, tabIndex: -1,
       onClick: function (e) {
         if (p.alert || e.target !== e.currentTarget) return;
@@ -395,24 +396,24 @@ function createBlurssism(React) {
     return React.useSyncExternalStore(onBreakpointChange, function () { return getBreakpoint(); }, function () { return null; });
   }
 
-  function Container(p) {
+  var Container = withRef("Container", function (p, ref) {
     var tag = p.as || "div";
     return h(tag, Object.assign({}, omit(p, ["as", "size", "className", "children"]), {
-      className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
-  }
+      ref: ref, className: cx("bl-container", p.size === "prose" && "bl-container-prose", p.size === "full" && "bl-container-full", p.className) }), p.children);
+  });
 
   /* columns: 숫자 또는 { xs, sm, md, lg, xl } — 단계별 열 수. 생략한 단계는 아래 단계 값을 이어받습니다. */
-  function Grid(p) {
+  var Grid = withRef("Grid", function (p, ref) {
     var c = typeof p.columns === "number" ? { xs: p.columns } : (p.columns || { xs: 1, sm: 2, lg: 3 });
     var style = {}, last = 1;
     ["xs", "sm", "md", "lg", "xl"].forEach(function (bp) { if (c[bp] != null) last = c[bp]; style["--bl-cols-" + bp] = last; });
     if (p.gap) style["--bl-grid-gap"] = "var(--" + p.gap + ")";
     return h(p.as || "div", Object.assign({}, omit(p, ["as", "columns", "gap", "className", "children", "style"]), {
-      className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
-  }
+      ref: ref, className: cx("bl-autogrid", p.className), style: Object.assign(style, p.style) }), p.children);
+  });
 
   function NavBar(p) {
-    return h("header", { className: cx("bl-navbar bl-crema bl-glass", p.className) },
+    return h("header", { className: cx("bl-navbar bl-crema", p.className) },
       p.onBack ? h(IconButton, { icon: "chevron-left", label: "뒤로", plain: true, onClick: p.onBack }) : null,
       h("p", { className: "bl-navbar-title" }, p.title),
       p.links ? h("nav", { className: "bl-navbar-links", "aria-label": "주요 메뉴" }, p.links.map(function (l) {
@@ -425,7 +426,7 @@ function createBlurssism(React) {
      기본으로 lg(1120px)부터 숨습니다(그때는 NavBar 링크). 계속 보이려면 hideFrom={false}. */
   function TabBar(p) {
     var hide = p.hideFrom === undefined ? "lg" : p.hideFrom;
-    return h("nav", { className: cx("bl-tabbar bl-crema bl-glass", hide && "bl-hide-from-" + hide, p.className), "aria-label": p.label || "주요 메뉴" },
+    return h("nav", { className: cx("bl-tabbar bl-crema", hide && "bl-hide-from-" + hide, p.className), "aria-label": p.label || "주요 메뉴" },
       (p.items || []).map(function (it) {
         var on = it.id === p.value;
         return h(it.href ? "a" : "button", Object.assign(it.href ? { href: it.href } : { type: "button" }, {
@@ -435,7 +436,7 @@ function createBlurssism(React) {
   }
 
   function Sheet(p) {
-    return h("div", { className: cx("bl-sheet bl-crema-thick bl-glass-thick", p.className), role: "dialog", "aria-label": p.title },
+    return h("div", { className: cx("bl-sheet bl-crema-thick", p.className), role: "dialog", "aria-label": p.title },
       h("div", { className: "bl-sheet-grip", "aria-hidden": "true" }),
       h("h2", { className: "bl-sheet-title" }, p.title),
       p.description ? h("p", { className: "bl-sheet-body" }, p.description) : null,
@@ -445,7 +446,7 @@ function createBlurssism(React) {
   function Toast(p) {
     var tone = p.tone || "neutral";
     var icon = tone === "positive" ? "check" : tone === "danger" ? "alert" : null;
-    return h("div", { className: cx("bl-toast bl-crema-thick bl-glass-thick", p.className), role: "status", "data-tone": tone },
+    return h("div", { className: cx("bl-toast bl-crema-thick", p.className), role: "status", "data-tone": tone },
       icon ? h(Icon, { name: icon }) : null,
       h("span", { className: "bl-toast-msg" }, p.children),
       p.actionLabel ? h(Button, { variant: "ghost", size: "md", onClick: p.onAction }, p.actionLabel) : null);
@@ -456,7 +457,7 @@ function createBlurssism(React) {
   return api;
 }
 
-const B = Object.assign(createBlurssism(React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
+const B = Object.assign(createBlurssism(React), { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor });
 export const Button = B.Button;
 export const IconButton = B.IconButton;
 export const Chip = B.Chip;
@@ -487,6 +488,6 @@ export const Dialog = B.Dialog;
 export const Toast = B.Toast;
 export const Icon = B.Icon;
 export const useBreakpoint = B.useBreakpoint;
-export { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, shouldReduceGlass, applyGlassPreference, setGlassMode, getGlassMode, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor };
+export { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor };
 export { createBlurssism };
 export default B;
