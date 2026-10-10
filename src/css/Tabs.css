@@ -1,0 +1,36 @@
+/* Tabs(2.1): 콘텐츠 탭(tablist). line = 지금 탭 아래 2px 강조색 밑줄(좁은 화면에서 가로 스크롤), pill = .bl-seg와 같은 캡슐. 지금 탭은 accent-ink + 굵기 + 밑줄·캡슐(색만으로 알리지 않음). */
+.bl-tabs { display: block; min-width: 0; contain: inline-size; }   /* 긴 탭 줄이 부모(grid·flex 칸)를 넓히지 않게: 가로 크기는 부모가 정하고 안에서 스크롤 */
+.bl-tabs-list { display: flex; gap: var(--space-1); max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.bl-tabs-list::-webkit-scrollbar { display: none; }
+.bl-tabs-tab { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4);
+  border: 0; background: transparent; cursor: pointer; white-space: nowrap; color: var(--ink-muted);
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 500; }
+.bl-tabs-tab svg { width: 18px; height: 18px; }
+.bl-tabs-tab:disabled { color: var(--ink-subtle); cursor: not-allowed; }
+.bl-tabs-tab[aria-selected="true"] { color: var(--accent-ink); font-weight: 700; }
+.bl-tabs-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
+/* line: 목록 아래 hairline, 지금 탭 아래 2px 강조색 밑줄이 hairline 위에 겹칩니다 */
+.bl-tabs-line .bl-tabs-list { border-bottom: 1px solid var(--line); }
+.bl-tabs-line .bl-tabs-tab { margin-bottom: -1px; border-bottom: 2px solid transparent; }
+.bl-tabs-line .bl-tabs-tab[aria-selected="true"] { border-bottom-color: var(--accent); }
+/* pill: .bl-seg와 같은 캡슐. 지금 탭은 불투명한 accent-soft */
+.bl-tabs-pill .bl-tabs-list { gap: 2px; width: max-content; padding: 3px; border-radius: var(--radius-full); background: var(--paper-sunken); }
+.bl-tabs-pill .bl-tabs-tab { min-height: 34px; border-radius: var(--radius-full); font-size: var(--text-body-sm-size); line-height: var(--text-label-line); font-weight: 600; transition: background-color .15s ease; }
+.bl-tabs-pill .bl-tabs-tab[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; }
+.bl-tabs-pill .bl-tabs-tab:focus-visible { outline-offset: 1px; border-radius: var(--radius-full); }
+.bl-tabs-panel { padding-top: var(--space-4); color: var(--ink); font-size: var(--text-body-size); line-height: var(--text-body-line); }
+.bl-tabs-panel[hidden] { display: none; }
+.bl-tabs-panel:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+@media (pointer: coarse) {
+  .bl-tabs-tab { min-height: var(--touch-min); }
+  /* pill 캡슐은 38px로 두고 누르는 영역만 44px로 넓힙니다(.bl-seg-item과 같은 방식) */
+  .bl-tabs-pill .bl-tabs-tab { min-height: 38px; position: relative; }
+  .bl-tabs-pill .bl-tabs-tab::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--touch-min)); height: max(100%, var(--touch-min)); transform: translate(-50%, -50%); }
+}
+@media (prefers-reduced-motion: reduce) { .bl-tabs-pill .bl-tabs-tab { transition: none; } }
+@media (forced-colors: active) {
+  .bl-tabs-line .bl-tabs-list { border-bottom-color: CanvasText; }
+  .bl-tabs-tab[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .bl-tabs-line .bl-tabs-tab[aria-selected="true"] { border-bottom-color: Highlight; }
+  .bl-tabs-tab:disabled { color: GrayText; }
+}

@@ -7,3 +7,20 @@
 
 ## 소비자가 넣는 것
 - `eyebrow`, `title`, `body` 또는 `quote`, `children`(하단 버튼, 최대 2개).
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+불투명 콘텐츠 카드. children = 하단 버튼들.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `eyebrow` | `string` |  |  |
+| `title` | `string` |  |  |
+| `quote` | `string` |  |  |
+| `body` | `string` |  |  |
+| `children` | `ReactNode` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

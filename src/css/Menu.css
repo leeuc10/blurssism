@@ -1,0 +1,22 @@
+/* Menu · Popover 위에 얹은 행동 메뉴. 항목 44px, 아이콘 20px, 위험 항목은 danger, 구분선은 line. 두꺼운 크레마 위라 글자는 ink·crema-ink-muted만. */
+.bl-menu-pop { min-width: 220px; padding: var(--space-2); }
+.bl-menu { display: flex; flex-direction: column; }
+.bl-menu-item { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: var(--touch-min); margin: 0; padding: 0 var(--space-3);
+  border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink); text-align: left; text-decoration: none; cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 500; -webkit-appearance: none; appearance: none; }
+.bl-menu-item:hover { background: var(--paper-sunken); }
+@supports (color: color-mix(in srgb, red, blue)) { .bl-menu-item:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); } }
+.bl-menu-item:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.bl-menu-item > svg { width: 20px; height: 20px; flex: none; color: var(--crema-ink-muted); }
+.bl-menu-label { flex: 1; min-width: 0; }
+.bl-menu-item[data-danger] { color: var(--danger); }
+.bl-menu-item[data-danger] > svg { color: var(--danger); }
+.bl-menu-item[aria-disabled="true"] { color: var(--crema-ink-muted); cursor: default; }
+.bl-menu-item[aria-disabled="true"]:hover { background: transparent; }
+.bl-menu-item[aria-disabled="true"] > svg { color: var(--crema-ink-muted); }
+.bl-menu-sep { height: 1px; margin: var(--space-2) var(--space-3); background: var(--line); }
+@media (forced-colors: active) {
+  .bl-menu-item:hover { outline: 1px solid Highlight; outline-offset: -1px; }
+  .bl-menu-item[aria-disabled="true"] { color: GrayText; }
+  .bl-menu-sep { background: CanvasText; }
+}

@@ -13,3 +13,25 @@
 
 ## 하지 말 것
 - 캡션에 세 줄 이상 넣지 않습니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+이미지 위에 크레마 캡션 띠가 떠 있는 카드.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `title` | `string` | 필수 |  |
+| `meta` | `string` |  |  |
+| `image` | `string` |  |  |
+| `imageAlt` | `string` |  |  |
+| `ratio` | `string` |  | CSS aspect-ratio, 기본 "4 / 5" |
+| `badge` | `string` |  |  |
+| `badgeTone` | `BadgeProps["tone"]` |  |  |
+| `badgeIcon` | `IconName` |  |  |
+| `action` | `ReactNode` |  | 캡션 오른쪽 요소 (보통 IconButton) |
+| `lite` | `boolean` |  | 긴 목록에서 반복될 때: 블러 없는 가벼운 크레마 (성능) |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

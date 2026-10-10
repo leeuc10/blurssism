@@ -1,8 +1,9 @@
 import type { Snippet } from "svelte";
 type $$ComponentProps = {
-    tone?: "neutral" | "positive" | "danger";
+    tone?: "neutral" | "positive" | "warning" | "danger" | "info";
     actionLabel?: string;
     onaction?: () => void;
+    ondismiss?: () => void;
     children?: Snippet;
     class?: string;
 };

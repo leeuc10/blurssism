@@ -1,4 +1,4 @@
-/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 "use strict";
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -10,7 +10,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "2.0.0";
+const version = "2.1.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -104,8 +104,38 @@ function shouldReduceCrema(options) {
   if (n.deviceMemory) {
     if (n.deviceMemory < minMemory) return true;
     if (n.hardwareConcurrency && n.hardwareConcurrency < minCores) return true;
+  } else if (n.hardwareConcurrency && n.hardwareConcurrency <= 2) {
+    return true;   // 메모리를 알려 주지 않는 브라우저(Safari·Firefox)에서도 코어 2개 이하면 저사양으로 봅니다(2.1)
   }
   return false;
+}
+
+/**
+ * 블러 비용을 실제로 재 봅니다(2.1, 선택). 화면 밖에 블러 면을 그려 10프레임을 돌리고, 한 프레임이 slowMs(기본 24ms)를 넘으면 느린 기기로 봅니다.
+ * Promise<boolean>(느리면 true). 서버·지원 없음이면 false. applyCremaPreference({ probe: true })가 이 결과로 off를 정합니다.
+ */
+function probeCremaCost(options) {
+  const o = options || {}, slowMs = o.slowMs != null ? o.slowMs : 24;
+  if (typeof document === "undefined" || typeof requestAnimationFrame === "undefined") return Promise.resolve(false);
+  if (!(window.CSS && CSS.supports && (CSS.supports("backdrop-filter", "blur(1px)") || CSS.supports("-webkit-backdrop-filter", "blur(1px)")))) return Promise.resolve(false);
+  return new Promise((resolve) => {
+    const box = document.createElement("div");
+    box.setAttribute("aria-hidden", "true");
+    box.style.cssText = "position:fixed;left:0;top:0;width:60vw;height:60vh;pointer-events:none;opacity:.01;z-index:-1;overflow:hidden;contain:strict";
+    box.innerHTML = '<div style="position:absolute;inset:0;background:conic-gradient(red,blue,green,red)"></div>' +
+      Array.from({ length: 4 }, (_, i) => `<div style="position:absolute;left:${i * 20}%;top:${i * 10}%;width:50%;height:50%;backdrop-filter:blur(24px) saturate(125%);-webkit-backdrop-filter:blur(24px) saturate(125%);background:rgba(250,246,240,.7)"></div>`).join("");
+    document.body.appendChild(box);
+    const inner = box.firstChild;
+    let frames = 0, worst = 0, last = performance.now();
+    function tick(now) {
+      if (frames > 0) worst = Math.max(worst, now - last);
+      last = now; frames++;
+      inner.style.transform = `translate(${frames * 7}px, ${frames * 3}px)`;   // 뒤가 움직여야 블러를 다시 계산합니다
+      if (frames < 12) requestAnimationFrame(tick);
+      else { box.remove(); resolve(worst > slowMs); }
+    }
+    requestAnimationFrame(tick);
+  });
 }
 
 const DESKTOP_QUERY = `(min-width: ${breakpoints.lg}px) and (hover: hover) and (pointer: fine)`;
@@ -194,6 +224,7 @@ function applyCremaPreference(options) {
     pointerLight(mode === "rich" && o.pointerLight === true);
   }
   update();
+  if (!reduce && o.probe) probeCremaCost(o).then((slow) => { if (slow) { root.setAttribute("data-crema", "off"); pointerLight(false); } });
   if (!reduce && rich === "auto" && window.matchMedia) {
     cremaState.mq = window.matchMedia(DESKTOP_QUERY);
     cremaState.onMq = update;
@@ -215,6 +246,46 @@ function getCremaMode() {
   const root = rootEl();
   const m = root && root.getAttribute("data-crema");
   return m === "off" || m === "rich" ? m : "on";
+}
+
+/* ── 로케일(2.1) ─────────────────────────────
+   컴포넌트가 그리는 문구(오류 접두어, 뒤로, 달력 라벨 등). 기본은 한국어, setLocale("en")으로 영어.
+   앱 시작 시 한 번 부르면 됩니다. 나중에 바꾸면 React는 useLocale()로, Svelte는 locale.svelte.js로 다시 그립니다. */
+const locales = {
+  ko: {
+    id: "ko", errorPrefix: "오류: ", back: "뒤로", close: "닫기", more: "더 보기", prevMonth: "이전 달", nextMonth: "다음 달",
+    dow: ["일", "월", "화", "수", "목", "금", "토"],
+    monthTitle: (y, m) => `${y}년 ${m + 1}월`,
+    dayLabel: (y, m, d, dow) => `${y}년 ${m + 1}월 ${d}일 ${dow}요일`,
+    palette: "색 팔레트", mainMenu: "주요 메뉴", siteMenu: "사이트 메뉴", menu: "메뉴", loading: "불러오는 중", dismiss: "닫기",
+    prevPage: "이전 페이지", nextPage: "다음 페이지", page: (n) => `${n}페이지`, pageOf: (n, total) => `${total}페이지 중 ${n}페이지`,
+    tabs: "탭", notifications: "알림", openInNew: "새 창에서 열림",
+  },
+  en: {
+    id: "en", errorPrefix: "Error: ", back: "Back", close: "Close", more: "More", prevMonth: "Previous month", nextMonth: "Next month",
+    dow: ["S", "M", "T", "W", "T", "F", "S"],
+    monthTitle: (y, m) => `${["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][m]} ${y}`,
+    dayLabel: (y, m, d) => new Date(y, m, d).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }),
+    palette: "Color palette", mainMenu: "Main menu", siteMenu: "Site menu", menu: "Menu", loading: "Loading", dismiss: "Dismiss",
+    prevPage: "Previous page", nextPage: "Next page", page: (n) => `Page ${n}`, pageOf: (n, total) => `Page ${n} of ${total}`,
+    tabs: "Tabs", notifications: "Notifications", openInNew: "Opens in a new window",
+  },
+};
+let currentLocale = locales.ko;
+const localeListeners = [];
+/** 로케일을 정합니다: "ko" | "en" | 직접 만든 객체(locales.ko를 바탕으로 일부만 덮어써도 됩니다). */
+function setLocale(locale) {
+  const next = typeof locale === "string" ? locales[locale] : { ...locales.ko, ...locale };
+  if (!next) throw new TypeError(`blurssism: 로케일 "${locale}"은 없어요. "ko", "en" 또는 객체를 넣어 주세요.`);
+  currentLocale = next;
+  localeListeners.forEach((fn) => fn(next));
+}
+/** 지금 로케일 객체 */
+function getLocale() { return currentLocale; }
+/** 로케일이 바뀔 때마다 cb(로케일)을 부릅니다. 해제 함수를 돌려줍니다. */
+function onLocaleChange(cb) {
+  localeListeners.push(cb);
+  return function () { const i = localeListeners.indexOf(cb); if (i >= 0) localeListeners.splice(i, 1); };
 }
 
 /* ── 개발 중 검사 ─────────────────────────────
@@ -248,12 +319,48 @@ function checkCrema(options) {
   const primaries = Array.prototype.filter.call(document.querySelectorAll(".bl-btn-primary"), onScreen);
   if (primaries.length > 1) issues.push({ code: "primary", elements: primaries,
     message: `primary 버튼이 화면에 ${primaries.length}개 있어요. 가장 중요한 행동 하나만 primary로 두고 나머지는 variant="ghost"나 "crema"로 바꿔 주세요.` });
+  // 2.1: 한 화면에 팔레트 하나. <html> 밖에서 data-palette를 쓰는 영역이 있으면 알립니다(팔레트 고르기 화면의 .bl-palette 버튼은 제외).
+  const regions = Array.prototype.filter.call(document.querySelectorAll("body [data-palette]"), (el) => !el.classList.contains("bl-palette") && onScreen(el));
+  if (regions.length) issues.push({ code: "palette", elements: regions,
+    message: `팔레트를 따로 건 영역이 화면에 ${regions.length}개 있어요. 한 화면에는 팔레트 하나만 쓰고, 영역별 팔레트는 팔레트 자체를 보여 줄 때만 써 주세요.` });
+  // 2.1: 90/10. 강조·상태·장식색으로 채운 면의 넓이가 뷰포트의 10%를 넘으면 알립니다(겹치는 면은 바깥 것만 셉니다).
+  const area = accentArea();
+  if (area.ratio > (o.accentMax != null ? o.accentMax : 0.1)) issues.push({ code: "accent-area", elements: area.elements,
+    message: `강조색·상태색·장식색 면이 화면의 ${Math.round(area.ratio * 100)}%예요(기준 10%). 바탕은 paper·ink로 두고 강조색은 선택·활성·행동 하나에만 써 주세요.` });
   const legacy = Array.prototype.filter.call(document.querySelectorAll(".bl-glass, .bl-glass-thick, .bl-glass-lite, .bl-btn-glass, [data-glass]"), (el) =>
     el.hasAttribute("data-glass") ? el !== document.documentElement && !el.hasAttribute("data-crema")
       : !/\bbl-(crema|btn-crema)/.test(el.className));
   if (legacy.length) issues.push({ code: "legacy-glass", elements: legacy,
     message: `1.4 이름(.bl-glass*, .bl-btn-glass, data-glass)을 쓰는 요소가 ${legacy.length}개 있어요. 2.0에서 제거돼 스타일이 없으니 .bl-crema*, .bl-btn-crema, data-crema로 바꿔 주세요.` });
   return issues;
+}
+
+/* 토큰 색을 실제 rgb로 읽어 둡니다(팔레트·배경·테마에 따라 다르므로 검사할 때마다) */
+function tokenRgb(names) {
+  const probe = document.createElement("span"), out = {};
+  probe.style.display = "none"; document.body.appendChild(probe);
+  for (const n of names) { probe.style.color = `var(--${n})`; out[getComputedStyle(probe).color] = n; }
+  probe.remove();
+  return out;
+}
+function accentArea() {
+  const colors = tokenRgb(["accent", "deco", "positive", "warning", "danger", "info", "accent-soft", "positive-soft", "warning-soft", "danger-soft"]);
+  const vw = window.innerWidth, vh = window.innerHeight, elements = [];
+  let sum = 0;
+  const walk = (el) => {
+    if (!el.getBoundingClientRect) return;
+    const cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden") return;
+    const bg = colors[cs.backgroundColor];
+    if (bg) {
+      const r = el.getBoundingClientRect(), w = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0)), hgt = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      if (w && hgt) { sum += w * hgt; elements.push(el); }
+      return;   // 안쪽은 바깥 면에 이미 들어갑니다
+    }
+    for (const c of el.children) walk(c);
+  };
+  walk(document.body);
+  return { ratio: vw && vh ? sum / (vw * vh) : 0, elements };
 }
 
 /**
@@ -408,7 +515,7 @@ function paletteToCss(palette) {
   const id = checkId(palette.id), X = `[data-palette="${id}"]`;
   // 팔레트 안에서 크레마 가장자리 색이 그림자에도 반영되도록 그림자를 팔레트마다 다시 선언합니다.
   const decl = (t, pad) => [
-    ...Object.entries(palette.values[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
+    ...Object.entries(palette.values[t]).flatMap(([k, v]) => [`${pad}--${k}: ${v};`, ...(/^#[0-9a-f]{6}$/i.test(v) ? [`${pad}--${k}-rgb: ${parseHex(v).join(" ")};`] : [])]),
     ...(BASE[t] && BASE[t]["shadow-crema"] ? [`${pad}--shadow-crema: ${BASE[t]["shadow-crema"]};`, `${pad}--shadow-sheet: ${BASE[t]["shadow-sheet"]};`] : []),
   ].join("\n");
   return scopedCss(X, decl);
@@ -570,7 +677,7 @@ function backgroundToCss(background) {
   const X = `[data-background="${checkId(background.id, "배경")}"]`;
   const keys = [...SURFACE_KEYS, ...INK_KEYS], crema = backgroundCrema(background);
   return scopedCss(X, (t, pad) => [
-    ...keys.filter((k) => background.values[t][k]).map((k) => `${pad}--${k}: ${background.values[t][k]};`),
+    ...keys.filter((k) => background.values[t][k]).flatMap((k) => [`${pad}--${k}: ${background.values[t][k]};`, ...(/^#[0-9a-f]{6}$/i.test(background.values[t][k]) ? [`${pad}--${k}-rgb: ${parseHex(background.values[t][k]).join(" ")};`] : [])]),
     ...Object.entries(crema[t]).map(([k, v]) => `${pad}--${k}: ${v};`),
   ].join("\n"));
 }
@@ -593,4 +700,4 @@ function applyBackgroundColor(color, options) {
   return b;
 }
 
-module.exports = { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor };
+module.exports = { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, probeCremaCost, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, locales, setLocale, getLocale, onLocaleChange, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor };

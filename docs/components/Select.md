@@ -7,3 +7,22 @@
 ## 소비자가 넣는 것
 - `label`(필수), `options`(문자열 또는 `{value,label,disabled}`), `value`, `onChange`, `placeholder`, `help`, `error`.
 - `placeholder`를 주고 값을 정하지 않으면 placeholder가 보이는 빈 값에서 시작합니다(React·Svelte 같음).
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+네이티브 select를 감싼 드롭다운. 라벨·도움말·오류는 TextField와 같습니다.
+
+`SelectHTMLAttributes<HTMLSelectElement>`의 속성을 모두 받습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `label` | `string` | 필수 |  |
+| `options` | `(Option \| string)[]` | 필수 |  |
+| `placeholder` | `string` |  |  |
+| `help` | `string` |  |  |
+| `error` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

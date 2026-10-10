@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Menu — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;height:360px;} .page{padding:16px;} .deco{margin-top:16px;height:120px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--deco),var(--accent-soft));}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var items = [
+    { id: "edit", label: "편집하기", icon: "settings" },
+    { id: "share", label: "링크 복사", icon: "plus" },
+    { id: "open", label: "새 탭에서 열기", icon: "chevron-right", href: "#" },
+    "-",
+    { id: "archive", label: "보관함으로 옮기기", icon: "inbox", disabled: true },
+    { id: "delete", label: "삭제하기", icon: "close", danger: true }
+  ];
+  function Demo() {
+    var last = React.useState("");
+    return h("div", { className: "page" },
+      h("ul", { className: "bl-list", style: { margin: 0 } },
+        h("li", null, h(B.ListItem, { title: "예가체프 테이스팅 노트", subtitle: "어제 저녁에 수정했어요",
+          trailing: h(B.Menu, { items: items, label: "테이스팅 노트 메뉴", placement: "bottom-end", onSelect: function (id) { last[1](id); },
+            trigger: h(B.IconButton, { icon: "settings", label: "더 보기", plain: true }) }) }))),
+      h("p", { style: { color: "var(--ink-muted)" }, "aria-live": "polite" }, last[0] ? "고른 항목: " + last[0] : "오른쪽 버튼을 누르면 메뉴가 떠요. 방향키로 옮기고 Enter로 골라요."),
+      h("div", { className: "deco", "aria-hidden": "true" }));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

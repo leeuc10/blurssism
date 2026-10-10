@@ -1,9 +1,22 @@
-/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+@layer blurssism;
+@layer blurssism {
 /* blurssism 컴포넌트 스타일 원본 · © caffeinecat · MIT. 색·간격·모서리·글자 크기 모두 tokens.css 변수(--text-* 포함)에서 옵니다. 접두어 bl-. dist/bundle.css는 빌드가 만듭니다.
    글꼴은 불러오지 않습니다. fonts.css를 함께 쓰거나 직접 호스팅하세요. */
 
 .bl-root, .bl-root * { box-sizing: border-box; }
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
+
+/* ── 컴포넌트 변수(2.1) ─────────────────────────────
+   자주 바꾸는 치수는 변수로 둡니다. :root나 .bl-root, 또는 특정 영역에서 덮어쓰면 그 안의 컴포넌트가 따라갑니다.
+   예: .compact { --bl-btn-h: 44px; --bl-field-h: 44px; } */
+:root, .bl-root {
+  --bl-btn-h: 52px; --bl-btn-h-md: 40px; --bl-btn-px: var(--space-6); --bl-btn-radius: var(--radius-full);
+  --bl-field-h: 52px; --bl-field-radius: var(--radius-md);
+  --bl-icon-btn: 48px; --bl-chip-h: 36px; --bl-switch-w: 52px; --bl-switch-h: 32px; --bl-tab-h: 56px;
+  --bl-card-pad: var(--space-6) var(--space-5) var(--space-5); --bl-card-radius: var(--radius-lg);
+  --bl-dialog-w: 440px; --bl-sheet-w: 480px; --bl-toast-w: 420px;
+}
 
 /* ── 크레마 재질: 블러레마(Blurema) ─────────────────────────────
    1.5부터 클래스·속성·변수 이름이 crema이고, 1.4의 glass 이름은 2.0에서 제거됐습니다(auditCrema()가 남은 쓰임새를 찾아 줍니다).
@@ -94,7 +107,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 /* ── Button ─────────────────────────────── */
 .bl-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  height: 52px; padding: 0 var(--space-6); border-radius: var(--radius-full);
+  height: var(--bl-btn-h); padding: 0 var(--bl-btn-px); border-radius: var(--bl-btn-radius);
   font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight);
   border: 1px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: transform .12s ease, background-color .12s ease;
@@ -102,7 +115,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-btn:active { transform: scale(0.97); }
 .bl-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-btn:disabled { cursor: not-allowed; background: var(--paper-sunken); color: var(--ink-subtle); border-color: transparent; box-shadow: none; transform: none; }
-.bl-btn-md { height: 40px; padding: 0 var(--space-5); }
+.bl-btn-md { height: var(--bl-btn-h-md); padding: 0 var(--space-5); }
 .bl-btn-block { display: flex; width: 100%; }
 /* 2.0: primary가 강조색(accent) 채움입니다(전에는 ink 채움). 블랙 팔레트에서는 그대로 검정, 다른 팔레트에서는 그 팔레트 색.
    .bl-btn-accent는 같은 규칙의 별칭이고, 컴포넌트 variant="accent"는 bl-btn-primary를 붙입니다. 화면당 하나. */
@@ -115,7 +128,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 
 .bl-icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 48px; height: 48px; border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
+  width: var(--bl-icon-btn); height: var(--bl-icon-btn); border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
   background-color: var(--bl-crema-fill); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-crema);
   -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate));
 }
@@ -131,7 +144,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 /* ── Chip ─────────────────────────────── */
 .bl-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .bl-chip {
-  display: inline-flex; align-items: center; gap: var(--space-1); height: 36px; padding: 0 var(--space-3);
+  display: inline-flex; align-items: center; gap: var(--space-1); height: var(--bl-chip-h); padding: 0 var(--space-3);
   border-radius: var(--radius-full); border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
   font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; cursor: pointer;
 }
@@ -143,7 +156,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-field { display: flex; flex-direction: column; gap: var(--space-2); }
 .bl-field-label { font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); font-weight: 600; color: var(--ink); }
 .bl-field-input {
-  height: 52px; padding: 0 var(--space-4); border-radius: var(--radius-md); width: 100%;
+  height: var(--bl-field-h); padding: 0 var(--space-4); border-radius: var(--bl-field-radius); width: 100%;
   border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
   font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line);
 }
@@ -154,12 +167,12 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-field[data-invalid="true"] .bl-field-help { color: var(--danger); font-weight: 500; }
 
 /* ── Switch ─────────────────────────────── */
-.bl-switch { position: relative; flex: none; width: 52px; height: 32px; padding: 0; border-radius: var(--radius-full); cursor: pointer;
+.bl-switch { position: relative; flex: none; width: var(--bl-switch-w); height: var(--bl-switch-h); padding: 0; border-radius: var(--radius-full); cursor: pointer;
   background: var(--paper-sunken); border: 1px solid var(--line-strong); transition: background-color .15s ease; }
 .bl-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: var(--radius-full);
   background: var(--paper-raised); box-shadow: var(--shadow-crema); transition: transform .18s cubic-bezier(.3,1.4,.5,1); }
 .bl-switch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
-.bl-switch[aria-checked="true"]::after { transform: translateX(20px); }
+.bl-switch[aria-checked="true"]::after { transform: translateX(calc(var(--bl-switch-w) - var(--bl-switch-h))); }
 .bl-switch:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
 /* ── Badge ─────────────────────────────── */
@@ -171,9 +184,10 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-badge-positive { background: var(--positive-soft); color: var(--positive); }
 .bl-badge-warning { background: var(--warning-soft); color: var(--warning); }
 .bl-badge-danger { background: var(--danger-soft); color: var(--danger); }
+.bl-badge-info { background: var(--accent-soft); color: var(--info); }
 
 /* ── Card ─────────────────────────────── */
-.bl-card { padding: var(--space-6) var(--space-5) var(--space-5); border-radius: var(--radius-lg);
+.bl-card { padding: var(--bl-card-pad); border-radius: var(--bl-card-radius);
   background: var(--paper-raised); border: 1px solid var(--line); box-shadow: var(--shadow-card); }
 .bl-card-eyebrow { margin: 0 0 var(--space-2); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); letter-spacing: var(--text-caption-tracking); color: var(--ink-muted); }
 .bl-card-title { margin: 0 0 var(--space-2); font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); color: var(--ink); }
@@ -225,7 +239,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── TabBar ─────────────────────────────── */
 .bl-tabbar { display: flex; gap: var(--space-1); padding: var(--space-1); border-radius: var(--radius-full); }
 .bl-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  height: 56px; min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
+  height: var(--bl-tab-h); min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
   color: var(--ink); font-family: var(--font-sans); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); text-decoration: none; }
 .bl-tab svg { width: 24px; height: 24px; }
 /* 지금 탭: 불투명한 accent-soft 캡슐 + 굵기 + 밑줄. 크레마 위에서도 대비가 4.5:1 이상이고, 색만으로 알리지 않습니다.
@@ -243,6 +257,16 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── Sheet ─────────────────────────────── */
 .bl-sheet { padding: var(--space-3) var(--space-6) var(--space-6); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
 .bl-sheet-grip { width: 40px; height: 5px; margin: 0 auto var(--space-5); border-radius: var(--radius-full); background: var(--line-strong); }
+/* 2.1: open을 받는 모달 시트. 네이티브 <dialog>로 아래에서 올라오고, 손잡이를 끌어내려 닫습니다. md 이상은 가운데 카드. */
+.bl-sheet-modal { width: 100%; max-width: none; margin: auto 0 0; border: 1px solid var(--crema-stroke); color: var(--ink); animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+.bl-sheet-modal::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
+.bl-sheet-modal:focus { outline: none; }
+.bl-sheet-modal .bl-sheet-grip { cursor: grab; touch-action: none; position: relative; }
+.bl-sheet-modal .bl-sheet-grip::before { content: ""; position: absolute; left: -40px; right: -40px; top: -16px; bottom: -16px; }   /* 손잡이 누르는 영역 */
+.bl-sheet-modal[data-closing] { animation: bl-sink .2s ease forwards; }
+.bl-sheet-modal[data-closing]::backdrop { animation: bl-fade-out .2s ease forwards; }
+@media (min-width: 768px) { .bl-sheet-modal { width: min(var(--bl-sheet-w), calc(100% - 2 * var(--space-4))); margin: auto; border-radius: var(--radius-xl); } .bl-sheet-modal .bl-sheet-grip { display: none; } }
+html:has(dialog.bl-sheet-modal[open]) { overflow: hidden; }
 .bl-sheet-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
 .bl-sheet-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
 .bl-sheet-actions { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -253,8 +277,17 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-toast > svg { width: 20px; height: 20px; flex: none; }
 .bl-toast[data-tone="positive"] > svg { color: var(--positive); }
 .bl-toast[data-tone="danger"] > svg { color: var(--danger); }
+.bl-toast[data-tone="warning"] > svg { color: var(--warning); }
+.bl-toast[data-tone="info"] > svg { color: var(--info); }
 .bl-toast-msg { flex: 1; min-width: 0; }
 .bl-toast .bl-btn { height: 36px; padding: 0 var(--space-4); }
+.bl-toast .bl-toast-close { width: 36px; height: 36px; }
+/* 2.1: ToastProvider가 그리는 쌓임 영역. 아래 가운데, lg 이상은 오른쪽 아래. 안전 영역을 비웁니다. */
+.bl-toaster { position: fixed; z-index: 60; left: var(--space-4); right: var(--space-4); bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2); pointer-events: none; }
+.bl-toaster-item { width: min(100%, var(--bl-toast-w)); pointer-events: auto; animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+.bl-toaster-item[data-closing] { animation: bl-sink .2s ease forwards; }
+@media (min-width: 1120px) { .bl-toaster { left: auto; align-items: flex-end; } }
 
 /* ── 미리보기용 배경: 크레마가 비쳐 보이도록 색 면을 깔아 둡니다 ── */
 .bl-backdrop { position: relative; overflow: hidden; background: var(--paper); }
@@ -345,11 +378,14 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
    CSS만 쓸 때는 <div class="bl-scrim"><div class="bl-dialog bl-crema-thick">…</div></div>도 그대로 됩니다.
    scrim은 어둡게만 하고 블러를 걸지 않습니다(다이얼로그 본체가 이미 블러라 예산을 아낍니다). */
 .bl-scrim { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-4); background: var(--scrim); animation: bl-fade .2s ease; }
-.bl-dialog { width: min(440px, calc(100% - 2 * var(--space-4))); max-width: none; margin: auto; padding: var(--space-6); border-radius: var(--radius-xl); color: var(--ink);
+.bl-dialog { width: min(var(--bl-dialog-w), calc(100% - 2 * var(--space-4))); max-width: none; margin: auto; padding: var(--space-6); border-radius: var(--radius-xl); color: var(--ink);
   animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
-.bl-scrim > .bl-dialog { width: min(440px, 100%); }
+.bl-scrim > .bl-dialog { width: min(var(--bl-dialog-w), 100%); }
 .bl-dialog::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-dialog:focus { outline: none; }
+/* 2.1: 닫힐 때(data-closing) 가라앉으며 사라지고, 애니메이션이 끝난 뒤 close()됩니다 */
+.bl-dialog[data-closing] { animation: bl-sink .2s ease forwards; }
+.bl-dialog[data-closing]::backdrop { animation: bl-fade-out .2s ease forwards; }
 html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 .bl-dialog-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
 .bl-dialog-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
@@ -360,8 +396,14 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
   .bl-dialog-actions { flex-direction: column-reverse; } .bl-dialog-actions .bl-btn { width: 100%; }
 }
 @keyframes bl-fade { from { opacity: 0; } }
+@keyframes bl-fade-out { to { opacity: 0; } }
 @keyframes bl-rise { from { opacity: 0; transform: translateY(16px); } }
-@media (prefers-reduced-motion: reduce) { .bl-scrim, .bl-dialog, .bl-dialog::backdrop { animation: bl-fade .15s ease; } }
+@keyframes bl-sink { to { opacity: 0; transform: translateY(16px); } }
+@media (prefers-reduced-motion: reduce) {
+  .bl-scrim, .bl-dialog, .bl-dialog::backdrop, .bl-sheet-modal, .bl-sheet-modal::backdrop, .bl-toaster-item { animation: bl-fade .15s ease; }
+  .bl-dialog[data-closing], .bl-sheet-modal[data-closing], .bl-toaster-item[data-closing] { animation: bl-fade-out .15s ease forwards; }
+  .bl-dialog[data-closing]::backdrop, .bl-sheet-modal[data-closing]::backdrop { animation: bl-fade-out .15s ease forwards; }
+}
 
 /* ── Table ─────────────────────────────── */
 .bl-table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper-raised); }
@@ -457,6 +499,262 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 
 /* ── 반응형: 낮은 화면(가로 모드 폰)에서도 시트·다이얼로그가 넘치지 않게 ── */
 .bl-dialog, .bl-sheet { max-height: 90dvh; overflow-y: auto; overscroll-behavior: contain; }
+
+
+/* ── Accordion.css ── */
+.bl-acc { margin: 0; padding: 0; border-radius: var(--radius-lg); background: var(--paper-raised); border: 1px solid var(--line); overflow: hidden; }
+.bl-acc-item + .bl-acc-item { border-top: 1px solid var(--line); }
+.bl-acc-summary { display: flex; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-3) var(--space-5); cursor: pointer; list-style: none; color: var(--ink);
+  font-family: var(--font-sans); font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); -webkit-tap-highlight-color: transparent; }
+.bl-acc-summary::-webkit-details-marker { display: none; }
+.bl-acc-summary::marker { content: ""; }
+.bl-acc-summary:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.bl-acc-icon { flex: none; width: 22px; height: 22px; color: var(--ink-muted); }
+.bl-acc-title { flex: 1; min-width: 0; }
+.bl-acc-chevron { flex: none; width: 20px; height: 20px; color: var(--ink-subtle); transition: transform .18s ease; }
+.bl-acc-item[open] > .bl-acc-summary .bl-acc-chevron { transform: rotate(90deg); color: var(--ink); }
+.bl-acc-body { padding: 0 var(--space-5) var(--space-5); color: var(--ink-muted); font-size: var(--text-body-size); line-height: var(--text-body-line); }
+.bl-acc-body > :first-child { margin-top: 0; }
+.bl-acc-body > :last-child { margin-bottom: 0; }
+@media (hover: hover) { .bl-acc-summary:hover { background: var(--paper-sunken); } }
+/* 터치: 제목 줄이 56px라 44px 기준을 넘지만, 좁은 화면에선 좌우 여백을 줄여 글자 자리를 넓힙니다 */
+@media (pointer: coarse) { .bl-acc-summary { min-height: max(56px, var(--touch-min)); } }
+@media (max-width: 599px) { .bl-acc-summary { padding-left: var(--space-4); padding-right: var(--space-4); } .bl-acc-body { padding-left: var(--space-4); padding-right: var(--space-4); } }
+@media (prefers-reduced-motion: reduce) { .bl-acc-chevron { transition: none; } }
+@media (forced-colors: active) {
+  .bl-acc { border-color: CanvasText; }
+  .bl-acc-item + .bl-acc-item { border-top-color: CanvasText; }
+  .bl-acc-item[open] > .bl-acc-summary { outline: 2px solid Highlight; outline-offset: -2px; }
+  .bl-acc-item[open] > .bl-acc-summary .bl-acc-title { text-decoration: underline 2px; text-underline-offset: 3px; }
+}
+
+/* ── Alert.css ── */
+.bl-alert {
+  --bl-alert-tone: var(--info);
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg);
+  background: var(--paper-raised); color: var(--ink); border: 1px solid var(--line);
+  font-family: var(--font-sans); font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); word-break: keep-all;
+}
+.bl-alert-icon { width: 22px; height: 22px; flex: none; margin-top: 1px; color: var(--bl-alert-tone); }
+.bl-alert-body { flex: 1; min-width: 0; }
+.bl-alert-title { margin: 0; font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 700; color: var(--bl-alert-tone); }
+.bl-alert-text { color: var(--ink); }
+.bl-alert-title + .bl-alert-text { margin-top: var(--space-1); }
+.bl-alert-text > p { margin: 0; }
+.bl-alert-text > p + p { margin-top: var(--space-2); }
+.bl-alert-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+/* 닫기: plain 아이콘 버튼 40px. 띠의 안쪽 여백만큼 당겨 글줄과 가운데를 맞춥니다 */
+.bl-alert-close.bl-icon-btn { width: 40px; height: 40px; flex: none; margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1) calc(var(--space-2) * -1) 0; color: var(--ink-muted); }
+.bl-alert-close.bl-icon-btn svg { width: 20px; height: 20px; }
+/* 톤: 바탕은 -soft, 아이콘·제목은 톤색. info는 -soft 토큰이 없어 paper-raised에 info를 조금 섞습니다 */
+.bl-alert-positive { --bl-alert-tone: var(--positive); background: var(--positive-soft); }
+.bl-alert-warning { --bl-alert-tone: var(--warning); background: var(--warning-soft); }
+.bl-alert-danger { --bl-alert-tone: var(--danger); background: var(--danger-soft); }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-alert { border-color: color-mix(in srgb, var(--bl-alert-tone) 24%, transparent); }
+  .bl-alert-info { background: color-mix(in srgb, var(--info) 10%, var(--paper-raised)); }
+}
+@media (pointer: coarse) {
+  .bl-alert-close.bl-icon-btn { width: 44px; height: 44px; margin-right: calc(var(--space-4) * -1); }
+}
+@media (forced-colors: active) {
+  .bl-alert { border: 1px solid CanvasText; }
+  .bl-alert[role="alert"] { border-width: 2px; }
+}
+@media (prefers-contrast: more) {
+  .bl-alert { border-color: var(--bl-alert-tone); }
+}
+
+/* ── Drawer.css ── */
+.bl-drawer { --bl-drawer-width: 320px; box-sizing: border-box; width: min(var(--bl-drawer-width), 85vw); max-width: none; color: var(--ink); font-family: var(--font-sans); }
+dialog.bl-drawer { position: fixed; inset: 0 auto 0 0; margin: 0; height: 100dvh; max-height: none; padding: 0; overflow-y: auto; overscroll-behavior: contain;
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0; border-left: 0; }
+dialog.bl-drawer[data-side="right"] { inset: 0 0 0 auto; border-radius: var(--radius-xl) 0 0 var(--radius-xl); border-left: 1px solid var(--crema-stroke); border-right: 0; }
+dialog.bl-drawer[open] { display: flex; flex-direction: column; }
+dialog.bl-drawer:focus { outline: none; }
+html:has(dialog.bl-drawer[open]) { overflow: hidden; }
+dialog.bl-drawer::backdrop { background: var(--scrim); animation: bl-fade .26s ease; }
+dialog.bl-drawer[data-closing]::backdrop { animation: bl-drawer-fade-out .26s ease forwards; }
+/* 들어올 때 bl-slide-*, 닫힐 때는 같은 길을 되돌아 나갑니다(data-closing). 블러 반경은 움직이지 않고 transform만 */
+dialog.bl-drawer[data-side="left"][open] { animation: bl-slide-left .26s cubic-bezier(.2,.8,.2,1); }
+dialog.bl-drawer[data-side="right"][open] { animation: bl-slide-right .26s cubic-bezier(.2,.8,.2,1); }
+dialog.bl-drawer[data-side="left"][data-closing] { animation: bl-slide-left-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
+dialog.bl-drawer[data-side="right"][data-closing] { animation: bl-slide-right-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes bl-slide-left { from { transform: translateX(-100%); } }
+@keyframes bl-slide-right { from { transform: translateX(100%); } }
+@keyframes bl-slide-left-out { to { transform: translateX(-100%); } }
+@keyframes bl-slide-right-out { to { transform: translateX(100%); } }
+@keyframes bl-drawer-fade-out { to { opacity: 0; } }
+.bl-drawer-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-3) var(--space-3) var(--space-2) var(--space-6); }
+.bl-drawer-title { margin: 0; min-width: 0; font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
+.bl-drawer-close { flex: none; margin-left: auto; }
+.bl-drawer-body { flex: 1; min-height: 0; padding: var(--space-2) var(--space-6) var(--space-6); }
+.bl-drawer-body > .bl-list { background: transparent; border: 0; }   /* 크레마 위에 리스트를 바로 올릴 때 */
+/* 데스크톱 사이드바: 불투명한 paper-raised, 블러·scrim 없음. 배치는 소비자의 flex·grid 안에서 */
+.bl-drawer-persistent { display: flex; flex-direction: column; flex: none; align-self: stretch; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.bl-drawer-persistent .bl-drawer-head { padding-right: var(--space-6); }
+@media (prefers-reduced-motion: reduce) {
+  dialog.bl-drawer[data-side][open] { animation: bl-fade .15s ease; }
+  dialog.bl-drawer::backdrop { animation: bl-fade .15s ease; }
+  dialog.bl-drawer[data-side][data-closing] { animation: bl-drawer-fade-out .15s ease forwards; }
+  dialog.bl-drawer[data-closing]::backdrop { animation: bl-drawer-fade-out .15s ease forwards; }
+}
+@media (forced-colors: active) {
+  .bl-drawer-persistent { border: 1px solid CanvasText; }
+}
+
+/* ── Link.css ── */
+.bl-link {
+  color: var(--accent-ink); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px;
+  text-decoration-skip-ink: auto; border-radius: var(--radius-sm); cursor: pointer; word-break: keep-all;
+}
+.bl-link-muted { color: var(--ink-muted); }
+.bl-link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.bl-link:active { opacity: .8; }
+/* 새 창 표시: 오른쪽 꺾쇠를 -45도 돌려 바깥 위를 가리키는 작은 화살표 */
+.bl-link-ext { display: inline-block; width: .75em; height: .75em; vertical-align: 0; margin: 0 -.1em 0 .05em; transform: rotate(-45deg); }
+@media (hover: hover) {
+  .bl-link:hover { text-decoration-thickness: 2.5px; }
+  .bl-link-muted:hover { color: var(--ink); }
+}
+@media (forced-colors: active) {
+  .bl-link { color: LinkText; }
+  .bl-link-muted { color: LinkText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-link { transition: none; }
+}
+
+/* ── Menu.css ── */
+.bl-menu-pop { min-width: 220px; padding: var(--space-2); }
+.bl-menu { display: flex; flex-direction: column; }
+.bl-menu-item { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: var(--touch-min); margin: 0; padding: 0 var(--space-3);
+  border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink); text-align: left; text-decoration: none; cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 500; -webkit-appearance: none; appearance: none; }
+.bl-menu-item:hover { background: var(--paper-sunken); }
+@supports (color: color-mix(in srgb, red, blue)) { .bl-menu-item:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); } }
+.bl-menu-item:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.bl-menu-item > svg { width: 20px; height: 20px; flex: none; color: var(--crema-ink-muted); }
+.bl-menu-label { flex: 1; min-width: 0; }
+.bl-menu-item[data-danger] { color: var(--danger); }
+.bl-menu-item[data-danger] > svg { color: var(--danger); }
+.bl-menu-item[aria-disabled="true"] { color: var(--crema-ink-muted); cursor: default; }
+.bl-menu-item[aria-disabled="true"]:hover { background: transparent; }
+.bl-menu-item[aria-disabled="true"] > svg { color: var(--crema-ink-muted); }
+.bl-menu-sep { height: 1px; margin: var(--space-2) var(--space-3); background: var(--line); }
+@media (forced-colors: active) {
+  .bl-menu-item:hover { outline: 1px solid Highlight; outline-offset: -1px; }
+  .bl-menu-item[aria-disabled="true"] { color: GrayText; }
+  .bl-menu-sep { background: CanvasText; }
+}
+
+/* ── Pagination.css ── */
+.bl-pagination { display: flex; align-items: center; gap: var(--space-1); font-family: var(--font-sans); }
+.bl-pagination-list { display: flex; align-items: center; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.bl-pagination .bl-icon-btn { width: 40px; height: 40px; }
+.bl-pagination .bl-icon-btn:disabled { color: var(--ink-subtle); cursor: not-allowed; }
+.bl-page {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 var(--space-3);
+  border-radius: var(--radius-full); border: 1px solid transparent; background: transparent; color: var(--ink); cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; font-variant-numeric: tabular-nums;
+  transition: background-color .12s ease;
+}
+.bl-page[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; border-color: var(--accent); cursor: default; }
+.bl-page:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.bl-page-gap { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 40px; color: var(--ink-subtle); font-size: var(--text-label-size); user-select: none; }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-page[aria-current="page"] { border-color: color-mix(in srgb, var(--accent) 28%, transparent); }
+}
+@media (hover: hover) {
+  .bl-page:not([aria-current="page"]):hover { background: var(--paper-sunken); }
+}
+/* 좁은 화면(xs): 1 … 9 10 11 … 20이 한 줄에 들어가도록 캡슐을 조금 좁힙니다(350px 폭 기준) */
+@media (max-width: 599px) {
+  .bl-pagination, .bl-pagination-list { gap: 2px; }
+  .bl-page { min-width: 36px; padding: 0 var(--space-2); }
+  .bl-page-gap { min-width: 20px; }
+}
+/* 터치 기기: 높이는 44px로 키우고, 폭은 보이는 크기를 두고 보이지 않는 ::before로 누르는 영역만 44px까지 넓힙니다(아이콘 버튼은 bundle.css의 같은 규칙) */
+@media (pointer: coarse) {
+  .bl-page, .bl-page-gap { height: 44px; }
+  .bl-page { position: relative; }
+  .bl-page::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--touch-min)); height: max(100%, var(--touch-min)); transform: translate(-50%, -50%); }
+}
+@media (forced-colors: active) {
+  .bl-page[aria-current="page"] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .bl-pagination .bl-icon-btn:disabled { color: GrayText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-page { transition: none; }
+}
+
+/* ── Popover.css ── */
+.bl-popover-anchor { display: contents; }
+.bl-popover { display: none; position: fixed; inset: auto; margin: 0; min-width: 200px; max-width: min(360px, calc(100vw - 32px)); max-height: calc(100dvh - 16px);
+  padding: var(--space-4); border-radius: var(--radius-lg); overflow: auto; overscroll-behavior: contain; color: var(--ink);
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); }
+.bl-popover:popover-open { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1); }
+.bl-popover[data-open] { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1); }   /* popover API가 없는 브라우저 */
+.bl-popover:focus { outline: none; }
+.bl-popover-title { margin: 0 0 var(--space-2); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight); letter-spacing: var(--text-label-tracking); color: var(--ink); }
+.bl-popover-body { margin: 0; color: var(--crema-ink-muted); }
+.bl-popover-actions { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
+@media (prefers-reduced-motion: reduce) {
+  .bl-popover:popover-open { animation: bl-fade .15s ease; }
+  .bl-popover[data-open] { animation: bl-fade .15s ease; }
+}
+
+/* ── Tabs.css ── */
+.bl-tabs { display: block; min-width: 0; contain: inline-size; }   /* 긴 탭 줄이 부모(grid·flex 칸)를 넓히지 않게: 가로 크기는 부모가 정하고 안에서 스크롤 */
+.bl-tabs-list { display: flex; gap: var(--space-1); max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.bl-tabs-list::-webkit-scrollbar { display: none; }
+.bl-tabs-tab { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4);
+  border: 0; background: transparent; cursor: pointer; white-space: nowrap; color: var(--ink-muted);
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 500; }
+.bl-tabs-tab svg { width: 18px; height: 18px; }
+.bl-tabs-tab:disabled { color: var(--ink-subtle); cursor: not-allowed; }
+.bl-tabs-tab[aria-selected="true"] { color: var(--accent-ink); font-weight: 700; }
+.bl-tabs-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
+/* line: 목록 아래 hairline, 지금 탭 아래 2px 강조색 밑줄이 hairline 위에 겹칩니다 */
+.bl-tabs-line .bl-tabs-list { border-bottom: 1px solid var(--line); }
+.bl-tabs-line .bl-tabs-tab { margin-bottom: -1px; border-bottom: 2px solid transparent; }
+.bl-tabs-line .bl-tabs-tab[aria-selected="true"] { border-bottom-color: var(--accent); }
+/* pill: .bl-seg와 같은 캡슐. 지금 탭은 불투명한 accent-soft */
+.bl-tabs-pill .bl-tabs-list { gap: 2px; width: max-content; padding: 3px; border-radius: var(--radius-full); background: var(--paper-sunken); }
+.bl-tabs-pill .bl-tabs-tab { min-height: 34px; border-radius: var(--radius-full); font-size: var(--text-body-sm-size); line-height: var(--text-label-line); font-weight: 600; transition: background-color .15s ease; }
+.bl-tabs-pill .bl-tabs-tab[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; }
+.bl-tabs-pill .bl-tabs-tab:focus-visible { outline-offset: 1px; border-radius: var(--radius-full); }
+.bl-tabs-panel { padding-top: var(--space-4); color: var(--ink); font-size: var(--text-body-size); line-height: var(--text-body-line); }
+.bl-tabs-panel[hidden] { display: none; }
+.bl-tabs-panel:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+@media (pointer: coarse) {
+  .bl-tabs-tab { min-height: var(--touch-min); }
+  /* pill 캡슐은 38px로 두고 누르는 영역만 44px로 넓힙니다(.bl-seg-item과 같은 방식) */
+  .bl-tabs-pill .bl-tabs-tab { min-height: 38px; position: relative; }
+  .bl-tabs-pill .bl-tabs-tab::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--touch-min)); height: max(100%, var(--touch-min)); transform: translate(-50%, -50%); }
+}
+@media (prefers-reduced-motion: reduce) { .bl-tabs-pill .bl-tabs-tab { transition: none; } }
+@media (forced-colors: active) {
+  .bl-tabs-line .bl-tabs-list { border-bottom-color: CanvasText; }
+  .bl-tabs-tab[aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .bl-tabs-line .bl-tabs-tab[aria-selected="true"] { border-bottom-color: Highlight; }
+  .bl-tabs-tab:disabled { color: GrayText; }
+}
+
+/* ── Textarea.css ── */
+.bl-field-input.bl-textarea {
+  height: auto; min-height: calc(var(--text-body-line) * 2 + var(--space-3) * 2 + 2px);
+  padding: var(--space-3) var(--space-4); box-sizing: border-box; resize: vertical; overflow-y: auto;
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); word-break: keep-all;
+}
+/* autoResize: 높이는 JS가 내용에 맞추므로 손잡이를 숨깁니다 */
+.bl-field-input.bl-textarea-auto { resize: none; overflow-y: hidden; }
+.bl-field-input.bl-textarea:disabled { background: var(--paper-sunken); color: var(--ink-subtle); cursor: not-allowed; resize: none; }
+.bl-field-input.bl-textarea:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (forced-colors: active) {
+  .bl-field[data-invalid="true"] .bl-textarea { border-style: dashed; }
+}
 
 /* ── 접근성: 투명도 줄이기 ───────────────────────────────
    파일 끝에 두고 선택자 명시도를 크레마 규칙과 맞춰, 크레마 버튼·아이콘 버튼·데스크톱 모드까지 모두 불투명하게 바꿉니다. */
@@ -584,3 +882,4 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 @media (max-width: 1119px) { .bl-hide-below-lg { display: none !important; } }
 @media (min-width: 1440px) { .bl-hide-from-xl { display: none !important; } }
 @media (max-width: 1439px) { .bl-hide-below-xl { display: none !important; } }
+}

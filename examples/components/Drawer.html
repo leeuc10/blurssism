@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Drawer — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} body{padding:0;height:420px;} .page{padding:16px;} .deco{margin-top:16px;height:160px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--deco),var(--accent-soft));}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var links = [["home", "홈", true], ["inbox", "받은 편지함"], ["calendar", "일정"], ["person", "내 정보"], ["settings", "설정"]];
+  function Demo() {
+    var st = React.useState(false), side = React.useState("left");
+    return h("div", { className: "page" },
+      h("div", { className: "row" },
+        h(B.Button, { variant: "crema", size: "md", icon: "chevron-right", onClick: function () { side[1]("left"); st[1](true); } }, "왼쪽 서랍 열기"),
+        h(B.Button, { variant: "ghost", size: "md", onClick: function () { side[1]("right"); st[1](true); } }, "오른쪽에서 열기")),
+      h("p", { style: { color: "var(--ink-muted)" } }, "Esc나 바깥을 누르면 닫히고, 닫힐 때는 들어온 길로 되돌아가요."),
+      h("div", { className: "deco", "aria-hidden": "true" }),
+      h(B.Drawer, { open: st[0], onClose: function () { st[1](false); }, side: side[0], title: "카페인캣" },
+        h("ul", { className: "bl-list" }, links.map(function (l) {
+          return h("li", { key: l[0] }, h(B.ListItem, { icon: l[0], title: l[1], href: "#", "aria-current": l[2] ? "page" : undefined }));
+        })),
+        h("p", { style: { color: "var(--crema-ink-muted)", fontSize: "var(--text-body-sm-size)", margin: "16px 0 0" } }, "앱 2.1.0 · 마지막 동기화 오후 9:41")));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

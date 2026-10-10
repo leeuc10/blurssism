@@ -9,3 +9,21 @@
 ## 소비자가 넣는 것
 - `open`, `onClose`, `title`, `description`, `alert`(삭제 확인처럼 위험할 때), `children`(버튼, 오른쪽이 주 행동).
 - 위험한 행동의 버튼은 `danger`, 동작을 그대로 씁니다("삭제하기").
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+가운데 모달(모바일에선 아래 시트). 네이티브 <dialog>(최상위 층, 뒤 화면 inert), Esc·바깥 클릭 닫기(alert는 바깥 클릭 제외). children = 버튼들.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `open` | `boolean` | 필수 |  |
+| `onClose` | `() => void` |  |  |
+| `title` | `string` | 필수 |  |
+| `description` | `string` |  |  |
+| `alert` | `boolean` |  |  |
+| `children` | `ReactNode` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

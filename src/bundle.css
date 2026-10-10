@@ -4,6 +4,17 @@
 .bl-root, .bl-root * { box-sizing: border-box; }
 .bl-root { font-family: var(--font-sans); color: var(--ink); -webkit-font-smoothing: antialiased; word-break: keep-all; }
 
+/* ── 컴포넌트 변수(2.1) ─────────────────────────────
+   자주 바꾸는 치수는 변수로 둡니다. :root나 .bl-root, 또는 특정 영역에서 덮어쓰면 그 안의 컴포넌트가 따라갑니다.
+   예: .compact { --bl-btn-h: 44px; --bl-field-h: 44px; } */
+:root, .bl-root {
+  --bl-btn-h: 52px; --bl-btn-h-md: 40px; --bl-btn-px: var(--space-6); --bl-btn-radius: var(--radius-full);
+  --bl-field-h: 52px; --bl-field-radius: var(--radius-md);
+  --bl-icon-btn: 48px; --bl-chip-h: 36px; --bl-switch-w: 52px; --bl-switch-h: 32px; --bl-tab-h: 56px;
+  --bl-card-pad: var(--space-6) var(--space-5) var(--space-5); --bl-card-radius: var(--radius-lg);
+  --bl-dialog-w: 440px; --bl-sheet-w: 480px; --bl-toast-w: 420px;
+}
+
 /* ── 크레마 재질: 블러레마(Blurema) ─────────────────────────────
    1.5부터 클래스·속성·변수 이름이 crema이고, 1.4의 glass 이름은 2.0에서 제거됐습니다(auditCrema()가 남은 쓰임새를 찾아 줍니다).
    blur + crema. 맑은 유리 대신 우유 거품 색 젖빛 크레마입니다.
@@ -93,7 +104,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 /* ── Button ─────────────────────────────── */
 .bl-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  height: 52px; padding: 0 var(--space-6); border-radius: var(--radius-full);
+  height: var(--bl-btn-h); padding: 0 var(--bl-btn-px); border-radius: var(--bl-btn-radius);
   font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight);
   border: 1px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: transform .12s ease, background-color .12s ease;
@@ -101,7 +112,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-btn:active { transform: scale(0.97); }
 .bl-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .bl-btn:disabled { cursor: not-allowed; background: var(--paper-sunken); color: var(--ink-subtle); border-color: transparent; box-shadow: none; transform: none; }
-.bl-btn-md { height: 40px; padding: 0 var(--space-5); }
+.bl-btn-md { height: var(--bl-btn-h-md); padding: 0 var(--space-5); }
 .bl-btn-block { display: flex; width: 100%; }
 /* 2.0: primary가 강조색(accent) 채움입니다(전에는 ink 채움). 블랙 팔레트에서는 그대로 검정, 다른 팔레트에서는 그 팔레트 색.
    .bl-btn-accent는 같은 규칙의 별칭이고, 컴포넌트 variant="accent"는 bl-btn-primary를 붙입니다. 화면당 하나. */
@@ -114,7 +125,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 
 .bl-icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 48px; height: 48px; border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
+  width: var(--bl-icon-btn); height: var(--bl-icon-btn); border-radius: var(--radius-full); cursor: pointer; color: var(--ink);
   background-color: var(--bl-crema-fill); border: 1px solid var(--crema-stroke); box-shadow: var(--shadow-crema);
   -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate)); backdrop-filter: blur(var(--blur-sm)) saturate(var(--crema-saturate));
 }
@@ -130,7 +141,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 /* ── Chip ─────────────────────────────── */
 .bl-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .bl-chip {
-  display: inline-flex; align-items: center; gap: var(--space-1); height: 36px; padding: 0 var(--space-3);
+  display: inline-flex; align-items: center; gap: var(--space-1); height: var(--bl-chip-h); padding: 0 var(--space-3);
   border-radius: var(--radius-full); border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
   font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; cursor: pointer;
 }
@@ -142,7 +153,7 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-field { display: flex; flex-direction: column; gap: var(--space-2); }
 .bl-field-label { font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); font-weight: 600; color: var(--ink); }
 .bl-field-input {
-  height: 52px; padding: 0 var(--space-4); border-radius: var(--radius-md); width: 100%;
+  height: var(--bl-field-h); padding: 0 var(--space-4); border-radius: var(--bl-field-radius); width: 100%;
   border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
   font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line);
 }
@@ -153,12 +164,12 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-field[data-invalid="true"] .bl-field-help { color: var(--danger); font-weight: 500; }
 
 /* ── Switch ─────────────────────────────── */
-.bl-switch { position: relative; flex: none; width: 52px; height: 32px; padding: 0; border-radius: var(--radius-full); cursor: pointer;
+.bl-switch { position: relative; flex: none; width: var(--bl-switch-w); height: var(--bl-switch-h); padding: 0; border-radius: var(--radius-full); cursor: pointer;
   background: var(--paper-sunken); border: 1px solid var(--line-strong); transition: background-color .15s ease; }
 .bl-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: var(--radius-full);
   background: var(--paper-raised); box-shadow: var(--shadow-crema); transition: transform .18s cubic-bezier(.3,1.4,.5,1); }
 .bl-switch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
-.bl-switch[aria-checked="true"]::after { transform: translateX(20px); }
+.bl-switch[aria-checked="true"]::after { transform: translateX(calc(var(--bl-switch-w) - var(--bl-switch-h))); }
 .bl-switch:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
 /* ── Badge ─────────────────────────────── */
@@ -170,9 +181,10 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-badge-positive { background: var(--positive-soft); color: var(--positive); }
 .bl-badge-warning { background: var(--warning-soft); color: var(--warning); }
 .bl-badge-danger { background: var(--danger-soft); color: var(--danger); }
+.bl-badge-info { background: var(--accent-soft); color: var(--info); }
 
 /* ── Card ─────────────────────────────── */
-.bl-card { padding: var(--space-6) var(--space-5) var(--space-5); border-radius: var(--radius-lg);
+.bl-card { padding: var(--bl-card-pad); border-radius: var(--bl-card-radius);
   background: var(--paper-raised); border: 1px solid var(--line); box-shadow: var(--shadow-card); }
 .bl-card-eyebrow { margin: 0 0 var(--space-2); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); letter-spacing: var(--text-caption-tracking); color: var(--ink-muted); }
 .bl-card-title { margin: 0 0 var(--space-2); font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); color: var(--ink); }
@@ -224,7 +236,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── TabBar ─────────────────────────────── */
 .bl-tabbar { display: flex; gap: var(--space-1); padding: var(--space-1); border-radius: var(--radius-full); }
 .bl-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  height: 56px; min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
+  height: var(--bl-tab-h); min-width: 64px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; cursor: pointer;
   color: var(--ink); font-family: var(--font-sans); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); text-decoration: none; }
 .bl-tab svg { width: 24px; height: 24px; }
 /* 지금 탭: 불투명한 accent-soft 캡슐 + 굵기 + 밑줄. 크레마 위에서도 대비가 4.5:1 이상이고, 색만으로 알리지 않습니다.
@@ -242,6 +254,16 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 /* ── Sheet ─────────────────────────────── */
 .bl-sheet { padding: var(--space-3) var(--space-6) var(--space-6); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
 .bl-sheet-grip { width: 40px; height: 5px; margin: 0 auto var(--space-5); border-radius: var(--radius-full); background: var(--line-strong); }
+/* 2.1: open을 받는 모달 시트. 네이티브 <dialog>로 아래에서 올라오고, 손잡이를 끌어내려 닫습니다. md 이상은 가운데 카드. */
+.bl-sheet-modal { width: 100%; max-width: none; margin: auto 0 0; border: 1px solid var(--crema-stroke); color: var(--ink); animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+.bl-sheet-modal::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
+.bl-sheet-modal:focus { outline: none; }
+.bl-sheet-modal .bl-sheet-grip { cursor: grab; touch-action: none; position: relative; }
+.bl-sheet-modal .bl-sheet-grip::before { content: ""; position: absolute; left: -40px; right: -40px; top: -16px; bottom: -16px; }   /* 손잡이 누르는 영역 */
+.bl-sheet-modal[data-closing] { animation: bl-sink .2s ease forwards; }
+.bl-sheet-modal[data-closing]::backdrop { animation: bl-fade-out .2s ease forwards; }
+@media (min-width: 768px) { .bl-sheet-modal { width: min(var(--bl-sheet-w), calc(100% - 2 * var(--space-4))); margin: auto; border-radius: var(--radius-xl); } .bl-sheet-modal .bl-sheet-grip { display: none; } }
+html:has(dialog.bl-sheet-modal[open]) { overflow: hidden; }
 .bl-sheet-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
 .bl-sheet-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
 .bl-sheet-actions { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -252,8 +274,17 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-toast > svg { width: 20px; height: 20px; flex: none; }
 .bl-toast[data-tone="positive"] > svg { color: var(--positive); }
 .bl-toast[data-tone="danger"] > svg { color: var(--danger); }
+.bl-toast[data-tone="warning"] > svg { color: var(--warning); }
+.bl-toast[data-tone="info"] > svg { color: var(--info); }
 .bl-toast-msg { flex: 1; min-width: 0; }
 .bl-toast .bl-btn { height: 36px; padding: 0 var(--space-4); }
+.bl-toast .bl-toast-close { width: 36px; height: 36px; }
+/* 2.1: ToastProvider가 그리는 쌓임 영역. 아래 가운데, lg 이상은 오른쪽 아래. 안전 영역을 비웁니다. */
+.bl-toaster { position: fixed; z-index: 60; left: var(--space-4); right: var(--space-4); bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2); pointer-events: none; }
+.bl-toaster-item { width: min(100%, var(--bl-toast-w)); pointer-events: auto; animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+.bl-toaster-item[data-closing] { animation: bl-sink .2s ease forwards; }
+@media (min-width: 1120px) { .bl-toaster { left: auto; align-items: flex-end; } }
 
 /* ── 미리보기용 배경: 크레마가 비쳐 보이도록 색 면을 깔아 둡니다 ── */
 .bl-backdrop { position: relative; overflow: hidden; background: var(--paper); }
@@ -344,11 +375,14 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
    CSS만 쓸 때는 <div class="bl-scrim"><div class="bl-dialog bl-crema-thick">…</div></div>도 그대로 됩니다.
    scrim은 어둡게만 하고 블러를 걸지 않습니다(다이얼로그 본체가 이미 블러라 예산을 아낍니다). */
 .bl-scrim { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-4); background: var(--scrim); animation: bl-fade .2s ease; }
-.bl-dialog { width: min(440px, calc(100% - 2 * var(--space-4))); max-width: none; margin: auto; padding: var(--space-6); border-radius: var(--radius-xl); color: var(--ink);
+.bl-dialog { width: min(var(--bl-dialog-w), calc(100% - 2 * var(--space-4))); max-width: none; margin: auto; padding: var(--space-6); border-radius: var(--radius-xl); color: var(--ink);
   animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
-.bl-scrim > .bl-dialog { width: min(440px, 100%); }
+.bl-scrim > .bl-dialog { width: min(var(--bl-dialog-w), 100%); }
 .bl-dialog::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-dialog:focus { outline: none; }
+/* 2.1: 닫힐 때(data-closing) 가라앉으며 사라지고, 애니메이션이 끝난 뒤 close()됩니다 */
+.bl-dialog[data-closing] { animation: bl-sink .2s ease forwards; }
+.bl-dialog[data-closing]::backdrop { animation: bl-fade-out .2s ease forwards; }
 html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 .bl-dialog-title { margin: 0 0 var(--space-2); font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
 .bl-dialog-body { margin: 0 0 var(--space-6); font-size: var(--text-body-size); line-height: var(--text-body-line); color: var(--crema-ink-muted); }
@@ -359,8 +393,14 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
   .bl-dialog-actions { flex-direction: column-reverse; } .bl-dialog-actions .bl-btn { width: 100%; }
 }
 @keyframes bl-fade { from { opacity: 0; } }
+@keyframes bl-fade-out { to { opacity: 0; } }
 @keyframes bl-rise { from { opacity: 0; transform: translateY(16px); } }
-@media (prefers-reduced-motion: reduce) { .bl-scrim, .bl-dialog, .bl-dialog::backdrop { animation: bl-fade .15s ease; } }
+@keyframes bl-sink { to { opacity: 0; transform: translateY(16px); } }
+@media (prefers-reduced-motion: reduce) {
+  .bl-scrim, .bl-dialog, .bl-dialog::backdrop, .bl-sheet-modal, .bl-sheet-modal::backdrop, .bl-toaster-item { animation: bl-fade .15s ease; }
+  .bl-dialog[data-closing], .bl-sheet-modal[data-closing], .bl-toaster-item[data-closing] { animation: bl-fade-out .15s ease forwards; }
+  .bl-dialog[data-closing]::backdrop, .bl-sheet-modal[data-closing]::backdrop { animation: bl-fade-out .15s ease forwards; }
+}
 
 /* ── Table ─────────────────────────────── */
 .bl-table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper-raised); }

@@ -7,3 +7,18 @@
 ## 소비자가 넣는 것
 - `children`, `size`(`default`·`prose`·`full`), `as`(`main`, `section` 등 태그).
 - React 없이: `<div class="bl-container">`, `bl-container-prose`.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+콘텐츠 폭과 단계별 좌우 여백을 맞추는 래퍼.
+
+`HTMLAttributes<HTMLElement>`의 속성을 모두 받습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `size` | `"default" \| "prose" \| "full"` |  | default: content-max(1120px) · prose: 640px · full: 제한 없음 |
+| `as` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

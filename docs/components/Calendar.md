@@ -10,3 +10,21 @@
 
 ## 소비자가 넣는 것
 - `value`, `onChange(date)`, `min`, `max`, `today`(테스트·서버 시간용). Sheet나 Dialog 안에 넣어 띄우는 것은 소비자 몫입니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+한 달 달력 날짜 선택. 방향키로 날짜, PageUp·PageDown으로 달을 옮깁니다. min·max는 날짜 단위로 비교합니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `value` | `Date` |  |  |
+| `onChange` | `(date: Date) => void` |  |  |
+| `min` | `Date` |  |  |
+| `max` | `Date` |  |  |
+| `today` | `Date` |  |  |
+| `className` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

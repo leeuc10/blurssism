@@ -1,5 +1,45 @@
 # Changelog
 
+## 2.1.0 — 2026-10-10
+
+2.0 검토에서 남겨 둔 14개 항목을 모두 반영한 릴리스예요. 기존 API는 그대로 동작해요(`createBlurssism()`만 deprecated).
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - `bundle.css`가 `@layer blurssism`으로 감싸져요. 계층 밖의 소비자 CSS가 명시도와 상관없이 이기므로 덮어쓰기가 쉬워졌지만, `button { background: none }` 같은 **전역 리셋도 이기니** 리셋은 `@layer reset, blurssism;`처럼 앞 계층에 두세요. / `bundle.css` is now inside `@layer blurssism`; put global resets in an earlier layer.
+> - NavBar 링크 `<nav>`의 이름이 "주요 메뉴"에서 "사이트 메뉴"로 바뀌었어요(TabBar와 같은 이름이라 랜드마크가 겹쳤어요). / NavBar's links landmark is now named "사이트 메뉴".
+> - Tailwind 프리셋의 hex 색이 `rgb(var(--x-rgb) / <alpha-value>)`가 됐어요. `bg-accent/50`이 되고, `tokens.css`가 `--x-rgb` 변수를 함께 내보내요. / Tailwind colors support opacity modifiers.
+
+**새 컴포넌트 9개 / 9 new components** (React·Svelte 5·CSS, 38개)
+- `Textarea`(자동 높이 `autoResize`·`maxRows`), `Alert`(인라인 배너, info·positive·warning·danger, 닫기·행동), `Link`(밑줄 링크, `external`은 새 창 안내 포함), `Pagination`(처음·끝 고정, 생략 표시, 제어·비제어), `Tabs`(콘텐츠 탭, line·pill, WAI-ARIA tablist, 방향키), `Accordion`(네이티브 `<details name>`, 단일·다중), `Popover`(네이티브 Popover API, 라이트 디스미스, 위치 자동), `Menu`(Popover 위의 role="menu", 방향키·Enter, 구분선·danger), `Drawer`(옆에서 나오는 모달 패널, `persistentFrom="lg"`면 데스크톱 사이드바로).
+- `Badge`·`Toast`에 `info`·`warning` 톤.
+
+**상태를 가진 Sheet·Toast / Stateful Sheet and Toast**
+- `Sheet`에 `open`·`onClose`를 주면 네이티브 `<dialog>` 모달이 돼요: scrim, Esc·바깥 누르기, 손잡이를 80px 끌어내려 닫기, 포커스 복귀, 닫힘 애니메이션. 안 주면 전처럼 자리에 그려져요. md 이상은 가운데 카드.
+- `ToastProvider` + `useToast().show({ message, tone, actionLabel, duration })`: 아래 가운데(lg 이상 오른쪽 아래)에 최대 3개 쌓이고 4초 뒤 사라지며 마우스를 올리면 멈춰요. Svelte는 `toast.show()` + `<Toaster />`.
+- `Dialog`·`Sheet`·`Drawer`가 닫힐 때도 애니메이션이 끝난 뒤 사라져요(`data-closing`).
+
+**로케일 / Locale**
+- `setLocale("en" | "ko" | 객체)`, `getLocale()`, `onLocaleChange()`. 오류 접두어, 뒤로, 달력 제목·날짜 라벨, 메뉴·페이지 이름 등 컴포넌트가 그리는 모든 문구가 로케일을 따라요. React는 `useLocale()`로 다시 그리고, 컴포넌트마다 `locale` prop으로 덮어쓸 수 있어요. Svelte는 `locale.current`.
+
+**제어·비제어 / Controlled and uncontrolled**
+- `Switch`(`defaultChecked`), `SegmentedControl`·`TabBar`·`RadioGroup`(`defaultValue`), `Pagination`(`defaultPage`), `Tabs`·`Accordion`·`Popover`·`Menu`가 Chip처럼 둘 다 돼요. 공용 훅 `useControllable()` 공개.
+
+**구조 / Structure**
+- React 원본이 `src/react/*.js`로 나뉘고 빌드가 한 파일로 합쳐요. 각 컴포넌트가 `/*#__PURE__*/`가 붙은 최상위 선언이라 **안 쓰는 컴포넌트는 번들러가 버려요**. `createBlurssism()`은 deprecated(인자 무시).
+- 컴포넌트 변수: `--bl-btn-h`·`--bl-btn-h-md`·`--bl-field-h`·`--bl-icon-btn`·`--bl-chip-h`·`--bl-switch-w/h`·`--bl-tab-h`·`--bl-card-pad`·`--bl-dialog-w`·`--bl-sheet-w`·`--bl-toast-w`. 영역에서 덮어쓰면 그 안의 컴포넌트가 따라가요.
+- 컴포넌트 CSS 조각 `src/css/*.css`, 타입 조각 `src/react/*.d.ts`를 빌드가 합쳐요.
+
+**검사 / Checks**
+- `npm test`: jsdom + React로 실제 동작(키보드, 제어·비제어, 다이얼로그 포커스·닫힘, 토스트 타이머)을 15개 테스트로 확인하고, axe-core로 대표 화면의 접근성 위반을 검사해요. `npm run check`에 포함.
+- `auditCrema()`·`checkCrema()`에 `palette`(한 화면에 팔레트 하나)와 `accent-area`(강조·상태·장식색 면이 10% 초과, 90/10) 검사 추가.
+- `probeCremaCost()`: 블러 비용을 실제로 재요. `applyCremaPreference({ probe: true })`면 느린 기기에서 `off`로. 메모리를 알려 주지 않는 브라우저에서 코어 2개 이하도 저사양으로 봐요.
+- 크레마 벤치마크 페이지 `scripts/bench/crema.html`과 측정값을 브랜드북에 적었어요.
+
+**문서·글꼴 / Docs and fonts**
+- `docs/components/*.md`에 `dist/index.d.ts`에서 만든 Props 표(`npm run docs`, 빌드에 포함).
+- 브랜드북에 크레마 용어 표(crema-fill·tint·band·edge·light·saturate·모드가 각각 무엇인지)와 테스트·벤치마크 절. README와 브랜드북의 변경 이력 문장은 체인지로그로 옮겼어요.
+- `fonts.dynamic.css`: Pretendard·Gowun Batang 원본을 동적 서브셋으로 쓰는 선택지. 11,172자 전부 같은 글꼴이고 쓰인 글자 조각만 받아요(jsDelivr + Google Fonts). README에 글꼴 출처를 분명히 적었어요.
+
 ## 2.0.0 — 2026-10-10
 
 > **올리기 전에 확인할 것 / Before upgrading**

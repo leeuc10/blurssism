@@ -7,3 +7,18 @@
 
 ## 소비자가 넣는 것
 - `name`(필수, 스크린리더 라벨이자 이니셜 원천), `image`, `size`.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+이니셜 또는 사진 원형 아바타.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `name` | `string` | 필수 |  |
+| `image` | `string` |  |  |
+| `size` | `"sm" \| "md" \| "lg"` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

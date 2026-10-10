@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Link — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{max-width:560px;display:grid;gap:16px;} p{margin:0;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  mount(h(React.Fragment, null,
+    h("p", { className: "bl-body" }, "주문을 바꾸거나 취소하는 방법은 ", h(B.Link, { href: "#faq" }, "자주 묻는 질문"), "에서 볼 수 있어요."),
+    h("p", { className: "bl-body" }, "원두 로스팅 일정은 ", h(B.Link, { href: "https://example.com/roasting", external: true }, "로스터리 블로그"), "에 매주 올라와요."),
+    h("p", { className: "bl-body-sm", style: { color: "var(--ink-muted)" } },
+      h(B.Link, { href: "#terms", muted: true }, "이용약관"), " · ", h(B.Link, { href: "#privacy", muted: true }, "개인정보 처리방침"), " · ", h(B.Link, { href: "mailto:leeunchan10@gmail.com", muted: true }, "문의하기"))));
+</script>
+</body>
+</html>

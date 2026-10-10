@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Textarea — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{max-width:420px;display:grid;gap:20px;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  mount(h(React.Fragment, null,
+    h(B.Textarea, { label: "후기", placeholder: "원두는 어땠나요", help: "200자까지 쓸 수 있어요.", maxLength: 200 }),
+    h(B.Textarea, { label: "메모", autoResize: true, maxRows: 6, rows: 2, defaultValue: "에티오피아 예가체프\n꽃향이 먼저 오고 끝에 홍차 같은 떫은맛이 남아요.", help: "쓰는 만큼 늘어나고, 6줄부터는 안에서 스크롤돼요." }),
+    h(B.Textarea, { label: "문의 내용", defaultValue: "배송이", error: "10자 이상 적어 주세요." }),
+    h(B.Textarea, { label: "답변", defaultValue: "담당자가 확인하고 있어요.", disabled: true })));
+</script>
+</body>
+</html>

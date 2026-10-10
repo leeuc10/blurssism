@@ -1,5 +1,5 @@
 /* blurssism 컴포넌트 타입 · © caffeinecat */
-import type { ReactNode, ReactElement, ButtonHTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, HTMLAttributes, ForwardRefExoticComponent, RefAttributes } from "react";
+import type { ReactNode, ReactElement, ButtonHTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, HTMLAttributes, ForwardRefExoticComponent, RefAttributes } from "react";
 
 /** ref를 받는 컴포넌트(2.0). <Button ref={…}>, <TextField ref={…}>(ref는 input), react-hook-form의 register가 됩니다. */
 type WithRef<P, E> = ForwardRefExoticComponent<P & RefAttributes<E>>;
@@ -50,15 +50,17 @@ export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   help?: string;
-  /** 있으면 오류 상태. "오류: " 접두어와 함께 표시됩니다. */
+  /** 있으면 오류 상태. 로케일의 errorPrefix("오류: ")와 함께 표시됩니다. */
   error?: string;
+  /** 이 컴포넌트만 다른 문구를 쓸 때(전역은 setLocale) */
+  locale?: Partial<Locale>;
 }
 
-/** 켜고 끄는 설정 스위치. label은 스크린리더용. */
-export interface SwitchProps { checked: boolean; onChange?: (next: boolean) => void; label: string; disabled?: boolean; className?: string }
+/** 켜고 끄는 설정 스위치. label은 스크린리더용. checked를 주면 제어 모드, 안 주면 defaultChecked에서 시작해 스스로 바뀝니다(2.1). */
+export interface SwitchProps { checked?: boolean; defaultChecked?: boolean; onChange?: (next: boolean) => void; label: string; disabled?: boolean; className?: string }
 
 /** 상태 배지. 항상 단어를 넣습니다. */
-export interface BadgeProps { tone?: "neutral" | "accent" | "positive" | "warning" | "danger"; icon?: IconName; children: ReactNode; className?: string }
+export interface BadgeProps { tone?: "neutral" | "accent" | "positive" | "warning" | "danger" | "info"; icon?: IconName; children: ReactNode; className?: string }
 
 /** 불투명 콘텐츠 카드. children = 하단 버튼들. */
 export interface CardProps { eyebrow?: string; title?: string; quote?: string; body?: string; children?: ReactNode; className?: string }
@@ -93,21 +95,36 @@ export interface ListItemProps extends HTMLAttributes<HTMLElement> {
 
 export interface NavLink { href: string; label: string; current?: boolean }
 /** 상단에 떠 있는 캡슐형 크레마 내비게이션 바. 앱: 뒤로+제목+액션, 웹: 로고+links. */
-export interface NavBarProps { title: ReactNode; onBack?: () => void; links?: NavLink[]; actions?: ReactNode; className?: string }
+export interface NavBarProps { title: ReactNode; onBack?: () => void; links?: NavLink[]; actions?: ReactNode; className?: string; locale?: Partial<Locale> }
 
 export interface TabItem { id: string; label: string; icon: IconName; /** 주면 링크(<a>)로 */ href?: string }
 /** 하단에 떠 있는 캡슐형 크레마 탭바 (3–5개). <nav> + aria-current="page". 기본으로 lg부터 숨습니다. */
 export interface TabBarProps {
-  items: TabItem[]; value: string; onChange?: (id: string) => void; label?: string; className?: string;
+  items: TabItem[];
+  /** 제어 모드. 안 주면 defaultValue에서 시작해 스스로 바뀝니다(2.1) */
+  value?: string; defaultValue?: string; onChange?: (id: string) => void; label?: string; className?: string; locale?: Partial<Locale>;
   /** 이 단계부터 숨깁니다. 기본 "lg"(그때는 NavBar 링크). false면 항상 보입니다. */
   hideFrom?: "sm" | "md" | "lg" | "xl" | false;
 }
 
-/** 두꺼운 블러 바텀시트. children = 버튼들. */
-export interface SheetProps { title: string; description?: string; children?: ReactNode; className?: string }
+/** 두꺼운 블러 바텀시트. children = 버튼들.
+ *  2.1: open을 주면 스스로 열고 닫는 모달(네이티브 <dialog>, scrim, Esc·바깥 누르기·손잡이 끌어내리기로 onClose, 닫힘 애니메이션). open을 안 주면 자리에 그려지는 면. */
+export interface SheetProps { title: string; description?: string; children?: ReactNode; className?: string; open?: boolean; onClose?: () => void }
 
-/** 화면 아래 잠깐 떠오르는 알림. */
-export interface ToastProps { tone?: "neutral" | "positive" | "danger"; children: ReactNode; actionLabel?: string; onAction?: () => void; className?: string }
+/** 토스트 한 장(그리기만). 쌓기·자동 닫힘은 ToastProvider + useToast()(2.1). */
+export interface ToastProps { tone?: "neutral" | "positive" | "warning" | "danger" | "info"; children: ReactNode; actionLabel?: string; onAction?: () => void; /** 있으면 닫기 버튼 */ onDismiss?: () => void; className?: string; locale?: Partial<Locale> }
+export interface ToastOptions {
+  message: ReactNode; tone?: ToastProps["tone"]; actionLabel?: string; onAction?: () => void;
+  /** ms. 0이면 직접 닫을 때까지. 기본 4000(ToastProvider duration) */
+  duration?: number;
+  /** false면 닫기 버튼 없음 */
+  dismissible?: boolean;
+  /** 같은 id로 다시 show하면 갱신 */
+  id?: string;
+}
+/** 앱 루트를 감싸면 토스트가 화면 아래(lg 이상은 오른쪽 아래)에 쌓입니다. */
+export interface ToastProviderProps { children?: ReactNode; /** 기본 4000ms */ duration?: number; /** 한 번에 보이는 개수. 기본 3 */ max?: number; className?: string }
+export interface ToastApi { show: (opts: ToastOptions | string) => string; dismiss: (id: string) => void }
 
 export declare function Icon(props: IconProps): ReactElement;
 export declare const Button: WithRef<ButtonProps, HTMLButtonElement | HTMLAnchorElement>;
@@ -124,17 +141,20 @@ export declare function NavBar(props: NavBarProps): ReactElement;
 export declare function TabBar(props: TabBarProps): ReactElement;
 export declare function Sheet(props: SheetProps): ReactElement;
 export declare function Toast(props: ToastProps): ReactElement;
+export declare function ToastProvider(props: ToastProviderProps): ReactElement;
+/** useToast().show({ message, tone }) → id. <ToastProvider> 안에서만. */
+export declare function useToast(): ToastApi;
 
 export interface Option { value: string; label: string; disabled?: boolean; description?: string }
 
 /** 네이티브 select를 감싼 드롭다운. 라벨·도움말·오류는 TextField와 같습니다. */
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> { label: string; options: (Option | string)[]; placeholder?: string; help?: string; error?: string }
+export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> { label: string; options: (Option | string)[]; placeholder?: string; help?: string; error?: string; locale?: Partial<Locale> }
 /** 체크박스 한 개. 제출이 필요한 폼의 선택용. */
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> { label: ReactNode; description?: string }
 /** 라디오 묶음. 2–5개 중 하나. */
-export interface RadioGroupProps { legend?: string; options: (Option | string)[]; value: string; onChange?: (value: string) => void; name?: string; className?: string }
+export interface RadioGroupProps { legend?: string; options: (Option | string)[]; /** 제어 모드. 안 주면 defaultValue에서 시작(2.1) */ value?: string; defaultValue?: string; onChange?: (value: string) => void; name?: string; className?: string }
 /** 2–4개 보기 전환. 방향키로 이동. */
-export interface SegmentedControlProps { items: { id: string; label: string }[]; value: string; onChange?: (id: string) => void; label: string; block?: boolean; className?: string }
+export interface SegmentedControlProps { items: { id: string; label: string }[]; /** 제어 모드. 안 주면 defaultValue(없으면 첫 항목)에서 시작(2.1) */ value?: string; defaultValue?: string; onChange?: (id: string) => void; label: string; block?: boolean; className?: string }
 /** 이니셜 또는 사진 원형 아바타. */
 export interface AvatarProps { name: string; image?: string; size?: "sm" | "md" | "lg"; className?: string }
 /** 호버·포커스 때 뜨는 짧은 설명. children은 포커스 가능한 요소 하나. 최상위 층에 떠서 잘리지 않고, Esc로 닫힙니다. */
@@ -153,7 +173,7 @@ export interface Column<R> {
 /** 데이터 표. 좁은 화면에서는 가로 스크롤. caption이 있으면 스크롤 영역에 이름과 키보드 포커스가 붙습니다. */
 export interface TableProps<R = Record<string, ReactNode>> { columns: Column<R>[]; rows: R[]; caption?: string; className?: string }
 /** 한 달 달력 날짜 선택. 방향키로 날짜, PageUp·PageDown으로 달을 옮깁니다. min·max는 날짜 단위로 비교합니다. */
-export interface CalendarProps { value?: Date; onChange?: (date: Date) => void; min?: Date; max?: Date; today?: Date; className?: string }
+export interface CalendarProps { value?: Date; onChange?: (date: Date) => void; min?: Date; max?: Date; today?: Date; className?: string; locale?: Partial<Locale> }
 /** 빈 화면 안내. children = 행동 버튼 하나. */
 export interface EmptyStateProps { title: string; body?: string; icon?: IconName; children?: ReactNode; className?: string }
 /** 가운데 모달(모바일에선 아래 시트). 네이티브 <dialog>(최상위 층, 뒤 화면 inert), Esc·바깥 클릭 닫기(alert는 바깥 클릭 제외). children = 버튼들. */
@@ -198,6 +218,7 @@ export interface PalettePickerProps {
   compact?: boolean;
   label?: string;
   className?: string;
+  locale?: Partial<Locale>;
 }
 /** 콘텐츠 폭과 단계별 좌우 여백을 맞추는 래퍼. */
 export interface ContainerProps extends HTMLAttributes<HTMLElement> {
@@ -218,9 +239,29 @@ export declare const Container: WithRef<ContainerProps, HTMLElement>;
 export declare const Grid: WithRef<GridProps, HTMLElement>;
 /** 지금 화면 단계. 서버와 첫 렌더에서는 null. */
 export declare function useBreakpoint(): Breakpoint | null;
+/** 지금 로케일. setLocale()로 바뀌면 다시 그립니다(2.1). */
+export declare function useLocale(override?: Partial<Locale>): Locale;
+/** 제어·비제어 겸용 값: value를 주면 제어, 안 주면 defaultValue에서 시작(2.1). */
+export declare function useControllable<T>(value: T | undefined, defaultValue: T, onChange?: (next: T) => void): [T, (next: T) => void];
 
 /** 팔레트 목록 */
 export declare const palettes: PaletteInfo[];
+/** 컴포넌트가 그리는 문구(2.1). setLocale("en") 또는 일부만 덮어쓴 객체. */
+export interface Locale {
+  id: string; errorPrefix: string; back: string; close: string; more: string; prevMonth: string; nextMonth: string;
+  dow: string[]; monthTitle: (y: number, m: number) => string; dayLabel: (y: number, m: number, d: number, dow: string) => string;
+  palette: string; mainMenu: string; siteMenu: string; menu: string; loading: string; dismiss: string;
+  prevPage: string; nextPage: string; page: (n: number) => string; pageOf: (n: number, total: number) => string;
+  tabs: string; notifications: string; openInNew: string;
+}
+/** 내장 로케일: ko(기본)·en */
+export declare const locales: { ko: Locale; en: Locale };
+/** 로케일을 정합니다. 문자열("ko" | "en") 또는 ko를 바탕으로 일부만 덮어쓴 객체. */
+export declare function setLocale(locale: "ko" | "en" | Partial<Locale>): void;
+export declare function getLocale(): Locale;
+/** 로케일이 바뀔 때마다 호출. 해제 함수를 돌려줍니다. */
+export declare function onLocaleChange(cb: (locale: Locale) => void): () => void;
+
 /** 브레이크포인트 min-width(px) */
 export declare const breakpoints: { sm: 600; md: 768; lg: 1120; xl: 1440 };
 /** 팔레트를 바꿉니다. el을 주면 그 요소 아래만. */
@@ -252,6 +293,10 @@ export interface CremaOptions extends LowEndOptions {
   pointerLight?: boolean;
   /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
+  /** true면 probeCremaCost()로 실제 블러 비용을 재서 느리면 off로 바꿉니다(2.1). 메모리를 알려 주지 않는 Safari·Firefox용. */
+  probe?: boolean;
+  /** probe의 한 프레임 허용 ms. 기본 24 */
+  slowMs?: number;
 }
 /**
  * <html data-crema="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
@@ -262,8 +307,8 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
 export interface CremaIssue {
-  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
-  code: "blur-budget" | "primary" | "legacy-glass";
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · palette: 영역별 팔레트(한 화면에 하나) · accent-area: 강조색 면이 10% 초과(90/10) · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
+  code: "blur-budget" | "primary" | "palette" | "accent-area" | "legacy-glass";
   message: string;
   elements: Element[];
 }
@@ -272,7 +317,11 @@ export interface CremaAuditOptions {
   budget?: number;
   /** true면 bl- 클래스가 아닌 요소의 backdrop-filter까지 셉니다(느림) */
   all?: boolean;
+  /** 강조색 면의 허용 비율. 기본 0.1 (90/10) */
+  accentMax?: number;
 }
+/** 블러 비용을 실제로 재 봅니다(2.1). 느린 기기면 true. applyCremaPreference({ probe: true })가 씁니다. */
+export declare function probeCremaCost(options?: { /** 한 프레임 허용 ms. 기본 24 */ slowMs?: number }): Promise<boolean>;
 /** 지금 화면을 한 번 검사합니다(화면에 보이는 것만). 서버에서는 []. */
 export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
 /** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */
@@ -365,8 +414,8 @@ export declare function contrastRatio(a: string, b: string): number;
 export declare const version: string;
 export declare const author: "caffeinecat";
 
-/** 다른 React 인스턴스로 컴포넌트를 만듭니다 (보통은 필요 없음). */
-export declare function createBlurssism(react: unknown): typeof import("./index");
+/** @deprecated 2.1부터 컴포넌트를 바로 import하세요. 인자는 무시되고 같은 컴포넌트 묶음을 돌려줍니다. */
+export declare function createBlurssism(react?: unknown): typeof import("./index");
 
 declare const Blurssism: typeof import("./index");
 export default Blurssism;

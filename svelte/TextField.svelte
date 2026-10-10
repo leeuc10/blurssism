@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { locale } from "./locale.svelte.js";
   import type { HTMLInputAttributes } from "svelte/elements";
   type Props = HTMLInputAttributes & { label: string; help?: string; /** 있으면 오류 상태, "오류:" 접두어로 표시 */ error?: string };
   let { label, help, error, value = $bindable(""), id, class: className, ...rest }: Props = $props();
@@ -10,5 +11,5 @@
   <label class="bl-field-label" for={fid}>{label}</label>
   <input id={fid} class="bl-field-input" bind:value aria-invalid={error ? "true" : undefined}
     aria-describedby={error || help ? fid + "-help" : undefined} {...rest} />
-  {#if error || help}<p id={fid + "-help"} class="bl-field-help">{error ? "오류: " + error : help}</p>{/if}
+  {#if error || help}<p id={fid + "-help"} class="bl-field-help">{error ? locale.current.errorPrefix + error : help}</p>{/if}
 </div>

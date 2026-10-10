@@ -8,3 +8,18 @@
 ## 소비자가 넣는 것
 - `columns`(`{key,label,numeric,format}`), `rows`, `caption`(표 제목 겸 스크린리더 라벨. 있을 때만 스크롤 영역이 키보드 포커스를 받습니다).
 - 칸 그리기: 글자로 바꾸는 `format(행)`은 React·Svelte 공통. 노드를 그리려면 React는 `render(행)`, Svelte는 `cell` 스니펫.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+데이터 표. 좁은 화면에서는 가로 스크롤. caption이 있으면 스크롤 영역에 이름과 키보드 포커스가 붙습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `columns` | `Column<R>[]` | 필수 |  |
+| `rows` | `R[]` | 필수 |  |
+| `caption` | `string` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

@@ -10,3 +10,20 @@
 
 ## 하지 말 것
 - label 없이 쓰지 않습니다. 터치 영역을 `touch-min`(44px)보다 작게 줄이지 않습니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+48px 원형 크레마 아이콘 버튼. label은 스크린리더용으로 필수.
+
+`ButtonHTMLAttributes<HTMLButtonElement>`의 속성을 모두 받습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `icon` | `IconName` | 필수 |  |
+| `label` | `string` | 필수 |  |
+| `pressed` | `boolean` |  | 토글 상태 (눌림 → accent 채움) |
+| `plain` | `boolean` |  | 크레마 없이 투명 (NavBar 안에서) |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

@@ -1,0 +1,39 @@
+/* Pagination — 페이지 번호 이동. 캡슐 번호 버튼(40px, 터치 44px)과 plain 아이콘 버튼. 지금 페이지는 accent-soft + accent-ink + 굵기 + 강조색 1px 테두리(.bl-tab 선택과 같은 규칙). */
+.bl-pagination { display: flex; align-items: center; gap: var(--space-1); font-family: var(--font-sans); }
+.bl-pagination-list { display: flex; align-items: center; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.bl-pagination .bl-icon-btn { width: 40px; height: 40px; }
+.bl-pagination .bl-icon-btn:disabled { color: var(--ink-subtle); cursor: not-allowed; }
+.bl-page {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 var(--space-3);
+  border-radius: var(--radius-full); border: 1px solid transparent; background: transparent; color: var(--ink); cursor: pointer;
+  font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: 500; font-variant-numeric: tabular-nums;
+  transition: background-color .12s ease;
+}
+.bl-page[aria-current="page"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; border-color: var(--accent); cursor: default; }
+.bl-page:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.bl-page-gap { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 40px; color: var(--ink-subtle); font-size: var(--text-label-size); user-select: none; }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-page[aria-current="page"] { border-color: color-mix(in srgb, var(--accent) 28%, transparent); }
+}
+@media (hover: hover) {
+  .bl-page:not([aria-current="page"]):hover { background: var(--paper-sunken); }
+}
+/* 좁은 화면(xs): 1 … 9 10 11 … 20이 한 줄에 들어가도록 캡슐을 조금 좁힙니다(350px 폭 기준) */
+@media (max-width: 599px) {
+  .bl-pagination, .bl-pagination-list { gap: 2px; }
+  .bl-page { min-width: 36px; padding: 0 var(--space-2); }
+  .bl-page-gap { min-width: 20px; }
+}
+/* 터치 기기: 높이는 44px로 키우고, 폭은 보이는 크기를 두고 보이지 않는 ::before로 누르는 영역만 44px까지 넓힙니다(아이콘 버튼은 bundle.css의 같은 규칙) */
+@media (pointer: coarse) {
+  .bl-page, .bl-page-gap { height: 44px; }
+  .bl-page { position: relative; }
+  .bl-page::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--touch-min)); height: max(100%, var(--touch-min)); transform: translate(-50%, -50%); }
+}
+@media (forced-colors: active) {
+  .bl-page[aria-current="page"] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .bl-pagination .bl-icon-btn:disabled { color: GrayText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-page { transition: none; }
+}

@@ -2,8 +2,9 @@
   import { onMount } from "svelte";
   import { palettes, getPalette, setPalette, getCustomPalettes, onCustomPalettesChange } from "./utils.js";
   import { rovingKey } from "./a11y.js";
+  import { locale } from "./locale.svelte.js";
   import type { PaletteId } from "./types.js";
-  let { value = $bindable(), apply = true, target, compact = false, group, custom = true, label = "색 팔레트", onchange, class: className }: {
+  let { value = $bindable(), apply = true, target, compact = false, group, custom = true, label, onchange, class: className }: {
     /** bind:value로 쓰면 선택이 양방향으로 묶입니다 */
     value?: PaletteId | (string & {});
     /** false면 data-palette를 바꾸지 않고 onchange만 부릅니다 */
@@ -42,7 +43,7 @@
   }
 </script>
 
-<div class={["bl-palettes", className]} role="radiogroup" aria-label={label} tabindex="-1" onkeydown={(e) => rovingKey(e, ids, current, pick)}>
+<div class={["bl-palettes", className]} role="radiogroup" aria-label={label ?? locale.current.palette} tabindex="-1" onkeydown={(e) => rovingKey(e, ids, current, pick)}>
   {#each list as pl (pl.id)}
     <button type="button" role="radio" aria-checked={pl.id === current} tabindex={pl.id === tab ? 0 : -1} class="bl-palette" aria-label={pl.name} data-palette={pl.id} onclick={() => pick(pl.id)}>
       <span class="bl-palette-dot" aria-hidden="true"></span>

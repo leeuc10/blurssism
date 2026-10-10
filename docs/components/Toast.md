@@ -6,3 +6,21 @@
 
 ## 소비자가 넣는 것
 - `children`(한 문장, 해요체), `tone`(neutral/positive/danger), `actionLabel` + `onAction`. 표시 시간과 위치는 소비자가 관리합니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+토스트 한 장(그리기만). 쌓기·자동 닫힘은 ToastProvider + useToast()(2.1).
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `tone` | `"neutral" \| "positive" \| "warning" \| "danger" \| "info"` |  |  |
+| `children` | `ReactNode` | 필수 |  |
+| `actionLabel` | `string` |  |  |
+| `onAction` | `() => void` |  |  |
+| `onDismiss` | `() => void` |  |  |
+| `className` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

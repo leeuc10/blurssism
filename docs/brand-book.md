@@ -33,19 +33,19 @@ blurssism은 웹과 앱 어디에나 쓰는 범용 디자인 시스템입니다.
 
 ## 팔레트
 
-강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `crema-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 블랙입니다(1.6.0까지는 에스프레소).
+강조색 묶음(`accent`, `accent-soft`, `on-accent`, `accent-ink`, `crema-tint-accent`)과 장식색(`deco`)만 바뀌고, 바탕·글자·상태색은 모든 팔레트에서 같습니다. `<html data-palette="matcha">`처럼 고르고, 지정하지 않으면 블랙입니다.
 
 **카페인 7종**
 
 | id | 이름 | 느낌 | 라이트 accent | 다크 accent |
 | --- | --- | --- | --- | --- |
 | `black` | 블랙 (기본) | 블랙커피의 검정 채움과 캐러멜빛 글자 강조 | `#000000` | `#f2f2f2` |
-| `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 (1.6.0까지의 기본) | `#7a4524` | `#e2ab7a` |
+| `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 | `#7a4524` | `#e2ab7a` |
 | `matcha` | 말차 | 녹차의 차분한 초록 | `#3e6b35` | `#a3d48f` |
 | `chai` | 차이 | 향신료 밀크티의 주황 | `#9a4512` | `#f2a66a` |
 | `coldbrew` | 콜드브루 | 차갑게 우린 커피의 깊은 남색 | `#2b4c74` | `#9cc1ea` |
 | `mocha` | 모카 | 초콜릿과 장미빛 코코아 | `#7c3a46` | `#e8a5b0` |
-| `classic` | 클래식 | 1.2까지의 자두색 | `#7a3b69` | `#e0a6cf` |
+| `classic` | 클래식 | 자두색 | `#7a3b69` | `#e0a6cf` |
 
 **웹 기본 7종** — 커피와 상관없이 웹에서 자주 쓰는 색을 크림 바탕에 맞게 채도를 낮추고 깊이를 맞췄습니다.
 
@@ -101,25 +101,41 @@ bg.warnings.forEach((w) => console.warn(w.message));
 - 카드(`paper-raised`)·눌린 면(`paper-sunken`)·구분선(`line`)은 크림 기본값과 같은 명도 차이로 만들고, 채도는 50%까지로 눌러 차분하게 둡니다.
 - `ink`가 세 바탕 모두에서 7:1, 상태색이 4.5:1, 내장 팔레트 14종의 강조색이 3:1·`accent-ink`가 4.5:1을 넘을 때까지 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기고 `warnings`로 알려 줍니다.
 - `ink-muted`·`ink-subtle`·`line-strong`이 모자라면 그것만 조금 진하게(다크는 밝게) 맞춥니다.
-- **적응형 블러레마(1.6.2):** 크레마의 우유 거품 채움(`crema-fill`·`crema-fill-strong`)과 거품 결(`crema-grain`)이 바탕을 따라갑니다. 채움은 라이트에서 `paper`, 다크에서 `paper`와 `paper-raised` 사이 색이고, 결은 기본 결의 명도는 두고 색조와 채도만 바탕을 따라요(흰·회색 바탕이면 무채색 결). 크림 바탕이면 기본 토큰과 똑같습니다. 다만 채움의 밝기는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게 막아서, 뒤가 검정·흰색이어도 크레마 위 글자 대비가 그대로입니다. 값은 `backgroundCrema(배경)`으로 받을 수 있어요.
-- **무채색 바탕(1.6.3):** 화이트·그레이처럼 채도가 낮은 바탕일수록 크레마 채움을 `paper-raised` 쪽으로 밝히고, 거품 결·크레마 띠·장식색 섞는 비율을 줄여 탁해 보이지 않게 합니다. 크림만큼 따뜻한 바탕이면 기본값 그대로입니다.
-- **다크 거품 결(1.6.3):** 결 위에 팔레트 장식색 층을 `color` 블렌드로 얹어(`crema-grain-tint`, 다크 40%) 밝기는 두고 색조만 팔레트를 따라가게 합니다.
+- **적응형 블러레마:** 크레마의 우유 거품 채움(`crema-fill`·`crema-fill-strong`)과 거품 결(`crema-grain`)이 바탕을 따라갑니다. 채움은 라이트에서 `paper`, 다크에서 `paper`와 `paper-raised` 사이 색이고, 결은 기본 결의 명도는 두고 색조와 채도만 바탕을 따라요(흰·회색 바탕이면 무채색 결). 크림 바탕이면 기본 토큰과 똑같습니다. 다만 채움의 밝기는 기본 크레마보다 어두워지지(다크는 밝아지지) 않게 막아서, 뒤가 검정·흰색이어도 크레마 위 글자 대비가 그대로입니다. 값은 `backgroundCrema(배경)`으로 받을 수 있어요.
+- **무채색 바탕:** 화이트·그레이처럼 채도가 낮은 바탕일수록 크레마 채움을 `paper-raised` 쪽으로 밝히고, 거품 결·크레마 띠·장식색 섞는 비율을 줄여 탁해 보이지 않게 합니다. 크림만큼 따뜻한 바탕이면 기본값 그대로입니다.
+- **다크 거품 결:** 결 위에 팔레트 장식색 층을 `color` 블렌드로 얹어(`crema-grain-tint`, 다크 40%) 밝기는 두고 색조만 팔레트를 따라가게 합니다.
 - 채도가 높은 바탕은 `saturated` 경고를 냅니다. 화면 대부분을 덮는 색이라 눈이 쉽게 피로합니다.
 - 서버 렌더링은 `backgroundToCss(createBackground(색))`. 브랜드색 팔레트와 함께 쓰면 `createPalette(브랜드색, { background: bg })`로 그 바탕 위에서 대비를 맞춥니다.
 
 ## 크레마 재질 — 블러레마(Blurema)
 
-블러레마는 **blur + crema**, blurssism의 떠 있는 면을 만드는 재질입니다. 맑게 비치고 반짝이는 유리 대신, 에스프레소 위 크레마처럼 따뜻하고 부드러운 젖빛 면입니다. 이 재질로 만든 면을 **크레마**라고 부릅니다(얇은 크레마, 크레마 모드 등). 1.5부터 코드 이름도 crema입니다(`.bl-crema`, `data-crema`, `applyCremaPreference`). 1.4까지의 glass 이름은 2.0에서 제거됐습니다(아래 "이름 바꾸기"). 다섯 층을 겹칩니다.
+블러레마는 **blur + crema**, blurssism의 떠 있는 면을 만드는 재질입니다. 맑게 비치고 반짝이는 유리 대신, 에스프레소 위 크레마처럼 따뜻하고 부드러운 젖빛 면입니다. 이 재질로 만든 면을 **크레마**라고 부릅니다(얇은 크레마, 크레마 모드 등). 코드 이름도 crema입니다(`.bl-crema`, `data-crema`, `applyCremaPreference`). 다섯 층을 겹칩니다.
+
+**용어** — "crema"가 붙은 이름이 많아 무엇을 가리키는지 먼저 정리합니다.
+
+| 이름 | 뜻 | 바꾸면 |
+| --- | --- | --- |
+| 블러레마(Blurema), 크레마 면 | 재질 이름과 그 재질로 만든 면. 클래스 `.bl-crema`(얇게)·`.bl-crema-thick`(두껍게)·`.bl-crema-lite`(블러 없이) | 어떤 요소를 떠 있게 보일지 |
+| `crema-fill` · `crema-fill-strong` | 2층 우유 거품 채움색(반투명). 얇은 면·두꺼운 면 | 면의 불투명도와 색조 |
+| `crema-grain` · `crema-grain-tint` | 3층 거품 결 노이즈와 그 위에 얹는 팔레트 색조(다크만) | 결의 세기·색 |
+| `crema-tint` · `crema-tint-mix` | 띠 색(`deco`와 `accent`를 섞은 결과)과 그 비율 | 띠의 색 |
+| `crema-band` · `crema-band-top/lip/mid/low` | 4층 띠 그라디언트와 높이별 세기 | 띠의 모양과 진하기 |
+| `crema-edge` · `crema-stroke` | 5층 위쪽 1px 가장자리 선과 테두리 | 가장자리의 밝기 |
+| `crema-light` · `crema-light-strength` | 데스크톱 모드의 캐러멜빛(선택 기능인 포인터 빛) | 빛의 색과 세기 |
+| `crema-saturate` · `blur-md` · `blur-lg` | 1층 블러의 채도와 반경 | 뒤가 번지는 정도 |
+| `crema-tint-accent` · `crema-ink-muted` | 크레마 위 선택 상태 틴트와 보조 글자색 | 크레마 위 UI 색 |
+| `data-crema="off \| on \| rich"` | 크레마 모드(기기별 3단계) | 블러를 쓸지, 얼마나 깊게 |
+| `crema-fill-tint` | 채움에 섞는 팔레트 장식색 비율 | 브랜드색이 크레마에 배는 정도 |
 
 | 층 | 토큰 | 하는 일 |
 | --- | --- | --- |
 | 1. 블러 | `blur-md`·`blur-lg`, `crema-saturate` 125% | 뒤를 번지게 합니다. 채도는 조금만 올려 쨍하지 않게 둡니다. |
 | 2. 우유 거품 색 | `crema-fill`, `crema-fill-strong` | 흰색이 아니라 `paper`(크림색)가 비치는 면입니다. |
-| 3. 거품 결 | `crema-grain` | 고운 정지 노이즈. 크레마를 액체가 아니라 거품처럼 보이게 합니다. 2.0부터 옅게(라이트 .26, 다크 .16) 둬서 면이 매트한 판이 아니라 흐린 유리로 읽힙니다. 정지 이미지지만 `background-blend-mode`와 함께 칠해지므로 블러 예산 안에서만 씁니다. |
-| 4. 크레마 띠 | `crema-band` | 에스프레소 잔을 옆에서 본 크레마처럼, 면 위쪽 가장자리에 캐러멜빛이 조금 더 고이고 아래로 옅어지면서 **면 전체에 고르게 남습니다**(1.6부터. 이전에는 위쪽에만 몰려 있었습니다). 팔레트의 `deco`와 `accent`를 섞은 색(`--crema-tint`)이고, 세기는 `crema-band-top`·`lip`·`mid`·`low`가 정합니다. 블러레마를 다른 크레마와 구별하는 가장 큰 표시입니다. |
+| 3. 거품 결 | `crema-grain` | 고운 정지 노이즈(라이트 .26, 다크 .16). 크레마를 액체가 아니라 거품처럼 보이게 하되, 옅게 둬서 면이 매트한 판이 아니라 흐린 유리로 읽힙니다. 비용은 아래 "벤치마크" 참고. |
+| 4. 크레마 띠 | `crema-band` | 에스프레소 잔을 옆에서 본 크레마처럼, 면 위쪽 가장자리에 캐러멜빛이 조금 더 고이고 아래로 옅어지면서 **면 전체에 고르게 남습니다**. 팔레트의 `deco`와 `accent`를 섞은 색(`--crema-tint`)이고, 세기는 `crema-band-top`·`lip`·`mid`·`low`가 정합니다. 블러레마를 다른 크레마와 구별하는 가장 큰 표시입니다. |
 | 5. 크레마 가장자리 | `crema-edge` (`shadow-crema`의 안쪽 선) | 흰 반사광 대신 `deco`가 섞인 따뜻한 1px 선입니다. |
 
-우유 거품 채움과 거품 결은 배경을 따라(아래 "배경" 참고), 크레마 띠와 가장자리는 팔레트를 따라 색이 바뀝니다. 1.6.2부터 채움도 팔레트의 `deco`를 조금(`crema-fill-tint`: 라이트 20%, 다크 12%) 머금어 브랜드색을 바꾸면 블러레마 전체가 그 색으로 살짝 물듭니다. 다크는 밝은 글자 대비 때문에 덜 섞습니다(말차면 녹차 거품빛, 블루면 하늘빛). 다크에서는 `deco`를 더 많이 섞어(`crema-tint-mix` 90%) 띠가 밝은 글자를 가리지 않게 합니다. `color-mix`를 지원하지 않는 브라우저에서는 에스프레소 기본값으로 보입니다.
+우유 거품 채움과 거품 결은 배경을 따라(아래 "배경" 참고), 크레마 띠와 가장자리는 팔레트를 따라 색이 바뀝니다. 채움도 팔레트의 `deco`를 조금(`crema-fill-tint`: 라이트 12%, 다크 10%) 머금어 브랜드색을 바꾸면 블러레마 전체가 그 색으로 살짝 물듭니다. 다크는 밝은 글자 대비 때문에 덜 섞습니다(말차면 녹차 거품빛, 블루면 하늘빛). 다크에서는 `deco`를 더 많이 섞어(`crema-tint-mix` 90%) 띠가 밝은 글자를 가리지 않게 합니다. `color-mix`를 지원하지 않는 브라우저에서는 에스프레소 기본값으로 보입니다.
 
 두께는 두 가지입니다.
 
@@ -147,6 +163,21 @@ bg.warnings.forEach((w) => console.warn(w.message));
 | `--glass-fill` · `--glass-fill-strong` · `--glass-stroke` · `--glass-tint-accent` | `--crema-fill` · `--crema-fill-strong` · `--crema-stroke` · `--crema-tint-accent` |
 | `--glass-edge` · `--glass-crema` · `--glass-grain` · `--glass-light` · `--crema`(1.4의 띠 색) | `--crema-edge` · `--crema-band` · `--crema-grain` · `--crema-light` · `--crema-tint` |
 | `--shadow-glass` · `--glass-saturate` | `--shadow-crema` · `--crema-saturate` |
+
+## 검사
+
+규칙은 문서로만 두지 않고 저장소가 검사합니다. `npm run check`:
+
+| 검사 | 무엇을 | 어디서 |
+| --- | --- | --- |
+| 대비 | 팔레트 14종·브랜드색 133개·배경 51종의 108,550개 조합(크레마 위 글자는 뒤가 검정·흰색인 최악까지), `accent-ink`가 `ink`와 구분되는지(ΔE 12 이상) | `scripts/check.mjs` |
+| 동작 | jsdom + React로 실제 렌더: 제어·비제어, 방향키, 다이얼로그 포커스·Esc·닫힘 애니메이션, 토스트 타이머, 탭·메뉴·아코디언·페이지 | `scripts/test.mjs` (`npm test`) |
+| 접근성 | axe-core로 대표 화면(컴포넌트 25개)의 위반 0건. 대비 규칙은 위 검사가 맡음 | 같은 파일 |
+| 서버 렌더링 | 컴포넌트 전부를 react-dom/server로 그려 마크업 확인, 로케일 전환 | `scripts/ssr.mjs` |
+| 타입 | svelte-check, tsc(실제 쓰임새 + 틀린 쓰임새가 오류 나는지) | `scripts/types-test.tsx` |
+| 개발 중 | `auditCrema()`: 블러 예산, primary 개수, 강조색 면 10%(90/10), 영역별 팔레트, 남은 glass 이름 | 브라우저 콘솔 |
+
+아직 없는 것: 시각 회귀(스크린샷 비교). 질감을 바꿀 때는 갤러리를 눈으로 봅니다.
 
 ## 다른 디자인 시스템과 다른 점
 
@@ -179,19 +210,32 @@ bg.warnings.forEach((w) => console.warn(w.message));
 - **데스크톱 모드는 개발자가 켜고 끕니다.** 기본은 `"auto"`(조건이 맞으면 켬, 창 크기가 바뀌면 다시 판단)입니다.
   - 끄기: `applyCremaPreference({ rich: false })`
   - 항상 켜기: `applyCremaPreference({ rich: true })`
-  - 포인터를 따라오는 빛 켜기: `applyCremaPreference({ pointerLight: true })`. 2.0부터 기본 꺼짐입니다. 마우스가 움직일 때마다 블러 면을 다시 칠하므로, 켜면 포인터 근처 면만 다시 칠하고 나머지는 건드리지 않습니다.
+  - 포인터를 따라오는 빛 켜기: `applyCremaPreference({ pointerLight: true })`. 기본은 꺼짐입니다. 마우스가 움직일 때마다 블러 면을 다시 칠하므로, 켜면 포인터 근처 면만 다시 칠하고 나머지는 건드리지 않습니다.
   - 바로 정하기: `setCremaMode("off" | "on" | "rich" | "auto")`, 지금 모드는 `getCremaMode()`
   - CSS만 쓸 때는 `<html data-crema="rich">`를 직접 넣어도 됩니다(포인터 빛은 JS가 필요합니다).
   - 동작 줄이기 설정이면 포인터 빛은 켜도 꺼집니다. 사용자 설정 화면에 "크레마 효과" 토글로 `setCremaMode`를 연결해도 좋습니다.
 - 저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있습니다. 코어 수는 메모리를 알려 주는 브라우저(Chromium)에서만 봅니다. Safari는 코어 수를 줄여서 알려 주기 때문입니다.
 - `backdrop-filter`를 지원하지 않는 브라우저는 자동으로 `paper-raised`로 대체됩니다.
+- 메모리를 알려 주지 않는 브라우저(Safari·Firefox)에서는 코어 2개 이하, `prefers-reduced-transparency`, 데이터 절약, `update: slow`만 자동으로 잡힙니다. 더 정확히 하려면 `applyCremaPreference({ probe: true })`: 화면 밖에 블러 면 4개를 그려 12프레임을 돌리고 한 프레임이 24ms를 넘으면 `off`로 바꿉니다(약 200ms).
+
+**벤치마크** — `scripts/bench/crema.html?n=개수`. 배경을 매 프레임 움직이며 크레마 면 n개를 올리고 120프레임의 평균 프레임 시간(ms)을 잽니다. 아래는 M 시리즈 맥의 Chromium, 60Hz 기준입니다. 기기마다 다르니 자기 기기에서 직접 돌려 보세요.
+
+| 설정 | 면 6개 | 면 60개 |
+| --- | --- | --- |
+| 불투명(`off`) | 16.7 (60fps) | 16.7 (60fps) |
+| 블러만 | 16.7 | 32.4 (31fps) |
+| 블러 + 거품 결 | 16.7 | 33.3 |
+| 블러레마 전체(결·띠·블렌드) | 16.7 | 33.8 |
+| 데스크톱 모드(32px·두 겹 그림자) | 16.7 | 34.7 (p95 50) |
+
+읽는 법: 비용의 거의 전부는 **블러 자체**(면 60개에서 프레임 시간 두 배)이고, 거품 결·띠·블렌드는 블러 위에 약 4%를 더합니다. 그래서 예산은 "결을 뺄지"가 아니라 **블러 면의 개수**로 정합니다(화면당 3개, 데스크톱 6개). 데스크톱 모드는 두 겹 그림자 때문에 p95가 튀므로 넉넉한 기기에서만 켭니다.
 
 ## 타이포그래피
 
 - `sans`: Blurssism Sans → 시스템 산세리프(Apple SD Gothic Neo, 맑은 고딕).
 - `serif`: Blurssism Serif → Noto Serif KR → 시스템 명조.
 - 두 글꼴은 Pretendard와 Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본입니다(SIL OFL, 예약 이름 때문에 이름을 바꿈). 2350자 밖의 드문 글자는 시스템 글꼴로 보입니다. 다시 만들 때는 `python3 scripts/subset-fonts.py`.
-- 글꼴은 `fonts.css`가 jsDelivr에서 불러옵니다. 1.6부터 `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
+- 글꼴은 `fonts.css`가 jsDelivr에서 불러옵니다. `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
 - 스타일: `display` 40/48 · `title-1` 30/38 · `quote` 22/32 (명조) / `title-2` 22/30 · `title-3` 18/26 · `body` 16/26 · `body-strong` 16/26 · `body-sm` 14/22 · `label` 15/20 · `caption` 12/16 (산세리프).
 - 클래스는 `.bl-body`·`.bl-title-1`처럼 `bl-` 접두어를 씁니다(2.0. 전에는 `.body`처럼 접두어가 없어 소비자 CSS와 충돌했습니다). 값은 `--text-body-size`·`--text-body-line`·`--text-body-weight`·`--text-body-tracking` 같은 변수로도 나오고, 컴포넌트가 px 대신 이 변수를 읽습니다. 그래서 `:root { --text-body-size: 17px }`처럼 덮어쓰면 입력창·카드 본문까지 함께 바뀝니다.
 - 한글 본문의 행간은 1.6(16/26)입니다. 제목은 자간을 −0.01 ~ −0.02em 좁힙니다.
@@ -282,14 +326,14 @@ bg.warnings.forEach((w) => console.warn(w.message));
 ## 코드에서 쓰기
 
 - **설치**: `npm install @caffeinecatkr/blurssism` (GitHub: leeuc10/blurssism). CDN은 `https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism/dist/`.
-- **React (Vite·Next.js 등)**: `import { Button, Dialog } from "@caffeinecatkr/blurssism"`와 `import "@caffeinecatkr/blurssism/fonts.css"`, `import "@caffeinecatkr/blurssism/tokens.css"`, `import "@caffeinecatkr/blurssism/bundle.css"`. Next.js App Router의 서버 컴포넌트 파일에서도 그릴 수 있지만, `onClick`·`render` 같은 함수 props는 `"use client"` 파일 안에서 넘깁니다. 빌드 도구가 없으면 React UMD 다음에 `dist/bundle.js`를 불러 `window.Blurssism`으로 씁니다. Svelte 5는 `import { Button } from "@caffeinecatkr/blurssism/svelte"`(바인딩·스니펫 지원). 컴포넌트는 29개입니다.
-  - 행동: `Button`, `IconButton`
-  - 입력: `TextField`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `Chip`, `SegmentedControl`, `Calendar`, `PalettePicker`
-  - 레이아웃: `Container`, `Grid`
+- **React (Vite·Next.js 등)**: `import { Button, Dialog } from "@caffeinecatkr/blurssism"`와 `import "@caffeinecatkr/blurssism/fonts.css"`, `import "@caffeinecatkr/blurssism/tokens.css"`, `import "@caffeinecatkr/blurssism/bundle.css"`. Next.js App Router의 서버 컴포넌트 파일에서도 그릴 수 있지만, `onClick`·`render` 같은 함수 props는 `"use client"` 파일 안에서 넘깁니다. 빌드 도구가 없으면 React UMD 다음에 `dist/bundle.js`를 불러 `window.Blurssism`으로 씁니다. Svelte 5는 `import { Button } from "@caffeinecatkr/blurssism/svelte"`(바인딩·스니펫 지원). 컴포넌트는 38개입니다.
+  - 행동: `Button`, `IconButton`, `Link`
+  - 입력: `TextField`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `Chip`, `SegmentedControl`, `Calendar`, `PalettePicker`
+  - 레이아웃: `Container`, `Grid`, `Tabs`, `Accordion`, `Pagination`
   - 콘텐츠: `Card`, `MediaCard`, `ListItem`, `Table`, `Avatar`, `Icon`
-  - 상태: `Badge`, `Progress`, `Skeleton`, `EmptyState`
-  - 탐색·오버레이: `NavBar`, `TabBar`, `Sheet`, `Dialog`, `Toast`, `Tooltip`
-  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyCremaPreference()`, `setCremaMode()`, `getCremaMode()`, `isDesktopCapable()`, `shouldReduceCrema()`, `createPalette()`, `applyBrandColor()`, `paletteToCss()`, `contrastRatio()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
+  - 상태: `Badge`, `Alert`, `Progress`, `Skeleton`, `EmptyState`
+  - 탐색·오버레이: `NavBar`, `TabBar`, `Drawer`, `Sheet`, `Dialog`, `Popover`, `Menu`, `Toast`(+ `ToastProvider`·`useToast`, Svelte `toast`·`Toaster`), `Tooltip`
+  - 유틸리티: `setPalette()`, `getPalette()`, `palettes`, `setTheme()`, `getTheme()`, `useBreakpoint()`(React) / `breakpoint()`(Svelte), `getBreakpoint()`, `isAtLeast()`, `onBreakpointChange()`, `breakpoints`, `applyCremaPreference()`, `setCremaMode()`, `getCremaMode()`, `isDesktopCapable()`, `shouldReduceCrema()`, `createPalette()`, `applyBrandColor()`, `paletteToCss()`, `contrastRatio()`, `setLocale()`·`getLocale()`·`onLocaleChange()`, `probeCremaCost()`, `checkCrema()`·`auditCrema()`. 프레임워크 없이는 `@caffeinecatkr/blurssism/utils`.
 
   각 props는 `dist/index.d.ts`에 있습니다. 앱 루트에 `class="bl-root"`를 둡니다.
 - **CSS만(HTML·Vue 등)**: `dist/fonts.css`, `dist/tokens.css`, `dist/bundle.css`만 불러와 같은 클래스(`bl-btn bl-btn-primary`, `bl-crema`, `bl-list` …)를 씁니다.

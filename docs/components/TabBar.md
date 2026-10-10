@@ -8,3 +8,22 @@
 
 ## 소비자가 넣는 것
 - `items`(`{id,label,icon,href}` — `href`가 있으면 링크), `value`, `onChange`, `hideFrom`. 콘텐츠 아래 여백을 `space-24` 이상 남겨 마지막 항목이 가리지 않게 합니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+하단에 떠 있는 캡슐형 크레마 탭바 (3–5개). <nav> + aria-current="page". 기본으로 lg부터 숨습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `items` | `TabItem[]` | 필수 |  |
+| `value` | `string` |  | 제어 모드. 안 주면 defaultValue에서 시작해 스스로 바뀝니다(2.1) |
+| `defaultValue` | `string` |  |  |
+| `onChange` | `(id: string) => void` |  |  |
+| `label` | `string` |  |  |
+| `className` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+| `hideFrom` | `"sm" \| "md" \| "lg" \| "xl" \| false` |  | 이 단계부터 숨깁니다. 기본 "lg"(그때는 NavBar 링크). false면 항상 보입니다. |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

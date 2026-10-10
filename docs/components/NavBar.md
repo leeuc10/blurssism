@@ -9,3 +9,20 @@
 
 ## 소비자가 넣는 것
 - `title`, `onBack`, `links`(`{href,label,current}`), `actions`. 상단 고정(sticky, `top: space-3`)은 소비자가 배치합니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+상단에 떠 있는 캡슐형 크레마 내비게이션 바. 앱: 뒤로+제목+액션, 웹: 로고+links.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `title` | `ReactNode` | 필수 |  |
+| `onBack` | `() => void` |  |  |
+| `links` | `NavLink[]` |  |  |
+| `actions` | `ReactNode` |  |  |
+| `className` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

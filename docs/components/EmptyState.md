@@ -6,3 +6,19 @@
 
 ## 소비자가 넣는 것
 - `title`(해요체 한 문장), `body`, `icon`, `children`(버튼 하나).
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+빈 화면 안내. children = 행동 버튼 하나.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `title` | `string` | 필수 |  |
+| `body` | `string` |  |  |
+| `icon` | `IconName` |  |  |
+| `children` | `ReactNode` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

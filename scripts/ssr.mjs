@@ -48,6 +48,22 @@ expect("Sheet", h(B.Sheet, { title: "공유" }), "bl-sheet");
 expect("Dialog", h(B.Dialog, { open: true, title: "저장할까요?", description: "되돌릴 수 없어요." }), "<dialog", /aria-describedby="[^"]+-desc"/);
 expect("Toast", h(B.Toast, { tone: "positive" }, "저장했어요"), 'role="status"');
 expect("Icon", h(B.Icon, { name: "heart", filled: true }), 'fill="currentColor"');
+// 2.1
+expect("Textarea", h(B.Textarea, { label: "메모", error: "비어 있어요" }), "<textarea", "오류: 비어 있어요");
+expect("Alert", h(B.Alert, { tone: "warning", title: "주의" }, "본문"), 'role="alert"', "bl-alert");
+expect("Link external", h(B.Link, { href: "https://x.test", external: true }, "문서"), 'rel="noopener noreferrer"', "bl-sr-only");
+expect("Pagination", h(B.Pagination, { count: 20, defaultPage: 5 }), '<nav', 'aria-current="page"', "…");
+expect("Tabs", h(B.Tabs, { items: [{ id: "a", label: "목록", panel: "A" }, { id: "b", label: "격자", panel: "B" }] }), 'role="tablist"', 'aria-selected="true"', 'role="tabpanel"');
+expect("Accordion", h(B.Accordion, { items: [{ id: "a", title: "배송", content: "x" }], defaultValue: "a" }), "<details", "<summary");
+expect("Popover", h(B.Popover, { trigger: h("button", null, "열기"), label: "필터" }, "내용"), 'aria-expanded="false"', 'popover="auto"');
+expect("Menu", h(B.Menu, { trigger: h("button", null, "더 보기"), items: [{ id: "a", label: "수정" }, "-", { id: "b", label: "삭제", danger: true }] }), 'role="menu"', 'role="menuitem"');
+expect("Drawer", h(B.Drawer, { open: true, title: "메뉴", onClose: () => {} }, "x"), "<dialog", "bl-drawer");
+expect("Toast tones", h(B.Toast, { tone: "info" }, "안내"), 'data-tone="info"');
+expect("ToastProvider", h(B.ToastProvider, null, h("p", null, "앱")), "bl-toaster");
+expect("Sheet open", h(B.Sheet, { title: "공유", open: true, onClose: () => {} }), "<dialog", "bl-sheet-modal");
+expect("Badge info", h(B.Badge, { tone: "info" }, "안내"), "bl-badge-info");
+expect("setLocale en", (B.setLocale("en"), h(B.TextField, { label: "Email", error: "Invalid" })), "Error: Invalid");
+B.setLocale("ko");
 
 // 모듈 하나: 메인 진입점과 /utils가 같은 상태를 씁니다
 if (B.setPalette !== U.setPalette) { fails++; console.log("✗ index.mjs와 utils.mjs의 setPalette가 서로 다른 사본이에요"); }

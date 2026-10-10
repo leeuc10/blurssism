@@ -14,3 +14,15 @@
 
 ## 하지 말 것
 - 라벨에 이모지나 느낌표를 넣지 않습니다. 색을 임의 hex로 바꾸지 않습니다.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+캡슐형 버튼. primary는 화면당 하나. href를 주면 <a>로 렌더링되고 target·rel 같은 링크 속성을 받습니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| | `| (ButtonOwnProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & { href?: undefined; target?: never; rel?: never; download?: never }) | (ButtonOw…` | | 자세한 형은 dist/index.d.ts |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

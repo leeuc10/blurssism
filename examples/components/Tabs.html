@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Tabs — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{display:grid;gap:24px;max-width:480px;} .panel p{margin:0 0 12px;} .panel p:last-child{margin:0;}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  function P() { return h("div", { className: "panel" }, Array.prototype.map.call(arguments, function (t, i) { return h("p", { key: i }, t); })); }
+  var product = [
+    { id: "detail", label: "상세", panel: P("에티오피아 예가체프 원두를 중약배전으로 볶았어요.", "꽃향과 밝은 산미가 먼저 오고, 식으면서 복숭아 같은 단맛이 남아요. 핸드드립과 에어로프레스에 잘 맞아요.") },
+    { id: "review", label: "리뷰", panel: P("별 4.8, 리뷰 126개", "\"산미가 부담스럽지 않고 깔끔해요. 아침에 내려 마시기 좋아요.\" — 지은") },
+    { id: "qna", label: "문의", panel: P("배송은 로스팅 다음 날 출발해요. 궁금한 점은 아래 버튼으로 남겨 주세요.", h(B.Button, { variant: "ghost", size: "md" }, "문의 남기기")) },
+    { id: "shipping", label: "배송·교환", panel: P("오후 2시 전 주문은 당일 로스팅해 다음 날 출발해요. 원두 특성상 개봉 뒤에는 교환이 어려워요.") },
+    { id: "origin", label: "농장 이야기", disabled: true, panel: P("준비 중이에요.") }
+  ];
+  var settings = [
+    { id: "account", label: "계정", icon: "person", panel: P("이름, 이메일, 프로필 사진을 바꿀 수 있어요.") },
+    { id: "alerts", label: "알림", icon: "bell", panel: P("주문·배송 알림과 새 원두 소식을 따로 켜고 끌 수 있어요.") },
+    { id: "prefs", label: "설정", icon: "settings", panel: P("테마와 글자 크기를 고를 수 있어요.") }
+  ];
+  function Demo() {
+    var tab = React.useState("review");
+    return h(React.Fragment, null,
+      h("section", null, h("p", { className: "bl-caption", style: { margin: "0 0 8px", color: "var(--ink-muted)" } }, "line (기본) · 제어 모드, 좁은 화면에서는 가로로 스크롤"),
+        h(B.Tabs, { label: "상품 정보", value: tab[0], onChange: tab[1], items: product })),
+      h("section", null, h("p", { className: "bl-caption", style: { margin: "0 0 8px", color: "var(--ink-muted)" } }, "pill · 비제어(defaultValue), 아이콘, keepMounted"),
+        h(B.Tabs, { label: "설정", variant: "pill", defaultValue: "alerts", keepMounted: true, items: settings })));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blurssism 크레마 벤치마크</title>
+<link rel="stylesheet" href="../../dist/fonts.local.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<style>
+  body { margin: 0; background: var(--paper); font-family: var(--font-sans); color: var(--ink); }
+  .stage { position: relative; height: 70vh; overflow: hidden; }
+  .bg { position: absolute; inset: -20%; background: conic-gradient(from 0deg, var(--accent), var(--deco), var(--positive), var(--paper), var(--accent)); will-change: transform; }
+  .pane { position: absolute; width: 24%; height: 28%; border-radius: var(--radius-lg); }
+  #out { padding: 16px; font-size: 14px; line-height: 22px; white-space: pre; }
+</style>
+</head>
+<body class="bl-root">
+<div class="stage" id="stage"><div class="bg" id="bg"></div></div>
+<div id="out">측정 중…</div>
+<script>
+  // 배경을 매 프레임 움직여 backdrop-filter를 다시 계산하게 하고, 크레마 면 N개를 올린 채 프레임 시간을 잽니다.
+  // 결과는 window.__bench에 { 설정: { avg, p95, worst } }로 남습니다. 각 설정 120프레임.
+  var stage = document.getElementById("stage"), bg = document.getElementById("bg"), out = document.getElementById("out");
+  var N = Number(new URLSearchParams(location.search).get("n") || 6);
+  var configs = [
+    ["opaque", "불투명(data-crema=off)", "off", ""],
+    ["blur", "블러만", "on", "background-image:none"],
+    ["blur+grain", "블러 + 거품 결", "on", "background-image:var(--crema-grain)"],
+    ["blurema", "블러레마 전체(결·띠·블렌드)", "on", ""],
+    ["rich", "데스크톱 모드(32px·두 겹 그림자)", "rich", ""],
+  ];
+  var results = {}, ci = 0;
+  function setup(cfg) {
+    document.querySelectorAll(".pane").forEach(function (p) { p.remove(); });
+    stage.setAttribute("data-crema", cfg[2]);
+    for (var i = 0; i < N; i++) {
+      var p = document.createElement("div");
+      p.className = "pane bl-crema"; p.style.cssText = "left:" + ((i * 37) % 76) + "%;top:" + ((i * 23) % 72) + "%;" + cfg[3];
+      stage.appendChild(p);
+    }
+  }
+  function run() {
+    if (ci >= configs.length) { window.__bench = results; out.textContent = JSON.stringify(results, null, 2) + "\n(ms, 면 " + N + "개, 프레임 120)"; return; }
+    var cfg = configs[ci]; setup(cfg);
+    var times = [], last = 0, f = 0;
+    function tick(now) {
+      if (last) times.push(now - last);
+      last = now; f++;
+      bg.style.transform = "translate(" + (f * 5) + "px, " + (f * 2) + "px) rotate(" + (f / 2) + "deg)";
+      if (f < 130) requestAnimationFrame(tick);
+      else {
+        times = times.slice(10).sort(function (a, b) { return a - b; });
+        var avg = times.reduce(function (s, t) { return s + t; }, 0) / times.length;
+        results[cfg[0]] = { label: cfg[1], avg: +avg.toFixed(2), p95: +times[Math.floor(times.length * 0.95)].toFixed(2), worst: +times[times.length - 1].toFixed(2) };
+        ci++; setTimeout(run, 300);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  setTimeout(run, 500);
+</script>
+</body>
+</html>

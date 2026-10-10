@@ -1,17 +1,19 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import IconButton from "./IconButton.svelte";
+  import { locale } from "./locale.svelte.js";
   /** 앱: onback + title + actions · 웹: title + links + actions. md 미만에서는 links가 숨겨집니다. */
   let { title, onback, links, actions, class: className }: {
     title: string | Snippet; onback?: () => void; links?: { href: string; label: string; current?: boolean }[]; actions?: Snippet; class?: string;
   } = $props();
+  const L = $derived(locale.current);
 </script>
 
 <header class={["bl-navbar bl-crema", className]}>
-  {#if onback}<IconButton icon="chevron-left" label="뒤로" plain onclick={onback} />{/if}
+  {#if onback}<IconButton icon="chevron-left" label={L.back} plain onclick={onback} />{/if}
   <p class="bl-navbar-title">{#if typeof title === "string"}{title}{:else}{@render title()}{/if}</p>
   {#if links}
-    <nav class="bl-navbar-links" aria-label="주요 메뉴">
+    <nav class="bl-navbar-links" aria-label={L.siteMenu}>
       {#each links as l (l.href)}<a href={l.href} class="bl-navbar-link" aria-current={l.current ? "page" : undefined}>{l.label}</a>{/each}
     </nav>
   {/if}

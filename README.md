@@ -39,9 +39,10 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 - **브랜드색 팔레트**: 색 하나를 넣으면 라이트·다크 강조색을 WCAG 대비에 맞춰 자동 생성
 - 팔레트 14종 × 라이트·다크. 카페인 7종(블랙·에스프레소·말차·차이·콜드브루·모카·클래식)과 웹 기본 7종(블루·인디고·바이올렛·틸·에메랄드·핑크·그래파이트). 브랜드색 팔레트까지 108,550개 대비 조합 모두 WCAG 통과(배경 바꾼 경우 포함, 불투명한 바탕 56,890개 + 크레마 위 글자 51,660개, 크레마 뒤가 완전한 검정·흰색인 경우까지)
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
-- 컴포넌트 29개: **React**(ESM·CommonJS·`<script>`)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도
+- 컴포넌트 38개: **React**(ESM·CommonJS·`<script>`, 안 쓰는 컴포넌트는 번들러가 버림)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도. 토스트 매니저, 로케일(`setLocale("en")`), 제어·비제어 겸용
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
-- 블러 성능 예산과 저사양 기기 자동 대응, 개발 중 예산 검사(`auditCrema()`)
+- 블러 성능 예산과 저사양 기기 자동 대응(실측 `probe`), 개발 중 검사(`auditCrema()`: 블러 예산·primary 개수·90/10·팔레트 하나)
+- 검사: 대비 108,550개 조합, jsdom 동작 테스트, axe 접근성, 서버 렌더링, 타입. 크레마 벤치마크 수치는 브랜드북에
 - 접근성: 포커스 링, 네이티브 모달 다이얼로그, 방향키로 고르는 라디오 묶음·달력, 동작 줄이기·투명도 줄이기·고대비 모드 대응, 터치 영역 44px
 
 ### 다른 디자인 시스템과 다른 점
@@ -108,7 +109,7 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
 
-**글꼴**: Blurssism Sans(UI)와 Blurssism Serif(명조)를 씁니다. Pretendard와 Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본이라 파일이 작습니다(Sans 가변 450KB, Serif 400·700 합쳐 383KB). 2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. OFL 예약 이름 때문에 이름을 바꿨습니다. `fonts.css`는 같은 버전의 글꼴 파일을 jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
+**글꼴**: Blurssism Sans(UI)와 Blurssism Serif(명조)를 씁니다. 이름만 blurssism이고 실체는 **Pretendard**(© Kil Hyung-jin)와 **Gowun Batang**(© The Gowun Batang Project Authors)에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본입니다(OFL 규정상 수정본은 원래 이름을 쓸 수 없어 바꿨습니다). 파일이 작습니다(Sans 가변 450KB, Serif 400·700 합쳐 383KB). 모든 한글이 한 글꼴로 보이길 바라면 `fonts.dynamic.css`를 대신 불러오세요. 원본 글꼴을 동적 서브셋으로 받아 11,172자 전부 같은 글꼴이고 쓰인 글자 조각만 받습니다(jsDelivr + Google Fonts 필요). 2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. OFL 예약 이름 때문에 이름을 바꿨습니다. `fonts.css`는 같은 버전의 글꼴 파일을 jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
 
 ```js
 import "@caffeinecatkr/blurssism/fonts.local.css";   // fonts.css 대신
@@ -149,12 +150,12 @@ React와 Svelte는 같은 CSS와 같은 함수 모듈(`/utils`)을 써서, 어�
 | `data-palette` | 이름 | 느낌 |
 | --- | --- | --- |
 | `black` | 블랙 (기본) | 블랙커피의 검정 채움과 캐러멜빛 글자 강조 |
-| `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 (1.6.0까지의 기본) |
+| `espresso` | 에스프레소 | 볶은 원두의 갈색과 크레마 |
 | `matcha` | 말차 | 녹차의 차분한 초록 |
 | `chai` | 차이 | 향신료 밀크티의 주황 |
 | `coldbrew` | 콜드브루 | 차갑게 우린 커피의 깊은 남색 |
 | `mocha` | 모카 | 초콜릿과 장미빛 코코아 |
-| `classic` | 클래식 | 1.2까지의 자두색 |
+| `classic` | 클래식 | 자두색 |
 | `blue` | 블루 | 링크와 버튼에서 가장 익숙한 파랑 |
 | `indigo` | 인디고 | SaaS와 개발 도구에서 흔한 남보라 |
 | `violet` | 바이올렛 | 창작 도구와 커뮤니티의 보라 |
@@ -239,7 +240,7 @@ const bg = applyBackgroundColor("#f5f0ff");   // <html data-background="custom">
 bg.warnings.forEach((w) => console.warn(w.message));
 ```
 
-바탕 묶음(`paper`·`paper-raised`·`paper-sunken`·`line`)만 바꾸고 글자·강조·상태색은 그대로 둡니다. 1.6.2부터 크레마(블러레마)의 우유 거품 채움과 거품 결도 바탕을 따라가서, 흰·회색 바탕 위에서는 무채색 크레마가 됩니다(크림 바탕이면 전과 같음). 채움은 팔레트·브랜드색의 장식색도 조금(`crema-fill-tint`) 머금어요. 색 하나를 주면 카드·눌린 면·구분선을 같은 색조로 만들고, 글자와 모든 내장 팔레트가 읽히지 않으면 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기며, 보조 글자색이 모자라면 조금 진하게 맞춥니다. 밝은 색은 라이트 바탕이 되고 다크 바탕은 같은 색조로 만들어요. 다크 바탕을 따로 정하려면 `applyBackgroundColor("#ffffff", { dark: "#101010" })`. 서버 렌더링에서는 `backgroundToCss(createBackground("#f5f0ff"))`를 `<style>`에 넣습니다. 브랜드색 팔레트를 함께 쓰면 `createPalette(color, { background: bg })`로 그 바탕에서 대비를 맞춥니다. 크레마 띠는 팔레트를 따라갑니다.
+바탕 묶음(`paper`·`paper-raised`·`paper-sunken`·`line`)만 바꾸고 글자·강조·상태색은 그대로 둡니다. 크레마(블러레마)의 우유 거품 채움과 거품 결도 바탕을 따라가서, 흰·회색 바탕 위에서는 무채색 크레마가 됩니다. 채움은 팔레트·브랜드색의 장식색도 조금(`crema-fill-tint`) 머금어요. 색 하나를 주면 카드·눌린 면·구분선을 같은 색조로 만들고, 글자와 모든 내장 팔레트가 읽히지 않으면 바탕을 필요한 만큼만 밝게(다크는 어둡게) 옮기며, 보조 글자색이 모자라면 조금 진하게 맞춥니다. 밝은 색은 라이트 바탕이 되고 다크 바탕은 같은 색조로 만들어요. 다크 바탕을 따로 정하려면 `applyBackgroundColor("#ffffff", { dark: "#101010" })`. 서버 렌더링에서는 `backgroundToCss(createBackground("#f5f0ff"))`를 `<style>`에 넣습니다. 브랜드색 팔레트를 함께 쓰면 `createPalette(color, { background: bg })`로 그 바탕에서 대비를 맞춥니다. 크레마 띠는 팔레트를 따라갑니다.
 
 ### 크레마 모드 · 블러 예산
 
@@ -260,10 +261,24 @@ applyCremaPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 
 ```js
 import { auditCrema } from "@caffeinecatkr/blurssism";
-if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 2.0에서 제거된 glass 이름을 콘솔로 알려 줌
+if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 강조색 면 10% 초과, 영역별 팔레트, 옛 glass 이름을 콘솔로 알려 줌
 ```
 
-저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있어요(기본: 메모리 4GB 미만이면 `off`).
+저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있어요(기본: 메모리 4GB 미만, 메모리를 알려 주지 않는 브라우저에서는 코어 2개 이하면 `off`). `{ probe: true }`를 주면 블러 면을 실제로 그려 프레임 시간을 재고 느리면 `off`로 바꿔요.
+
+### 토스트 · 시트 · 로케일 · 레이어
+
+```jsx
+import { ToastProvider, useToast, Sheet, setLocale } from "@caffeinecatkr/blurssism";
+setLocale("en");                                   // 컴포넌트 문구(오류 접두어, 달력, 메뉴 이름 등). 기본 "ko". 일부만 덮어쓴 객체도 됨
+<ToastProvider>{app}</ToastProvider>              // 앱 루트
+const toast = useToast(); toast.show({ message: "저장했어요", tone: "positive" });   // 최대 3개, 4초, 마우스를 올리면 멈춤
+<Sheet open={open} onClose={() => setOpen(false)} title="공유">…</Sheet>          // open을 주면 모달(손잡이 끌어내려 닫기)
+```
+
+Svelte는 `toast.show()` + `<Toaster />`, `bind:open`, `locale.current`. Switch·SegmentedControl·TabBar·RadioGroup·Tabs·Accordion·Pagination·Popover·Menu는 `value`를 주면 제어, `defaultValue`를 주면 스스로 바뀌어요.
+
+`bundle.css`는 `@layer blurssism` 안에 있어서 소비자 CSS가 명시도와 상관없이 이겨요. 전역 리셋은 `@layer reset, blurssism;`처럼 앞 계층에 두세요. 치수는 `--bl-btn-h`·`--bl-field-h`·`--bl-card-pad`·`--bl-dialog-w` 같은 컴포넌트 변수로, 글자는 `--text-body-size` 같은 타입 변수로 영역마다 덮어쓸 수 있어요. Tailwind 프리셋은 `bg-accent/50` 같은 투명도 수정자를 지원해요(`tokens.css`의 `--accent-rgb`).
 
 ---
 
@@ -284,9 +299,10 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 - **Brand-color palettes**: pass one color and get light and dark accents tuned for WCAG contrast.
 - 14 palettes × light and dark: 7 caffeine palettes (black, espresso, matcha, chai, cold brew, mocha, classic) and 7 web essentials (blue, indigo, violet, teal, emerald, pink, graphite). All 108,550 contrast pairs pass WCAG, brand-color palettes and custom backgrounds included: 56,890 on opaque surfaces and 51,660 for text on crema over a pure black or white backdrop.
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
-- 29 components for **React** (ESM, CommonJS, `<script>`) and **Svelte 5**, or use the CSS classes (`bl-*`) alone.
+- 38 components for **React** (ESM, CommonJS, `<script>`; tree-shakeable) and **Svelte 5**, or use the CSS classes (`bl-*`) alone. Toast manager, locale (`setLocale("en")`), controlled and uncontrolled inputs.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
-- A blur performance budget with automatic fallback on low-end devices, plus a dev-time budget check (`auditCrema()`).
+- A blur performance budget with automatic fallback on low-end devices (optional measured `probe`), plus dev-time audits (`auditCrema()`: blur budget, primary count, 90/10, one palette per screen).
+- Checks: 108,550 contrast pairs, jsdom behavior tests, axe accessibility, SSR and types. Crema benchmark numbers are in the brand book.
 - Accessibility: focus rings, native modal dialogs, arrow-key radio groups and calendar, reduced motion, reduced transparency and forced-colors support, 44px touch targets.
 
 ### What makes it different
@@ -362,6 +378,18 @@ module.exports = { presets: [require("@caffeinecatkr/blurssism/tailwind")] };
 
 Also load `tokens.css`. The `sm:` / `md:` / `lg:` / `xl:` breakpoints match blurssism.
 
+### Toasts, sheets, locale and layers
+
+```jsx
+import { ToastProvider, useToast, Sheet, setLocale } from "@caffeinecatkr/blurssism";
+setLocale("en");                 // component copy (error prefix, calendar, menu names). Default "ko"; partial overrides accepted
+<ToastProvider>{app}</ToastProvider>
+useToast().show({ message: "Saved", tone: "positive" });   // up to 3 stacked, 4s, pauses on hover
+<Sheet open={open} onClose={close} title="Share">…</Sheet> // with `open` it is a modal with drag-to-close
+```
+
+Svelte: `toast.show()` + `<Toaster />`, `bind:open`, `locale.current`. Switch, SegmentedControl, TabBar, RadioGroup, Tabs, Accordion, Pagination, Popover and Menu are controlled with `value` or uncontrolled with `defaultValue`. `bundle.css` lives in `@layer blurssism`, so unlayered consumer CSS wins regardless of specificity (put global resets in an earlier layer). Sizes are component variables (`--bl-btn-h`, `--bl-field-h`, `--bl-card-pad`, `--bl-dialog-w`), type is `--text-*`, and the Tailwind preset supports opacity modifiers (`bg-accent/50`).
+
 ### Upgrading to 2.0
 
 - `primary` buttons are filled with `accent` (was `ink`); `variant="accent"` is now an alias of `primary`. The black palette's `accent-ink` (links, active labels) is caramel so it differs from body text.
@@ -387,7 +415,7 @@ setBackground("white");                       // <html data-background="white"> 
 const bg = applyBackgroundColor("#f5f0ff");   // any color, sets <html data-background="custom">
 ```
 
-Only the surface set (`paper`, `paper-raised`, `paper-sunken`, `line`) changes, and since 1.6.2 the crema fill and foam grain follow it (neutral crema on white or gray; unchanged on cream). From one color blurssism derives the card, sunken and divider colors for light and dark, nudges the paper just enough for ink, status colors and every built-in palette to pass contrast, and darkens the secondary text if needed. Pass `{ dark: "#101010" }` to set the dark paper yourself. For SSR, use `backgroundToCss(createBackground(color))`; pair it with a brand palette via `createPalette(color, { background: bg })`.
+Only the surface set (`paper`, `paper-raised`, `paper-sunken`, `line`) changes, and the crema fill and foam grain follow it (neutral crema on white or gray). From one color blurssism derives the card, sunken and divider colors for light and dark, nudges the paper just enough for ink, status colors and every built-in palette to pass contrast, and darkens the secondary text if needed. Pass `{ dark: "#101010" }` to set the dark paper yourself. For SSR, use `backgroundToCss(createBackground(color))`; pair it with a brand palette via `createPalette(color, { background: bg })`.
 
 ### Crema modes and blur budget
 

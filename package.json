@@ -1,6 +1,6 @@
 {
   "name": "@caffeinecatkr/blurssism",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 · A web & app design system combining glassmorphism and blur — Blurema crema, caffeine palettes, brand-color palettes, responsive grid, React & Svelte components",
   "author": {
     "name": "caffeinecat",
@@ -64,6 +64,7 @@
     "./styles.css": "./dist/bundle.css",
     "./fonts.css": "./dist/fonts.css",
     "./fonts.local.css": "./dist/fonts.local.css",
+    "./fonts.dynamic.css": "./dist/fonts.dynamic.css",
     "./fonts/*": "./dist/fonts/*",
     "./tokens.json": "./dist/tokens.json",
     "./tailwind": "./dist/tailwind-preset.js",
@@ -96,8 +97,10 @@
     "./dist/bundle.js"
   ],
   "scripts": {
-    "build": "node scripts/build.mjs && svelte-package -i src/svelte -o svelte && node scripts/build.mjs --post",
-    "check": "node scripts/check.mjs && svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.react.json && node scripts/ssr.mjs",
+    "build": "node scripts/build.mjs && svelte-package -i src/svelte -o svelte && node scripts/build.mjs --post && node scripts/docs.mjs",
+    "check": "node scripts/check.mjs && svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.react.json && node scripts/ssr.mjs && npm test",
+    "test": "node --max-old-space-size=1024 --test scripts/test.mjs",
+    "docs": "node scripts/docs.mjs",
     "prepublishOnly": "npm run build && npm run check"
   },
   "peerDependencies": {
@@ -120,6 +123,8 @@
     "@sveltejs/package": "^2.5.8",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
+    "axe-core": "^4.14.0",
+    "jsdom": "^30.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "svelte": "^5.57.1",

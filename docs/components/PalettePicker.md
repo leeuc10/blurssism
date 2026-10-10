@@ -12,3 +12,24 @@
 - `group`: `"caffeine"`(카페인 7종), `"web"`(웹 기본 7종), `"custom"`(브랜드 팔레트)만 보이기. 생략하면 전부.
 - `applyBrandColor()`로 등록한 브랜드 팔레트는 목록 끝에 함께 나옵니다. 숨기려면 `custom={false}`.
 - 선택을 기억하는 것(localStorage, 서버 저장)은 소비자 몫입니다. 페이지를 열 때 `setPalette(저장된 값)`을 부르세요.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+색 팔레트 고르기. 기본으로 <html data-palette>를 바꿉니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `value` | `PaletteId \| (string & {})` |  | 제어 모드: 선택된 팔레트 (브랜드 팔레트 id도 됩니다) |
+| `onChange` | `(id: PaletteId \| (string & {})) => void` |  |  |
+| `apply` | `boolean` |  | false면 data-palette를 바꾸지 않고 onChange만 부릅니다 |
+| `target` | `HTMLElement` |  | 팔레트를 적용할 요소 (기본: <html>) |
+| `group` | `"caffeine" \| "web" \| "custom"` |  | 한 묶음만 보이기: "caffeine"(카페인 7종), "web"(웹 기본 7종), "custom"(applyBrandColor로 등록한 것). 생략하면 전부 |
+| `custom` | `boolean` |  | false면 applyBrandColor()로 등록한 브랜드 팔레트를 숨깁니다 (기본 true) |
+| `compact` | `boolean` |  | 이름 없이 동그라미만 |
+| `label` | `string` |  |  |
+| `className` | `string` |  |  |
+| `locale` | `Partial<Locale>` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

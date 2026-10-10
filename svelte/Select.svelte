@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { locale } from "./locale.svelte.js";
   import type { HTMLSelectAttributes } from "svelte/elements";
   import type { Option } from "./types.js";
   type Props = HTMLSelectAttributes & { label: string; options: (Option | string)[]; placeholder?: string; help?: string; error?: string };
@@ -17,5 +18,5 @@
       {#each opts as o (o.value)}<option value={o.value} disabled={o.disabled}>{o.label}</option>{/each}
     </select>
   </div>
-  {#if error || help}<p id={fid + "-help"} class="bl-field-help">{error ? "오류: " + error : help}</p>{/if}
+  {#if error || help}<p id={fid + "-help"} class="bl-field-help">{error ? locale.current.errorPrefix + error : help}</p>{/if}
 </div>

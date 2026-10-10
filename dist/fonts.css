@@ -1,4 +1,4 @@
-/* blurssism v2.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* fonts.css — Blurssism Sans(가변 45~930, 450KB)·Blurssism Serif(400·700). Pretendard·Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본이에요.
    2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. 라이선스: fonts/blurssism-sans/LICENSE.txt, fonts/blurssism-serif/LICENSE.txt (SIL OFL 1.1)
    jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) 이 파일 대신 fonts.local.css를 불러오세요. */
@@ -10,19 +10,19 @@
   font-style: normal;
   font-display: swap;
   font-weight: 45 930;
-  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.0.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2-variations'), url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.0.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2');
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.1.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2-variations'), url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.1.0/dist/fonts/blurssism-sans/BlurssismSans-Variable.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Blurssism Serif';
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.0.0/dist/fonts/blurssism-serif/BlurssismSerif-Regular.woff2) format('woff2');
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.1.0/dist/fonts/blurssism-serif/BlurssismSerif-Regular.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Blurssism Serif';
   font-style: normal;
   font-display: swap;
   font-weight: 700;
-  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.0.0/dist/fonts/blurssism-serif/BlurssismSerif-Bold.woff2) format('woff2');
+  src: url(https://cdn.jsdelivr.net/npm/@caffeinecatkr/blurssism@2.1.0/dist/fonts/blurssism-serif/BlurssismSerif-Bold.woff2) format('woff2');
 }

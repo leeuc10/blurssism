@@ -1,7 +1,7 @@
 import type { Snippet } from "svelte";
 import type { IconName } from "./types.js";
 type $$ComponentProps = {
-    tone?: "neutral" | "accent" | "positive" | "warning" | "danger";
+    tone?: "neutral" | "accent" | "positive" | "warning" | "danger" | "info";
     icon?: IconName;
     children?: Snippet;
     class?: string;

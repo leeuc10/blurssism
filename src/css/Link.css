@@ -1,0 +1,21 @@
+/* Link — 본문 안의 글자 링크. accent-ink 색과 밑줄로 글자와 구분되고(색만으로 알리지 않음), 호버 기기에서만 밑줄이 두꺼워집니다. */
+.bl-link {
+  color: var(--accent-ink); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px;
+  text-decoration-skip-ink: auto; border-radius: var(--radius-sm); cursor: pointer; word-break: keep-all;
+}
+.bl-link-muted { color: var(--ink-muted); }
+.bl-link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.bl-link:active { opacity: .8; }
+/* 새 창 표시: 오른쪽 꺾쇠를 -45도 돌려 바깥 위를 가리키는 작은 화살표 */
+.bl-link-ext { display: inline-block; width: .75em; height: .75em; vertical-align: 0; margin: 0 -.1em 0 .05em; transform: rotate(-45deg); }
+@media (hover: hover) {
+  .bl-link:hover { text-decoration-thickness: 2.5px; }
+  .bl-link-muted:hover { color: var(--ink); }
+}
+@media (forced-colors: active) {
+  .bl-link { color: LinkText; }
+  .bl-link-muted { color: LinkText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-link { transition: none; }
+}

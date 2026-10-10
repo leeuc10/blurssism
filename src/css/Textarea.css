@@ -1,0 +1,13 @@
+/* Textarea — 여러 줄 입력창. .bl-field-input의 높이·안쪽 여백만 바꾸고 나머지(테두리·오류·포커스)는 TextField 규칙을 그대로 씁니다. */
+.bl-field-input.bl-textarea {
+  height: auto; min-height: calc(var(--text-body-line) * 2 + var(--space-3) * 2 + 2px);
+  padding: var(--space-3) var(--space-4); box-sizing: border-box; resize: vertical; overflow-y: auto;
+  font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); word-break: keep-all;
+}
+/* autoResize: 높이는 JS가 내용에 맞추므로 손잡이를 숨깁니다 */
+.bl-field-input.bl-textarea-auto { resize: none; overflow-y: hidden; }
+.bl-field-input.bl-textarea:disabled { background: var(--paper-sunken); color: var(--ink-subtle); cursor: not-allowed; resize: none; }
+.bl-field-input.bl-textarea:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (forced-colors: active) {
+  .bl-field[data-invalid="true"] .bl-textarea { border-style: dashed; }
+}

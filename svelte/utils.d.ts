@@ -3,6 +3,22 @@ import type { PaletteId, Breakpoint } from "./types.js";
 export interface PaletteInfo { id: PaletteId; name: string; group: "caffeine" | "web"; description: string; swatch: { light: string; dark: string } }
 /** 팔레트 목록 */
 export declare const palettes: PaletteInfo[];
+/** 컴포넌트가 그리는 문구(2.1). setLocale("en") 또는 일부만 덮어쓴 객체. */
+export interface Locale {
+  id: string; errorPrefix: string; back: string; close: string; more: string; prevMonth: string; nextMonth: string;
+  dow: string[]; monthTitle: (y: number, m: number) => string; dayLabel: (y: number, m: number, d: number, dow: string) => string;
+  palette: string; mainMenu: string; siteMenu: string; menu: string; loading: string; dismiss: string;
+  prevPage: string; nextPage: string; page: (n: number) => string; pageOf: (n: number, total: number) => string;
+  tabs: string; notifications: string; openInNew: string;
+}
+/** 내장 로케일: ko(기본)·en */
+export declare const locales: { ko: Locale; en: Locale };
+/** 로케일을 정합니다. 문자열("ko" | "en") 또는 ko를 바탕으로 일부만 덮어쓴 객체. */
+export declare function setLocale(locale: "ko" | "en" | Partial<Locale>): void;
+export declare function getLocale(): Locale;
+/** 로케일이 바뀔 때마다 호출. 해제 함수를 돌려줍니다. */
+export declare function onLocaleChange(cb: (locale: Locale) => void): () => void;
+
 /** 브레이크포인트 min-width(px) */
 export declare const breakpoints: { sm: 600; md: 768; lg: 1120; xl: 1440 };
 /** 팔레트를 바꿉니다. el을 주면 그 요소 아래만. */
@@ -34,6 +50,10 @@ export interface CremaOptions extends LowEndOptions {
   pointerLight?: boolean;
   /** true면 기기 판단 없이 크레마를 켜고, false면 끕니다. */
   force?: boolean;
+  /** true면 probeCremaCost()로 실제 블러 비용을 재서 느리면 off로 바꿉니다(2.1). 메모리를 알려 주지 않는 Safari·Firefox용. */
+  probe?: boolean;
+  /** probe의 한 프레임 허용 ms. 기본 24 */
+  slowMs?: number;
 }
 /**
  * <html data-crema="off|on|rich">를 정합니다. 크레마가 켜졌으면 true.
@@ -44,8 +64,8 @@ export declare function applyCremaPreference(options?: boolean | CremaOptions): 
 export declare function setCremaMode(mode: CremaMode | "auto"): boolean;
 export declare function getCremaMode(): CremaMode;
 export interface CremaIssue {
-  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
-  code: "blur-budget" | "primary" | "legacy-glass";
+  /** blur-budget: 블러 면이 예산보다 많음 · primary: primary 버튼이 둘 이상 · palette: 영역별 팔레트(한 화면에 하나) · accent-area: 강조색 면이 10% 초과(90/10) · legacy-glass: 2.0에서 제거된 1.4 이름(glass)을 쓰는 요소 */
+  code: "blur-budget" | "primary" | "palette" | "accent-area" | "legacy-glass";
   message: string;
   elements: Element[];
 }
@@ -54,7 +74,11 @@ export interface CremaAuditOptions {
   budget?: number;
   /** true면 bl- 클래스가 아닌 요소의 backdrop-filter까지 셉니다(느림) */
   all?: boolean;
+  /** 강조색 면의 허용 비율. 기본 0.1 (90/10) */
+  accentMax?: number;
 }
+/** 블러 비용을 실제로 재 봅니다(2.1). 느린 기기면 true. applyCremaPreference({ probe: true })가 씁니다. */
+export declare function probeCremaCost(options?: { /** 한 프레임 허용 ms. 기본 24 */ slowMs?: number }): Promise<boolean>;
 /** 지금 화면을 한 번 검사합니다(화면에 보이는 것만). 서버에서는 []. */
 export declare function checkCrema(options?: CremaAuditOptions): CremaIssue[];
 /** 개발 중에 화면이 바뀔 때마다 검사해 새 문제를 콘솔에 알립니다. 배포 빌드에서는 아무것도 하지 않습니다. 멈추는 함수를 돌려줍니다. */

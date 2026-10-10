@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../dist/fonts.css">
+<link rel="stylesheet" href="../../dist/tokens.css">
+<link rel="stylesheet" href="../../dist/bundle.css">
+<script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../../dist/bundle.js"></script><meta charset="utf-8"><title>Accordion — 미리보기</title>
+<style>html,body{margin:0;background:var(--paper);} body{padding:16px;} .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;} #root{display:grid;gap:24px;max-width:480px;} .cap{margin:0 0 8px;color:var(--ink-muted);}</style></head>
+<body>
+<div id="root" class="bl-root"></div>
+<script>
+  var B = window.Blurssism, h = React.createElement;
+  function mount(el) { ReactDOM.createRoot(document.getElementById("root")).render(el); }
+  var faq = [
+    { id: "ship", title: "배송은 얼마나 걸리나요", content: "오후 2시 전에 주문하면 당일 로스팅해서 다음 날 출발해요. 보통 출발 뒤 1–2일이면 받아요." },
+    { id: "grind", title: "분쇄해서 받을 수 있나요", content: "주문할 때 핸드드립·에스프레소·프렌치프레스 중에서 고를 수 있어요. 홀빈으로 받으면 향이 더 오래 가요." },
+    { id: "return", title: "교환이나 환불은 어떻게 하나요", content: h("div", null, h("p", { style: { margin: "0 0 12px" } }, "원두는 개봉 전이라면 받은 날부터 7일 안에 교환·환불할 수 있어요. 개봉한 뒤에는 상태가 바뀌어서 어려워요."), h(B.Button, { variant: "ghost", size: "md" }, "교환 신청하기")) }
+  ];
+  var order = [
+    { id: "items", title: "주문 상품 2개", icon: "inbox", content: "예가체프 200g 1개, 콜롬비아 수프리모 500g 1개" },
+    { id: "address", title: "배송지", icon: "home", content: "서울 마포구 성미산로 12, 3층 (우편번호 03969)" },
+    { id: "payment", title: "결제", icon: "check", content: "카드 결제 32,000원, 적립 320원" }
+  ];
+  function Demo() {
+    var v = React.useState(["items", "payment"]);
+    return h(React.Fragment, null,
+      h("section", null, h("p", { className: "bl-caption cap" }, "기본 · 하나만 열림, 비제어(defaultValue)"),
+        h(B.Accordion, { items: faq, defaultValue: "ship" })),
+      h("section", null, h("p", { className: "bl-caption cap" }, "multiple · 제어 모드, 아이콘 · 열린 항목: " + (v[0].length ? v[0].join(", ") : "없음")),
+        h(B.Accordion, { items: order, multiple: true, value: v[0], onChange: v[1] })));
+  }
+  mount(h(Demo));
+</script>
+</body>
+</html>

@@ -7,3 +7,16 @@
 
 ## 소비자가 넣는 것
 - `label`, `children`(포커스 가능한 요소 하나 — React는 `aria-describedby`가 자동으로 연결되고, 원래 있던 값은 지우지 않고 이어 붙입니다. Svelte는 스니펫이 받은 id를 직접 붙입니다).
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+호버·포커스 때 뜨는 짧은 설명. children은 포커스 가능한 요소 하나. 최상위 층에 떠서 잘리지 않고, Esc로 닫힙니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `label` | `string` | 필수 |  |
+| `children` | `ReactNode` | 필수 |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

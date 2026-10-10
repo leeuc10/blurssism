@@ -1,0 +1,37 @@
+/* Alert — 흐름 안의 불투명 안내 띠. 떠 있지 않으므로 크레마가 아니고, 톤의 -soft 바탕 + 톤색 아이콘·제목 + ink 본문. 색만으로 알리지 않도록 아이콘이 항상 있습니다. */
+.bl-alert {
+  --bl-alert-tone: var(--info);
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg);
+  background: var(--paper-raised); color: var(--ink); border: 1px solid var(--line);
+  font-family: var(--font-sans); font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); word-break: keep-all;
+}
+.bl-alert-icon { width: 22px; height: 22px; flex: none; margin-top: 1px; color: var(--bl-alert-tone); }
+.bl-alert-body { flex: 1; min-width: 0; }
+.bl-alert-title { margin: 0; font-size: var(--text-body-size); line-height: var(--text-body-line); font-weight: 700; color: var(--bl-alert-tone); }
+.bl-alert-text { color: var(--ink); }
+.bl-alert-title + .bl-alert-text { margin-top: var(--space-1); }
+.bl-alert-text > p { margin: 0; }
+.bl-alert-text > p + p { margin-top: var(--space-2); }
+.bl-alert-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+/* 닫기: plain 아이콘 버튼 40px. 띠의 안쪽 여백만큼 당겨 글줄과 가운데를 맞춥니다 */
+.bl-alert-close.bl-icon-btn { width: 40px; height: 40px; flex: none; margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1) calc(var(--space-2) * -1) 0; color: var(--ink-muted); }
+.bl-alert-close.bl-icon-btn svg { width: 20px; height: 20px; }
+/* 톤: 바탕은 -soft, 아이콘·제목은 톤색. info는 -soft 토큰이 없어 paper-raised에 info를 조금 섞습니다 */
+.bl-alert-positive { --bl-alert-tone: var(--positive); background: var(--positive-soft); }
+.bl-alert-warning { --bl-alert-tone: var(--warning); background: var(--warning-soft); }
+.bl-alert-danger { --bl-alert-tone: var(--danger); background: var(--danger-soft); }
+@supports (color: color-mix(in srgb, red, blue)) {
+  .bl-alert { border-color: color-mix(in srgb, var(--bl-alert-tone) 24%, transparent); }
+  .bl-alert-info { background: color-mix(in srgb, var(--info) 10%, var(--paper-raised)); }
+}
+@media (pointer: coarse) {
+  .bl-alert-close.bl-icon-btn { width: 44px; height: 44px; margin-right: calc(var(--space-4) * -1); }
+}
+@media (forced-colors: active) {
+  .bl-alert { border: 1px solid CanvasText; }
+  .bl-alert[role="alert"] { border-width: 2px; }
+}
+@media (prefers-contrast: more) {
+  .bl-alert { border-color: var(--bl-alert-tone); }
+}

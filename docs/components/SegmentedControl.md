@@ -6,3 +6,21 @@
 
 ## 소비자가 넣는 것
 - `items`(`{id,label}`, 2–4개, 라벨 1–4자), `value`, `onChange`, `label`(스크린리더용), `block`(가로 꽉 채움).
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+2–4개 보기 전환. 방향키로 이동.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `items` | `{ id: string; label: string }[]` | 필수 |  |
+| `value` | `string` |  |  |
+| `defaultValue` | `string` |  |  |
+| `onChange` | `(id: string) => void` |  |  |
+| `label` | `string` | 필수 |  |
+| `block` | `boolean` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

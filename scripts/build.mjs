@@ -7,7 +7,7 @@
 //   아이콘 경로     → src/svelte/icons.js
 // `node scripts/build.mjs --post`는 svelte-package 뒤에 svelte/utils.js가 dist/utils.mjs를 가리키게 고칩니다.
 //   React·Svelte·바닐라가 같은 utils 모듈 하나를 써서 팔레트 등록·크레마 모드 상태가 한 곳에만 있습니다.
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from "node:fs";
 
 const root = new URL("..", import.meta.url);
 const read = (p) => readFileSync(new URL(p, root), "utf8");
@@ -32,7 +32,12 @@ const colorTokens = tokens.color.tokens;
 const val = (v, theme) => (typeof v === "string" ? v : v[theme] ?? v.light);
 const cssVal = (v) => v.replace(/^\{(.+)\}$/, "var(--$1)");
 // 2.0: 1.4의 glass 이름 별칭(--glass-*)은 더 만들지 않습니다.
-const decl = (list, theme, indent = "  ") => list.map((t) => `${indent}--${t.name}: ${cssVal(val(t.value, theme))};`).join("\n");
+// 2.1: hex 색 토큰은 `--이름-rgb: r g b`도 함께 내보내서 Tailwind의 bg-accent/50 같은 투명도 수정자와 rgb(var(--accent-rgb) / .5)가 됩니다.
+const rgbTriplet = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(" ");
+const decl = (list, theme, indent = "  ") => list.flatMap((t) => {
+  const v = cssVal(val(t.value, theme));
+  return [`${indent}--${t.name}: ${v};`, ...(/^#[0-9a-f]{6}$/i.test(v) ? [`${indent}--${t.name}-rgb: ${rgbTriplet(v)};`] : [])];
+}).join("\n");
 const colorsAndShadows = [...colorTokens, ...tokens.shadow.tokens, ...tokens.material.tokens];
 const plain = ["spacing", "radius", "blur", "backdrop", "layout"].flatMap((f) => tokens[f].tokens);
 const families = Object.entries(tokens.type.families)
@@ -104,6 +109,16 @@ write("dist/fonts.local.css", `${banner}/* fonts.local.css — ${fontNote}
    CDN 없이 패키지에 든 글꼴 파일을 씁니다. fonts.css 대신 불러오세요. */
 ${fontFaces}`);
 
+// 2.1: fonts.dynamic.css — 2350자 사본 대신 원본 글꼴을 동적 서브셋으로 씁니다(Pretendard 동적 서브셋 CSS + Google Fonts의 Gowun Batang).
+//      모든 한글(11,172자)이 같은 글꼴로 보이고, 화면에 쓰인 글자 조각만 받아 첫 로딩이 가볍습니다. 대신 CDN 두 곳(jsDelivr·Google Fonts)이 필요합니다.
+write("dist/fonts.dynamic.css", `${banner}/* fonts.dynamic.css — 원본 글꼴을 동적 서브셋으로 (Pretendard Variable 1.3.9 © Kil Hyung-jin, Gowun Batang © The Gowun Batang Project Authors, 둘 다 SIL OFL 1.1).
+   Blurssism Sans·Serif(2350자 사본) 대신 이 파일을 불러오면 2350자 밖의 글자(똠, 햏 등)도 같은 글꼴로 보이고, 쓰인 글자 조각만 받습니다.
+   jsDelivr와 Google Fonts를 모두 허용해야 합니다. CDN을 못 쓰면 fonts.local.css를 쓰세요. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+:root { --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; --font-serif: "Gowun Batang", "Noto Serif KR", AppleMyungjo, Batang, serif; }
+`);
+
 write("dist/tokens.css", `${banner}/* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
@@ -131,7 +146,8 @@ ${fluidType}
 const tw = {
   theme: {
     extend: {
-      colors: Object.fromEntries(colorTokens.map((t) => [t.name, `var(--${t.name})`])),
+      // hex 토큰은 rgb(var(--x-rgb) / <alpha-value>)라 bg-accent/50이 됩니다. rgba 토큰(crema-fill 등)은 그대로.
+      colors: Object.fromEntries(colorTokens.map((t) => [t.name, /^#[0-9a-f]{6}$/i.test(val(t.value, "light")) ? `rgb(var(--${t.name}-rgb) / <alpha-value>)` : `var(--${t.name})`])),
       spacing: Object.fromEntries(tokens.spacing.tokens.map((t) => [t.name.replace("space-", ""), `var(--${t.name})`])),
       borderRadius: Object.fromEntries(tokens.radius.tokens.map((t) => [t.name.replace("radius-", ""), `var(--${t.name})`])),
       boxShadow: Object.fromEntries(tokens.shadow.tokens.map((t) => [t.name.replace("shadow-", ""), `var(--${t.name})`])),
@@ -158,42 +174,66 @@ const bpSpans = Object.entries(bps).map(([bp, px]) =>
 const vis = Object.entries(bps).map(([bp, px]) =>
   `@media (min-width: ${px}px) { .bl-hide-from-${bp} { display: none !important; } }\n@media (max-width: ${px - 1}px) { .bl-hide-below-${bp} { display: none !important; } }`).join("\n");
 // 2.0: 옛 glass 이름(.bl-glass*, [data-glass], --glass-*)은 더 만들지 않습니다. 남은 쓰임새는 auditCrema()가 찾아 줍니다.
-write("dist/bundle.css", banner + read("src/bundle.css") +
+// 2.1: 컴포넌트 CSS 조각(src/css/*.css)은 bundle.css의 접근성 블록 앞에 끼워 넣고, 전체를 @layer blurssism으로 감쌉니다.
+//      계층 밖의 소비자 CSS가 명시도와 상관없이 이깁니다(단, 전역 리셋도 이기므로 리셋은 @layer reset처럼 앞 계층에 두세요).
+const cssMain = read("src/bundle.css");
+const a11yAt = cssMain.indexOf("/* ── 접근성: 투명도 줄이기");
+if (a11yAt < 0) throw new Error("bundle.css의 접근성 블록 표시를 찾지 못했습니다");
+const partials = readdirSync(new URL("src/css/", root)).filter((f) => f.endsWith(".css")).sort()
+  .map((f) => `\n/* ── ${f} ── */\n` + read("src/css/" + f).replace(/^\/\*[\s\S]*?\*\/\n/, "")).join("");
+const cssAll = cssMain.slice(0, a11yAt) + partials + "\n" + cssMain.slice(a11yAt) +
   `\n/* ── 생성: 그리드 칸 (xs는 4열이므로 .bl-span-1~4, 단계별은 .bl-span-md-6 처럼) ── */\n${spans}\n${bpSpans}\n` +
-  `/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */\n${vis}\n`);
+  `/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */\n${vis}\n`;
+write("dist/bundle.css", banner + "@layer blurssism;\n@layer blurssism {\n" + cssAll + "}\n");
 
-write("dist/index.d.ts", read("src/index.d.ts"));
+// 2.1: 컴포넌트별 타입 조각(src/react/X.d.ts)을 src/index.d.ts 뒤에 이어 붙입니다. 조각은 자기 컴포넌트의 props 인터페이스와 declare만 담습니다.
+const dtsPartials = readdirSync(new URL("src/react/", root)).filter((f) => f.endsWith(".d.ts")).sort()
+  .map((f) => `\n/* ── ${f.replace(".d.ts", "")} ── */\n` + read("src/react/" + f).replace(/^\/\*[\s\S]*?\*\/\n/, "").replace(/^import [^\n]*;\n/gm, "")).join("");
+const dtsMain = read("src/index.d.ts");
+const dtsCut = dtsMain.indexOf("/** 다른 React 인스턴스로 컴포넌트를 만듭니다");
+write("dist/index.d.ts", dtsMain.slice(0, dtsCut) + dtsPartials + "\n" + dtsMain.slice(dtsCut));
 
-/* ── 3. React 컴포넌트 ───────────────────────────── */
-const core = read("src/core.js")
-  .replace(/^\/\*[\s\S]*?\*\/\n/, "")
-  .replace("export function createBlurssism", "function createBlurssism");
-const apiSrc = core.slice(core.indexOf("var api = {"), core.indexOf("return api;"));
-const compNames = [...apiSrc.matchAll(/(\w+):/g)].map((m) => m[1]);
-const components = compNames.filter((n) => /^[A-Z]/.test(n));
-if (components.length < 20) throw new Error("컴포넌트 목록을 읽지 못했습니다: " + compNames.join(","));
+/* ── 3. React 컴포넌트 ─────────────────────────────
+   2.1: 원본은 src/react/*.js(컴포넌트 하나에 파일 하나). import·export를 벗겨 한 파일로 합치고,
+   withRef()·React.createContext() 초기화에는 PURE 주석을 붙여 안 쓰는 컴포넌트를 번들러가 버릴 수 있게 합니다. */
+const reactFiles = readdirSync(new URL("src/react/", root)).filter((f) => f.endsWith(".js"));
+const reactOrder = ["_shared.js", "Icon.js", ...reactFiles.filter((f) => f !== "_shared.js" && f !== "Icon.js").sort()];
+const exportNames = [];
+const core = reactOrder.map((f) => {
+  let src = read("src/react/" + f)
+    .replace(/^\/\*[\s\S]*?\*\/\n/, "")                       // 파일 머리 주석
+    .replace(/^import [^\n]*;\n/gm, "")                        // import (React·_shared·utils는 합친 뒤 한 곳에서)
+    .replace(/^export \{ React \};\n/m, "");
+  for (const m of src.matchAll(/^export (?:var|function|const|let) (\w+)/gm)) exportNames.push(m[1]);
+  return src.replace(/^export (var|function|const|let) /gm, "$1 ")
+    .replace(/^(var|const) (\w+) = (withRef|React\.createContext|React\.forwardRef|React\.memo)\(/gm, "$1 $2 = /*#__PURE__*/ $3(")
+    .replace(/^/gm, "").trim() + "\n";
+}).join("\n");
+const components = exportNames.filter((n) => /^[A-Z][a-z]/.test(n));   // PATHS 같은 상수는 제외
+const hooks = exportNames.filter((n) => /^use/.test(n) && !["useId", "useLatest", "useModal"].includes(n));   // 내부 훅은 내보내지 않습니다
+const publicNames = [...components, ...hooks];
+if (components.length < 20) throw new Error("컴포넌트 목록을 읽지 못했습니다: " + exportNames.join(","));
+const compat = `/** @deprecated 2.1부터 컴포넌트를 바로 import하세요. React 인자는 무시됩니다(2.0까지는 다른 React 인스턴스로 다시 만들었습니다). */
+function createBlurssism() { return B; }`;
+const apiObj = `const B = { ${publicNames.join(", ")}, ${utilNames.join(", ")} };`;
 
 write("dist/index.mjs",
-  `"use client";\n${banner}import React from "react";\nimport { ${utilNames.join(", ")} } from "./utils.mjs";\n\n${core}\nconst B = Object.assign(createBlurssism(React), { ${utilNames.join(", ")} });\n` +
-  compNames.map((n) => `export const ${n} = B.${n};`).join("\n") +
-  `\nexport { ${utilNames.join(", ")} };\nexport { createBlurssism };\nexport default B;\n`);
+  `"use client";\n${banner}import React from "react";\nimport { ${utilNames.join(", ")} } from "./utils.mjs";\n\n${core}\n${apiObj}\n${compat}\n` +
+  `export { ${publicNames.join(", ")} };\nexport { ${utilNames.join(", ")} };\nexport { createBlurssism };\nexport default B;\n`);
 
 write("dist/index.cjs",
-  `"use client";\n${banner}"use strict";\nconst React = require("react");\nconst { ${utilNames.join(", ")} } = require("./utils.cjs");\n\n${core}\n` +
-  `const B = Object.assign(createBlurssism(React), { ${utilNames.join(", ")} });\n` +
-  `module.exports = Object.assign({ createBlurssism: createBlurssism, default: B }, B);\n`);
+  `"use client";\n${banner}"use strict";\nconst React = require("react");\nconst { ${utilNames.join(", ")} } = require("./utils.cjs");\n\n${core}\n${apiObj}\n${compat}\n` +
+  `module.exports = Object.assign({ createBlurssism, default: B }, B);\n`);
 
 const dsHeader = `/* @ds-bundle: ${JSON.stringify({ format: 4, namespace: "Blurssism", components: components.map((name) => ({ name })) })} */\n`;
 write("dist/bundle.js",
   dsHeader + banner +
-  `(function () {\n${utilsInline}\n${core}\n  if (typeof window !== "undefined" && window.React) {\n` +
-  `    window.Blurssism = Object.assign(window.Blurssism || {}, createBlurssism(window.React), { ${utilNames.join(", ")} });\n` +
-  `  } else if (typeof console !== "undefined") {\n` +
-  `    console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요.");\n  }\n})();\n`);
+  `(function () {\n  if (typeof window === "undefined" || !window.React) { if (typeof console !== "undefined") console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요."); return; }\n  var React = window.React;\n${utilsInline}\n${core}\n${apiObj}\n${compat}\n` +
+  `  window.Blurssism = Object.assign(window.Blurssism || {}, B, { createBlurssism });\n})();\n`);
 
 /* ── 4. Svelte용 아이콘 ───────────────────────────── */
-const paths = core.match(/var PATHS = (\{[\s\S]*?\n  \});/)[1];
-write("src/svelte/icons.js", `${banner}/* 생성 파일: src/core.js의 아이콘 경로 */\nexport const PATHS = ${paths.replace(/\n  /g, "\n")};\n`);
+const paths = core.match(/var PATHS = (\{[\s\S]*?\n\});/)[1];
+write("src/svelte/icons.js", `${banner}/* 생성 파일: src/react/Icon.js의 아이콘 경로 */\nexport const PATHS = ${paths};\n`);
 write("src/svelte/icons.d.ts", `export declare const PATHS: Record<string, string>;\n`);
 // Svelte 진입점은 utils 사본을 따로 두지 않고 dist/utils.mjs를 그대로 다시 내보냅니다(상태를 한 곳에).
 // 원본 위치(src/svelte)에서는 ../../dist, 패키지 위치(svelte/)에서는 ../dist — `build.mjs --post`가 고칩니다.

@@ -7,3 +7,17 @@
 
 ## 소비자가 넣는 것
 - `name`: home, search, heart, chat, person, bell, settings, plus, spark, check, close, chevron-left, chevron-right, alert. 색은 부모의 `color`.
+
+<!-- props:start — node scripts/docs.mjs가 dist/index.d.ts에서 만듭니다. 손으로 고치지 마세요 -->
+## Props (React)
+
+단순 라인 아이콘 (24×24, 1.75 stroke, currentColor). heart만 filled를 지원합니다.
+
+| 이름 | 형 | | 설명 |
+| --- | --- | --- | --- |
+| `name` | `IconName` | 필수 |  |
+| `filled` | `boolean` |  |  |
+| `className` | `string` |  |  |
+
+Svelte는 같은 이름에 소문자 이벤트(`onchange`·`onclick`)와 `bind:`를 씁니다.
+<!-- props:end -->

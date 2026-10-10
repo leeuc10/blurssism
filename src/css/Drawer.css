@@ -1,0 +1,37 @@
+/* Drawer · 옆에서 미끄러져 들어오는 패널. 네이티브 <dialog class="bl-drawer bl-crema-thick">를 showModal()로 열고, 뒤에는 scrim만(블러 없음). persistentFrom이면 그 단계부터 불투명한 <aside class="bl-drawer bl-drawer-persistent">가 대신 보입니다. */
+.bl-drawer { --bl-drawer-width: 320px; box-sizing: border-box; width: min(var(--bl-drawer-width), 85vw); max-width: none; color: var(--ink); font-family: var(--font-sans); }
+dialog.bl-drawer { position: fixed; inset: 0 auto 0 0; margin: 0; height: 100dvh; max-height: none; padding: 0; overflow-y: auto; overscroll-behavior: contain;
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0; border-left: 0; }
+dialog.bl-drawer[data-side="right"] { inset: 0 0 0 auto; border-radius: var(--radius-xl) 0 0 var(--radius-xl); border-left: 1px solid var(--crema-stroke); border-right: 0; }
+dialog.bl-drawer[open] { display: flex; flex-direction: column; }
+dialog.bl-drawer:focus { outline: none; }
+html:has(dialog.bl-drawer[open]) { overflow: hidden; }
+dialog.bl-drawer::backdrop { background: var(--scrim); animation: bl-fade .26s ease; }
+dialog.bl-drawer[data-closing]::backdrop { animation: bl-drawer-fade-out .26s ease forwards; }
+/* 들어올 때 bl-slide-*, 닫힐 때는 같은 길을 되돌아 나갑니다(data-closing). 블러 반경은 움직이지 않고 transform만 */
+dialog.bl-drawer[data-side="left"][open] { animation: bl-slide-left .26s cubic-bezier(.2,.8,.2,1); }
+dialog.bl-drawer[data-side="right"][open] { animation: bl-slide-right .26s cubic-bezier(.2,.8,.2,1); }
+dialog.bl-drawer[data-side="left"][data-closing] { animation: bl-slide-left-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
+dialog.bl-drawer[data-side="right"][data-closing] { animation: bl-slide-right-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes bl-slide-left { from { transform: translateX(-100%); } }
+@keyframes bl-slide-right { from { transform: translateX(100%); } }
+@keyframes bl-slide-left-out { to { transform: translateX(-100%); } }
+@keyframes bl-slide-right-out { to { transform: translateX(100%); } }
+@keyframes bl-drawer-fade-out { to { opacity: 0; } }
+.bl-drawer-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-3) var(--space-3) var(--space-2) var(--space-6); }
+.bl-drawer-title { margin: 0; min-width: 0; font-size: var(--text-title-2-size); line-height: var(--text-title-2-line); font-weight: var(--text-title-2-weight); letter-spacing: var(--text-title-2-tracking); color: var(--ink); }
+.bl-drawer-close { flex: none; margin-left: auto; }
+.bl-drawer-body { flex: 1; min-height: 0; padding: var(--space-2) var(--space-6) var(--space-6); }
+.bl-drawer-body > .bl-list { background: transparent; border: 0; }   /* 크레마 위에 리스트를 바로 올릴 때 */
+/* 데스크톱 사이드바: 불투명한 paper-raised, 블러·scrim 없음. 배치는 소비자의 flex·grid 안에서 */
+.bl-drawer-persistent { display: flex; flex-direction: column; flex: none; align-self: stretch; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.bl-drawer-persistent .bl-drawer-head { padding-right: var(--space-6); }
+@media (prefers-reduced-motion: reduce) {
+  dialog.bl-drawer[data-side][open] { animation: bl-fade .15s ease; }
+  dialog.bl-drawer::backdrop { animation: bl-fade .15s ease; }
+  dialog.bl-drawer[data-side][data-closing] { animation: bl-drawer-fade-out .15s ease forwards; }
+  dialog.bl-drawer[data-closing]::backdrop { animation: bl-drawer-fade-out .15s ease forwards; }
+}
+@media (forced-colors: active) {
+  .bl-drawer-persistent { border: 1px solid CanvasText; }
+}

@@ -61,3 +61,31 @@ export function warnOnce(key, msg) {
     warned[key] = true;
     console.warn("blurssism: " + msg);
 }
+/** 네이티브 <dialog> 모달 열고 닫기(2.1). $effect 안에서 부릅니다: $effect(() => openModal(box, open, { onClosing }))
+    열면 showModal() + 첫 조작 요소로 포커스, 닫으면 data-closing(onClosing(true)) → 애니메이션 끝 → close() → onClosing(false), 원래 자리로 포커스. */
+export function openModal(d, open, o) {
+    if (!d)
+        return;
+    if (!open) {
+        if (!d.open)
+            return;
+        o.onClosing(true);
+        let done = false;
+        const finish = () => { if (done)
+            return; done = true; if (d.open)
+            d.close(); o.onClosing(false); };
+        d.addEventListener("animationend", (e) => { if (e.target === d)
+            finish(); }, { once: true });
+        const t = setTimeout(finish, 400); // 동작 줄이기 등으로 애니메이션이 없으면 바로
+        return () => clearTimeout(t);
+    }
+    const prev = document.activeElement;
+    if (d.showModal) {
+        if (!d.open)
+            d.showModal();
+    }
+    else
+        d.setAttribute("open", "");
+    (d.querySelector("button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex='-1'])") ?? d).focus();
+    return () => { prev?.focus?.(); };
+}
