@@ -58,7 +58,7 @@
   --shadow-crema-rich: 0 4px 12px rgba(33, 24, 15, 0.10), 0 32px 80px rgba(33, 24, 15, 0.20);
   --shadow-crema-rich-hover: 0 8px 20px rgba(33, 24, 15, 0.14), 0 40px 90px rgba(33, 24, 15, 0.24);
   --shadow-sheet-rich: 0 4px 12px rgba(33, 24, 15, 0.12), 0 40px 100px rgba(33, 24, 15, 0.22);
-  --crema-edge: rgba(244, 222, 198, 0.95);
+  --crema-edge: rgba(192, 150, 113, 0.42);
   --crema-tint-mix: 65%;
   --crema-fill-tint: 12%;
   --crema-grain-tint: 0%;
@@ -68,7 +68,7 @@
   --crema-band-low: 6%;
   --crema-light-strength: 36%;
   --crema-rich-fill: 88%;
-  --crema-band: linear-gradient(180deg, rgba(192, 150, 113, 0.3), rgba(192, 150, 113, 0.252) 2px, rgba(192, 150, 113, 0.21) 5px, rgba(192, 150, 113, 0.18) 10px, rgba(192, 150, 113, 0.148) 20px, rgba(192, 150, 113, 0.1) 40%, rgba(192, 150, 113, 0.06));
+  --crema-band: linear-gradient(180deg, rgba(192, 150, 113, 0.3), rgba(192, 150, 113, 0.286) 1px, rgba(192, 150, 113, 0.259) 3px, rgba(192, 150, 113, 0.227) 6px, rgba(192, 150, 113, 0.197) 10px, rgba(192, 150, 113, 0.18) 16px, rgba(192, 150, 113, 0.156) 24px, rgba(192, 150, 113, 0.132) 40px, rgba(192, 150, 113, 0.1) 40%, rgba(192, 150, 113, 0.06));
   --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .26 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-light: rgba(192, 150, 113, 0.36);
 }
@@ -129,7 +129,7 @@
   --shadow-crema-rich: 0 4px 12px rgba(0, 0, 0, 0.30), 0 32px 80px rgba(0, 0, 0, 0.50);
   --shadow-crema-rich-hover: 0 8px 20px rgba(0, 0, 0, 0.36), 0 40px 90px rgba(0, 0, 0, 0.56);
   --shadow-sheet-rich: 0 4px 12px rgba(0, 0, 0, 0.34), 0 40px 100px rgba(0, 0, 0, 0.56);
-  --crema-edge: rgba(226, 171, 122, 0.22);
+  --crema-edge: rgba(174, 125, 83, 0.36);
   --crema-tint-mix: 90%;
   --crema-fill-tint: 10%;
   --crema-grain-tint: 40%;
@@ -139,7 +139,7 @@
   --crema-band-low: 5%;
   --crema-light-strength: 10%;
   --crema-rich-fill: 100%;
-  --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.196) 2px, rgba(174, 125, 83, 0.158) 5px, rgba(174, 125, 83, 0.13) 10px, rgba(174, 125, 83, 0.11) 20px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
+  --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.227) 1px, rgba(174, 125, 83, 0.203) 3px, rgba(174, 125, 83, 0.173) 6px, rgba(174, 125, 83, 0.145) 10px, rgba(174, 125, 83, 0.13) 16px, rgba(174, 125, 83, 0.115) 24px, rgba(174, 125, 83, 0.1) 40px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
   --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-light: rgba(174, 125, 83, 0.10);
 }
@@ -201,7 +201,7 @@
     --shadow-crema-rich: 0 4px 12px rgba(0, 0, 0, 0.30), 0 32px 80px rgba(0, 0, 0, 0.50);
     --shadow-crema-rich-hover: 0 8px 20px rgba(0, 0, 0, 0.36), 0 40px 90px rgba(0, 0, 0, 0.56);
     --shadow-sheet-rich: 0 4px 12px rgba(0, 0, 0, 0.34), 0 40px 100px rgba(0, 0, 0, 0.56);
-    --crema-edge: rgba(226, 171, 122, 0.22);
+    --crema-edge: rgba(174, 125, 83, 0.36);
     --crema-tint-mix: 90%;
     --crema-fill-tint: 10%;
     --crema-grain-tint: 40%;
@@ -211,7 +211,7 @@
     --crema-band-low: 5%;
     --crema-light-strength: 10%;
     --crema-rich-fill: 100%;
-    --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.196) 2px, rgba(174, 125, 83, 0.158) 5px, rgba(174, 125, 83, 0.13) 10px, rgba(174, 125, 83, 0.11) 20px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
+    --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.227) 1px, rgba(174, 125, 83, 0.203) 3px, rgba(174, 125, 83, 0.173) 6px, rgba(174, 125, 83, 0.145) 10px, rgba(174, 125, 83, 0.13) 16px, rgba(174, 125, 83, 0.115) 24px, rgba(174, 125, 83, 0.1) 40px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
     --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-light: rgba(174, 125, 83, 0.10);
   }

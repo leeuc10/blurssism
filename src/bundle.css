@@ -59,14 +59,18 @@
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette], [data-background] {
     --crema-tint: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent));
-    --crema-edge: color-mix(in srgb, var(--deco) 70%, var(--crema-stroke));
-    /* 1.6.2: 위 가장자리에서 곡선으로 옅어지도록 중간 지점을 둡니다(직선 두 개가 꺾이는 10px 지점이 선처럼 보이지 않게) */
+    /* 가장자리 선은 띠와 같은 색(crema-tint)을 조금 더 진하게 쓴 "띠의 첫 줄"이라 띠로 이어집니다(전에는 흰 테두리와 섞은 밝은 선이라 따로 떠 보였음) */
+    --crema-edge: color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) + 12%), transparent);
+    /* 띠는 위에서 16px까지 ease-out 곡선으로 옅어지고(계단 없이), 그 뒤 40% 지점까지 천천히, 아래까지 옅게 남습니다 */
     --crema-band: linear-gradient(180deg,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-top), transparent),
-      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.6 + var(--crema-band-lip) * 0.4), transparent) 2px,
-      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.25 + var(--crema-band-lip) * 0.75), transparent) 5px,
-      color-mix(in srgb, var(--crema-tint) var(--crema-band-lip), transparent) 10px,
-      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-lip) * 0.6 + var(--crema-band-mid) * 0.4), transparent) 20px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.88 + var(--crema-band-lip) * 0.12), transparent) 1px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.66 + var(--crema-band-lip) * 0.34), transparent) 3px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.39 + var(--crema-band-lip) * 0.61), transparent) 6px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-top) * 0.14 + var(--crema-band-lip) * 0.86), transparent) 10px,
+      color-mix(in srgb, var(--crema-tint) var(--crema-band-lip), transparent) 16px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-lip) * 0.7 + var(--crema-band-mid) * 0.3), transparent) 24px,
+      color-mix(in srgb, var(--crema-tint) calc(var(--crema-band-lip) * 0.4 + var(--crema-band-mid) * 0.6), transparent) 40px,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-mid), transparent) 40%,
       color-mix(in srgb, var(--crema-tint) var(--crema-band-low), transparent));
     --crema-light: color-mix(in srgb, var(--crema-tint) var(--crema-light-strength), transparent);

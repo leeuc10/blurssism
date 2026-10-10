@@ -3,6 +3,7 @@
 ## 2.1.1 — 2026-10-10
 
 **고친 것 / Fixed**
+- 크레마 위 가장자리에 밝은 선이 띠와 따로 떠 보이던 틈. 가장자리 선을 띠와 같은 색의 "첫 줄"로 바꾸고, 띠의 2·5·10px 계단을 16px까지의 ease-out 곡선으로 바꿨어요. / The crema edge line now blends into the band; the band eases out without steps.
 - `@layer`로 감싸면서 팔레트를 따라가는 크레마 띠·가장자리·빛 변수(`--crema-band` 등의 `color-mix`)와 리치 모드 블러 값이 계층 밖 `tokens.css` 고정값에 져서 블러레마가 항상 에스프레소빛이던 문제. 그 블록을 계층 밖으로 꺼냈어요(`/* @unlayered */`). / Palette-following crema variables now live outside the layer.
 - 팔레트·테마·배경을 바꿀 때 크레마 채움·띠·가장자리 색이 0.35초 동안 이어져요(`@property`로 등록한 색 변수 전환). 블러 반경은 전환하지 않아요. / Crema colors transition smoothly on palette changes.
 
