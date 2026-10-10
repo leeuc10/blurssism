@@ -176,7 +176,11 @@ const vis = Object.entries(bps).map(([bp, px]) =>
 // 2.0: 옛 glass 이름(.bl-glass*, [data-glass], --glass-*)은 더 만들지 않습니다. 남은 쓰임새는 auditCrema()가 찾아 줍니다.
 // 2.1: 컴포넌트 CSS 조각(src/css/*.css)은 bundle.css의 접근성 블록 앞에 끼워 넣고, 전체를 @layer blurssism으로 감쌉니다.
 //      계층 밖의 소비자 CSS가 명시도와 상관없이 이깁니다(단, 전역 리셋도 이기므로 리셋은 @layer reset처럼 앞 계층에 두세요).
-const cssMain = read("src/bundle.css");
+// /* @unlayered */ … /* @/unlayered */ 사이의 블록은 tokens.css의 변수를 덮어써야 하므로 @layer 밖(앞)에 둡니다.
+let cssMain = read("src/bundle.css");
+const unlayered = [];
+cssMain = cssMain.replace(/\/\* @unlayered[^*]*\*\/\n([\s\S]*?)\/\* @\/unlayered \*\/\n/g, (m, body) => { unlayered.push(body); return ""; });
+if (unlayered.length < 2) throw new Error("bundle.css의 @unlayered 블록을 찾지 못했습니다");
 const a11yAt = cssMain.indexOf("/* ── 접근성: 투명도 줄이기");
 if (a11yAt < 0) throw new Error("bundle.css의 접근성 블록 표시를 찾지 못했습니다");
 const partials = readdirSync(new URL("src/css/", root)).filter((f) => f.endsWith(".css")).sort()
@@ -184,7 +188,7 @@ const partials = readdirSync(new URL("src/css/", root)).filter((f) => f.endsWith
 const cssAll = cssMain.slice(0, a11yAt) + partials + "\n" + cssMain.slice(a11yAt) +
   `\n/* ── 생성: 그리드 칸 (xs는 4열이므로 .bl-span-1~4, 단계별은 .bl-span-md-6 처럼) ── */\n${spans}\n${bpSpans}\n` +
   `/* ── 생성: 보이기·숨기기 (.bl-hide-from-lg = lg부터 숨김, .bl-hide-below-md = md 미만에서 숨김) ── */\n${vis}\n`;
-write("dist/bundle.css", banner + "@layer blurssism;\n@layer blurssism {\n" + cssAll + "}\n");
+write("dist/bundle.css", banner + "/* 계층 밖: tokens.css의 변수를 팔레트·테마에 맞게 덮어쓰는 블록 */\n" + unlayered.join("\n") + "\n@layer blurssism;\n@layer blurssism {\n" + cssAll + "}\n");
 
 // 2.1: 컴포넌트별 타입 조각(src/react/X.d.ts)을 src/index.d.ts 뒤에 이어 붙입니다. 조각은 자기 컴포넌트의 props 인터페이스와 declare만 담습니다.
 const dtsPartials = readdirSync(new URL("src/react/", root)).filter((f) => f.endsWith(".d.ts")).sort()

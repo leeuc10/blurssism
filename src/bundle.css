@@ -40,6 +40,8 @@
 /* 크레마 채움이 팔레트(브랜드 팔레트 포함)의 장식색을 조금 머금습니다(1.6.2, 세기: --crema-fill-tint).
    요소마다 계산하므로 --crema-fill을 덮어써도, 배경·팔레트를 영역마다 바꿔도 그대로 따라갑니다. */
 .bl-crema, .bl-crema-thick, .bl-crema-lite, .bl-btn-crema, .bl-icon-btn {
+  /* 팔레트·테마·배경이 바뀌면 채움·띠·가장자리 색이 이어집니다. 블러 반경은 바꾸지 않습니다(블러 예산 규칙). */
+  transition: background-color .35s ease, border-color .35s ease, color .35s ease, --crema-tint .35s ease, --crema-edge .35s ease, --crema-light .35s ease, --crema-grain-color .35s ease;
   --bl-crema-fill: var(--crema-fill); --bl-crema-fill-strong: var(--crema-fill-strong);
   /* 거품 결 색조: 결 바로 위에 팔레트 장식색 층을 color 블렌드로 얹어 밝기는 두고 색조만 바꿉니다(세기: --crema-grain-tint, 다크만) */
   --bl-grain-tint: linear-gradient(var(--crema-grain-color, transparent), var(--crema-grain-color, transparent));
@@ -53,6 +55,7 @@
 /* 크레마가 팔레트의 장식색(deco)을 따라가게 합니다. color-mix가 없는 브라우저는 tokens.css의 고정값을 씁니다.
    크레마 띠는 위 가장자리에 조금 더 고이고, 아래로 옅어지면서 면 전체에 남습니다(세기: --crema-band-top·lip·mid·low).
    라이트·다크 값은 tokens.css의 테마 블록에서 오므로 여기서는 한 번만 선언합니다. */
+/* @unlayered: 아래 블록은 tokens.css의 같은 이름 변수를 덮어써야 하므로 빌드가 @layer 밖으로 꺼냅니다(계층 밖 선언이 계층 안을 이김). */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette], [data-background] {
     --crema-tint: color-mix(in srgb, var(--deco) var(--crema-tint-mix), var(--accent));
@@ -71,13 +74,21 @@
     --crema-grain-color: color-mix(in srgb, color-mix(in srgb, var(--deco) 60%, black) var(--crema-grain-tint), transparent);
   }
 }
+/* 팔레트·테마가 바뀔 때 띠·가장자리·빛 색이 끊기지 않고 이어지도록 색 변수를 등록합니다(등록된 색 변수는 transition이 됩니다) */
+@property --crema-tint { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --crema-edge { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --crema-light { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --crema-grain-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+/* @/unlayered */
 
 /* ── 데스크톱 모드: <html data-crema="rich"> ─────────────────────────────
    applyCremaPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyCremaPreference({ rich: false }).
    기본보다 블러가 깊고(32/48px. 2.0에서 40/64에서 낮춤), 라이트에서는 크레마가 조금 더 비치고, 그림자가 두 겹 늘고,
    왼쪽 위에서 캐러멜빛(crema-light)이 듭니다. 포인터를 따라오는 빛은 2.0부터 기본으로 꺼져 있고(applyCremaPreference({ pointerLight: true })),
    켜면 포인터 좌표를 각 크레마 요소 기준으로 씁니다. 블러 예산은 화면당 6개. */
+/* @unlayered */
 html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px; --crema-saturate: 140%; }
+/* @/unlayered */
 [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-crema-thick, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
   background-image:
     radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),

@@ -9,6 +9,10 @@
 > - NavBar 링크 `<nav>`의 이름이 "주요 메뉴"에서 "사이트 메뉴"로 바뀌었어요(TabBar와 같은 이름이라 랜드마크가 겹쳤어요). / NavBar's links landmark is now named "사이트 메뉴".
 > - Tailwind 프리셋의 hex 색이 `rgb(var(--x-rgb) / <alpha-value>)`가 됐어요. `bg-accent/50`이 되고, `tokens.css`가 `--x-rgb` 변수를 함께 내보내요. / Tailwind colors support opacity modifiers.
 
+**고친 것(배포 뒤) / Fixed after publish**
+- `@layer`로 감싸면서 팔레트를 따라가는 크레마 띠·가장자리·빛 변수(`--crema-band` 등의 `color-mix`)와 리치 모드 블러 값이 계층 밖 `tokens.css` 고정값에 져서 블러레마가 항상 에스프레소빛이던 문제. 그 블록을 계층 밖으로 꺼냈어요(`/* @unlayered */`). / Palette-following crema variables now live outside the layer.
+- 팔레트·테마·배경을 바꿀 때 크레마 채움·띠·가장자리 색이 0.35초 동안 이어져요(`@property`로 등록한 색 변수 전환). 블러 반경은 전환하지 않아요. / Crema colors transition smoothly on palette changes.
+
 **새 컴포넌트 9개 / 9 new components** (React·Svelte 5·CSS, 38개)
 - `Textarea`(자동 높이 `autoResize`·`maxRows`), `Alert`(인라인 배너, info·positive·warning·danger, 닫기·행동), `Link`(밑줄 링크, `external`은 새 창 안내 포함), `Pagination`(처음·끝 고정, 생략 표시, 제어·비제어), `Tabs`(콘텐츠 탭, line·pill, WAI-ARIA tablist, 방향키), `Accordion`(네이티브 `<details name>`, 단일·다중), `Popover`(네이티브 Popover API, 라이트 디스미스, 위치 자동), `Menu`(Popover 위의 role="menu", 방향키·Enter, 구분선·danger), `Drawer`(옆에서 나오는 모달 패널, `persistentFrom="lg"`면 데스크톱 사이드바로).
 - `Badge`·`Toast`에 `info`·`warning` 톤.
