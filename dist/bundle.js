@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Icon"},{"name":"Accordion"},{"name":"Alert"},{"name":"Avatar"},{"name":"Badge"},{"name":"Button"},{"name":"Calendar"},{"name":"Card"},{"name":"Checkbox"},{"name":"Chip"},{"name":"Container"},{"name":"Dialog"},{"name":"Drawer"},{"name":"EmptyState"},{"name":"Grid"},{"name":"IconButton"},{"name":"Link"},{"name":"ListItem"},{"name":"MediaCard"},{"name":"Menu"},{"name":"NavBar"},{"name":"Pagination"},{"name":"PalettePicker"},{"name":"Popover"},{"name":"Progress"},{"name":"RadioGroup"},{"name":"SegmentedControl"},{"name":"Select"},{"name":"Sheet"},{"name":"Skeleton"},{"name":"Switch"},{"name":"TabBar"},{"name":"Table"},{"name":"Tabs"},{"name":"TextField"},{"name":"Textarea"},{"name":"Toast"},{"name":"ToastProvider"},{"name":"Tooltip"}]} */
-/* blurssism v2.1.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.2 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
   if (typeof window === "undefined" || !window.React) { if (typeof console !== "undefined") console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요."); return; }
   var React = window.React;
@@ -13,7 +13,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "2.1.1";
+const version = "2.1.2";
 const author = "caffeinecat";
 
 function rootEl(el) {

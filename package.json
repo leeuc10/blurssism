@@ -1,6 +1,6 @@
 {
   "name": "@caffeinecatkr/blurssism",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "글래스모피즘과 블러 효과를 조합한 웹·앱 공용 디자인 시스템 · A web & app design system combining glassmorphism and blur — Blurema crema, caffeine palettes, brand-color palettes, responsive grid, React & Svelte components",
   "author": {
     "name": "caffeinecat",
