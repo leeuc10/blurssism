@@ -1,5 +1,5 @@
 "use client";
-/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 import React from "react";
 import { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, probeCremaCost, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, locales, setLocale, getLocale, onLocaleChange, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor } from "./utils.mjs";
 

@@ -1,4 +1,4 @@
-/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 "use strict";
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -10,7 +10,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "2.1.0";
+const version = "2.1.1";
 const author = "caffeinecat";
 
 function rootEl(el) {

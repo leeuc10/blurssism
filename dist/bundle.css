@@ -1,4 +1,4 @@
-/* blurssism v2.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v2.1.1 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* 계층 밖: tokens.css의 변수를 팔레트·테마에 맞게 덮어쓰는 블록 */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root, [data-theme="light"], [data-theme="dark"], [data-palette], [data-background] {
