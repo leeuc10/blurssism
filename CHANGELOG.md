@@ -1,6 +1,8 @@
 # Changelog
 
-## 미배포 / Unreleased
+## 2.1.4 — 2026-10-11
+
+**바뀐 것 / Changed**
 
 - caffeinecat 표식을 고양이 귀 소녀 캐릭터로 바꿨어요. `caffeinecat-mark*.svg`는 얼굴을 동그랗게 자른 그림이고, 전신 그림 `logos/caffeinecat.webp`를 더했어요. 파일 이름은 그대로예요. / New caffeinecat mark: a cat-eared girl character.
 
