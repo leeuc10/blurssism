@@ -12,7 +12,7 @@ export type IconName =
 export interface IconProps { name: IconName; filled?: boolean; className?: string }
 
 interface ButtonOwnProps {
-  /** primary(기본): 강조색(accent) 채움, 화면당 하나 · accent: primary의 별칭(2.0부터 같은 버튼) · crema: 크레마 · ghost: 테두리 · danger: 삭제·신고.
+  /** ghost(기본): 테두리 · primary: 강조색(accent) 채움, 화면당 하나 · accent: primary의 별칭 · crema: 크레마 · danger: 삭제·신고.
    *  개발 중에는 auditCrema()가 primary 개수를 세어 알려 줍니다. */
   variant?: "primary" | "accent" | "crema" | "ghost" | "danger";
   /** lg = 52px(기본), md = 40px */

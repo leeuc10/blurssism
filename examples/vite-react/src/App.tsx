@@ -94,10 +94,10 @@ function Page() {
 
       <Dialog open={open} onClose={() => setOpen(false)} title="구독할까요?" description="새 원두가 들어오면 알려 드려요.">
         <Button variant="ghost" size="md" onClick={() => setOpen(false)}>나중에</Button>
-        <Button size="md" onClick={() => { setOpen(false); toast.show({ message: "구독했어요", tone: "positive" }); }}>구독하기</Button>
+        <Button variant="primary" size="md" onClick={() => { setOpen(false); toast.show({ message: "구독했어요", tone: "positive" }); }}>구독하기</Button>
       </Dialog>
       <Sheet open={sheet} onClose={() => setSheet(false)} title="공유하기" description="링크를 복사하거나 메시지로 보내요.">
-        <Button onClick={() => { setSheet(false); toast.show("링크를 복사했어요"); }}>링크 복사</Button>
+        <Button variant="primary" onClick={() => { setSheet(false); toast.show("링크를 복사했어요"); }}>링크 복사</Button>
         <Button variant="ghost" onClick={() => setSheet(false)}>닫기</Button>
       </Sheet>
       <Drawer open={drawer} onClose={() => setDrawer(false)} title="메뉴">

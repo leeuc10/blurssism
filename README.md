@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  글래스모피즘과 블러 효과를 조합한, 웹·앱 공용 디자인 시스템 — 블러레마와 카페인 팔레트<br>
-  A web &amp; app design system that combines glassmorphism with blur — Blurema crema and caffeine palettes<br>
+  브랜드형 웹 화면을 위한 디자인 시스템 — 블러레마와 카페인 팔레트<br>
+  A design system for brand-led web interfaces — Blurema crema and caffeine palettes<br>
   <a href="https://leeuc10.github.io/blurssism/">미리보기 Preview</a> ·
   <a href="docs/brand-book.md">브랜드북 Brand book</a> ·
   <a href="https://www.npmjs.com/package/@caffeinecatkr/blurssism">npm</a>
@@ -24,7 +24,7 @@
 
 ## 한국어
 
-blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블러레마(Blurema)**를 **필요한 곳에만** 띄우는 디자인 시스템입니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았고, 색은 카페인에서 가져왔으며, 한국어 화면을 기준으로 만들었습니다.
+blurssism은 브랜드 성격이 뚜렷한 웹 화면을 위한 디자인 시스템입니다. 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블러레마(Blurema)**를 **필요한 곳에만** 띄웁니다. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았고, 색은 카페인에서 가져왔으며, 한국어 화면을 기준으로 만들었습니다. 콘텐츠·프로필·설정·랜딩 화면에 맞고, 정보 밀도가 높은 업무 화면에서는 간격과 버튼 위계를 별도로 조정해야 합니다.
 
 **원칙**
 1. **90 / 10.** 화면의 90% 이상은 종이(`paper`)와 먹(`ink`). 강조색은 10% 이내.
@@ -41,8 +41,8 @@ blurssism은 우유 거품 같은 크림색 바탕 위에 젖빛 크레마 **블
 - 반응형 규정: 5단계 브레이크포인트, 4·8·12열 그리드, 단계별 제목 크기, 컴포넌트 배치 규칙
 - 컴포넌트 38개: **React**(ESM·CommonJS·`<script>`, 안 쓰는 컴포넌트는 번들러가 버림)와 **Svelte 5**, 또는 CSS 클래스(`bl-*`)만으로도. 토스트 매니저, 로케일(`setLocale("en")`), 제어·비제어 겸용
 - Next.js App Router·SvelteKit 서버 렌더링 안전, TypeScript 타입, Tailwind 프리셋
-- 블러 성능 예산과 저사양 기기 자동 대응(실측 `probe`), 개발 중 검사(`auditCrema()`: 블러 예산·primary 개수·90/10·팔레트 하나)
-- 검사: 대비 108,550개 조합, jsdom 동작 테스트, axe 접근성, 서버 렌더링, 타입, 시각 회귀(스크린샷 108장). 크레마 벤치마크 수치는 브랜드북에
+- 블러 성능 예산과 저사양 기기 자동 대응(실측 `probe`), 개발 중 검사(`auditCrema()`: 블러 예산·primary 개수·강조색 면적 추정·팔레트 하나). 면적 검사는 단색과 토큰 색이 들어간 그라디언트를 보수적으로 세며 사진·외부 이미지는 육안 확인이 필요합니다.
+- 검사: 대비 108,550개 조합, jsdom 동작 테스트, axe 접근성, 서버 렌더링, 타입, 시각 회귀(기준 이미지 114장). 크레마 벤치마크 수치는 브랜드북에
 - 접근성: 포커스 링, 네이티브 모달 다이얼로그, 방향키로 고르는 라디오 묶음·달력, 동작 줄이기·투명도 줄이기·고대비 모드 대응, 터치 영역 44px
 
 ### 다른 디자인 시스템과 다른 점
@@ -77,7 +77,7 @@ export default function App() {
       <Grid columns={{ xs: 1, md: 2, lg: 3 }}>
         <Card title="오늘의 원두" body="에티오피아 예가체프" />
       </Grid>
-      <Button icon="plus">새로 만들기</Button>
+      <Button variant="primary" icon="plus">새로 만들기</Button>
     </Container>
   );
 }
@@ -100,7 +100,7 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 
 <PalettePicker />
 <TextField label="이메일" bind:value={email} />
-<Button onclick={() => (open = true)}>열기</Button>
+<Button variant="primary" onclick={() => (open = true)}>열기</Button>
 <Dialog bind:open title="저장할까요?">
   <Button variant="ghost" size="md" onclick={() => (open = false)}>취소</Button>
 </Dialog>
@@ -108,6 +108,8 @@ Next.js App Router에서는 CSS를 `app/layout.jsx`에서 불러옵니다. 컴�
 ```
 
 입력 요소는 `bind:value`·`bind:checked`·`bind:open`을 지원하고, 슬롯 대신 스니펫(`{#snippet actions()}…{/snippet}`)을 씁니다. Svelte 5.20 이상이 필요합니다. → [`examples/sveltekit`](examples/sveltekit)
+
+`Button`의 기본형은 `ghost`입니다. 화면의 핵심 행동 하나에만 `variant="primary"`를 명시하세요. 예전에 `variant`를 생략해 강조 버튼을 만들었다면 해당 버튼에 `variant="primary"`를 추가해야 합니다.
 
 **글꼴**: Blurssism Sans(UI)와 Blurssism Serif(명조)를 씁니다. 이름만 blurssism이고 실체는 **Pretendard**(© Kil Hyung-jin)와 **Gowun Batang**(© The Gowun Batang Project Authors)에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본입니다(OFL 규정상 수정본은 원래 이름을 쓸 수 없어 바꿨습니다). 파일이 작습니다(Sans 가변 450KB, Serif 400·700 합쳐 383KB). 모든 한글이 한 글꼴로 보이길 바라면 `fonts.dynamic.css`를 대신 불러오세요. 원본 글꼴을 동적 서브셋으로 받아 11,172자 전부 같은 글꼴이고 쓰인 글자 조각만 받습니다(jsDelivr + Google Fonts 필요). 2350자 밖의 드문 글자(똠, 햏 등)는 시스템 글꼴로 보입니다. OFL 예약 이름 때문에 이름을 바꿨습니다. `fonts.css`는 같은 버전의 글꼴 파일을 jsDelivr에서 불러옵니다. CDN 없이 쓰려면(CSP·사내망·오프라인) `fonts.css` 자리에 `fonts.local.css`를 불러오면 끝입니다. 패키지에 든 글꼴 파일(`dist/fonts/`, SIL OFL)을 쓰고, Vite·Next.js·SvelteKit은 글꼴 파일을 알아서 함께 내보냅니다. 번들러 없이 쓰면 `dist/fonts.local.css`와 `dist/fonts/` 폴더를 같은 자리에 올립니다. 다른 글꼴로 바꾸려면 `--font-sans`·`--font-serif`를 덮어씁니다.
 
@@ -261,7 +263,7 @@ applyCremaPreference({ rich: true });      // 데스크톱 모드 항상 켜기
 
 ```js
 import { auditCrema } from "@caffeinecatkr/blurssism";
-if (import.meta.env.DEV) auditCrema();   // 블러 예산 초과, primary 버튼 2개 이상, 강조색 면 10% 초과, 영역별 팔레트, 옛 glass 이름을 콘솔로 알려 줌
+if (import.meta.env.DEV) auditCrema();   // 블러 예산, primary 개수, 강조색 면적 추정, 영역별 팔레트, 옛 glass 이름을 검사
 ```
 
 저사양 기준은 `applyCremaPreference({ minMemory: 4, minCores: 4 })`로 바꿀 수 있어요(기본: 메모리 4GB 미만, 메모리를 알려 주지 않는 브라우저에서는 코어 2개 이하면 `off`). `{ probe: true }`를 주면 블러 면을 실제로 그려 프레임 시간을 재고 느리면 `off`로 바꿔요.
@@ -284,7 +286,7 @@ Svelte는 `toast.show()` + `<Toaster />`, `bind:open`, `locale.current`. Switch�
 
 ## English
 
-blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped with a caramel crema band — **only where it's needed**, over a calm milk-foam cream background. The look is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and the system is designed with Korean typography as the default.
+blurssism is a design system for brand-led web interfaces. It floats **crema** — Blurema, a frosted, milk-tinted surface topped with a caramel crema band — **only where it's needed**, over a calm cream background. The look is inspired by Apple Liquid Glass and Samsung One UI, the colors come from caffeine, and Korean typography is the default. It suits content, profile, settings, and landing screens; dense work interfaces need their own spacing and action hierarchy.
 
 **Principles**
 1. **90 / 10.** At least 90% of a screen is paper (`paper`) and ink (`ink`). Accent colors stay under 10%.
@@ -301,8 +303,8 @@ blurssism floats **crema** — Blurema, a frosted, milk-tinted surface topped wi
 - A responsive system: 5 breakpoints, a 4/8/12-column grid, per-breakpoint heading sizes, and component layout rules.
 - 38 components for **React** (ESM, CommonJS, `<script>`; tree-shakeable) and **Svelte 5**, or use the CSS classes (`bl-*`) alone. Toast manager, locale (`setLocale("en")`), controlled and uncontrolled inputs.
 - Safe for server rendering in the Next.js App Router and SvelteKit. Ships TypeScript types and a Tailwind preset.
-- A blur performance budget with automatic fallback on low-end devices (optional measured `probe`), plus dev-time audits (`auditCrema()`: blur budget, primary count, 90/10, one palette per screen).
-- Checks: 108,550 contrast pairs, jsdom behavior tests, axe accessibility, SSR, types and visual regression (108 screenshots). Crema benchmark numbers are in the brand book.
+- A blur performance budget with automatic fallback on low-end devices (optional measured `probe`), plus dev-time audits (`auditCrema()`: blur budget, primary count, estimated accent area, one palette per screen). The area estimate counts solid fills and gradients containing token colors conservatively; inspect photos and external images visually.
+- Checks: 108,550 contrast pairs, jsdom behavior tests, axe accessibility, SSR, types and visual regression (114 baseline screenshots). Crema benchmark numbers are in the brand book.
 - Accessibility: focus rings, native modal dialogs, arrow-key radio groups and calendar, reduced motion, reduced transparency and forced-colors support, 44px touch targets.
 
 ### What makes it different
@@ -330,6 +332,8 @@ import "@caffeinecatkr/blurssism/bundle.css";
 ```
 
 In the Next.js App Router, import the CSS in `app/layout.jsx`. Components can be rendered from server component files (the package ships `"use client"`), but function props such as `onClick` or a Table column's `render`/`format` can't cross the server boundary, so use those inside a `"use client"` file. See [`examples/nextjs`](examples/nextjs) and [`examples/vite-react`](examples/vite-react).
+
+`Button` defaults to `ghost`. Set `variant="primary"` explicitly for the screen's one main action. If earlier code relied on an omitted variant for a filled button, add `variant="primary"` there.
 
 ### Svelte 5
 
@@ -439,7 +443,7 @@ Questions, ideas or collaboration: **leeunchan10@gmail.com** (caffeinecat). Plea
 ## 기여 · Contributing
 
 원본은 `src/`에 있습니다: 토큰 `src/tokens.json`, 스타일 `src/bundle.css`, React `src/core.js`, Svelte `src/svelte/`, 공통 함수 `src/utils.js`.
-`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비(크레마 위 포함), Svelte·React 타입, 서버 렌더링, 동작·접근성 테스트를 검사합니다. 질감이나 간격을 바꿨다면 `npm run visual`로 스크린샷 108장을 기준과 비교하고, 의도한 변화면 `npm run visual:update`로 기준을 갱신합니다(처음 한 번 `npx playwright install chromium`). 같은 검사가 GitHub Actions에서도 돕니다.
+`npm install` 후 `npm run build`로 `dist/`와 `svelte/`를 만들고, `npm run check`로 대비(크레마 위 포함), Svelte·React 타입, 서버 렌더링, 동작·접근성 테스트를 검사합니다. 질감이나 간격을 바꿨다면 `npm run visual`로 114개 화면을 기준 이미지와 비교하고, 의도한 변화면 `npm run visual:update`로 기준을 갱신합니다(처음 한 번 `npx playwright install chromium`). 같은 검사가 GitHub Actions에서도 돕니다.
 Sources live in `src/`. After `npm install`, run `npm run build` to generate `dist/` and `svelte/`, and `npm run check` to verify contrast (including text on crema), Svelte and React types, and server rendering. CI runs the same checks.
 
 <p align="center"><img src="logos/caffeinecat-mark.svg" width="28" alt=""><br><sub>made by caffeinecat</sub></p>

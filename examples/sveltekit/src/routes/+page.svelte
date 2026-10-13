@@ -24,7 +24,7 @@
   <div style="position: sticky; top: var(--space-3); z-index: 5; margin: var(--space-3) 0 var(--space-8)">
     <NavBar title="blurssism × SvelteKit" links={[{ href: "/", label: "홈", current: true }, { href: "#form", label: "폼" }, { href: "#overlay", label: "오버레이" }]}
       onback={() => (drawer = true)}>
-      {#snippet actions()}<Button size="md" onclick={() => (open = true)}>시작하기</Button>{/snippet}
+      {#snippet actions()}<Button variant="primary" size="md" onclick={() => (open = true)}>시작하기</Button>{/snippet}
     </NavBar>
   </div>
 
@@ -100,11 +100,11 @@
 
 <Dialog bind:open title="구독할까요?" description="새 원두가 들어오면 알려 드려요.">
   <Button variant="ghost" size="md" onclick={() => (open = false)}>나중에</Button>
-  <Button size="md" onclick={() => { open = false; toast.show({ message: "구독했어요", tone: "positive" }); }}>구독하기</Button>
+  <Button variant="primary" size="md" onclick={() => { open = false; toast.show({ message: "구독했어요", tone: "positive" }); }}>구독하기</Button>
 </Dialog>
 
 <Sheet bind:open={sheet} title="공유하기" description="링크를 복사하거나 메시지로 보내요.">
-  <Button onclick={() => { sheet = false; toast.show("링크를 복사했어요"); }}>링크 복사</Button>
+  <Button variant="primary" onclick={() => { sheet = false; toast.show("링크를 복사했어요"); }}>링크 복사</Button>
   <Button variant="ghost" onclick={() => (sheet = false)}>닫기</Button>
 </Sheet>
 

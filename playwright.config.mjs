@@ -7,7 +7,7 @@ export default defineConfig({
   testDir: "scripts/visual",
   snapshotPathTemplate: "{testDir}/snapshots/{arg}{ext}",
   fullyParallel: true,
-  workers: 4,
+  workers: 2,
   retries: 0,
   reporter: process.env.CI ? "list" : [["list"], ["html", { open: "never", outputFolder: "scripts/visual/report" }]],
   outputDir: "scripts/visual/results",

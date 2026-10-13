@@ -16,7 +16,8 @@ function expect(name, el, ...needles) {
 }
 
 const items = [{ id: "home", label: "홈", icon: "home" }, { id: "me", label: "내 정보", icon: "person" }];
-expect("Button", h(B.Button, null, "저장하기"), "bl-btn-primary");
+expect("Button 기본", h(B.Button, null, "더 보기"), "bl-btn-ghost");
+expect("Button primary", h(B.Button, { variant: "primary" }, "저장하기"), "bl-btn-primary");
 expect("Button href", h(B.Button, { href: "/a", target: "_blank" }, "문서"), '<a', 'target="_blank"');
 expect("IconButton", h(B.IconButton, { icon: "bell", label: "알림" }), 'aria-label="알림"');
 expect("Chip 스스로", h(B.Chip, { defaultSelected: true }, "말차"), 'aria-pressed="true"');

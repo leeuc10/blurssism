@@ -4,7 +4,7 @@ import { Icon } from "./Icon.js";
 
 /* 2.0: primary는 강조색(accent) 채움입니다. "accent"는 primary의 별칭(같은 클래스)이라 화면당 하나 규칙을 함께 셉니다. */
 export var Button = withRef("Button", function (p, ref) {
-  var variant = p.variant || "primary", tag = p.href ? "a" : "button";
+  var variant = p.variant || "ghost", tag = p.href ? "a" : "button";
   if (variant === "accent") variant = "primary";
   return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
     ref: ref,

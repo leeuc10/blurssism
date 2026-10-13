@@ -12,7 +12,7 @@ export default function Page() {
       <Pagination count={5} defaultPage={2} />
       <TextField label="이메일" />
       <Calendar today={new Date(2026, 9, 6)} value={new Date(2026, 9, 6)} />
-      <Button>확인</Button>
+      <Button variant="primary">확인</Button>
       <Interactive />
     </main>
   );

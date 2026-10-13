@@ -428,7 +428,7 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 .bl-table .bl-num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ── Calendar ─────────────────────────────── */
-.bl-cal { width: 320px; max-width: 100%; padding: var(--space-4); border-radius: var(--radius-lg); background: var(--paper-raised); border: 1px solid var(--line); }
+.bl-cal { width: 320px; max-width: 100%; padding: var(--space-4); border-radius: var(--radius-lg); background: var(--paper-raised); border: 1px solid var(--line); overflow-x: auto; }
 .bl-cal-head { display: flex; align-items: center; margin-bottom: var(--space-2); }
 .bl-cal-title { flex: 1; margin: 0; font-size: var(--text-body-size); line-height: 24px; font-weight: 600; text-align: center; }
 .bl-cal-head .bl-icon-btn { width: 40px; height: 40px; }
@@ -504,6 +504,9 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
     content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--touch-min)); height: max(100%, var(--touch-min)); transform: translate(-50%, -50%);
   }
   .bl-cal { width: 348px; padding: var(--space-3); }
+  /* 7 × 44px 날짜 칸을 유지합니다. 좁은 컨테이너에서는 카드 안에서 가로로 스크롤합니다. */
+  .bl-cal-grid { min-width: 320px; }
+  .bl-cal-day { min-height: 44px; }
 }
 
 /* ── 접근성: 화면에는 숨기고 스크린리더에는 읽히게 ── */

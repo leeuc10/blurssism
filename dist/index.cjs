@@ -1,5 +1,5 @@
 "use client";
-/* blurssism v2.1.4 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 "use strict";
 const React = require("react");
 const { palettes, backgrounds, breakpoints, version, author, setPalette, getPalette, setBackground, getBackground, setTheme, getTheme, getBreakpoint, isAtLeast, onBreakpointChange, shouldReduceCrema, probeCremaCost, isDesktopCapable, applyCremaPreference, setCremaMode, getCremaMode, locales, setLocale, getLocale, onLocaleChange, checkCrema, auditCrema, getCustomPalettes, onCustomPalettesChange, contrastRatio, createPalette, paletteToCss, applyBrandColor, createBackground, backgroundCrema, backgroundToCss, applyBackgroundColor } = require("./utils.cjs");
@@ -174,7 +174,7 @@ function Badge(p) {
 
 /* 2.0: primary는 강조색(accent) 채움입니다. "accent"는 primary의 별칭(같은 클래스)이라 화면당 하나 규칙을 함께 셉니다. */
 var Button = /*#__PURE__*/ withRef("Button", function (p, ref) {
-  var variant = p.variant || "primary", tag = p.href ? "a" : "button";
+  var variant = p.variant || "ghost", tag = p.href ? "a" : "button";
   if (variant === "accent") variant = "primary";
   return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
     ref: ref,

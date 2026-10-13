@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>blurssism — 글래스모피즘과 블러, 그리고 카페인</title>
-<meta name="description" content="웹과 앱 공용 디자인 시스템. 글래스모피즘과 블러 효과의 조합, 블러레마, 카페인 팔레트 7종과 웹 기본 팔레트 7종, 브랜드색 팔레트, 반응형 그리드, React·Svelte 컴포넌트 38개. A web &amp; app design system combining glassmorphism and blur. made by caffeinecat">
+<meta name="description" content="브랜드형 웹 화면을 위한 디자인 시스템. 블러레마, 카페인·웹 팔레트, 반응형 그리드, React·Svelte 컴포넌트. A design system for brand-led web interfaces. made by caffeinecat">
 <link rel="icon" href="logos/blurssism-mark.svg">
 <link rel="stylesheet" href="dist/fonts.local.css">
 <link rel="stylesheet" href="dist/tokens.css">
@@ -54,7 +54,7 @@
   </header>
 
   <div class="hero" id="hero"><iframe class="hero-frame" title="blurssism 커버" data-src="examples/components/Cover.html"></iframe></div>
-  <p class="lead bl-body">웹과 앱 어디에나 쓰는 디자인 시스템이에요. 우유 거품 같은 바탕 위에 젖빛 크레마 블러레마(Blurema)를 필요한 곳에만 띄우고, 색은 카페인에서 가져왔어요. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았습니다.<br><span lang="en">A web &amp; app design system that combines glassmorphism with blur — with caffeine-inspired palettes, a responsive grid, and React &amp; Svelte components.</span></p>
+  <p class="lead bl-body">브랜드형 웹 화면을 위한 디자인 시스템이에요. 우유 거품 같은 바탕 위에 젖빛 크레마 블러레마(Blurema)를 필요한 곳에만 띄우고, 색은 카페인에서 가져왔어요. 유리 표현은 Apple Liquid Glass와 Samsung One UI에서 영감을 받았습니다.<br><span lang="en">A design system for brand-led web interfaces, with caffeine-inspired palettes, a responsive grid, and React &amp; Svelte components.</span></p>
   <div class="cta">
     <a class="bl-btn bl-btn-primary" href="#start">시작하기</a>
     <a class="bl-btn bl-btn-ghost" href="https://github.com/leeuc10/blurssism/blob/main/docs/brand-book.md">브랜드북 읽기</a>
@@ -106,8 +106,8 @@ import "@caffeinecatkr/blurssism/bundle.css";
     root.setAttribute("data-palette", state.palette);
     root.setAttribute("data-background", state.background);
     document.getElementById("theme").textContent = state.theme === "dark" ? "라이트 모드" : "다크 모드";
-    document.querySelectorAll("#picker .bl-palette").forEach(function (b) { b.setAttribute("aria-checked", String(b.getAttribute("data-palette") === state.palette)); });
-    document.querySelectorAll("#bgpicker .bl-seg-item").forEach(function (b) { b.setAttribute("aria-checked", String(b.getAttribute("data-background") === state.background)); });
+    document.querySelectorAll("#picker .bl-palette").forEach(function (b) { var selected = b.getAttribute("data-palette") === state.palette; b.setAttribute("aria-checked", String(selected)); b.tabIndex = selected ? 0 : -1; });
+    document.querySelectorAll("#bgpicker .bl-seg-item").forEach(function (b) { var selected = b.getAttribute("data-background") === state.background; b.setAttribute("aria-checked", String(selected)); b.tabIndex = selected ? 0 : -1; });
     document.querySelectorAll("iframe[data-src]").forEach(function (f) { f.src = f.getAttribute("data-src") + "?theme=" + state.theme + "&palette=" + state.palette + "&background=" + state.background; });
     try { localStorage.setItem("bl-theme", state.theme); localStorage.setItem("bl-palette", state.palette); localStorage.setItem("bl-background", state.background); } catch (e) {}
   }
@@ -118,6 +118,24 @@ import "@caffeinecatkr/blurssism/bundle.css";
   document.getElementById("bgpicker").addEventListener("click", function (e) {
     var b = e.target.closest(".bl-seg-item"); if (!b) return; state.background = b.getAttribute("data-background"); apply();
   });
+  function radioKeys(groupId, selector, attribute, stateKey) {
+    document.getElementById(groupId).addEventListener("keydown", function (e) {
+      var buttons = Array.from(this.querySelectorAll(selector));
+      var current = buttons.indexOf(document.activeElement), next;
+      if (current < 0) return;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (current + 1) % buttons.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (current - 1 + buttons.length) % buttons.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = buttons.length - 1;
+      else return;
+      e.preventDefault();
+      state[stateKey] = buttons[next].getAttribute(attribute);
+      apply();
+      buttons[next].focus();
+    });
+  }
+  radioKeys("picker", ".bl-palette", "data-palette", "palette");
+  radioKeys("bgpicker", ".bl-seg-item", "data-background", "background");
   function fitHero() {
     var hero = document.getElementById("hero"), frame = hero.firstElementChild, w = hero.clientWidth;
     if (w < 768) {

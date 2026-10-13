@@ -1,4 +1,4 @@
-/* blurssism v2.1.4 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 "use strict";
 
 /** 팔레트 목록. 빌드할 때 src/tokens.json에서 채워집니다. */
@@ -10,7 +10,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "2.1.4";
+const version = "3.0.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -345,14 +345,17 @@ function tokenRgb(names) {
 }
 function accentArea() {
   const colors = tokenRgb(["accent", "deco", "positive", "warning", "danger", "info", "accent-soft", "positive-soft", "warning-soft", "danger-soft"]);
+  const colorValues = Object.keys(colors).filter((v) => v && v !== "transparent");
   const vw = window.innerWidth, vh = window.innerHeight, elements = [];
   let sum = 0;
   const walk = (el) => {
     if (!el.getBoundingClientRect) return;
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden") return;
-    const bg = colors[cs.backgroundColor];
-    if (bg) {
+    const image = cs.backgroundImage || "";
+    // 그라디언트에 토큰 색이 쓰이면 면 전체를 보수적으로 셉니다. 사진·외부 이미지는 판별할 수 없습니다.
+    const gradient = /(?:linear|radial|conic)-gradient\(/.test(image) && colorValues.some((v) => image.includes(v));
+    if (colors[cs.backgroundColor] || gradient) {
       const r = el.getBoundingClientRect(), w = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0)), hgt = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
       if (w && hgt) { sum += w * hgt; elements.push(el); }
       return;   // 안쪽은 바깥 면에 이미 들어갑니다

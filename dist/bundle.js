@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Icon"},{"name":"Accordion"},{"name":"Alert"},{"name":"Avatar"},{"name":"Badge"},{"name":"Button"},{"name":"Calendar"},{"name":"Card"},{"name":"Checkbox"},{"name":"Chip"},{"name":"Container"},{"name":"Dialog"},{"name":"Drawer"},{"name":"EmptyState"},{"name":"Grid"},{"name":"IconButton"},{"name":"Link"},{"name":"ListItem"},{"name":"MediaCard"},{"name":"Menu"},{"name":"NavBar"},{"name":"Pagination"},{"name":"PalettePicker"},{"name":"Popover"},{"name":"Progress"},{"name":"RadioGroup"},{"name":"SegmentedControl"},{"name":"Select"},{"name":"Sheet"},{"name":"Skeleton"},{"name":"Switch"},{"name":"TabBar"},{"name":"Table"},{"name":"Tabs"},{"name":"TextField"},{"name":"Textarea"},{"name":"Toast"},{"name":"ToastProvider"},{"name":"Tooltip"}]} */
-/* blurssism v2.1.4 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
   if (typeof window === "undefined" || !window.React) { if (typeof console !== "undefined") console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요."); return; }
   var React = window.React;
@@ -13,7 +13,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "2.1.4";
+const version = "3.0.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -348,14 +348,17 @@ function tokenRgb(names) {
 }
 function accentArea() {
   const colors = tokenRgb(["accent", "deco", "positive", "warning", "danger", "info", "accent-soft", "positive-soft", "warning-soft", "danger-soft"]);
+  const colorValues = Object.keys(colors).filter((v) => v && v !== "transparent");
   const vw = window.innerWidth, vh = window.innerHeight, elements = [];
   let sum = 0;
   const walk = (el) => {
     if (!el.getBoundingClientRect) return;
     const cs = getComputedStyle(el);
     if (cs.display === "none" || cs.visibility === "hidden") return;
-    const bg = colors[cs.backgroundColor];
-    if (bg) {
+    const image = cs.backgroundImage || "";
+    // 그라디언트에 토큰 색이 쓰이면 면 전체를 보수적으로 셉니다. 사진·외부 이미지는 판별할 수 없습니다.
+    const gradient = /(?:linear|radial|conic)-gradient\(/.test(image) && colorValues.some((v) => image.includes(v));
+    if (colors[cs.backgroundColor] || gradient) {
       const r = el.getBoundingClientRect(), w = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0)), hgt = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
       if (w && hgt) { sum += w * hgt; elements.push(el); }
       return;   // 안쪽은 바깥 면에 이미 들어갑니다
@@ -873,7 +876,7 @@ function Badge(p) {
 
 /* 2.0: primary는 강조색(accent) 채움입니다. "accent"는 primary의 별칭(같은 클래스)이라 화면당 하나 규칙을 함께 셉니다. */
 var Button = /*#__PURE__*/ withRef("Button", function (p, ref) {
-  var variant = p.variant || "primary", tag = p.href ? "a" : "button";
+  var variant = p.variant || "ghost", tag = p.href ? "a" : "button";
   if (variant === "accent") variant = "primary";
   return h(tag, Object.assign(tag === "button" ? { type: "button" } : {}, omit(p, ["variant", "size", "block", "icon", "className", "children"]), {
     ref: ref,

@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.0.0 — 2026-10-13
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - `Button`의 기본형이 `primary`에서 **`ghost`**로 바뀌었어요. `variant`를 생략해 강조 버튼을 만들었다면 그 버튼에 `variant="primary"`를 적어 주세요. 한 화면의 버튼은 대부분 보조 행동이라, 빼먹었을 때 primary가 늘어나는 대신 조용한 버튼이 되도록 했어요. / `Button` now defaults to `ghost`; add `variant="primary"` to the main action.
+
+**바뀐 것 / Changed**
+- 소개 문구를 "브랜드형 웹 화면을 위한 디자인 시스템"으로 바꾸고, 정보 밀도가 높은 업무 화면에서는 간격과 버튼 위계를 따로 조정해야 한다고 적었어요. / Positioned as a design system for brand-led web interfaces.
+- `auditCrema()`의 강조색 면적 검사가 토큰 색이 들어간 그라디언트 면도 보수적으로 세요. 사진·외부 이미지는 여전히 눈으로 확인해야 해요. / The accent-area audit counts gradients that use token colors.
+- 터치 화면에서 달력 날짜 칸이 44px을 유지하고, 좁은 컨테이너에서는 카드 안에서 가로로 스크롤해요. / Calendar day cells stay 44px on touch screens; the card scrolls horizontally when narrow.
+- 공개 데모의 팔레트·배경 선택을 방향키·Home·End로 고를 수 있어요. / Arrow-key selection in the demo's palette and background pickers.
+
+**검사 / Checks**
+- 시각 회귀 기준 이미지 114장(19페이지 × 6)을 저장소에 올렸어요. 2.1.3에는 3장만 올라가 있었어요. React UMD를 페이지보다 먼저 넣고, 로컬 글꼴이 안 불리면 바로 실패해요. / All 114 visual baselines are committed; the runner injects React up front and fails fast when local fonts don't load.
+- 데모의 방향키 선택, 달력 터치 크기, 그라디언트 면적 검사를 확인하는 상호작용 테스트(`scripts/visual/interaction.spec.mjs`)를 더했어요. / New interaction tests.
+
 ## 2.1.4 — 2026-10-11
 
 **바뀐 것 / Changed**
@@ -10,7 +25,7 @@
 
 **바뀐 것 / Changed**
 
-- 시각 회귀 테스트: `npm run visual`이 예시 페이지 19개를 팔레트·테마 3종, 데스크톱·폰으로 찍은 108장을 기준 이미지와 비교해요(Playwright, 로컬 Chromium). CI는 Linux 스크린샷을 artifact로 올려요. / Visual regression tests with Playwright.
+- 시각 회귀 테스트: `npm run visual`이 예시 페이지 19개를 팔레트·테마 3종, 데스크톱·폰으로 찍은 114장을 기준 이미지와 비교해요(Playwright, 로컬 Chromium). CI는 Linux 스크린샷을 artifact로 올려요. / Visual regression tests with Playwright.
 - 예제 앱(vite-react·nextjs·sveltekit)이 새 컴포넌트 9개, 시트 모달, 토스트, `forwardRef`, 로케일 전환을 보여 줘요. SvelteKit 예제로 Svelte 새 컴포넌트를 브라우저에서 실제로 돌려 확인했고 프리렌더 빌드도 통과해요. / Example apps cover the new components; Svelte components verified in the browser.
 
 ## 2.1.2 — 2026-10-10
