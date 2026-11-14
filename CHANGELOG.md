@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.1.0 — 2026-11-15
+
+> **올리기 전에 확인할 것 / Before upgrading**
+> - 글자 단계가 넓어졌어요(display 48 · title-1 32 · title-2·quote 25 · title-3 20). 고정 높이 레이아웃은 한 번 확인해 주세요. / The type scale is wider; check fixed-height layouts.
+> - 표와 MediaCard 사진 틀이 직각이 됐어요. 예전 모양은 `--bl-table-radius`·`--bl-media-radius`를 `var(--radius-lg)`로 덮어쓰면 돌아와요. / Tables and media frames are now square; override the two variables to restore.
+
+**새로 생긴 것 / Added**
+- `hero` 글자 스타일(`.bl-hero`, 명조 44~96px): 랜딩·커버의 첫 문장용. / A `hero` serif style for landing headlines.
+- 잔 자국 모티프 `.bl-ring`(`--ring-mask`): 종이에 남은 커피 링. 색은 `accent-ink`, `.bl-ring-deco`는 `deco`. MediaCard 자리표시가 추상 도형 대신 잔 자국을 그려요. / A coffee-ring motif; MediaCard placeholders use it.
+- 크레마 고임: 두꺼운 크레마가 뜰 때 캐러멜빛이 면 전체에서 위 가장자리 띠로 1.3초 동안 출렁이며 고여요(`--bl-crema-slosh`). 블러 반경은 그대로이고, 동작 줄이기·`data-crema="off"`에서는 꺼져요. `--bl-crema-settle: none`으로 끌 수 있어요. / The crema settle motion on thick crema.
+- 동작에 반응하는 크레마: 크레마 버튼·아이콘 버튼은 올리면 캐러멜빛이 조금 퍼지고 누르면 크게 퍼졌다가 다시 고여요. 크레마 내비바는 맨 위에서는 납작하다가 스크롤하면 떠올라요(`animation-timeline: scroll()`을 아는 브라우저). / Crema reacts to hover, press and scroll.
+- `radius-paper`(0px) 토큰: 종이에 인쇄된 것은 직각, 떠 있는 것만 둥글게. / A `radius-paper` token.
+
+**바뀐 것 / Changed**
+- 표가 카드가 아니라 종이에 인쇄된 표처럼 보여요: 위 먹색 2px 줄, 아래 가는 줄, 바깥 테두리와 배경 없음. / Tables are printed rules, not cards.
+- 예시 커버와 웹 랜딩을 다시 그렸어요(글줄과 잔 자국 위의 블러레마, 명조 히어로, 카드 세 장 대신 줄 친 원칙 목록). / Redrawn cover and landing examples.
+
 ## 3.0.0 — 2026-10-13
 
 > **올리기 전에 확인할 것 / Before upgrading**

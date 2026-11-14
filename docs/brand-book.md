@@ -238,8 +238,9 @@ bg.warnings.forEach((w) => console.warn(w.message));
 - `serif`: Blurssism Serif → Noto Serif KR → 시스템 명조.
 - 두 글꼴은 Pretendard와 Gowun Batang에서 KS X 1001 한글 2350자와 영문·숫자·기호만 남긴 사본입니다(SIL OFL, 예약 이름 때문에 이름을 바꿈). 2350자 밖의 드문 글자는 시스템 글꼴로 보입니다. 다시 만들 때는 `python3 scripts/subset-fonts.py`.
 - 글꼴은 `fonts.css`가 jsDelivr에서 불러옵니다. `tokens.css`·`bundle.css`는 글꼴을 불러오지 않으니 `fonts.css`를 함께 넣거나, CSP·사내망 때문에 CDN을 못 쓰면 `fonts.css` 대신 `fonts.local.css`를 불러옵니다. 패키지에 든 글꼴 파일(`dist/fonts/`)을 써서 따로 할 일이 없습니다(번들러가 파일을 함께 내보내고, 번들러가 없으면 `fonts.local.css`와 `fonts/` 폴더를 같이 올립니다).
-- 스타일: `display` 40/48 · `title-1` 30/38 · `quote` 22/32 (명조) / `title-2` 22/30 · `title-3` 18/26 · `body` 16/26 · `body-strong` 16/26 · `body-sm` 14/22 · `label` 15/20 · `caption` 12/16 (산세리프).
+- 스타일: `hero` 44~96(명조, 화면 폭 따라) · `display` 48/56 · `title-1` 32/40 · `quote` 25/36 (명조) / `title-2` 25/32 · `title-3` 20/28 · `body` 16/26 · `body-strong` 16/26 · `body-sm` 14/22 · `label` 15/20 · `caption` 12/16 (산세리프).
 - 클래스는 `.bl-body`·`.bl-title-1`처럼 `bl-` 접두어를 씁니다(2.0. 전에는 `.body`처럼 접두어가 없어 소비자 CSS와 충돌했습니다). 값은 `--text-body-size`·`--text-body-line`·`--text-body-weight`·`--text-body-tracking` 같은 변수로도 나오고, 컴포넌트가 px 대신 이 변수를 읽습니다. 그래서 `:root { --text-body-size: 17px }`처럼 덮어쓰면 입력창·카드 본문까지 함께 바뀝니다.
+- 단계는 16 → 20 → 25 → 32 → 48로 1.25배 이상 벌어집니다. 랜딩의 첫 문장은 `hero`로 크게, 명조로 씁니다. 같은 화면에서 비슷한 크기를 둘 쓰지 않습니다.
 - 한글 본문의 행간은 1.6(16/26)입니다. 제목은 자간을 −0.01 ~ −0.02em 좁힙니다.
 - 긴 글 본문은 `prose-max`(640px)를 넘지 않게 합니다.
 - 굵기는 400 / 500 / 600 / 700 네 가지만 씁니다.
@@ -294,6 +295,7 @@ bg.warnings.forEach((w) => console.warn(w.message));
 ## 모서리와 그림자
 
 - `radius-sm` 10 · `radius-md` 16 · `radius-lg` 24 · `radius-xl` 32 · `radius-full` 캡슐.
+- **종이는 직각, 거품만 둥글게.** 종이에 인쇄된 것(표, 코드, 사진·그림 틀) = `radius-paper`(0). 종이 위에 놓인 것(카드·입력창)과 떠 있는 것(크레마)만 둥급니다.
 - 버튼·칩·스위치·탭바·내비게이션 바 = `radius-full`. 입력창·썸네일 = `radius-md`. 카드·패널·모달 = `radius-lg`. 바텀시트 위쪽 = `radius-xl`.
 - 그림자는 세 개뿐입니다. 불투명 카드 `shadow-card`(거의 평면), 떠 있는 크레마 `shadow-crema`, 시트 `shadow-sheet`. 그 밖의 그림자는 만들지 않습니다. 데스크톱 모드가 더하는 그림자는 `shadow-crema-rich`·`shadow-crema-rich-hover`·`shadow-sheet-rich`(다크에서는 검정 기반)입니다.
 
@@ -301,6 +303,8 @@ bg.warnings.forEach((w) => console.warn(w.message));
 
 - 누를 때 `scale(0.97)`, 120ms.
 - 크레마 패널·시트는 아래에서 올라오며 260ms `cubic-bezier(.2,.8,.2,1)`. 스위치 손잡이는 살짝 튕깁니다(`cubic-bezier(.3,1.4,.5,1)`).
+- **크레마 고임**: 두꺼운 크레마가 뜰 때 캐러멜빛이 면 전체에서 위 가장자리 띠로 1.3초 동안 고입니다. 단번에 고이지 않고 띠로 모였다가 한 번 크게(16%), 한 번 작게(5%) 다시 번진 뒤 자리 잡는 출렁임 곡선(`--bl-crema-slosh`, `linear()`)을 씁니다. `linear()`를 모르는 브라우저는 0.9초 매끈한 곡선으로 고입니다. blurssism만의 움직임이라 다른 곳에 흉내 내지 않고, 블러 반경은 움직이지 않습니다.
+- **동작에 반응하는 크레마**: 같은 고임이 동작에 따라 움직입니다. 크레마 버튼·아이콘 버튼은 마우스를 올리면 캐러멜빛이 조금 퍼지고(26%), 누르면 젓듯이 살짝 넘치게 퍼졌다가(90%) 손을 떼면 같은 출렁임 곡선으로 1.1초 동안 다시 띠로 고입니다. 내비바는 페이지 맨 위에서는 납작하게 붙어 있다가 스크롤하면 80px 동안 그림자를 얻어 떠오릅니다. 어느 동작에서도 블러 반경은 그대로입니다.
 - `prefers-reduced-motion: reduce`에서는 이동 없이 투명도만 바꿉니다. 누를 때 줄어들기, 스위치 튕김, 진행 막대 전환, 데스크톱 모드의 떠오름, 포인터 빛도 끕니다.
 
 ## 상태와 접근성
@@ -311,6 +315,12 @@ bg.warnings.forEach((w) => console.warn(w.message));
 - 고대비(강제 색상) 모드: 선택·켜짐 상태를 시스템 색(`Highlight`)으로 다시 그립니다. 대비 높이기(`prefers-contrast: more`)에서는 크레마가 불투명해집니다.
 - 오류: `danger` 테두리 + "오류:"로 시작하는 문구.
 - 아이콘만 있는 버튼에는 반드시 `aria-label`.
+
+## 잔 자국
+
+- blurssism의 장식 모티프는 종이에 남은 커피 링(`.bl-ring`) 하나입니다. 이미지 자리표시, 커버, 빈 화면에 쓰고 원·알약·점 격자 같은 추상 도형은 쓰지 않습니다.
+- 한 면에 두 개까지, 글자를 올리지 않고 `aria-hidden`. 색은 `accent-ink`(기본) 또는 `deco`(`.bl-ring-deco`).
+- 크레마 밑으로 자국이나 글줄이 지나가게 두면 블러레마가 무엇을 하는지 보입니다.
 
 ## 아이콘
 

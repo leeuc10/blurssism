@@ -1,6 +1,6 @@
 {
   "name": "@caffeinecatkr/blurssism",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "브랜드형 웹 화면을 위한 디자인 시스템 · A design system for brand-led web interfaces — Blurema crema, caffeine palettes, brand-color palettes, responsive grid, React & Svelte components",
   "author": {
     "name": "caffeinecat",

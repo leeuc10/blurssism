@@ -3,8 +3,8 @@
 .bl-popover { display: none; position: fixed; inset: auto; margin: 0; min-width: 200px; max-width: min(360px, calc(100vw - 32px)); max-height: calc(100dvh - 16px);
   padding: var(--space-4); border-radius: var(--radius-lg); overflow: auto; overscroll-behavior: contain; color: var(--ink);
   font-family: var(--font-sans); font-size: var(--text-body-size); line-height: var(--text-body-line); }
-.bl-popover:popover-open { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1); }
-.bl-popover[data-open] { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1); }   /* popover API가 없는 브라우저 */
+.bl-popover:popover-open { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }
+.bl-popover[data-open] { display: block; animation: bl-rise .2s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }   /* popover API가 없는 브라우저 */
 .bl-popover:focus { outline: none; }
 .bl-popover-title { margin: 0 0 var(--space-2); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight); letter-spacing: var(--text-label-tracking); color: var(--ink); }
 .bl-popover-body { margin: 0; color: var(--crema-ink-muted); }

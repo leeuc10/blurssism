@@ -1,4 +1,4 @@
-/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* Tailwind 프리셋 — tailwind.config.js: presets: [require("@caffeinecatkr/blurssism/tailwind")]
    dist/tokens.css를 함께 불러와야 var(--…) 값이 채워집니다. 브레이크포인트 sm/md/lg/xl은 blurssism과 같습니다. */
 module.exports = {
@@ -47,6 +47,7 @@ module.exports = {
         "24": "var(--space-24)"
       },
       "borderRadius": {
+        "paper": "var(--radius-paper)",
         "sm": "var(--radius-sm)",
         "md": "var(--radius-md)",
         "lg": "var(--radius-lg)",
@@ -79,6 +80,14 @@ module.exports = {
         ]
       },
       "fontSize": {
+        "hero": [
+          "var(--text-hero-size)",
+          {
+            "lineHeight": "var(--text-hero-line)",
+            "fontWeight": "var(--text-hero-weight)",
+            "letterSpacing": "var(--text-hero-tracking)"
+          }
+        ],
         "display": [
           "var(--text-display-size)",
           {

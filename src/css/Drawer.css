@@ -9,8 +9,8 @@ html:has(dialog.bl-drawer[open]) { overflow: hidden; }
 dialog.bl-drawer::backdrop { background: var(--scrim); animation: bl-fade .26s ease; }
 dialog.bl-drawer[data-closing]::backdrop { animation: bl-drawer-fade-out .26s ease forwards; }
 /* 들어올 때 bl-slide-*, 닫힐 때는 같은 길을 되돌아 나갑니다(data-closing). 블러 반경은 움직이지 않고 transform만 */
-dialog.bl-drawer[data-side="left"][open] { animation: bl-slide-left .26s cubic-bezier(.2,.8,.2,1); }
-dialog.bl-drawer[data-side="right"][open] { animation: bl-slide-right .26s cubic-bezier(.2,.8,.2,1); }
+dialog.bl-drawer[data-side="left"][open] { animation: bl-slide-left .26s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }
+dialog.bl-drawer[data-side="right"][open] { animation: bl-slide-right .26s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }
 dialog.bl-drawer[data-side="left"][data-closing] { animation: bl-slide-left-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
 dialog.bl-drawer[data-side="right"][data-closing] { animation: bl-slide-right-out .26s cubic-bezier(.2,.8,.2,1) forwards; }
 @keyframes bl-slide-left { from { transform: translateX(-100%); } }

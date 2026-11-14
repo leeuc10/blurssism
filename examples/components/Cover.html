@@ -1,107 +1,56 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../dist/fonts.css">
 <link rel="stylesheet" href="../../dist/tokens.css">
 <link rel="stylesheet" href="../../dist/bundle.css">
 <script>try{var q=new URLSearchParams(location.search),t=q.get("theme"),p=q.get("palette"),b=q.get("background");if(t)document.documentElement.setAttribute("data-theme",t);if(p)document.documentElement.setAttribute("data-palette",p);if(b)document.documentElement.setAttribute("data-background",b);}catch(e){}</script>
-<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-<script src="../../dist/bundle.js"></script>
-<meta charset="utf-8">
 <title>blurssism</title>
 <style>
+  /* 3.1 커버: 추상 도형 대신 "종이에 인쇄된 글 + 잔 자국" 위에 블러레마 한 장을 크게 띄웁니다.
+     크레마 밑으로 실제 글줄과 자국이 지나가서 블러·거품 결·크레마 띠가 무엇을 하는 재질인지 바로 보입니다. 블러 예산 1. 뒤가 비쳐야 하는 자리라 얇은 크레마를 씁니다. */
   html, body { margin:0; height:100%; }
   body { background:var(--paper); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
   .cover { position:relative; width:960px; height:288px; overflow:hidden; }
-  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
-  .art svg { display:block; width:480px; height:288px; }
-  .accent { fill:var(--accent); }
-  .deco { fill:var(--deco); }
-  .positive { fill:var(--positive); }
-  .deep { fill:var(--ink); }
-  /* 블랙(기본)·그래파이트 팔레트는 강조색이 이미 먹색 계열이라, 먹색 판이 강조색 판과 겹쳐 보이지 않게 회갈색으로 */
-  :root:not([data-palette]) .deep, [data-palette="black"] .deep, [data-palette="graphite"] .deep { fill:var(--line-strong); }
-  .dot { fill:var(--ink-muted); }
-  .lg { rx:var(--radius-lg); }
-  .pill { rx:32px; }
-  .pane { fill:none; stroke:var(--crema-edge, var(--crema-stroke)); stroke-width:1.5; rx:var(--radius-lg); }
-  .pane-fill { fill:var(--crema-fill); fill-opacity:.62; }
-  /* 1.6.2 적응형 블러레마: 컴포넌트 크레마와 같이 팔레트 장식색을 머금고, 거품 결도 배경을 따라갑니다 */
-  .pane-grain { width:100%; height:100%; background-image:var(--crema-grain); }
-  /* 채움·결·결 색조를 컴포넌트 크레마와 같은 순서로 한 면에 겹칩니다(결 색조는 다크에서 팔레트를 따라감) */
-  @supports (color: color-mix(in srgb, red, blue)) {
-    .pane-fill { fill:transparent; }
-    .pane-grain {
-      background-color:color-mix(in srgb, color-mix(in srgb, var(--crema-fill), var(--deco) var(--crema-fill-tint)) 62%, transparent);
-      background-image:linear-gradient(var(--crema-grain-color, transparent), var(--crema-grain-color, transparent)), var(--crema-grain);
-      background-blend-mode:color, normal;
-    }
-  }
-  .crema-stop { stop-color:var(--crema, #c0916a); }
-  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
-  .name { margin:0; font-family:var(--font-serif); font-size:88px; line-height:.92; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
-  .tag { margin:var(--space-3) 0 0 2px; font-size:14px; line-height:20px; color:var(--ink-muted); }
-  /* 좁은 화면(md 미만): 그림을 줄이지 않고 위에 그림, 아래에 이름을 쌓아 글자가 읽히는 크기로 둡니다 */
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); z-index:2; }
+  .name { margin:0; font-family:var(--font-serif); font-size:96px; line-height:.9; font-weight:700; letter-spacing:-.035em; color:var(--ink); }
+  .tag { margin:var(--space-4) 0 0 4px; font-size:var(--text-body-sm-size); line-height:var(--text-body-sm-line); color:var(--ink-muted); }
+  /* 종이: 직각, 인쇄된 글줄 */
+  .page { position:absolute; left:448px; top:0; width:512px; height:288px; overflow:hidden; }
+  .print { position:absolute; left:40px; top:28px; width:420px; margin:0; font-family:var(--font-serif); font-size:25px; line-height:40px; color:var(--ink); }
+  .print span { color:var(--accent-ink); }
+  .stain { position:absolute; width:300px; left:150px; top:-34px; }
+  .stain-sm { width:120px; left:28px; top:176px; transform:rotate(200deg); }
+  /* 크레마 한 장: 글줄과 자국 위에 */
+  .pane { position:absolute; left:216px; top:92px; width:272px; height:152px; padding:var(--space-5); border-radius:var(--radius-lg);
+    display:flex; flex-direction:column; justify-content:flex-end; gap:2px; }
+  .pane b { font-size:var(--text-label-size); line-height:var(--text-label-line); font-weight:600; color:var(--ink); }
+  .pane small { font-size:var(--text-caption-size); line-height:var(--text-caption-line); font-weight:500; color:var(--ink); }   /* 얇은 크레마 위 글자는 ink만 */
   @media (max-width: 767px) {
     .cover { width:100%; height:auto; }
-    .art { position:relative; left:auto; width:100%; max-width:560px; height:auto; aspect-ratio:480 / 288; }
-    .art svg { width:100%; height:100%; }
-    .words { position:static; max-width:none; padding:var(--space-5) 0 var(--space-1); }
-    .name { font-size:clamp(48px, 15vw, 72px); }
+    .page { position:relative; left:auto; width:100%; height:240px; }
+    .print { left:var(--space-4); width:calc(100% - 2 * var(--space-4)); font-size:20px; line-height:32px; }
+    .stain { left:auto; right:-40px; width:240px; }
+    .pane { left:auto; right:var(--space-4); top:88px; width:min(240px, 64%); height:128px; }
+    .words { position:static; padding:var(--space-5) var(--space-4) var(--space-1); }
+    .name { font-size:clamp(56px, 17vw, 88px); }
   }
 </style>
 </head>
-<body>
+<body class="bl-root">
 <div class="cover">
-<div class="art" aria-hidden="true">
-<svg viewBox="0 0 480 288" width="480" height="288">
-<!--
-  blocks      accent (espresso) 160×264 slab bled off the top (identity hue, largest) · deco (crema) disc r72 · positive capsule 176×64 · ink 112×200 bled off top and right edge — ≈40% of 960×288
-  arrangement one tall accent slab with satellites, a glass pane laid across slab, disc and capsule
-  pattern     the system's own motif: a Blurema pane (frosted crema-fill + foam grain + caramel crema band + lift shadow, rx radius-lg) blurring what lies under it, plus a 5×4 dot grid at space-4 pitch half under the pane so the blur reads — "떠 있는 것만 유리로"
-  scales      sides in space-2 multiples; dot pitch space-4; corners radius-lg; capsule rx = half its 64px height (radius-full)
--->
-<defs>
-  <clipPath id="paneClip"><rect x="120" y="72" width="232" height="144" rx="24"/></clipPath>
-  <filter id="frost" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
-  <!-- 블러레마: 크레마 띠 · 떠 있는 그림자 (거품 결은 --crema-grain) -->
-  <filter id="lift" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#21180f" flood-opacity=".22"/></filter>
-  <linearGradient id="crema" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" class="crema-stop" style="stop-opacity:.9"/>
-    <stop offset=".06" class="crema-stop" style="stop-opacity:.62"/>
-    <stop offset=".38" class="crema-stop" style="stop-opacity:.22"/>
-    <stop offset=".75" class="crema-stop" style="stop-opacity:0"/>
-  </linearGradient>
-</defs>
-<g id="scene">
-  <rect class="accent lg" x="24" y="-24" width="160" height="264" rx="24"/>
-  <circle class="deco" cx="248" cy="104" r="72"/>
-  <rect class="positive pill" x="208" y="200" width="176" height="64" rx="32"/>
-  <rect class="deep lg" x="392" y="-24" width="112" height="200" rx="24"/>
-  <g class="dot">
-    <circle cx="296" cy="40" r="3"/><circle cx="312" cy="40" r="3"/><circle cx="328" cy="40" r="3"/><circle cx="344" cy="40" r="3"/><circle cx="360" cy="40" r="3"/>
-    <circle cx="296" cy="56" r="3"/><circle cx="312" cy="56" r="3"/><circle cx="328" cy="56" r="3"/><circle cx="344" cy="56" r="3"/><circle cx="360" cy="56" r="3"/>
-    <circle cx="296" cy="72" r="3"/><circle cx="312" cy="72" r="3"/><circle cx="328" cy="72" r="3"/><circle cx="344" cy="72" r="3"/><circle cx="360" cy="72" r="3"/>
-    <circle cx="296" cy="88" r="3"/><circle cx="312" cy="88" r="3"/><circle cx="328" cy="88" r="3"/><circle cx="344" cy="88" r="3"/><circle cx="360" cy="88" r="3"/>
-  </g>
-</g>
-<rect x="120" y="72" width="232" height="144" rx="24" style="fill:var(--paper)" filter="url(#lift)"/>
-<g clip-path="url(#paneClip)">
-  <rect x="120" y="72" width="232" height="144" style="fill:var(--paper)"/>
-  <use href="#scene" filter="url(#frost)"/>
-  <rect class="pane-fill" x="120" y="72" width="232" height="144"/>
-  <foreignObject x="120" y="72" width="232" height="144"><div xmlns="http://www.w3.org/1999/xhtml" class="pane-grain"></div></foreignObject>
-  <rect x="120" y="72" width="232" height="144" fill="url(#crema)"/>
-</g>
-<rect class="pane" x="120" y="72" width="232" height="144" rx="24"/>
-</svg>
-</div>
-<div class="words">
-  <p class="name">blurssism</p>
-  <p class="tag">브랜드형 웹 화면을 위한 디자인 시스템 <span style="white-space:nowrap">— made by caffeinecat</span></p>
-</div>
+  <div class="page" aria-hidden="true">
+    <p class="print">우유 거품 같은 종이 위에 <span>떠 있는 것만</span> 크레마로 띄웁니다. 색은 카페인에서 가져왔고, 블러는 한 화면에 셋까지만 씁니다.</p>
+    <span class="bl-ring stain"></span>
+    <span class="bl-ring bl-ring-deco stain stain-sm"></span>
+    <div class="pane bl-crema"><b>블러레마</b><small>블러 · 우유 거품 색 · 거품 결 · 크레마 띠</small></div>
+  </div>
+  <div class="words">
+    <p class="name">blurssism</p>
+    <p class="tag">브랜드형 웹 화면을 위한 디자인 시스템 <span style="white-space:nowrap">— made by caffeinecat</span></p>
+  </div>
 </div>
 </body>
 </html>

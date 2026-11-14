@@ -19,7 +19,7 @@
     var tab = React.useState("me"), al = React.useState(true), dk = React.useState(false), seg = React.useState("week");
     return h("div", { className: "phone" },
       h("div", { className: "scroll" },
-        h("h1", { className: "bl-largetitle", style: { marginTop: 0 } }, "내 정보"),
+        h("h1", { className: "bl-title-1", style: { marginTop: 0 } }, "내 정보"),
         h(B.MediaCard, { title: "caffeinecat", meta: "가입 2년째 · 기록 128개", ratio: "16 / 10", badge: "인증됨", badgeIcon: "check",
           action: h(B.IconButton, { icon: "settings", label: "프로필 편집" }) }),
         h("div", { className: "prog" }, h(B.Progress, { label: "이번 주 목표", value: 5, max: 7, valueText: "7일 중 5일" })),

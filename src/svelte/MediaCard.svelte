@@ -16,9 +16,7 @@
     <img class="bl-media-img" src={image} alt={imageAlt} />
   {:else}
     <div class="bl-media-ph" aria-hidden="true">
-      <i style="left:-12%;top:8%;width:70%;height:56%;border-radius:var(--radius-full);background:var(--deco)"></i>
-      <i style="right:-10%;top:28%;width:52%;height:64%;border-radius:var(--radius-xl);background:var(--accent)"></i>
-      <i style="left:18%;bottom:-6%;width:46%;height:30%;border-radius:var(--radius-full);background:var(--positive)"></i>
+      <span class="bl-ring"></span><span class="bl-ring bl-ring-deco"></span>
     </div>
   {/if}
   {#if badge}<Badge tone={badgeTone} icon={badgeIcon}>{badge}</Badge>{/if}

@@ -1,5 +1,5 @@
 /* @ds-bundle: {"format":4,"namespace":"Blurssism","components":[{"name":"Icon"},{"name":"Accordion"},{"name":"Alert"},{"name":"Avatar"},{"name":"Badge"},{"name":"Button"},{"name":"Calendar"},{"name":"Card"},{"name":"Checkbox"},{"name":"Chip"},{"name":"Container"},{"name":"Dialog"},{"name":"Drawer"},{"name":"EmptyState"},{"name":"Grid"},{"name":"IconButton"},{"name":"Link"},{"name":"ListItem"},{"name":"MediaCard"},{"name":"Menu"},{"name":"NavBar"},{"name":"Pagination"},{"name":"PalettePicker"},{"name":"Popover"},{"name":"Progress"},{"name":"RadioGroup"},{"name":"SegmentedControl"},{"name":"Select"},{"name":"Sheet"},{"name":"Skeleton"},{"name":"Switch"},{"name":"TabBar"},{"name":"Table"},{"name":"Tabs"},{"name":"TextField"},{"name":"Textarea"},{"name":"Toast"},{"name":"ToastProvider"},{"name":"Tooltip"}]} */
-/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 (function () {
   if (typeof window === "undefined" || !window.React) { if (typeof console !== "undefined") console.error("blurssism: window.React가 없습니다. react와 react-dom UMD 스크립트를 먼저 불러오세요."); return; }
   var React = window.React;
@@ -13,7 +13,7 @@ const backgrounds = [{"id":"cream","name":"크림","description":"기본. 우유
 const breakpoints = { sm: 600, md: 768, lg: 1120, xl: 1440 };
 const ORDER = ["xs", "sm", "md", "lg", "xl"];
 
-const version = "3.0.0";
+const version = "3.1.0";
 const author = "caffeinecat";
 
 function rootEl(el) {
@@ -1074,10 +1074,9 @@ var ListItem = /*#__PURE__*/ withRef("ListItem", function (p, ref) {
 });
 
 function MediaCard(p) {
+  // 3.1: 사진이 없을 때는 추상 도형 대신 종이에 남은 잔 자국 두 개(.bl-ring). 하나는 캡션 크레마 밑으로 지나가 블러가 보이게 합니다.
   var ph = h("div", { className: "bl-media-ph", "aria-hidden": "true" },
-    h("i", { style: { left: "-12%", top: "8%", width: "70%", height: "56%", borderRadius: "var(--radius-full)", background: "var(--deco)" } }),
-    h("i", { style: { right: "-10%", top: "28%", width: "52%", height: "64%", borderRadius: "var(--radius-xl)", background: "var(--accent)" } }),
-    h("i", { style: { left: "18%", bottom: "-6%", width: "46%", height: "30%", borderRadius: "var(--radius-full)", background: "var(--positive)" } }));
+    h("span", { className: "bl-ring" }), h("span", { className: "bl-ring bl-ring-deco" }));
   return h("article", { className: cx("bl-media", p.className), style: p.ratio ? { aspectRatio: p.ratio } : undefined },
     p.image ? h("img", { className: "bl-media-img", src: p.image, alt: p.imageAlt || "" }) : ph,
     p.badge ? h(Badge, { tone: p.badgeTone || "positive", icon: p.badgeIcon }, p.badge) : null,

@@ -93,7 +93,7 @@ const gridCss = grid.map((g) => {
 }).join("\n");
 // 작은 화면에서 큰 제목을 줄입니다 (md 미만). 변수를 바꾸므로 .bl-display 클래스와 그 변수를 읽는 컴포넌트(MediaCard 제목 등)가 함께 줄어듭니다.
 const fluidType = `@media (max-width: 767px) {
-  :root { --text-display-size: 32px; --text-display-line: 40px; --text-title-1-size: 26px; --text-title-1-line: 34px; --text-title-2-size: 20px; --text-title-2-line: 28px; }
+  :root { --text-display-size: 36px; --text-display-line: 44px; --text-title-1-size: 28px; --text-title-1-line: 36px; --text-title-2-size: 22px; --text-title-2-line: 30px; --text-quote-size: 22px; --text-quote-line: 32px; }
 }`;
 
 // 글꼴: Blurssism Sans(Pretendard 사본)·Blurssism Serif(Gowun Batang 사본). 한글 2350자 + 영문·숫자·기호만 든 woff2 하나씩(scripts/subset-fonts.py가 만듦).

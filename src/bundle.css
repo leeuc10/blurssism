@@ -13,6 +13,21 @@
   --bl-icon-btn: 48px; --bl-chip-h: 36px; --bl-switch-w: 52px; --bl-switch-h: 32px; --bl-tab-h: 56px;
   --bl-card-pad: var(--space-6) var(--space-5) var(--space-5); --bl-card-radius: var(--radius-lg);
   --bl-dialog-w: 440px; --bl-sheet-w: 480px; --bl-toast-w: 420px;
+  /* 3.1: 종이에 인쇄된 것(표, 사진·그림 틀)은 직각. 둥글게 되돌리려면 var(--radius-lg)로 덮어씁니다. */
+  --bl-media-radius: var(--radius-paper, 0px); --bl-table-radius: var(--radius-paper, 0px);
+  /* 3.1: 크레마 고임. 두꺼운 크레마가 뜰 때 한 번 재생합니다. 끄려면 --bl-crema-settle: none.
+     --bl-crema-release는 누른 손을 뗀 뒤 다시 고이는 전환입니다. */
+  --bl-crema-settle: bl-crema-settle .9s cubic-bezier(.16,1,.3,1) backwards;
+  --bl-crema-release: .7s cubic-bezier(.16,1,.3,1);
+}
+/* 출렁임: linear() 곡선을 아는 브라우저에서는 단번에 고이지 않고, 띠로 모였다가 한 번 크게(16%) 한 번 작게(5%) 다시 번진 뒤 자리 잡습니다.
+   진행값이 0~1 밖으로 나가지 않는 곡선이라 고임이 음수가 되지 않습니다. 모르는 브라우저는 위의 매끈한 곡선을 씁니다. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root, .bl-root {
+    --bl-crema-slosh: linear(0, .42 9%, .8 19%, 1 28%, .88 36%, .84 41%, .9 49%, 1 58%, .955 67%, .95 71%, .98 78%, 1 86%, 1);
+    --bl-crema-settle: bl-crema-settle 1.3s var(--bl-crema-slosh) backwards;
+    --bl-crema-release: 1.1s var(--bl-crema-slosh);
+  }
 }
 
 /* ── 크레마 재질: 블러레마(Blurema) ─────────────────────────────
@@ -83,7 +98,39 @@
 @property --crema-edge { syntax: "<color>"; inherits: true; initial-value: transparent; }
 @property --crema-light { syntax: "<color>"; inherits: true; initial-value: transparent; }
 @property --crema-grain-color { syntax: "<color>"; inherits: true; initial-value: transparent; }
+/* 크레마 고임의 진행도(100% = 막 떴을 때 면 전체에 퍼진 캐러멜빛, 0% = 위 가장자리로 다 고인 평소 모습). 상속하지 않아 겹친 크레마가 따로 움직입니다. */
+@property --bl-crema-pool { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
 /* @/unlayered */
+
+/* ── 크레마 고임(3.1) ─────────────────────────────
+   에스프레소를 막 내리면 캐러멜빛이 잔 전체에 퍼져 있다가 위로 떠올라 띠로 고입니다. 두꺼운 크레마(시트·다이얼로그·토스트·팝오버·메뉴·드로어)가
+   뜰 때 그 순간을 한 번 재생합니다: 면 전체의 캐러멜빛(--bl-crema-pool 100%)이 위 가장자리로 모여 평소의 크레마 띠(0%)가 됩니다.
+   움직이는 것은 그라디언트 한 겹의 세기와 높이뿐이고, 블러 반경은 바꾸지 않습니다(블러 예산 규칙).
+   등록된 변수(@property)를 키프레임으로 움직이므로, @property를 아는 브라우저로만 한정합니다(상대 색 문법을 아는 브라우저는 모두 @property를 압니다).
+   얇은 크레마(내비바·탭바)는 늘 떠 있는 면이라 재생하지 않습니다. */
+@keyframes bl-crema-settle { from { --bl-crema-pool: 100%; } }
+@supports (color: rgb(from red r g b)) {
+  .bl-crema-thick {
+    --bl-crema-pool-layer: linear-gradient(180deg,
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.44), transparent),
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.24), transparent) calc(8px + var(--bl-crema-pool) * 0.45),
+      transparent calc(16px + var(--bl-crema-pool) * 0.95));
+    background-image: var(--bl-crema-pool-layer), var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+    background-blend-mode: normal, normal, color, normal;
+    animation: var(--bl-crema-settle);
+  }
+}
+@media (prefers-reduced-motion: reduce) { :root, .bl-root { --bl-crema-settle: none; } }
+[data-crema="off"] { --bl-crema-settle: none; }
+
+/* ── 잔 자국(3.1) ─────────────────────────────
+   blurssism의 장식 모티프: 종이에 남은 커피 링. 원·알약 같은 추상 도형 대신 이미지 자리표시·커버·빈 화면에 씁니다.
+   모양은 --ring-mask(마스크), 색은 팔레트의 accent-ink(기본)나 deco라서 팔레트를 바꾸면 얼룩 색도 따라갑니다.
+   크기는 width로 정하고(정사각형), 글자를 올리지 않는 순수 장식이라 aria-hidden으로 둡니다. 한 면에 두 개까지. */
+.bl-ring { display: block; aspect-ratio: 1; pointer-events: none; background-color: var(--bl-ring-color, var(--accent-ink));
+  -webkit-mask: var(--ring-mask) center / contain no-repeat; mask: var(--ring-mask) center / contain no-repeat; }
+.bl-ring-deco { --bl-ring-color: var(--deco); }
+@media (forced-colors: active) { .bl-ring { display: none; } }
 
 /* ── 데스크톱 모드: <html data-crema="rich"> ─────────────────────────────
    applyCremaPreference()가 큰 화면·마우스·넉넉한 기기에서 자동으로 켭니다. 끄려면 applyCremaPreference({ rich: false }).
@@ -104,6 +151,15 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
   box-shadow: var(--shadow-crema), inset 0 -1px 0 var(--crema-stroke), var(--shadow-crema-rich);
 }
 [data-crema="rich"] .bl-crema-thick { box-shadow: var(--shadow-sheet), var(--shadow-sheet-rich); }
+@supports (color: rgb(from red r g b)) {
+  [data-crema="rich"] .bl-crema-thick {
+    background-image: var(--bl-crema-pool-layer),
+      radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
+      radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), color-mix(in srgb, var(--crema-light) 50%, transparent), transparent 70%),
+      var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+    background-blend-mode: normal, normal, normal, normal, color, normal;
+  }
+}
 @supports (color: color-mix(in srgb, red, blue)) {
   [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { background-color: color-mix(in srgb, var(--bl-crema-fill) var(--crema-rich-fill), transparent); }
 }
@@ -208,10 +264,13 @@ html[data-crema="rich"], [data-crema="rich"] { --blur-md: 32px; --blur-lg: 48px;
 .bl-card-actions { display: flex; gap: var(--space-2); margin-top: var(--space-5); }
 
 /* ── MediaCard ─────────────────────────────── */
-.bl-media { position: relative; overflow: hidden; border-radius: var(--radius-lg); aspect-ratio: 4 / 5; background: var(--paper-sunken); isolation: isolate; }
+.bl-media { position: relative; overflow: hidden; border-radius: var(--bl-media-radius); aspect-ratio: 4 / 5; background: var(--paper-sunken); isolation: isolate; }
 .bl-media-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .bl-media-ph { position: absolute; inset: 0; }
-.bl-media-ph i { position: absolute; display: block; }
+.bl-media-ph i { position: absolute; display: block; }   /* 3.0까지의 도형 자리표시(호환용) */
+/* 3.1: 잔 자국 자리표시. 큰 자국은 오른쪽 위로 잘려 나가고, 작은 자국은 캡션 크레마 밑을 지나갑니다. */
+.bl-media-ph .bl-ring { position: absolute; width: max(84%, 220px); right: -22%; top: -18%; }
+.bl-media-ph .bl-ring + .bl-ring { width: max(46%, 120px); right: auto; top: auto; left: 6%; bottom: 4%; transform: rotate(140deg); }
 .bl-media > .bl-badge { position: absolute; top: var(--space-4); left: var(--space-4); }
 .bl-media-bar { position: absolute; left: var(--space-3); right: var(--space-3); bottom: var(--space-3);
   display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5); border-radius: var(--radius-lg); }
@@ -270,7 +329,7 @@ button.bl-item, a.bl-item { cursor: pointer; text-decoration: none; }
 .bl-sheet { padding: var(--space-3) var(--space-6) var(--space-6); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
 .bl-sheet-grip { width: 40px; height: 5px; margin: 0 auto var(--space-5); border-radius: var(--radius-full); background: var(--line-strong); }
 /* 2.1: open을 받는 모달 시트. 네이티브 <dialog>로 아래에서 올라오고, 손잡이를 끌어내려 닫습니다. md 이상은 가운데 카드. */
-.bl-sheet-modal { width: 100%; max-width: none; margin: auto 0 0; border: 1px solid var(--crema-stroke); color: var(--ink); animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+.bl-sheet-modal { width: 100%; max-width: none; margin: auto 0 0; border: 1px solid var(--crema-stroke); color: var(--ink); animation: bl-rise .26s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }
 .bl-sheet-modal::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-sheet-modal:focus { outline: none; }
 .bl-sheet-modal .bl-sheet-grip { cursor: grab; touch-action: none; position: relative; }
@@ -391,7 +450,7 @@ html:has(dialog.bl-sheet-modal[open]) { overflow: hidden; }
    scrim은 어둡게만 하고 블러를 걸지 않습니다(다이얼로그 본체가 이미 블러라 예산을 아낍니다). */
 .bl-scrim { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-4); background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-dialog { width: min(var(--bl-dialog-w), calc(100% - 2 * var(--space-4))); max-width: none; margin: auto; padding: var(--space-6); border-radius: var(--radius-xl); color: var(--ink);
-  animation: bl-rise .26s cubic-bezier(.2,.8,.2,1); }
+  animation: bl-rise .26s cubic-bezier(.2,.8,.2,1), var(--bl-crema-settle); }
 .bl-scrim > .bl-dialog { width: min(var(--bl-dialog-w), 100%); }
 .bl-dialog::backdrop { background: var(--scrim); animation: bl-fade .2s ease; }
 .bl-dialog:focus { outline: none; }
@@ -418,13 +477,14 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 }
 
 /* ── Table ─────────────────────────────── */
-.bl-table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper-raised); }
+/* 3.1: 표는 종이에 인쇄된 것이라 카드처럼 띄우지 않습니다. 직각, 위에 먹색 굵은 줄, 아래에 가는 줄. */
+.bl-table-wrap { overflow-x: auto; border-radius: var(--bl-table-radius); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line-strong); }
 .bl-table { width: 100%; border-collapse: collapse; font-size: var(--text-label-size); line-height: var(--text-body-sm-line); color: var(--ink); }
 .bl-table caption { padding: var(--space-4) var(--space-4) 0; text-align: left; font-size: var(--text-title-3-size); line-height: var(--text-title-3-line); font-weight: var(--text-title-3-weight); }
-.bl-table th { padding: var(--space-3) var(--space-4); text-align: left; font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: 600; color: var(--ink-muted); border-bottom: 1px solid var(--line); white-space: nowrap; }
+.bl-table th { padding: var(--space-3) var(--space-4); text-align: left; font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: 600; color: var(--ink-muted); border-bottom: 1px solid var(--line-strong); white-space: nowrap; }
 .bl-table td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); vertical-align: middle; }
 .bl-table tr:last-child td { border-bottom: 0; }
-@media (hover: hover) { .bl-table tbody tr:hover { background: var(--paper); } .bl-tip:hover .bl-tooltip { opacity: 1; visibility: visible; transform: translate(-50%, 0); } }
+@media (hover: hover) { .bl-table tbody tr:hover { background: var(--paper-sunken); } .bl-tip:hover .bl-tooltip { opacity: 1; visibility: visible; transform: translate(-50%, 0); } }
 .bl-table .bl-num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ── Calendar ─────────────────────────────── */
@@ -515,6 +575,60 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 /* ── 반응형: 낮은 화면(가로 모드 폰)에서도 시트·다이얼로그가 넘치지 않게 ── */
 .bl-dialog, .bl-sheet { max-height: 90dvh; overflow-y: auto; overscroll-behavior: contain; }
 
+/* ── 동작에 반응하는 크레마(3.1) ─────────────────────────────
+   크레마 고임(--bl-crema-pool)을 사용자 동작에 잇습니다. 블러 반경은 어떤 동작에서도 바뀌지 않습니다.
+   - 올리기(마우스): 크레마 버튼·아이콘 버튼의 캐러멜빛이 조금 퍼집니다(26%).
+   - 누르기: 젓듯이 크게 퍼졌다가(80%) 손을 떼면 0.7초 동안 위 띠로 다시 고입니다. 터치에서도 같습니다.
+   - 스크롤: 내비바는 페이지 맨 위에서는 납작하게 붙어 있다가, 내용이 밑으로 지나가기 시작하면(80px까지) 그림자를 얻어 떠오릅니다.
+   파일 뒤쪽에 두어 Button·IconButton·데스크톱 모드의 transition·background-image를 이어받아 덮습니다. 접근성 블록은 이보다 뒤라서 그대로 이깁니다. */
+@supports (color: rgb(from red r g b)) {
+  .bl-crema, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) {
+    --bl-crema-pool-layer: linear-gradient(180deg,
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.44), transparent),
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.24), transparent) calc(8px + var(--bl-crema-pool) * 0.45),
+      transparent calc(16px + var(--bl-crema-pool) * 0.95));
+    background-image: var(--bl-crema-pool-layer), var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+    background-blend-mode: normal, normal, color, normal;
+  }
+  .bl-crema .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-thick .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite .bl-icon-btn:not(.bl-icon-btn-plain) {
+    --bl-crema-pool-layer: linear-gradient(180deg,
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.44), transparent),
+      color-mix(in srgb, var(--crema-tint) calc(var(--bl-crema-pool) * 0.24), transparent) calc(8px + var(--bl-crema-pool) * 0.45),
+      transparent calc(16px + var(--bl-crema-pool) * 0.95));
+    background-image: var(--bl-crema-pool-layer), var(--bl-grain-tint), var(--crema-grain);
+    background-blend-mode: normal, color, normal;
+  }
+  [data-crema="rich"] .bl-crema, [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) {
+    background-image: var(--bl-crema-pool-layer),
+      radial-gradient(140px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), var(--crema-light), transparent 70%),
+      radial-gradient(420px circle at var(--bl-light-x, 18vw) var(--bl-light-y, 0px), color-mix(in srgb, var(--crema-light) 50%, transparent), transparent 70%),
+      var(--crema-band), var(--bl-grain-tint), var(--crema-grain);
+    background-blend-mode: normal, normal, normal, normal, color, normal;
+  }
+  .bl-btn.bl-btn-crema { transition: transform .12s ease, background-color .12s ease, --bl-crema-pool var(--bl-crema-release); }
+  .bl-icon-btn:not(.bl-icon-btn-plain) { transition: background-color .35s ease, --crema-tint .35s ease, --crema-edge .35s ease, --crema-grain-color .35s ease, --bl-crema-pool var(--bl-crema-release); }
+  @media (hover: hover) {
+    .bl-btn-crema:hover, .bl-icon-btn:not(.bl-icon-btn-plain):not([aria-pressed="true"]):hover { --bl-crema-pool: 26%; }
+  }
+  /* 누르면 살짝 넘치게(튕기는 곡선) 퍼지고, 떼면 --bl-crema-release로 출렁이며 고입니다 */
+  .bl-btn.bl-btn-crema:active { --bl-crema-pool: 90%; transition: transform .12s ease, background-color .12s ease, --bl-crema-pool .24s cubic-bezier(.3,1.4,.5,1); }
+  .bl-icon-btn:not(.bl-icon-btn-plain):not([aria-pressed="true"]):active { --bl-crema-pool: 90%; transition: background-color .12s ease, --bl-crema-pool .24s cubic-bezier(.3,1.4,.5,1); }
+  .bl-btn-crema:disabled { --bl-crema-pool: 0%; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    [data-crema="rich"] .bl-btn-crema, [data-crema="rich"] .bl-icon-btn:not(.bl-icon-btn-plain) { transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease, --bl-crema-pool var(--bl-crema-release); }
+  }
+}
+@keyframes bl-navbar-lift { from { box-shadow: inset 0 1px 0 var(--crema-edge); } }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* 스크롤할 것이 없는 곳(타임라인 비활성)에서는 효과가 없고 평소 그림자 그대로입니다 */
+    .bl-navbar.bl-crema { animation: bl-navbar-lift linear both; animation-timeline: scroll(nearest); animation-range: 0 80px; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-btn.bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain) { transition: none; }
+}
+
 /* ── 접근성: 투명도 줄이기 ───────────────────────────────
    파일 끝에 두고 선택자 명시도를 크레마 규칙과 맞춰, 크레마 버튼·아이콘 버튼·데스크톱 모드까지 모두 불투명하게 바꿉니다. */
 @media (prefers-reduced-transparency: reduce) {
@@ -556,5 +670,6 @@ html:has(dialog.bl-dialog[open]) { overflow: hidden; }
 /* ── 접근성: 대비 높이기 ── 크레마를 불투명하게, 구분선을 진하게 */
 @media (prefers-contrast: more) {
   .bl-crema, .bl-crema-thick, .bl-btn-crema, .bl-icon-btn:not(.bl-icon-btn-plain), .bl-crema-lite { background-color: var(--paper-raised); background-image: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
-  .bl-card, .bl-list, .bl-table-wrap, .bl-cal, .bl-field-input { border-color: var(--line-strong); }
+  .bl-card, .bl-list, .bl-cal, .bl-field-input { border-color: var(--line-strong); }
+  .bl-table-wrap { border-bottom-color: var(--ink); } .bl-table th, .bl-table td { border-bottom-color: var(--line-strong); }
 }

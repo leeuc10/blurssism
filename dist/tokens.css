@@ -1,4 +1,4 @@
-/* blurssism v3.0.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
+/* blurssism v3.1.0 · © caffeinecat · MIT · https://github.com/leeuc10/blurssism */
 /* tokens.css — src/tokens.json에서 생성. 다크: <html data-theme="dark"> 또는 시스템 다크. 팔레트: <html data-palette="matcha">. 배경: <html data-background="white">
    글꼴은 fonts.css에 따로 있습니다. */
 :root, [data-theme="light"] {
@@ -71,6 +71,7 @@
   --crema-band: linear-gradient(180deg, rgba(192, 150, 113, 0.3), rgba(192, 150, 113, 0.286) 1px, rgba(192, 150, 113, 0.259) 3px, rgba(192, 150, 113, 0.227) 6px, rgba(192, 150, 113, 0.197) 10px, rgba(192, 150, 113, 0.18) 16px, rgba(192, 150, 113, 0.156) 24px, rgba(192, 150, 113, 0.132) 40px, rgba(192, 150, 113, 0.1) 40%, rgba(192, 150, 113, 0.06));
   --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .22 0 0 0 .26 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-light: rgba(192, 150, 113, 0.36);
+  --ring-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='w' x='-12%25' y='-12%25' width='124%25' height='124%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02' numOctaves='2' seed='11' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='10'/%3E%3C/filter%3E%3Cg filter='url(%23w)'%3E%3Cg fill='none' stroke='%23000'%3E%3Ccircle cx='120' cy='120' r='92' stroke-width='12' stroke-opacity='.4'/%3E%3Ccircle cx='126' cy='116' r='92' stroke-width='5' stroke-opacity='.14' stroke-dasharray='190 388'/%3E%3Ccircle cx='120' cy='120' r='97' stroke-width='2.6' stroke-opacity='.92' stroke-dasharray='430 60 90 29'/%3E%3Ccircle cx='120' cy='120' r='87.5' stroke-width='1.4' stroke-opacity='.56' stroke-dasharray='200 80 250 20'/%3E%3C/g%3E%3Ccircle cx='213' cy='197' r='4.4' fill-opacity='.62'/%3E%3Ccircle cx='225' cy='183' r='2' fill-opacity='.46'/%3E%3Ccircle cx='30' cy='44' r='1.6' fill-opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
 }
 [data-theme="dark"] {
   --paper: #16110d;
@@ -142,6 +143,7 @@
   --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.227) 1px, rgba(174, 125, 83, 0.203) 3px, rgba(174, 125, 83, 0.173) 6px, rgba(174, 125, 83, 0.145) 10px, rgba(174, 125, 83, 0.13) 16px, rgba(174, 125, 83, 0.115) 24px, rgba(174, 125, 83, 0.1) 40px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
   --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --crema-light: rgba(174, 125, 83, 0.10);
+  --ring-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='w' x='-12%25' y='-12%25' width='124%25' height='124%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02' numOctaves='2' seed='11' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='10'/%3E%3C/filter%3E%3Cg filter='url(%23w)'%3E%3Cg fill='none' stroke='%23000'%3E%3Ccircle cx='120' cy='120' r='92' stroke-width='12' stroke-opacity='.4'/%3E%3Ccircle cx='126' cy='116' r='92' stroke-width='5' stroke-opacity='.14' stroke-dasharray='190 388'/%3E%3Ccircle cx='120' cy='120' r='97' stroke-width='2.6' stroke-opacity='.92' stroke-dasharray='430 60 90 29'/%3E%3Ccircle cx='120' cy='120' r='87.5' stroke-width='1.4' stroke-opacity='.56' stroke-dasharray='200 80 250 20'/%3E%3C/g%3E%3Ccircle cx='213' cy='197' r='4.4' fill-opacity='.62'/%3E%3Ccircle cx='225' cy='183' r='2' fill-opacity='.46'/%3E%3Ccircle cx='30' cy='44' r='1.6' fill-opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -214,6 +216,7 @@
     --crema-band: linear-gradient(180deg, rgba(174, 125, 83, 0.24), rgba(174, 125, 83, 0.227) 1px, rgba(174, 125, 83, 0.203) 3px, rgba(174, 125, 83, 0.173) 6px, rgba(174, 125, 83, 0.145) 10px, rgba(174, 125, 83, 0.13) 16px, rgba(174, 125, 83, 0.115) 24px, rgba(174, 125, 83, 0.1) 40px, rgba(174, 125, 83, 0.08) 40%, rgba(174, 125, 83, 0.05));
     --crema-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .96 0 0 0 0 .9 0 0 0 0 .84 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     --crema-light: rgba(174, 125, 83, 0.10);
+    --ring-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='w' x='-12%25' y='-12%25' width='124%25' height='124%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02' numOctaves='2' seed='11' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='10'/%3E%3C/filter%3E%3Cg filter='url(%23w)'%3E%3Cg fill='none' stroke='%23000'%3E%3Ccircle cx='120' cy='120' r='92' stroke-width='12' stroke-opacity='.4'/%3E%3Ccircle cx='126' cy='116' r='92' stroke-width='5' stroke-opacity='.14' stroke-dasharray='190 388'/%3E%3Ccircle cx='120' cy='120' r='97' stroke-width='2.6' stroke-opacity='.92' stroke-dasharray='430 60 90 29'/%3E%3Ccircle cx='120' cy='120' r='87.5' stroke-width='1.4' stroke-opacity='.56' stroke-dasharray='200 80 250 20'/%3E%3C/g%3E%3Ccircle cx='213' cy='197' r='4.4' fill-opacity='.62'/%3E%3Ccircle cx='225' cy='183' r='2' fill-opacity='.46'/%3E%3Ccircle cx='30' cy='44' r='1.6' fill-opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
   }
 }
 /* black — 블랙: 기본. 블랙커피의 검정 채움과 그 위의 캐러멜빛 글자 강조. */
@@ -1335,6 +1338,7 @@
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
+  --radius-paper: 0px;
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
@@ -1356,11 +1360,12 @@
   --navbar-h: 56px;
   --font-sans: "Blurssism Sans", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --font-serif: "Blurssism Serif", "Noto Serif KR", AppleMyungjo, Batang, serif;
-  --text-display-size: 40px; --text-display-line: 48px; --text-display-weight: 700; --text-display-tracking: -0.02em;
-  --text-title-1-size: 30px; --text-title-1-line: 38px; --text-title-1-weight: 700; --text-title-1-tracking: -0.015em;
-  --text-quote-size: 22px; --text-quote-line: 32px; --text-quote-weight: 400; --text-quote-tracking: 0;
-  --text-title-2-size: 22px; --text-title-2-line: 30px; --text-title-2-weight: 700; --text-title-2-tracking: -0.01em;
-  --text-title-3-size: 18px; --text-title-3-line: 26px; --text-title-3-weight: 600; --text-title-3-tracking: 0;
+  --text-hero-size: clamp(44px, 8vw, 96px); --text-hero-line: 1.16; --text-hero-weight: 700; --text-hero-tracking: -0.03em;
+  --text-display-size: 48px; --text-display-line: 56px; --text-display-weight: 700; --text-display-tracking: -0.025em;
+  --text-title-1-size: 32px; --text-title-1-line: 40px; --text-title-1-weight: 700; --text-title-1-tracking: -0.015em;
+  --text-quote-size: 25px; --text-quote-line: 36px; --text-quote-weight: 400; --text-quote-tracking: 0;
+  --text-title-2-size: 25px; --text-title-2-line: 32px; --text-title-2-weight: 700; --text-title-2-tracking: -0.01em;
+  --text-title-3-size: 20px; --text-title-3-line: 28px; --text-title-3-weight: 600; --text-title-3-tracking: 0;
   --text-body-size: 16px; --text-body-line: 26px; --text-body-weight: 400; --text-body-tracking: 0;
   --text-body-strong-size: 16px; --text-body-strong-line: 26px; --text-body-strong-weight: 600; --text-body-strong-tracking: 0;
   --text-body-sm-size: 14px; --text-body-sm-line: 22px; --text-body-sm-weight: 400; --text-body-sm-tracking: 0;
@@ -1372,6 +1377,7 @@
 @media (min-width: 768px) { :root { --grid-columns: 8; --grid-gutter: 24px; --grid-margin: 32px; } }
 @media (min-width: 1120px) { :root { --grid-columns: 12; --grid-gutter: 24px; --grid-margin: 40px; } }
 @media (min-width: 1440px) { :root { --grid-columns: 12; --grid-gutter: 32px; --grid-margin: 48px; } }
+.bl-hero { font-family: var(--font-serif); font-size: var(--text-hero-size); line-height: var(--text-hero-line); font-weight: var(--text-hero-weight); letter-spacing: var(--text-hero-tracking); }
 .bl-display { font-family: var(--font-serif); font-size: var(--text-display-size); line-height: var(--text-display-line); font-weight: var(--text-display-weight); letter-spacing: var(--text-display-tracking); }
 .bl-title-1 { font-family: var(--font-serif); font-size: var(--text-title-1-size); line-height: var(--text-title-1-line); font-weight: var(--text-title-1-weight); letter-spacing: var(--text-title-1-tracking); }
 .bl-quote { font-family: var(--font-serif); font-size: var(--text-quote-size); line-height: var(--text-quote-line); font-weight: var(--text-quote-weight); letter-spacing: var(--text-quote-tracking); }
@@ -1383,5 +1389,5 @@
 .bl-label { font-family: var(--font-sans); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight); letter-spacing: var(--text-label-tracking); }
 .bl-caption { font-family: var(--font-sans); font-size: var(--text-caption-size); line-height: var(--text-caption-line); font-weight: var(--text-caption-weight); letter-spacing: var(--text-caption-tracking); }
 @media (max-width: 767px) {
-  :root { --text-display-size: 32px; --text-display-line: 40px; --text-title-1-size: 26px; --text-title-1-line: 34px; --text-title-2-size: 20px; --text-title-2-line: 28px; }
+  :root { --text-display-size: 36px; --text-display-line: 44px; --text-title-1-size: 28px; --text-title-1-line: 36px; --text-title-2-size: 22px; --text-title-2-line: 30px; --text-quote-size: 22px; --text-quote-line: 32px; }
 }
